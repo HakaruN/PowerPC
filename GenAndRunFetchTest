@@ -1,0 +1,3 @@
+#!/bin/bash
+rm fetchTest.bin
+iverilog -o fetchTest.bin L1I-Cache_Test.v && ./fetchTest.bin
