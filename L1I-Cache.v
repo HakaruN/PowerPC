@@ -1,15 +1,33 @@
 `timescale 1ns / 1ps
 `define DEBUG
 
-
-
 /*/////////L1 instruction cache/////////////
+Writen by Josh "Hakaru" Cantwell - 16.12.2022
+
+//////Signal groups
+The cache has a 3 cycle latency and has 4 groups of signals, one pair of sinal groups are inputs and the other pair are outputs.
+The signal groups perform one of two tasks: Fetching and cache miss resolution. These are described below:
+1) Fetch input
+This group of signals is used as the input to the cache/fetch unit for the purpose of fetching an instruction. These consist of control signals
+and an address to fetch among other things.
+
+2) Fetch output
+This signal group is used for outputting the fetched instruction to the decode unit. It includes control signals, address, instruction ID,
+fetched instruction(s) and more.
+
+3) Miss output
+This signal group is responsble for telling the core/memory hierarchy about a cache miss, essentialy it's a request for the cache to be
+reloaded with a new cacheline therefore resolving the cache miss. This groups includes control signals and an address of the missed instruction
+plus more.
+
+4) Miss input
+This signal groups is responsible for recieving the new cacheline from the core/memory hierarchy therefore allowing the cache miss to be resolved.
+This groups of signals includes an control signals, address, and the missing cacheline etc.
+
 //////Addressing a cache:
 To retrieve a piece of data from a cache, an address must be provided to the cache in order for a search 
 and hit/miss resolution to be made. The addres is broken down into three components (described below) of
 which is required to fulfill three operations required to correctly search a cache. These are described below.
-
-The cache has a 3 cycle latency.
 
 ////Offset:
 The offset is composed of the addresses least significant bits and is used to indicate where within a cacheline 
@@ -34,7 +52,6 @@ As many addresses share the same index and offsets, the tag indicates what cache
 offset is associated with. This is stored in the tag memory and compared against the incoming address's tag. If they 
 match then the cache is hit, otherwise it's a miss.
 
-Writen by Josh "Hakaru" Cantwell - 16.12.2022
 //////////////////////////////////////////*/
 module L1I_Cache
 #(
@@ -46,7 +63,7 @@ module L1I_Cache
     parameter tagWidth = fetchingAddressWidth - (indexWidth - offsetWidth), //the tag is composed of the remaining parts of the address
     //Processes ID and thread ID size
     parameter PidSize = 20, parameter TidSize = 16, //1048K processes uniquly identifiable and 64K threads per process.
-    parameter instructionCounterWidth = 80// 80 bit counter to uniquly identify instructions, this is known as the major ID as instructions may be broken into micro instructions which will have the same major ID yet unique minor IDs
+    parameter instructionCounterWidth = 64// 64 bit counter to uniquly identify instructions, this is known as the major ID as instructions may be broken into micro instructions which will have the same major ID yet unique minor IDs
 )
 (
     //////Inputs:
@@ -70,7 +87,6 @@ module L1I_Cache
     input wire [0:TidSize-1] cacheUpdateTid_i,
     input wire [0:cacheLineWith-1] cacheUpdateLine_i,
 
-
     //////Outputs:    
     ////Fetch:
     //command
@@ -78,9 +94,6 @@ module L1I_Cache
     //data
     output reg [0:instructionWidth-1] fetchedInstruction_o,
     output reg [0:fetchingAddressWidth-1] fetchedAddress_o,
-    //output wire [0:offsetWidth-1] fetchedOffset_o,
-    //output wire [0:indexWidth-1] fetchedIndex_o,
-    //output wire [0:tagWidth-1] fetchedTag_o,
     output reg [0:PidSize-1] fetchedPid_o,
     output reg [0:TidSize-1] fetchedTid_o,
     output reg [0:instructionCounterWidth-1] fetchedInstMajorId_o,
@@ -155,16 +168,6 @@ begin
     `ifdef DEBUG $display("Fetching instruction ID:%d at address %d.", instCtr, {tag_i, index_i, offset_i}); `endif
          //This cache assumes a hit and therefore begins fetching from the Icache, it later checks for a hit/miss
          //and takes the apropriate action. This allows the tag and the ICache to be interogated in parallel saving cycles.
-
-        ///Cycle 1 - buffer the inputs for the memories and also the bypass buffers
-        //fetchIndex_1 <= index_i;//input to memories
-        //fetchOffset_1 <= offset_i;//bypass
-        //fetchTag_1 <= tag_i;//bypass
-        //fetchPid_1 <= Pid_i;//bapass
-        //fetchTid_1 <= Tid_i;//bypass
-        //set unique inst ID and incr the ctr
-        //instID_1 <= instCtr;
-
         fetchOffsets[0] <= offset_i;//assign the offset to the cycle 1 bypass
         fetchIndexs[0] <= index_i;//This is the input to one of the memories therefore not a bypass
         fetchTags[0] <= tag_i;//assign the tag to the cycle 1 bypass
@@ -207,8 +210,6 @@ begin
     fetchOffsets[1] <= fetchOffsets[0];
     fetchEnables[1] <= fetchEnables[0];
     fetchInstIds[1] <= fetchInstIds[0];
-
-
 
     ///Cycle 3 - check for cache hit or miss
     if(fetchEnables[1] && !cacheMiss_o) begin
