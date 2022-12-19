@@ -106,60 +106,36 @@ reg [0:PidSize-1] processIdTable [0:indexWidth-1];//Stores the Pid for the assoc
 reg [0:TidSize-1] threadIdTable [0:indexWidth-1];//Stores the Tid for the associated cacheline
 reg [0:instructionCounterWidth-1] instCtr;//uniquly identify instructions
 
-reg [0:indexWidth-1] bufferIndex;
-reg isValid;
+//bypass buffers
+reg fetchEnables [0:1];
+reg [0:offsetWidth-1] fetchOffsets [0:1];
+reg [0:indexWidth-1] fetchIndexs [0:1];
+reg [0:tagWidth-1] fetchTags [0:1];
+reg [0:PidSize-1] fetchPids [0:1];
+reg [0:TidSize-1] fetchTids [0:1];
+reg [0:instructionCounterWidth-1] fetchInstIds [0:1];
 
-//check the tag
-reg [0:tagWidth-1] checkTag;
-
-
-/////Cycle 1 memory input buffers - these buffers are required to allow the synth tool to instantiate the memories out using block RAM.
-//Block memories need the inputs an output buffering
-reg [0:indexWidth-1] fetchIndex_1;
-/////Cycle 1 cypass buffers - these go alongside the memory input buffers to keep timing.
-reg fetchEnable_1;
-reg [0:offsetWidth-1] fetchOffset_1;
-reg [0:tagWidth-1] fetchTag_1;
-reg [0:PidSize-1] fetchPid_1;
-reg [0:TidSize-1] fetchTid_1;
-reg [0:instructionCounterWidth-1] instID_1;
-
-
-/////Cycle 2 memory output buffers - these buffers are also required to allow the synth tool to instantiate the memories using block RAM. This means memory reads take 2 cycles.
 //Block memory output buffers
-reg [0:cacheLineWith-1] readLine_2;//holds the cacheline of the fetched instruction, if we can tell the instruction is on the same cacheline as last time we don't need to refetch the line from I-cache therefore saving power.
-reg readLineIsValid_2;//indicates that the buffer is valid, will be inited to invalid
-reg tagIsValid_2;//Indicates that the entry in the cache is valid, might be uninited or invalidated
-reg [0:tagWidth-1] readTag_2;
-/////Cycle 2 bypass buffers
-reg fetchEnable_2;
-reg [0:offsetWidth-1] fetchOffset_2;
-reg [0:indexWidth-1] fetchIndex_2;
-reg [0:tagWidth-1] fetchTag_2;
-reg [0:PidSize-1] fetchPid_2;
-reg [0:TidSize-1] fetchTid_2;
-reg [0:instructionCounterWidth-1] instID_2;
-/////cycle 3 hit/miss buffers
-///On hit, output the inst
-///on miss, make the request
+reg [0:cacheLineWith-1] fetchedBuffer;//holds the cacheline of the fetched instruction, if we can tell the instruction is on the same cacheline as last time we don't need to refetch the line from I-cache therefore saving power.
+reg readLineIsValid;//indicates that the buffer is valid, will be inited to invalid
+reg fetchedTagIsValid;//Indicates that the entry in the cache is valid, might be uninited or invalidated
+reg [0:tagWidth-1] fetchedTag;//This is the tag that was fetched from tag memory and compared against the tag of the addr to fetch
 
-
-////TODO:
-//implement cache update
-//implement instruction output
 
 always @(posedge clock_i)
 begin
     //Fetch
-    fetchEnable_1 <= fetchEnable_i;//update the enable bypass buffer
+    //fetchEnable_1 <= fetchEnable_i;//update the enable bypass buffer
+    fetchEnables[0] <= fetchEnable_i;//update the enable bypass buffer
 
     if(cacheReset_i)
     begin
     `ifdef DEBUG $display("Resetting cache"); `endif   
+
     instCtr <= 0;   
-    readLineIsValid_2 <= 0;
-    fetchEnable_1 <= 0;
-    fetchEnable_2 <= 0;
+    readLineIsValid <= 0;
+    //fetchEnable_1 <= 0; fetchEnable_2 <= 0;
+    fetchEnables[0] <= 0; fetchEnables[1] <= 0;
     cacheMiss_o <= 0;
     for(i = 0; i < 256; i = i + 1)
     begin
@@ -172,6 +148,8 @@ begin
 
     end
 
+
+
     else if(fetchEnable_i && !cacheMiss_o)
     begin
     `ifdef DEBUG $display("Fetching instruction ID:%d at address %d.", instCtr, {tag_i, index_i, offset_i}); `endif
@@ -179,13 +157,20 @@ begin
          //and takes the apropriate action. This allows the tag and the ICache to be interogated in parallel saving cycles.
 
         ///Cycle 1 - buffer the inputs for the memories and also the bypass buffers
-        fetchIndex_1 <= index_i;//input to memories
-        fetchOffset_1 <= offset_i;//bypass
-        fetchTag_1 <= tag_i;//bypass
-        fetchPid_1 <= Pid_i;//bapass
-        fetchTid_1 <= Tid_i;//bypass
+        //fetchIndex_1 <= index_i;//input to memories
+        //fetchOffset_1 <= offset_i;//bypass
+        //fetchTag_1 <= tag_i;//bypass
+        //fetchPid_1 <= Pid_i;//bapass
+        //fetchTid_1 <= Tid_i;//bypass
         //set unique inst ID and incr the ctr
-        instID_1 <= instCtr;
+        //instID_1 <= instCtr;
+
+        fetchOffsets[0] <= offset_i;//assign the offset to the cycle 1 bypass
+        fetchIndexs[0] <= index_i;//This is the input to one of the memories therefore not a bypass
+        fetchTags[0] <= tag_i;//assign the tag to the cycle 1 bypass
+        fetchPids[0] <= Pid_i;//assign the Pid to the cycle 1 bypass
+        fetchTids[0] <= Tid_i;//assign the Tid to the cycle 1 bypass
+        fetchInstIds[0] <= instCtr;//assign the inst ID to the cycle 1 bypass
         instCtr <= instCtr + 1;
     end
     else if(cacheMiss_o)   
@@ -193,11 +178,12 @@ begin
 
     ///Cycle 2 - read from the memories into output bufferes using the input buffers and transfer the cycle1 bypass buffers to cycle2 bypass buffers
     //Check the fetchedLine buffer to see if the instruction exists on the line of the previous fetch, if so perform the fetch.
-    if(fetchEnable_1 && !cacheMiss_o) 
+    if(fetchEnables[0] && !cacheMiss_o) 
     begin
-        if( readLineIsValid_2 && //buffer is valid
-            fetchTag_2 == fetchTag_1 && //on the same block of memory
-            fetchIndex_2 == fetchIndex_1) //same cacheline
+
+        if( readLineIsValid && //buffer is valid
+            fetchTags[1] == fetchTags[0] && //If we're fetching to the same block as last cycle
+            fetchIndexs[1] == fetchIndexs[0]) //and the same cacheline then don't reload the cacheline
         begin
             //Fetch from the buffers as we're still on the same cacheline
             //so we'll do nothing here
@@ -207,39 +193,41 @@ begin
         begin
             `ifdef DEBUG $display("Instruction on new line. Refetching line."); `endif
             //Update the buffers and then fetch from the buffers
-            readLine_2 <= ICache[fetchIndex_1]; 
-            readLineIsValid_2 <= 1;
-            readTag_2 <= tagTable[fetchIndex_1];
-            tagIsValid_2 <= tagIsValidTable[fetchIndex_1];
-            fetchPid_2 <= processIdTable[fetchIndex_1]; fetchTid_2 <= threadIdTable[fetchIndex_1];
-            fetchTag_2 <= fetchTag_1; fetchIndex_2 <= fetchIndex_1;            
+            fetchedBuffer <= ICache[fetchIndexs[0]]; 
+            readLineIsValid <= 1;
+            fetchedTag <= tagTable[fetchIndexs[0]];
+            fetchedTagIsValid <= tagIsValidTable[fetchIndexs[0]];
+            fetchPids[1] <= processIdTable[fetchIndexs[0]]; fetchTids[1] <= threadIdTable[fetchIndexs[0]];
+            fetchTags[1] <= fetchTags[0]; fetchIndexs[1] <= fetchIndexs[0];            
         end 
     end  
     else if(cacheMiss_o)   
     `ifdef DEBUG $display("Cycle 2 stalling due to cache miss"); `endif
 
-    fetchOffset_2 <= fetchOffset_1;
-    fetchEnable_2 <= fetchEnable_1;
-    instID_2 <= instID_1;
+    fetchOffsets[1] <= fetchOffsets[0];
+    fetchEnables[1] <= fetchEnables[0];
+    fetchInstIds[1] <= fetchInstIds[0];
+
+
 
     ///Cycle 3 - check for cache hit or miss
-    if(fetchEnable_2&& !cacheMiss_o) begin
-        if(fetchTag_2 == readTag_2 && tagIsValid_2)//hit
+    if(fetchEnables[1] && !cacheMiss_o) begin
+        if(fetchTags[1] == fetchedTag && fetchedTagIsValid)//hit
         begin
             `ifdef DEBUG $display("Cache hit."); `endif
             fetchEnable_o <= 1;
-            fetchedInstruction_o <= readLine_2[(fetchOffset_2*8)+:32];
-            fetchedAddress_o <= {fetchTag_2, fetchIndex_2, fetchOffset_2};
-            fetchedPid_o <= fetchPid_2; fetchedTid_o <= fetchTid_2;
-            fetchedInstMajorId_o <= instID_2;
+            fetchedInstruction_o <= fetchedBuffer[(fetchOffsets[1]*8)+:32];
+            fetchedAddress_o <= {fetchTags[1], fetchIndexs[1], fetchOffsets[1]};
+            fetchedPid_o <= fetchPids[1]; fetchedTid_o <= fetchTids[1];
+            fetchedInstMajorId_o <= fetchInstIds[1];
         end
         else//miss
         begin
             `ifdef DEBUG $display("Cache miss."); `endif
             fetchEnable_o <= 0;
-            cacheMiss_o <= 1; missedAddress_o <= {fetchTag_2, fetchIndex_2, fetchOffset_2};
-            missedInstMajorId_o <= instID_2;
-            missedPid_o <= fetchPid_2; missedTid_o <= fetchTid_2;
+            cacheMiss_o <= 1; missedAddress_o <= {fetchTags[1], fetchIndexs[1], fetchOffsets[1]};
+            missedInstMajorId_o <= fetchInstIds[1];
+            missedPid_o <= fetchPids[1]; missedTid_o <= fetchTids[1];
         end 
     end
     else if(cacheMiss_o)   
@@ -264,7 +252,7 @@ begin
             processIdTable[cacheUpdateAddress_i[tagWidth+:indexWidth]] <= cacheUpdatePid_i;
             threadIdTable[cacheUpdateAddress_i[tagWidth+:indexWidth]] <= cacheUpdateTid_i;
 
-            readLineIsValid_2 <= 0;
+            readLineIsValid <= 0;
             fetchEnable_o <= 1;
             fetchedInstruction_o <= cacheUpdateLine_i[cacheUpdateAddress_i[tagWidth+indexWidth+:offsetWidth]+:32];
             fetchedAddress_o <= cacheUpdateAddress_i;
