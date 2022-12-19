@@ -10,7 +10,7 @@ module L1ICacheTest #(
     parameter tagWidth = fetchingAddressWidth - indexWidth - offsetWidth, //the tag is composed of the remaining parts of the address
     //Processes ID and thread ID size
     parameter PidSize = 20, parameter TidSize = 16, //1048K processes uniquly identifiable and 64K threads per process.
-    parameter instructionCounterWidth = 80// 80 bit counter to uniquly identify instructions
+    parameter instructionCounterWidth = 64// 64 bit counter to uniquly identify instructions
 )
 (
 
