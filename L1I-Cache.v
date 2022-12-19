@@ -24,6 +24,32 @@ plus more.
 This signal groups is responsible for recieving the new cacheline from the core/memory hierarchy therefore allowing the cache miss to be resolved.
 This groups of signals includes an control signals, address, and the missing cacheline etc.
 
+//////Operation
+The fetch unit operates in 3 stages with 4 blocks of hardware
+///Reset
+During startup or re-initialisation/cache clear the fetch unit has a reser behaviour/hardware block.
+This hardware initialises the cache's valid bits for each cacheline to zero, resets the instruction ID counter to zero and dissables the outputs.
+
+///Fetch in (cylce 1)
+During normal operation when the core is running and instructions are being fetched, this hardware is recieving fetch requests from the core.
+It takes the index from the address provided and uses it as the input of the tag and cache memory of which will output the data in the next cycle.
+It also takes the other provided information used during the next cycles and puts it in the bypass buffers which are buffers used to hold data for
+a cycle where not needed in the current cycle.
+
+///Buffer reload check(cyle 2)
+During this cycle, the fetched cacheline's address is inspected and if it matches the address from the previous cycle then there is no need to reload
+the cacheline buffer from the memory which saves a trip to the cache memory block therefore saving power. If the previous cycle accessed a different cacheline
+then the buffer is reloaded from the cache. As each cacheline holds 16 instructions, I cache only has to be read once per 16 instructions and is idle of the remaining 15.
+
+///Hit/Miss check (cycle 3)
+During this cycle, the tag from the fetch buffer is known to contain the correct line and the tag from the tag memory for the associated instruction has been fetched,
+this can now be used to check against the supplied tag in order to detect a cache hit or miss. On cache hit the instruction and associated data is ouputted from the fetch
+unit for the decoders input. On a cache miss the fetch output is dissabled and the Miss output is enabled to tell the core that it needs to grab the missing cacheline.
+
+///Miss resolution
+During this cycle, the missed cacheline is proveded to the fetch unit, it is written into the cache, the missing instruction is outputted to the fetch output and the fetch buffer
+is reloaded.
+
 //////Addressing a cache:
 To retrieve a piece of data from a cache, an address must be provided to the cache in order for a search 
 and hit/miss resolution to be made. The addres is broken down into three components (described below) of
@@ -137,32 +163,27 @@ reg [0:tagWidth-1] fetchedTag;//This is the tag that was fetched from tag memory
 
 always @(posedge clock_i)
 begin
-    //Fetch
-    //fetchEnable_1 <= fetchEnable_i;//update the enable bypass buffer
-    fetchEnables[0] <= fetchEnable_i;//update the enable bypass buffer
+    fetchEnables[0] <= fetchEnable_i;//buffer the enable signal
 
-    if(cacheReset_i)
+    if(cacheReset_i)//Reset
     begin
-    `ifdef DEBUG $display("Resetting cache"); `endif   
-
-    instCtr <= 0;   
-    readLineIsValid <= 0;
-    //fetchEnable_1 <= 0; fetchEnable_2 <= 0;
-    fetchEnables[0] <= 0; fetchEnables[1] <= 0;
-    cacheMiss_o <= 0;
-    for(i = 0; i < 256; i = i + 1)
-    begin
-        ICache[i] <= 0;
-        tagTable[i] <= 0;
-        tagIsValidTable[i] <= 0;
-        processIdTable[i] <= 0;
-        threadIdTable[i] <= 0;
+        `ifdef DEBUG $display("Resetting cache"); `endif  
+        instCtr <= 0;   
+        readLineIsValid <= 0;
+        //fetchEnable_1 <= 0; fetchEnable_2 <= 0;
+        fetchEnables[0] <= 0; fetchEnables[1] <= 0;
+        cacheMiss_o <= 0;
+        for(i = 0; i < 256; i = i + 1)
+        begin
+            ICache[i] <= 0;
+            tagTable[i] <= 0;
+            tagIsValidTable[i] <= 0;
+            processIdTable[i] <= 0;
+            threadIdTable[i] <= 0;
+        end
     end
 
-    end
-
-
-
+    //Fetch in (cylce 1)
     else if(fetchEnable_i && !cacheMiss_o)
     begin
     `ifdef DEBUG $display("Fetching instruction ID:%d at address %d.", instCtr, {tag_i, index_i, offset_i}); `endif
@@ -179,11 +200,9 @@ begin
     else if(cacheMiss_o)   
     `ifdef DEBUG $display("Cycle 1 stalling due to cache miss"); `endif
 
-    ///Cycle 2 - read from the memories into output bufferes using the input buffers and transfer the cycle1 bypass buffers to cycle2 bypass buffers
-    //Check the fetchedLine buffer to see if the instruction exists on the line of the previous fetch, if so perform the fetch.
+    ///Buffer reload check(cyle 2)
     if(fetchEnables[0] && !cacheMiss_o) 
     begin
-
         if( readLineIsValid && //buffer is valid
             fetchTags[1] == fetchTags[0] && //If we're fetching to the same block as last cycle
             fetchIndexs[1] == fetchIndexs[0]) //and the same cacheline then don't reload the cacheline
