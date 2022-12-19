@@ -112,7 +112,8 @@ module L1I_Cache
     input wire [0:fetchingAddressWidth-1] cacheUpdateAddress_i,
     input wire [0:PidSize-1] cacheUpdatePid_i,
     input wire [0:TidSize-1] cacheUpdateTid_i,
-    input wire [0:cacheLineWith-1] cacheUpdateLine_i,
+    input wire [0:cacheLineWith-1] cacheUpdateLine1_i,
+    input wire [0:cacheLineWith-1] cacheUpdateLine2_i,
 
     //////Outputs:    
     ////Fetch:
@@ -300,12 +301,13 @@ begin
             )
             begin
                 cacheMiss_o <= 0; //clear the cache miss
-                `ifdef DEBUG $display("Resolving cache miss as addr %d", cacheUpdateAddress_i); `endif
-                `ifdef DEBUG $display("Writing line: %h", cacheUpdateLine_i); `endif
+                `ifdef DEBUG $display("Resolving cache miss as addr %h", cacheUpdateAddress_i); `endif
+                `ifdef DEBUG $display("Writing line:\n%h\n%h", cacheUpdateLine1_i, cacheUpdateLine2_i); `endif
             end
             //NOTE: cacheUpdateAddress_i[tagWidth+:indexWidth] == index
             //update the memory
-            ICache[cacheUpdateAddress_i[tagWidth+:indexWidth]] <= cacheUpdateLine_i;//write the new line into the cache
+            ICache[cacheUpdateAddress_i[tagWidth+:indexWidth]] <= cacheUpdateLine1_i;//write the new line1
+            ICache[cacheUpdateAddress_i[tagWidth+:indexWidth]+1] <= cacheUpdateLine2_i;//write the new line2
             tagTable[cacheUpdateAddress_i[tagWidth+:indexWidth]] <= cacheUpdateAddress_i[0+:tagWidth];
             tagIsValidTable[cacheUpdateAddress_i[tagWidth+:indexWidth]] <= 1;
             processIdTable[cacheUpdateAddress_i[tagWidth+:indexWidth]] <= cacheUpdatePid_i;
@@ -318,7 +320,7 @@ begin
             begin            
             `ifdef DEBUG $display("Updating cache at an odd address, fetching 1 inst"); `endif
             fetchEnable1_o <= 1; fetchEnable2_o <= 0;
-            fetchedInstruction1_o <= cacheUpdateLine_i[cacheUpdateAddress_i[tagWidth+indexWidth+:offsetWidth]+:32];
+            fetchedInstruction1_o <= cacheUpdateLine1_i[cacheUpdateAddress_i[tagWidth+indexWidth+:offsetWidth]+:32];
             fetchedAddress1_o <= cacheUpdateAddress_i;
             fetchedPid1_o <= cacheUpdatePid_i; fetchedTid1_o <= cacheUpdateTid_i;
             fetchedInstMajorId1_o <= missedInstMajorId_o;  
@@ -327,8 +329,8 @@ begin
             begin
             `ifdef DEBUG $display("Updating cache at an even address, fetching 2 insts"); `endif
             fetchEnable1_o <= 1; fetchEnable2_o <= 1;
-            fetchedInstruction1_o <= cacheUpdateLine_i[cacheUpdateAddress_i[tagWidth+indexWidth+:offsetWidth]+:32];
-            fetchedInstruction2_o <= cacheUpdateLine_i[(cacheUpdateAddress_i[tagWidth+indexWidth+:offsetWidth]+32)+:32];
+            fetchedInstruction1_o <= cacheUpdateLine1_i[cacheUpdateAddress_i[tagWidth+indexWidth+:offsetWidth]+:32];
+            fetchedInstruction2_o <= cacheUpdateLine1_i[(cacheUpdateAddress_i[tagWidth+indexWidth+:offsetWidth]+32)+:32];
             fetchedAddress1_o <= cacheUpdateAddress_i;
             fetchedAddress2_o <= cacheUpdateAddress_i+4;
             fetchedPid1_o <= cacheUpdatePid_i; fetchedTid1_o <= cacheUpdateTid_i;

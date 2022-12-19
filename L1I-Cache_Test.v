@@ -25,7 +25,7 @@ reg [0:tagWidth-1] TagIn;
 //Update in
 reg cacheUpdateIn;
 reg [0:fetchingAddressWidth-1] updateAddressIn;
-reg [0:cacheLineWith-1] cacheUpdateLineIn;
+reg [0:cacheLineWith-1] cacheUpdateLineIn1, cacheUpdateLineIn2;
 reg [0:PidSize-1] cacheUpdatePidIn;
 reg [0:TidSize-1] cacheUpdateTidIn;
 //Fetch out
@@ -58,7 +58,7 @@ l1ICache
     //Update in
     .cacheUpdate_i(cacheUpdateIn), .cacheUpdateAddress_i(updateAddressIn), 
     .cacheUpdatePid_i(cacheUpdatePidIn), .cacheUpdateTid_i(cacheUpdateTidIn),
-    .cacheUpdateLine_i(cacheUpdateLineIn),
+    .cacheUpdateLine1_i(cacheUpdateLineIn1), .cacheUpdateLine2_i(cacheUpdateLineIn2),
     //Fetch out
     .fetchEnable1_o(enableOut1),.fetchEnable2_o(enableOut2),
     .fetchedInstruction1_o(fetchedInstructionOut1), .fetchedInstruction2_o(fetchedInstructionOut2), 
@@ -81,8 +81,8 @@ initial begin
     OffsetIn = 0; IndexIn = 0;
     TagIn = 0;
     //update/resolve miss
-    cacheUpdateIn = 0;
-    updateAddressIn = 0; cacheUpdateLineIn = 0;
+    cacheUpdateIn = 0; updateAddressIn = 0; 
+    cacheUpdateLineIn1 = 0; cacheUpdateLineIn2 = 0;
     cacheUpdatePidIn = 0; cacheUpdateTidIn = 0;
     #2;
 
@@ -132,7 +132,9 @@ initial begin
 
     //clear the stall/miss
     cacheUpdateIn = 1;
-    updateAddressIn = {TagIn, IndexIn, OffsetIn}; cacheUpdateLineIn = 512'hAAAAAAAA_BBBBBBBB_CCCCCCCC_DDDDDDDD__EEEEEEEE_FFFFFFFF_AAAAAAAA_BBBBBBBB__CCCCCCCC_DDDDDDDD_EEEEEEEE_FFFFFFFF__AAAAAAAA_BBBBBBBB_CCCCCCCC_DDDDDDDD;
+    updateAddressIn = {TagIn, IndexIn, OffsetIn}; 
+    cacheUpdateLineIn1 = 512'hAAAAAAAA_BBBBBBBB_CCCCCCCC_DDDDDDDD__EEEEEEEE_FFFFFFFF_AAAAAAAA_BBBBBBBB__CCCCCCCC_DDDDDDDD_EEEEEEEE_FFFFFFFF__AAAAAAAA_BBBBBBBB_CCCCCCCC_DDDDDDDD;
+    cacheUpdateLineIn2 = 512'hEEEEEEEE_FFFFFFFF_AAAAAAAA_BBBBBBBB__CCCCCCCC_DDDDDDDD_EEEEEEEE_FFFFFFFF__AAAAAAAA_BBBBBBBB_CCCCCCCC_DDDDDDDD__EEEEEEEE_FFFFFFFF_AAAAAAAA_BBBBBBBB;
     cacheUpdatePidIn = 0; cacheUpdateTidIn = 0;
     clockIn = 1;
     #1;
@@ -142,7 +144,7 @@ initial begin
 
     //Start fetching again
     clockIn = 1; fetchEnableIn = 1;
-    TagIn = 0; IndexIn = 0; OffsetIn = OffsetIn + 8;//Start fetching at addr 0
+    TagIn = 0; IndexIn = 0; OffsetIn = OffsetIn + 4;//Start fetching at addr 0
     #1;
     clockIn = 0;
     #1;
