@@ -133,7 +133,7 @@ initial begin
     //clear the stall/miss
     cacheUpdateIn = 1;
     OffsetIn = 0;
-    updateAddressIn = {TagIn, IndexIn, OffsetIn}; cacheUpdateLineIn = 512'hAAAAAAAA_BBBBBBBB_CCCCCCCC_DDDDDDDD_EEEEEEEE_FFFFFFFF_AAAAAAAA_BBBBBBBB;
+    updateAddressIn = {TagIn, IndexIn, OffsetIn}; cacheUpdateLineIn = 512'hAAAAAAAA_BBBBBBBB_CCCCCCCC_DDDDDDDD__EEEEEEEE_FFFFFFFF_AAAAAAAA_BBBBBBBB__CCCCCCCC_DDDDDDDD_EEEEEEEE_FFFFFFFF__AAAAAAAA_BBBBBBBB_CCCCCCCC_DDDDDDDD;
     cacheUpdatePidIn = 0; cacheUpdateTidIn = 0;
     clockIn = 1;
     #1;
