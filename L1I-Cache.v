@@ -194,7 +194,11 @@ begin
         fetchPids[0] <= Pid_i;//assign the Pid to the cycle 1 bypass
         fetchTids[0] <= Tid_i;//assign the Tid to the cycle 1 bypass
         fetchInstIds[0] <= instCtr;//assign the inst ID to the cycle 1 bypass
-        instCtr <= instCtr + 2;
+
+        if(offset_i%2)//odd address
+            instCtr <= instCtr + 1;//only fetch 1 inst to make it even next time
+        else//even address
+            instCtr <= instCtr + 2;
     end
     else if(cacheMiss_o)   
     `ifdef DEBUG $display("Cycle 1 stalling due to cache miss"); `endif
