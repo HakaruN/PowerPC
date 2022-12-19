@@ -29,15 +29,12 @@ reg [0:cacheLineWith-1] cacheUpdateLineIn;
 reg [0:PidSize-1] cacheUpdatePidIn;
 reg [0:TidSize-1] cacheUpdateTidIn;
 //Fetch out
-wire enableOut;
-wire [0:instructionWidth-1] fetchedInstructionOut;
-wire [0:fetchingAddressWidth-1] fetchedAddressOut;
-//wire [0:offsetWidth-1] fetchedOffset;
-//wire [0:indexWidth-1] fetchedIndex;
-//wire [0:tagWidth-1] fetchedTag;
-wire [0:PidSize-1] fetchedPid;
-wire [0:TidSize-1] fetchedTid;
-wire [0:instructionCounterWidth-1] fetchedInstMajorId;
+wire enableOut1, enableOut2;
+wire [0:instructionWidth-1] fetchedInstructionOut1, fetchedInstructionOut2;
+wire [0:fetchingAddressWidth-1] fetchedAddressOut1, fetchedAddressOut2;
+wire [0:PidSize-1] fetchedPid1, fetchedPid2;
+wire [0:TidSize-1] fetchedTid1, fetchedTid2;
+wire [0:instructionCounterWidth-1] fetchedInstMajorId1, fetchedInstMajorId2;
 //Update out
 wire cacheMissOut;
 wire [0:fetchingAddressWidth-1] missedAddressOut;
@@ -63,10 +60,11 @@ l1ICache
     .cacheUpdatePid_i(cacheUpdatePidIn), .cacheUpdateTid_i(cacheUpdateTidIn),
     .cacheUpdateLine_i(cacheUpdateLineIn),
     //Fetch out
-    .fetchEnable_o(enableOut), .fetchedInstruction_o(fetchedInstructionOut), 
-
-    .fetchedAddress_o(fetchedAddressOut),
-    .fetchedPid_o(fetchedPid), .fetchedTid_o(fetchedTid), .fetchedInstMajorId_o(fetchedInstMajorId),
+    .fetchEnable1_o(enableOut1),.fetchEnable2_o(enableOut2),
+    .fetchedInstruction1_o(fetchedInstructionOut1), .fetchedInstruction2_o(fetchedInstructionOut2), 
+    .fetchedAddress1_o(fetchedAddressOut1),.fetchedAddress2_o(fetchedAddressOut2),
+    .fetchedPid1_o(fetchedPid1), .fetchedTid1_o(fetchedTid1), .fetchedPid2_o(fetchedPid2), .fetchedTid2_o(fetchedTid2),
+    .fetchedInstMajorId1_o(fetchedInstMajorId1), .fetchedInstMajorId2_o(fetchedInstMajorId2),
     //Update out
     .cacheMiss_o(cacheMissOut), .missedAddress_o(missedAddressOut),
     .missedInstMajorId_o(missedInstMajorId),
@@ -115,7 +113,7 @@ initial begin
 
     //Start fetching again to test correct stall behaviour
     clockIn = 1; fetchEnableIn = 1;
-    TagIn = 0; IndexIn = 0; OffsetIn = 4;//Start fetching at addr 0
+    TagIn = 0; IndexIn = 0; OffsetIn = OffsetIn + 8;//Start fetching at addr 0
     #1;
     clockIn = 0; fetchEnableIn = 0;
     #1;
@@ -135,7 +133,7 @@ initial begin
     //clear the stall/miss
     cacheUpdateIn = 1;
     OffsetIn = 0;
-    updateAddressIn = {TagIn, IndexIn, OffsetIn}; cacheUpdateLineIn = 102345;
+    updateAddressIn = {TagIn, IndexIn, OffsetIn}; cacheUpdateLineIn = 512'hAAAAAAAA_BBBBBBBB_CCCCCCCC_DDDDDDDD__EEEEEEEE_FFFFFFFF_AAAAAAAA_BBBBBBBB__CCCCCCCC_DDDDDDDD_EEEEEEEE_FFFFFFFF__AAAAAAAA_BBBBBBBB_CCCCCCCC_DDDDDDDD;
     cacheUpdatePidIn = 0; cacheUpdateTidIn = 0;
     clockIn = 1;
     #1;
@@ -145,22 +143,22 @@ initial begin
 
     //Start fetching again
     clockIn = 1; fetchEnableIn = 1;
-    TagIn = 0; IndexIn = 0; OffsetIn = 4;//Start fetching at addr 0
+    TagIn = 0; IndexIn = 0; OffsetIn = OffsetIn + 8;//Start fetching at addr 0
     #1;
     clockIn = 0;
     #1;
     clockIn = 1;
-    TagIn = 0; IndexIn = 0; OffsetIn = 8;//Start fetching at addr 0
+    TagIn = 0; IndexIn = 0; OffsetIn = OffsetIn + 8;//Start fetching at addr 0
     #1;
     clockIn = 0;
     #1;
     clockIn = 1;
-    TagIn = 0; IndexIn = 0; OffsetIn = 12;//Start fetching at addr 0
+    TagIn = 0; IndexIn = 0; OffsetIn = OffsetIn + 8;//Start fetching at addr 0
     #1;
     clockIn = 0;
     #1;
     clockIn = 1;
-    TagIn = 0; IndexIn = 0; OffsetIn = 16;//Start fetching at addr 0
+    TagIn = 0; IndexIn = 0; OffsetIn = OffsetIn + 8;//Start fetching at addr 0
     #1;
     clockIn = 0; fetchEnableIn = 0;
     #1;

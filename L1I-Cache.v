@@ -25,7 +25,9 @@ This signal groups is responsible for recieving the new cacheline from the core/
 This groups of signals includes an control signals, address, and the missing cacheline etc.
 
 //////Operation
-The fetch unit operates in 3 stages with 4 blocks of hardware
+The fetch unit operates in 3 stages with 4 blocks of hardware. It can fetch up to 2 instructions per cycle, when the address to fetch is not aligned to an even instruction
+address, it will fetch just 1 instruction that cycle and then continue on 2 per cycle after that. The reason is because if it's on an odd instruction there will be a time at
+the end of the cacheline when the first instruction in the pair is on one cacheline and the second instruction is on the next cacheline which i cba handling.
 ///Reset
 During startup or re-initialisation/cache clear the fetch unit has a reser behaviour/hardware block.
 This hardware initialises the cache's valid bits for each cacheline to zero, resets the instruction ID counter to zero and dissables the outputs.
@@ -77,7 +79,6 @@ The tag composes of all bits above the index up to the msb of the address, this 
 As many addresses share the same index and offsets, the tag indicates what cache-sized block of memory the index and
 offset is associated with. This is stored in the tag memory and compared against the incoming address's tag. If they 
 match then the cache is hit, otherwise it's a miss.
-
 //////////////////////////////////////////*/
 module L1I_Cache
 #(
@@ -116,13 +117,13 @@ module L1I_Cache
     //////Outputs:    
     ////Fetch:
     //command
-    output reg fetchEnable_o,
+    output reg fetchEnable1_o, fetchEnable2_o,
     //data
-    output reg [0:instructionWidth-1] fetchedInstruction_o,
-    output reg [0:fetchingAddressWidth-1] fetchedAddress_o,
-    output reg [0:PidSize-1] fetchedPid_o,
-    output reg [0:TidSize-1] fetchedTid_o,
-    output reg [0:instructionCounterWidth-1] fetchedInstMajorId_o,
+    output reg [0:instructionWidth-1] fetchedInstruction1_o, fetchedInstruction2_o,
+    output reg [0:fetchingAddressWidth-1] fetchedAddress1_o, fetchedAddress2_o,
+    output reg [0:PidSize-1] fetchedPid1_o, fetchedPid2_o,
+    output reg [0:TidSize-1] fetchedTid1_o, fetchedTid2_o,
+    output reg [0:instructionCounterWidth-1] fetchedInstMajorId1_o, fetchedInstMajorId2_o,
 
     ////Cache update:
     //command
@@ -175,7 +176,7 @@ begin
         cacheMiss_o <= 0;
         for(i = 0; i < 256; i = i + 1)
         begin
-            ICache[i] <= 0;
+            ICache[i] <= 512'hAAAA_BBBB_CCCC_DDDD_EEEE_FFFF_AAAA_BBBB;
             tagTable[i] <= 0;
             tagIsValidTable[i] <= 0;
             processIdTable[i] <= 0;
@@ -195,7 +196,11 @@ begin
         fetchPids[0] <= Pid_i;//assign the Pid to the cycle 1 bypass
         fetchTids[0] <= Tid_i;//assign the Tid to the cycle 1 bypass
         fetchInstIds[0] <= instCtr;//assign the inst ID to the cycle 1 bypass
-        instCtr <= instCtr + 1;
+
+        if(offset_i%2)//odd address
+            instCtr <= instCtr + 1;//only fetch 1 inst to make it even next time
+        else//even address
+            instCtr <= instCtr + 2;
     end
     else if(cacheMiss_o)   
     `ifdef DEBUG $display("Cycle 1 stalling due to cache miss"); `endif
@@ -231,27 +236,51 @@ begin
     fetchInstIds[1] <= fetchInstIds[0];
 
     ///Cycle 3 - check for cache hit or miss
-    if(fetchEnables[1] && !cacheMiss_o) begin
-        if(fetchTags[1] == fetchedTag && fetchedTagIsValid)//hit
-        begin
-            `ifdef DEBUG $display("Cache hit."); `endif
-            fetchEnable_o <= 1;
-            fetchedInstruction_o <= fetchedBuffer[(fetchOffsets[1]*8)+:32];
-            fetchedAddress_o <= {fetchTags[1], fetchIndexs[1], fetchOffsets[1]};
-            fetchedPid_o <= fetchPids[1]; fetchedTid_o <= fetchTids[1];
-            fetchedInstMajorId_o <= fetchInstIds[1];
+    if(fetchEnables[1]) begin
+        if(!cacheMiss_o) begin
+            if(fetchTags[1] == fetchedTag && fetchedTagIsValid)//hit
+            begin
+                //check if the index is an even number (if so we can do 2 inst per cycle withought inst pairs wrapping onto the next line)
+                //if not we shall do 1 inst this cycle to make is even.
+                if(fetchOffsets[1]%2)//odd - 1 inst
+                begin
+                    fetchEnable1_o <= 1; fetchEnable2_o <= 0;
+                    fetchedInstruction1_o <= fetchedBuffer[(fetchOffsets[1]*8)+:32];
+                    fetchedAddress1_o <= {fetchTags[1], fetchIndexs[1], fetchOffsets[1]};
+                    fetchedInstMajorId1_o <= fetchInstIds[1];
+                    fetchedPid1_o <= fetchPids[1]; fetchedTid1_o <= fetchTids[1];
+                end 
+                else//even - 2 insts
+                begin
+                    fetchEnable1_o <= 1; fetchEnable2_o <= 1;
+                    fetchedInstruction1_o <= fetchedBuffer[(fetchOffsets[1]*8)+:32];
+                    fetchedInstruction2_o <= fetchedBuffer[((fetchOffsets[1]+4)*8)+:32];
+                    fetchedAddress1_o <= {fetchTags[1], fetchIndexs[1], fetchOffsets[1]};
+                    fetchedAddress2_o <= ({fetchTags[1], fetchIndexs[1], fetchOffsets[1]}) + 4;
+                    fetchedInstMajorId1_o <= fetchInstIds[1];
+                    fetchedInstMajorId2_o <= fetchInstIds[1]+1;
+                    fetchedPid1_o <= fetchPids[1]; fetchedTid1_o <= fetchTids[1];
+                    fetchedPid2_o <= fetchPids[1]; fetchedTid2_o <= fetchTids[1];
+                end
+                `ifdef DEBUG $display("Cache hit."); `endif 
+                
+            end
+            else//miss
+            begin
+                `ifdef DEBUG $display("Cache miss."); `endif
+                fetchEnable1_o <= 0; fetchEnable2_o <= 0;
+                cacheMiss_o <= 1; missedAddress_o <= {fetchTags[1], fetchIndexs[1], fetchOffsets[1]};
+                missedInstMajorId_o <= fetchInstIds[1];
+                missedPid_o <= fetchPids[1]; missedTid_o <= fetchTids[1];
+            end 
         end
-        else//miss
-        begin
-            `ifdef DEBUG $display("Cache miss."); `endif
-            fetchEnable_o <= 0;
-            cacheMiss_o <= 1; missedAddress_o <= {fetchTags[1], fetchIndexs[1], fetchOffsets[1]};
-            missedInstMajorId_o <= fetchInstIds[1];
-            missedPid_o <= fetchPids[1]; missedTid_o <= fetchTids[1];
-        end 
+        else
+            `ifdef DEBUG $display("Cycle 3 stalling due to cache miss"); `endif
     end
-    else if(cacheMiss_o)   
-    `ifdef DEBUG $display("Cycle 3 stalling due to cache miss"); `endif
+    else
+    begin //If the last cycle had it's enables disabled, then disable it here
+        fetchEnable1_o <= 0; fetchEnable2_o <= 0;
+    end
 
     ///Cache update/miss clear
     if(cacheUpdate_i)
@@ -264,24 +293,43 @@ begin
             begin
                 cacheMiss_o <= 0; //clear the cache miss
                 `ifdef DEBUG $display("Resolving cache miss as addr %d", cacheUpdateAddress_i); `endif
+                `ifdef DEBUG $display("Writing line: %h", cacheUpdateLine_i); `endif
             end
             //NOTE: cacheUpdateAddress_i[tagWidth+:indexWidth] == index
+            //update the memory
             ICache[cacheUpdateAddress_i[tagWidth+:indexWidth]] <= cacheUpdateLine_i;//write the new line into the cache
             tagTable[cacheUpdateAddress_i[tagWidth+:indexWidth]] <= cacheUpdateAddress_i[0+:tagWidth];
             tagIsValidTable[cacheUpdateAddress_i[tagWidth+:indexWidth]] <= 1;
             processIdTable[cacheUpdateAddress_i[tagWidth+:indexWidth]] <= cacheUpdatePid_i;
             threadIdTable[cacheUpdateAddress_i[tagWidth+:indexWidth]] <= cacheUpdateTid_i;
 
+            //check if the index is an even number (if so we can do 2 inst per cycle withought inst pairs wrapping onto the next line)
+            //if not we shall do 1 inst this cycle to make is even.
             readLineIsValid <= 0;
-            fetchEnable_o <= 1;
-            fetchedInstruction_o <= cacheUpdateLine_i[cacheUpdateAddress_i[tagWidth+indexWidth+:offsetWidth]+:32];
-            fetchedAddress_o <= cacheUpdateAddress_i;
-            fetchedPid_o <= cacheUpdatePid_i; fetchedTid_o <= cacheUpdateTid_i;
-            fetchedInstMajorId_o <= missedInstMajorId_o;
+            if(cacheUpdateAddress_i%2)//odd - 1 inst
+            begin            
+            `ifdef DEBUG $display("Updating cache at an odd address, fetching 1 inst"); `endif
+            fetchEnable1_o <= 1; fetchEnable2_o <= 0;
+            fetchedInstruction1_o <= cacheUpdateLine_i[cacheUpdateAddress_i[tagWidth+indexWidth+:offsetWidth]+:32];
+            fetchedAddress1_o <= cacheUpdateAddress_i;
+            fetchedPid1_o <= cacheUpdatePid_i; fetchedTid1_o <= cacheUpdateTid_i;
+            fetchedInstMajorId1_o <= missedInstMajorId_o;  
+            end
+            else
+            begin
+            `ifdef DEBUG $display("Updating cache at an even address, fetching 2 insts"); `endif
+            fetchEnable1_o <= 1; fetchEnable2_o <= 1;
+            fetchedInstruction1_o <= cacheUpdateLine_i[cacheUpdateAddress_i[tagWidth+indexWidth+:offsetWidth]+:32];
+            fetchedInstruction2_o <= cacheUpdateLine_i[(cacheUpdateAddress_i[tagWidth+indexWidth+:offsetWidth]+32)+:32];
+            fetchedAddress1_o <= cacheUpdateAddress_i;
+            fetchedAddress2_o <= cacheUpdateAddress_i+4;
+            fetchedPid1_o <= cacheUpdatePid_i; fetchedTid1_o <= cacheUpdateTid_i;
+            fetchedPid2_o <= cacheUpdatePid_i; fetchedTid2_o <= cacheUpdateTid_i;
+            fetchedInstMajorId1_o <= missedInstMajorId_o; fetchedInstMajorId2_o <= missedInstMajorId_o; 
+            end
         end
     end
 
 end
-
 
 endmodule
