@@ -197,10 +197,16 @@ begin
         fetchTids[0] <= Tid_i;//assign the Tid to the cycle 1 bypass
         fetchInstIds[0] <= instCtr;//assign the inst ID to the cycle 1 bypass
 
-        if(offset_i%2)//odd address
+        if(offset_i % 8)//odd address
+        begin
+            `ifdef DEBUG $display("Fetching 1 instruction"); `endif
             instCtr <= instCtr + 1;//only fetch 1 inst to make it even next time
+        end
         else//even address
+        begin
+            `ifdef DEBUG $display("Fetching 2 instructions"); `endif
             instCtr <= instCtr + 2;
+        end
     end
     else if(cacheMiss_o)   
     `ifdef DEBUG $display("Cycle 1 stalling due to cache miss"); `endif
@@ -242,8 +248,9 @@ begin
             begin
                 //check if the index is an even number (if so we can do 2 inst per cycle withought inst pairs wrapping onto the next line)
                 //if not we shall do 1 inst this cycle to make is even.
-                if(fetchOffsets[1]%2)//odd - 1 inst
+                if(fetchOffsets[1] % 8)//odd - 1 inst
                 begin
+                    `ifdef DEBUG $display("Outputting 1 instruction"); `endif
                     fetchEnable1_o <= 1; fetchEnable2_o <= 0;
                     fetchedInstruction1_o <= fetchedBuffer[(fetchOffsets[1]*8)+:32];
                     fetchedAddress1_o <= {fetchTags[1], fetchIndexs[1], fetchOffsets[1]};
@@ -252,6 +259,7 @@ begin
                 end 
                 else//even - 2 insts
                 begin
+                    `ifdef DEBUG $display("Outputting 2 instructions"); `endif
                     fetchEnable1_o <= 1; fetchEnable2_o <= 1;
                     fetchedInstruction1_o <= fetchedBuffer[(fetchOffsets[1]*8)+:32];
                     fetchedInstruction2_o <= fetchedBuffer[((fetchOffsets[1]+4)*8)+:32];
@@ -306,7 +314,7 @@ begin
             //check if the index is an even number (if so we can do 2 inst per cycle withought inst pairs wrapping onto the next line)
             //if not we shall do 1 inst this cycle to make is even.
             readLineIsValid <= 0;
-            if(cacheUpdateAddress_i%2)//odd - 1 inst
+            if(cacheUpdateAddress_i % 8)//odd - 1 inst
             begin            
             `ifdef DEBUG $display("Updating cache at an odd address, fetching 1 inst"); `endif
             fetchEnable1_o <= 1; fetchEnable2_o <= 0;
