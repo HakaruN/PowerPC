@@ -1,5 +1,5 @@
 `timescale 1ns / 1ps
-`include "L1I-Cache.v"
+`include "../../Fetch/FetchUnit.v"
 
 module L1ICacheTest #(
     parameter fetchingAddressWidth = 64, //addresses are 64 bits wide
