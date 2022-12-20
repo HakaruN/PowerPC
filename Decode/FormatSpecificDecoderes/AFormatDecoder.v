@@ -7,6 +7,29 @@ Writen by Josh "Hakaru" Cantwell - 02.12.2022
 This is the decoder for A format instructions.
 A format instructions are:
 Integer select
+Floating Add
+Floating Subtract
+Floating Multiply
+Floating Divide
+Floating Square Root
+Floating Reciprocal Estimate
+Floating Reciprocal Square Root Estimate
+Floating Multiply-Add
+Floating Multiply-Subtract
+Floating Negative Multiply-Add
+Floating Negative Multiply-Subtract
+Floating Select - Implementation not confirmed
+Floating Add Single
+Floating Subtract Single
+Floating Multiply Single
+Floating Divide Single
+Floating Square Root Single
+Floating Reciprocal Estimate Single
+Floating Reciprocal Square Root Estimate Single
+Floating Multiply-Add Single
+Floating Multiply-Subtract Single
+Floating Negative Multiply-Add Single
+Floating Negative Multiply-Subtract Single
 */
 
 module AFormat_Decoder
@@ -205,7 +228,7 @@ begin
                 enable_o <= 1;     
             end
             23: begin//Floating Select ////////////////////TODO: Implement/////////////////
-                `ifdef DEBUG $display("Decode 2: Floating Negative Multiply-Subtract");`endif
+                `ifdef DEBUG $display("Decode 2: Floating Select");`endif
                 instMinId_o <= 0;
                 operandTisReg_o <= 1; operandTAccess_o <= regWrite;
                 operandAisReg_o <= 1; operandAAccess_o <= regRead;
