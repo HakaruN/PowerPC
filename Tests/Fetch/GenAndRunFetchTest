@@ -1,0 +1,7 @@
+#!/bin/bash
+cd ../../
+iverilog -o Tests/Fetch/fetchTest.bin L1I-Cache_Test.v
+cd Tests/Fetch/
+./fetchTest.bin
+rm fetchTest.bin
+rm fetchTest.vcd

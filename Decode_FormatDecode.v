@@ -4,7 +4,7 @@
 /*/////////Format decode/////////////
 Writen by Josh "Hakaru" Cantwell - 19.12.2022
 
-The Power ISA specifies 25 different instruction formats 25, this decode unit operates in 3 stages, these are decribed below:
+The Power ISA specifies 25 different instruction formats 25 (although I only found 23(?)), this decode unit operates in 3 stages, these are decribed below:
 This stage takes the instruction from the fetch unit and performs a quick scan on the instruction to determine 
 the instruction's format. It then provides the instruction to the format specific decoder.
 */

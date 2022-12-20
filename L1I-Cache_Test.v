@@ -72,7 +72,7 @@ l1ICache
 );
 
 initial begin
-    $dumpfile("FetchTest.vcd");
+    $dumpfile("fetchTest.vcd");
     $dumpvars(0,l1ICache);
     //init vars
     clockIn = 0; fetchEnableIn = 0;
