@@ -4,7 +4,7 @@
 /*/////////Format decode/////////////
 Writen by Josh "Hakaru" Cantwell - 19.12.2022
 
-The Power ISA specifies 25 different instruction formats 25 (although I only found 23(?)), this decode unit operates in 3 stages, these are decribed below:
+The Power ISA specifies 25 different instruction formats 25 (although I only found 24(?)), this decode unit operates in 3 stages, these are decribed below:
 This stage takes the instruction from the fetch unit and performs a quick scan on the instruction to determine 
 the instruction's format. It then provides the instruction to the format specific decoder.
 */
@@ -22,8 +22,8 @@ module Format_Decoder
     parameter I = 2**00, parameter B = 2**01, parameter XL = 2**02, parameter DX = 2**03, parameter SC = 2**04,
     parameter D = 2**05, parameter X = 2**06, parameter XO = 2**07, parameter Z23 = 2**08, parameter A = 2**09,
     parameter XS = 2**10, parameter XFX = 2**11, parameter DS = 2**12, parameter DQ = 2**13, parameter VA = 2**14,
-    parameter VX = 2**15, parameter VC = 2**16, parameter MD = 2**17, parameter MDS = 2**18, parameter XFL = 2**19,
-    parameter Z22 = 2**20, parameter XX2 = 2**21, parameter XX3 = 2**22
+    parameter VX = 2**15, parameter VC = 2**16, parameter M = 2**17, parameter MD = 2**18, parameter MDS = 2**19, parameter XFL = 2**20,
+    parameter Z22 = 2**21, parameter XX2 = 2**22, parameter XX3 = 2**23
 )
 (
     ///Input
@@ -48,7 +48,7 @@ module Format_Decoder
 
 always @(posedge clock_i)
 begin
-    if(enable_i)
+    if(enable_i && !stall_i)
     begin
 
         //pass through the format agnostic data
@@ -73,7 +73,7 @@ begin
         43: begin outputEnable_o <= 1; instFormat_o <= D; `ifdef DEBUG $display("Fetch stage 1: Instruction D Format"); `endif end //D-form
         32: begin outputEnable_o <= 1; instFormat_o <= D; `ifdef DEBUG $display("Fetch stage 1: Instruction D Format"); `endif end //D-form
         33: begin outputEnable_o <= 1; instFormat_o <= D; `ifdef DEBUG $display("Fetch stage 1: Instruction D Format"); `endif end //D-form
-        58: begin outputEnable_o <= 1; instFormat_o <= DD; `ifdef DEBUG $display("Fetch stage 1: Instruction DS Format"); `endif end //DS-form
+        58: begin outputEnable_o <= 1; instFormat_o <= DS; `ifdef DEBUG $display("Fetch stage 1: Instruction DS Format"); `endif end //DS-form
         38: begin outputEnable_o <= 1; instFormat_o <= D; `ifdef DEBUG $display("Fetch stage 1: Instruction D Format"); `endif end //D-form
         39: begin outputEnable_o <= 1; instFormat_o <= D; `ifdef DEBUG $display("Fetch stage 1: Instruction D Format"); `endif end //D-form
         44: begin outputEnable_o <= 1; instFormat_o <= D; `ifdef DEBUG $display("Fetch stage 1: Instruction D Format"); `endif end //D-form

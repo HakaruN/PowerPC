@@ -13,7 +13,6 @@ module L1ICacheTest #(
     parameter instructionCounterWidth = 64// 64 bit counter to uniquly identify instructions
 )
 (
-
 );
 
 //Fetch in
