@@ -1,5 +1,5 @@
 `timescale 1ns / 1ps
-`include "../../Decode/DecodeStage1.v"
+`include "../../../Decode/DecodeStage1.v"
 
 module DecodeStage1_Test
 #(
@@ -91,9 +91,8 @@ initial begin
     instructionIn[0:5] = 18;
     #1;
     clockIn = 0;
-    enableIn = 0;
     #1;
-
+    instructionIn[0:5] = 01;//should error
     clockIn = 1;
     #1;
     clockIn = 0;
