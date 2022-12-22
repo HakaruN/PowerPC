@@ -100,7 +100,7 @@ begin
         begin
             case(instruction_i[26+:XOSize])
             15: begin//Integer select
-                `ifdef DEBUG $display("Decode 2: Integer Seclect instruction");`endif
+                `ifdef DEBUG $display("Decode 2 A-form: Integer Seclect instruction");`endif
                 instMinId_o <= 0;
                 //check if operands are regs
                 operandTisReg_o <= 1; operandTAccess_o <= regWrite;
@@ -115,7 +115,7 @@ begin
                 enable_o <= 1;
             end
             default: begin
-                `ifdef DEBUG $display("Decode 2: Invalid instrution revieved");`endif
+                `ifdef DEBUG $display("Decode 2 A-form: Invalid instrution revieved");`endif
                 enable_o <= 0; 
             end
             endcase
@@ -124,7 +124,7 @@ begin
         begin
             case(instruction_i[26+:XOSize])
             21: begin//Floating Add
-                `ifdef DEBUG $display("Decode 2: Floating Add");`endif
+                `ifdef DEBUG $display("Decode 2 A-form: Floating Add");`endif
                 instMinId_o <= 0;
                 operandTisReg_o <= 1; operandTAccess_o <= regWrite;
                 operandAisReg_o <= 1; operandAAccess_o <= regRead;
@@ -133,7 +133,7 @@ begin
                 enable_o <= 1;      
             end
             20: begin//Floating Subtract
-                `ifdef DEBUG $display("Decode 2: Floating Subtract");`endif
+                `ifdef DEBUG $display("Decode 2 A-form: Floating Subtract");`endif
                 instMinId_o <= 0;
                 operandTisReg_o <= 1; operandTAccess_o <= regWrite;
                 operandAisReg_o <= 1; operandAAccess_o <= regRead;
@@ -142,7 +142,7 @@ begin
                 enable_o <= 1;        
             end
             25: begin//Floating Multiply
-                `ifdef DEBUG $display("Decode 2: Floating Multiple");`endif
+                `ifdef DEBUG $display("Decode 2 A-form: Floating Multiple");`endif
                 instMinId_o <= 0;
                 operandTisReg_o <= 1; operandTAccess_o <= regWrite;
                 operandAisReg_o <= 1; operandAAccess_o <= regRead;
@@ -151,7 +151,7 @@ begin
                 enable_o <= 1;        
             end
             18: begin//Floating Divide
-                `ifdef DEBUG $display("Decode 2: Floating Divide");`endif
+                `ifdef DEBUG $display("Decode 2 A-form: Floating Divide");`endif
                 instMinId_o <= 0;
                 operandTisReg_o <= 1; operandTAccess_o <= regWrite;
                 operandAisReg_o <= 1; operandAAccess_o <= regRead;
@@ -160,7 +160,7 @@ begin
                 enable_o <= 1;        
             end
             22: begin//Floating Square Root
-                `ifdef DEBUG $display("Decode 2: Floating Square Root");`endif
+                `ifdef DEBUG $display("Decode 2 A-form: Floating Square Root");`endif
                 instMinId_o <= 0;
                 operandTisReg_o <= 1; operandTAccess_o <= regWrite;
                 operandAisReg_o <= 1; operandAAccess_o <= regRead;
@@ -169,7 +169,7 @@ begin
                 enable_o <= 1;           
             end
             24: begin//Floating Reciprocal Estimate
-                `ifdef DEBUG $display("Decode 2: Floating Reciprocal Estimate");`endif
+                `ifdef DEBUG $display("Decode 2 A-form: Floating Reciprocal Estimate");`endif
                 instMinId_o <= 0;
                 operandTisReg_o <= 1; operandTAccess_o <= regWrite;
                 operandAisReg_o <= 1; operandAAccess_o <= regRead;
@@ -178,7 +178,7 @@ begin
                 enable_o <= 1;         
             end
             26: begin//Floating Reciprocal Square Root Estimate
-                `ifdef DEBUG $display("Decode 2: Floating Reciprocal Square Root Estimate");`endif
+                `ifdef DEBUG $display("Decode 2 A-form: Floating Reciprocal Square Root Estimate");`endif
                 instMinId_o <= 0;
                 operandTisReg_o <= 1; operandTAccess_o <= regWrite;
                 operandAisReg_o <= 1; operandAAccess_o <= regRead;
@@ -187,7 +187,7 @@ begin
                 enable_o <= 1;          
             end
             29: begin//Floating Multiply-Add
-                `ifdef DEBUG $display("Decode 2: Floating Multiply-Add");`endif
+                `ifdef DEBUG $display("Decode 2 A-form: Floating Multiply-Add");`endif
                 instMinId_o <= 0;
                 operandTisReg_o <= 1; operandTAccess_o <= regWrite;
                 operandAisReg_o <= 1; operandAAccess_o <= regRead;
@@ -197,7 +197,7 @@ begin
                 enable_o <= 1;      
             end
             28: begin//Floating Multiply-Subtract
-                `ifdef DEBUG $display("Decode 2: Floating Multiply-Subtract");`endif
+                `ifdef DEBUG $display("Decode 2 A-form: Floating Multiply-Subtract");`endif
                 instMinId_o <= 0;
                 operandTisReg_o <= 1; operandTAccess_o <= regWrite;
                 operandAisReg_o <= 1; operandAAccess_o <= regRead;
@@ -207,7 +207,7 @@ begin
                 enable_o <= 1;      
             end
             31: begin//Floating Negative Multiply-Add
-                `ifdef DEBUG $display("Decode 2: Floating Negative Multiply-Add");`endif
+                `ifdef DEBUG $display("Decode 2 A-form: Floating Negative Multiply-Add");`endif
                 instMinId_o <= 0;
                 operandTisReg_o <= 1; operandTAccess_o <= regWrite;
                 operandAisReg_o <= 1; operandAAccess_o <= regRead;
@@ -218,7 +218,7 @@ begin
                 enable_o <= 1;    
             end
             30: begin//Floating Negative Multiply-Subtract
-                `ifdef DEBUG $display("Decode 2: Floating Negative Multiply-Subtract");`endif
+                `ifdef DEBUG $display("Decode 2 A-form: Floating Negative Multiply-Subtract");`endif
                 instMinId_o <= 0;
                 operandTisReg_o <= 1; operandTAccess_o <= regWrite;
                 operandAisReg_o <= 1; operandAAccess_o <= regRead;
@@ -228,7 +228,7 @@ begin
                 enable_o <= 1;     
             end
             23: begin//Floating Select ////////////////////TODO: Implement/////////////////
-                `ifdef DEBUG $display("Decode 2: Floating Select");`endif
+                `ifdef DEBUG $display("Decode 2 A-form: Floating Select");`endif
                 instMinId_o <= 0;
                 operandTisReg_o <= 1; operandTAccess_o <= regWrite;
                 operandAisReg_o <= 1; operandAAccess_o <= regRead;
@@ -238,7 +238,7 @@ begin
                 enable_o <= 1;     
             end
             default: begin
-                `ifdef DEBUG $display("Decode 2: Invalid instrution revieved");`endif
+                `ifdef DEBUG $display("Decode 2 A-form: Invalid instrution revieved");`endif
                 enable_o <= 0; 
             end
             endcase
@@ -247,7 +247,7 @@ begin
         begin
             case(instruction_i[26+:XOSize])
             21: begin//Floating Add Single
-                `ifdef DEBUG $display("Decode 2: Floating Add Single");`endif
+                `ifdef DEBUG $display("Decode 2 A-form: Floating Add Single");`endif
                 instMinId_o <= 0;
                 operandTisReg_o <= 1; operandTAccess_o <= regWrite;
                 operandAisReg_o <= 1; operandAAccess_o <= regRead;
@@ -256,7 +256,7 @@ begin
                 enable_o <= 1;          
             end
             20: begin//Floating Subtract Single
-                `ifdef DEBUG $display("Decode 2: Floating Subtract Single");`endif
+                `ifdef DEBUG $display("Decode 2 A-form: Floating Subtract Single");`endif
                 instMinId_o <= 0;
                 operandTisReg_o <= 1; operandTAccess_o <= regWrite;
                 operandAisReg_o <= 1; operandAAccess_o <= regRead;
@@ -265,7 +265,7 @@ begin
                 enable_o <= 1; 
             end
             25: begin//Floating Multiply Single
-                `ifdef DEBUG $display("Decode 2: Floating Multiple Single");`endif
+                `ifdef DEBUG $display("Decode 2 A-form: Floating Multiple Single");`endif
                 instMinId_o <= 0;
                 operandTisReg_o <= 1; operandTAccess_o <= regWrite;
                 operandAisReg_o <= 1; operandAAccess_o <= regRead;
@@ -274,7 +274,7 @@ begin
                 enable_o <= 1;      
             end
             18: begin//Floating Divide Single
-                `ifdef DEBUG $display("Decode 2: Floating Divide Single");`endif
+                `ifdef DEBUG $display("Decode 2 A-form: Floating Divide Single");`endif
                 instMinId_o <= 0;
                 operandTisReg_o <= 1; operandTAccess_o <= regWrite;
                 operandAisReg_o <= 1; operandAAccess_o <= regRead;
@@ -283,7 +283,7 @@ begin
                 enable_o <= 1;      
             end
             22: begin//Floating Square Root Single
-                `ifdef DEBUG $display("Decode 2: Floating Square Root");`endif
+                `ifdef DEBUG $display("Decode 2 A-form: Floating Square Root");`endif
                 instMinId_o <= 0;
                 operandTisReg_o <= 1; operandTAccess_o <= regWrite;
                 operandAisReg_o <= 1; operandAAccess_o <= regRead;
@@ -292,7 +292,7 @@ begin
                 enable_o <= 1;       
             end
             24: begin//Floating Reciprocal Estimate Single
-                `ifdef DEBUG $display("Decode 2: Floating Reciprocal Estimate");`endif
+                `ifdef DEBUG $display("Decode 2 A-form: Floating Reciprocal Estimate");`endif
                 instMinId_o <= 0;
                 operandTisReg_o <= 1; operandTAccess_o <= regWrite;
                 operandAisReg_o <= 1; operandAAccess_o <= regRead;
@@ -301,7 +301,7 @@ begin
                 enable_o <= 1;       
             end
             26: begin//Floating Reciprocal Square Root Estimate Single
-                `ifdef DEBUG $display("Decode 2: Floating Reciprocal Square Root Estimate Single");`endif
+                `ifdef DEBUG $display("Decode 2 A-form: Floating Reciprocal Square Root Estimate Single");`endif
                 instMinId_o <= 0;
                 operandTisReg_o <= 1; operandTAccess_o <= regWrite;
                 operandAisReg_o <= 1; operandAAccess_o <= regRead;
@@ -310,7 +310,7 @@ begin
                 enable_o <= 1;  
             end
             29: begin//Floating Multiply-Add Single
-                `ifdef DEBUG $display("Decode 2: Floating Multiply-Add Single");`endif
+                `ifdef DEBUG $display("Decode 2 A-form: Floating Multiply-Add Single");`endif
                 instMinId_o <= 0;
                 operandTisReg_o <= 1; operandTAccess_o <= regWrite;
                 operandAisReg_o <= 1; operandAAccess_o <= regRead;
@@ -320,7 +320,7 @@ begin
                 enable_o <= 1;   
             end
             28: begin//Floating Multiply-Subtract Single
-                `ifdef DEBUG $display("Decode 2: Floating Multiply-Subtract Single");`endif
+                `ifdef DEBUG $display("Decode 2 A-form: Floating Multiply-Subtract Single");`endif
                 instMinId_o <= 0;
                 operandTisReg_o <= 1; operandTAccess_o <= regWrite;
                 operandAisReg_o <= 1; operandAAccess_o <= regRead;
@@ -330,7 +330,7 @@ begin
                 enable_o <= 1;
             end
             31: begin//Floating Negative Multiply-Add Single
-                `ifdef DEBUG $display("Decode 2: Floating Negative Multiply-Add Single");`endif
+                `ifdef DEBUG $display("Decode 2 A-form: Floating Negative Multiply-Add Single");`endif
                 instMinId_o <= 0;
                 operandTisReg_o <= 1; operandTAccess_o <= regWrite;
                 operandAisReg_o <= 1; operandAAccess_o <= regRead;
@@ -341,7 +341,7 @@ begin
                 enable_o <= 1;     
             end
             30: begin//Floating Negative Multiply-Subtract Single
-                `ifdef DEBUG $display("Decode 2: Floating Negative Multiply-Subtract Single");`endif
+                `ifdef DEBUG $display("Decode 2 A-form: Floating Negative Multiply-Subtract Single");`endif
                 instMinId_o <= 0;
                 operandTisReg_o <= 1; operandTAccess_o <= regWrite;
                 operandAisReg_o <= 1; operandAAccess_o <= regRead;
@@ -351,7 +351,7 @@ begin
                 enable_o <= 1;  
             end
             default: begin
-                `ifdef DEBUG $display("Decode 2: Invalid instrution revieved");`endif
+                `ifdef DEBUG $display("Decode 2 A-form: Invalid instrution revieved");`endif
                 enable_o <= 0; 
             end
             endcase            
