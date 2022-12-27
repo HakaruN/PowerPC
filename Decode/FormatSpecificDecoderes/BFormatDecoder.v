@@ -60,7 +60,7 @@ module AFormat_Decoder
 
 always @(posedge clock_i)
 begin
-    if(enable_i && instFormat_i || B)
+    if(enable_i && (instFormat_i | B) && !stall_i)
     begin
         `ifdef DEBUG $display("B format instruction recieved"); `endif
         //Parse the instruction agnostic parts of the instruction
@@ -79,8 +79,11 @@ begin
         case(instructionOpcode_i)
         16: begin //Branch Conditional
             `ifdef DEBUG $display("Decode 2 B-form: Branch Conditional"); `endif
+            enable_i <= 1;
             functionalUnitType_o <= BranchUnitID; instMinId_o <= 0;
             operandBOisReg_o <= 0; operandBIisReg_o <= 0;
+            BOrw_o[0] <= 1; BOrw_o[1] <= 0;
+            BIrw_o[0] <= 1; BIrw_o[1] <= 0;
             end
             default: begin
                 `ifdef DEBUG $display("Decode 2 B-form: Invalid instrution revieved");`endif
