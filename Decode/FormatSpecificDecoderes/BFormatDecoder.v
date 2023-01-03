@@ -1,15 +1,17 @@
 `timescale 1ns / 1ps
 `define DEBUG
+`define DEBUG_PRINT
 
 /*/////////Format decode/////////////
 Writen by Josh "Hakaru" Cantwell - 02.12.2022
 
 This is the decoder for B format instructions.
-A format instructions are:
-Integer select
+B format instructions are:
+Branch Conditional
+There are no other B format instructions in the ISA
 */
 
-module AFormat_Decoder
+module BFormat_Decoder
 #(
     parameter addressWidth = 64, //addresses are 64 bits wide
     parameter instructionWidth = 4 * 8, // POWER instructions are 4 byte fixed sized
@@ -24,7 +26,8 @@ module AFormat_Decoder
     parameter BOPos = 6, parameter BIPos = 11, parameter BDPos = 16, parameter AAPos = 30, parameter LKPos = 31;//positions in the instruction
     //FX = int, FP = float, VX = vector, CR = condition, LS = load/store
     parameter FXUnitId = 0, parameter FPUnitId = 1, parameter VXUnitId = 2, parameter CRUnitId = 3, parameter LSUnitId = 4,  parameter BranchUnitID = 6,   
-    parameter B = 2**01
+    parameter B = 2**01,
+    parameter BDecoderInstance = 0
 )
 (
     ///Input
@@ -58,11 +61,45 @@ module AFormat_Decoder
     output reg [0:(2 * regSize) + immediateSize + 1] instructionBody_o,//the +1 is because there are actually an aditional 2 bits in the inst, which offets the -1 to be +1.    
 );
 
+//Generate the log file
+integer debugFID = BDecoderInstance;
+`ifdef DEBUG_PRINT
+initial begin
+    case(BDecoderInstance)//If we have multiple decoders, they each get different files. The second number indicates the decoder# log file.
+    0: begin 
+        debugFID = $fopen("Decode2-0.log", "w");
+    end
+    1: begin 
+        debugFID = $fopen("Decode2-1.log", "w");
+    end
+    2: begin 
+        debugFID = $fopen("Decode2-2.log", "w");
+    end
+    3: begin 
+        debugFID = $fopen("Decode2-3.log", "w");
+    end
+    4: begin 
+        debugFID = $fopen("Decode2-4.log", "w");
+    end
+    5: begin 
+        debugFID = $fopen("Decode2-5.log", "w");
+    end
+    6: begin 
+        debugFID = $fopen("Decode2-6.log", "w");
+    end
+    7: begin 
+        debugFID = $fopen("Decode2-7.log", "w");
+    end
+    endcase
+end
+`endif DEBUG_PRINT
+
 always @(posedge clock_i)
 begin
     if(enable_i && (instFormat_i | B) && !stall_i)
     begin
         `ifdef DEBUG $display("B format instruction recieved"); `endif
+        `ifdef DEBUG_PRINT $fdisplay(debugFID, "B format instruction recieved"); `endif
         //Parse the instruction agnostic parts of the instruction
         instructionOpcode_o <= instructionOpcode_i;
         instructionAddress_o <= instructionAddress_i;
@@ -78,15 +115,17 @@ begin
 
         case(instructionOpcode_i)
         16: begin //Branch Conditional
-            `ifdef DEBUG $display("Decode 2 B-form: Branch Conditional"); `endif
-            enable_i <= 1;
+            `ifdef DEBUG $display("Decode 2 B-form (Inst: %h): ranch Conditional", instructionMajId_i); `endif
+            `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 B-form (Inst: %h): ranch Conditional", instructionMajId_i); `endif
+            enable_o <= 1;
             functionalUnitType_o <= BranchUnitID; instMinId_o <= 0;
             operandBOisReg_o <= 0; operandBIisReg_o <= 0;
             BOrw_o[0] <= 1; BOrw_o[1] <= 0;
             BIrw_o[0] <= 1; BIrw_o[1] <= 0;
             end
             default: begin
-                `ifdef DEBUG $display("Decode 2 B-form: Invalid instrution revieved");`endif
+                `ifdef DEBUG $display("Decode 2 B-form: Invalid instruction recieved");`endif
+            `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 B-form (Inst: %h): D-form: Invalid instruction recieved", instructionMajId_i); `endif
                 enable_o <= 0; 
             end
         endcase

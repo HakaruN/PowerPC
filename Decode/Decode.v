@@ -16,6 +16,10 @@ and performs the full decode on the instruction, then outputs it to the third st
 3) Instruction mux
 The third and final stage of the decode unit multiplexes the instructions from the previous stage to the single output signal group
 of the decode unit.
+
+
+TODO:
+Implement unified optype-specific opcodes
 */
 module Decode_Unit
 #(
