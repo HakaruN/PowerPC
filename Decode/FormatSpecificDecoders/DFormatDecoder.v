@@ -13,10 +13,8 @@ Replace POWER opcodes & Xopcodes with unified optype-specific opcodes and implem
 Implement outputs for special registers access
 Implement error cases.
 
-
-The instruction format is composed of 2 register operands (with one exceptions) and a single 16 bit immediate value. This immediate value can be of type D, SI or UI.
-The first register operand contains the exception mentioned above. This operand may be types as BF + L, FRS, RS, RT and TO. The second operand is always of the type RA.
-
+D format instructions are for the most part composed of 2 register operands and a single immediate operand. There is 1 exception to this however. The formats for these operands are
+described below.
 
 ///Operand number 1 [6-10]:
 BF + L: This is the operand format expection as previously described.
@@ -44,8 +42,7 @@ D represents a 16 bit signed two's complement integer which is sign-extended to 
 SI represents just a 16 bit signed integer.
 UI represents just a 16 bit unsigned integer.
 
-This is the decoder for D format instructions.
-D format instructions are:
+///Supported D format instructions are:
 Load Byte and Zero
 Load Byte and Zero with update
 Load Half word and Zero
@@ -133,7 +130,7 @@ module DFormatDecoder
     output reg is64Bit_o,
     output reg [0:PidSize-1] instPid_o,//process ID
     output reg [0:TidSize-1] instTid_o,//Thread ID
-    output reg [0:regAccessPatternSize-1] op1rw_o, op2rw_o,//how are the operands accessed, are they writen to and/or read from [0] write flag, [1] write flag.
+    output reg [0:regAccessPatternSize-1] op1rw_o, op2rw_o,//how are the operands accessed, are they writen to and/or read from [0] read flag, [1] write flag.
     output reg op1isReg_o, op2isReg_o, immIsExtended_o, immIsShifted_o,//if imm is shifted, its shifted up 2 bytes
     //Instruction body - data contents are 26 bits wide. There are also flags to include
     output reg [0:(2 * regSize) + immediateSize - 1] instructionBody_o
