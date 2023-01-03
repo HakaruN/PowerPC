@@ -149,7 +149,7 @@ begin
     else if(enable_i && (instFormat_i | D) && !stall_i)
     begin
         `ifdef DEBUG $display("D format instruction recieved. Opcode: ", instructionOpcode_i); `endif
-        `ifdef DEBUG_PRINT $fdisplay(debugFID, "D format instruction recieved"); `endif
+        `ifdef DEBUG_PRINT $fdisplay(debugFID, "D format instruction recieved. Opcode: ", instructionOpcode_i); `endif
         //Parse the instruction agnostic parts of the instruction
         instructionOpcode_o <= instructionOpcode_i;
         instructionAddress_o <= instructionAddress_i;
