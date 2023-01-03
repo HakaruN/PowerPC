@@ -125,7 +125,7 @@ begin
             end
             default: begin
                 `ifdef DEBUG $display("Decode 2 B-form: Invalid instruction recieved");`endif
-            `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 B-form (Inst: %h): D-form: Invalid instruction recieved", instructionMajId_i); `endif
+                `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 B-form (Inst: %h): D-form: Invalid instruction recieved", instructionMajId_i); `endif
                 enable_o <= 0; 
             end
         endcase

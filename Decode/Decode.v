@@ -19,7 +19,7 @@ of the decode unit.
 
 
 TODO:
-Implement unified optype-specific opcodes
+Replace POWER opcodes & Xopcodes with unified optype-specific opcodes and implement unified register space.
 */
 module Decode_Unit
 #(

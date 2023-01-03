@@ -5,6 +5,14 @@
 /*/////////Format decode/////////////
 Writen by Josh "Hakaru" Cantwell - 02.12.2022
 
+This decoder implements all D format instruction specified in the POWER ISA version 3.0B.
+
+TODO:
+Replace POWER opcodes & Xopcodes with unified optype-specific opcodes and implement unified register space.
+Implement outputs for special registers access
+Implement error cases.
+
+
 The instruction format is composed of 2 register operands (with one exceptions) and a single 16 bit immediate value. This immediate value can be of type D, SI or UI.
 The first register operand contains the exception mentioned above. This operand may be types as BF + L, FRS, RS, RT and TO. The second operand is always of the type RA.
 
@@ -37,6 +45,46 @@ UI represents just a 16 bit unsigned integer.
 
 This is the decoder for D format instructions.
 D format instructions are:
+Load Byte and Zero
+Load Byte and Zero with update
+Load Half word and Zero
+Load Half word and Zero with update
+Load Half word algebraic
+Load Half word algebraic with update
+Load word and zero
+Load word and zero with update
+Store byte
+Store byte with update
+Store halfword
+Store halfword with update
+Store word
+Store word with update
+Load multiple word
+Store multiple word
+Add immediate
+Add immediate shifted
+Add immediate carrying
+Add immediate carrying and record
+Subtract from immediate carrying
+Multiply low immediate
+Compare immediate
+Compare logical immediate
+Trap word immediate
+Trap doubleword immediate
+AND immediate
+AND immediate shifted
+OR immediate
+OR immediate shifted
+XOR immediate
+XOR immediate shifted
+Load floating point single
+Load floating point single with update
+Load floating point double
+Load floating point double with update
+Store floating point single
+Store floating point single with update
+Store floating point double
+Store floating point double with update
 */
 
 module DFormat_Decoder
@@ -510,7 +558,199 @@ begin
             op1rw_o[0] <= 0; op1rw_o[1] <= 0;//Neither read or write, treat as imm.
             op2rw_o[0] <= 1; op2rw_o[1] <= 0;//Read not write
         end
+        28: begin //AND immediate - RA, RS, UI
+            `ifdef DEBUG $display("Decode 2 D-form (Inst: %h): D-form: AND immediate", instructionMajId_i); `endif
+            `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 D-form (Inst: %h): D-form: AND immediate", instructionMajId_i); `endif
+            //Special Regs: CR0
+            enable_o <= 1;
+            immIsExtended_o <= 0; immIsShifted_o <= 0;
+            functionalUnitType_o <= FXUnitId; instMinId_o <= 0;
+            op1isReg_o <= 1;
+            op2isReg_o <= 1;
+            op1rw_o[0] <= 1; op1rw_o[1] <= 0;//Read not write
+            op2rw_o[0] <= 0; op2rw_o[1] <= 1;//Write not Read
+        end
+        29: begin //AND immediate shifted - RA, RS, UI
+            `ifdef DEBUG $display("Decode 2 D-form (Inst: %h): D-form: AND immediate shifted", instructionMajId_i); `endif
+            `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 D-form (Inst: %h): D-form: AND immediate shifted", instructionMajId_i); `endif
+            //Special Regs: CR0
+            enable_o <= 1;
+            immIsExtended_o <= 0; immIsShifted_o <= 1;
+            functionalUnitType_o <= FXUnitId; instMinId_o <= 0;
+            op1isReg_o <= 1;
+            op2isReg_o <= 1;
+            op1rw_o[0] <= 1; op1rw_o[1] <= 0;//Read not write
+            op2rw_o[0] <= 0; op2rw_o[1] <= 1;//Write not Read
+        end
+        24: begin //OR immediate - RA, RS, UI
+            `ifdef DEBUG $display("Decode 2 D-form (Inst: %h): D-form: OR immediate", instructionMajId_i); `endif
+            `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 D-form (Inst: %h): D-form: OR immediate", instructionMajId_i); `endif
+            //Special Regs: CR0
+            enable_o <= 1;
+            immIsExtended_o <= 0; immIsShifted_o <= 0;
+            functionalUnitType_o <= FXUnitId; instMinId_o <= 0;
+            op1isReg_o <= 1;
+            op2isReg_o <= 1;
+            op1rw_o[0] <= 1; op1rw_o[1] <= 0;//Read not write
+            op2rw_o[0] <= 0; op2rw_o[1] <= 1;//Write not Read
+        end
+        25: begin //OR immediate shifted - RA, RS, UI
+            `ifdef DEBUG $display("Decode 2 D-form (Inst: %h): D-form: OR immediate shifted", instructionMajId_i); `endif
+            `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 D-form (Inst: %h): D-form: OR immediate shifted", instructionMajId_i); `endif
+            //Special Regs: CR0
+            enable_o <= 1;
+            immIsExtended_o <= 0; immIsShifted_o <= 1;
+            functionalUnitType_o <= FXUnitId; instMinId_o <= 0;
+            op1isReg_o <= 1;
+            op2isReg_o <= 1;
+            op1rw_o[0] <= 1; op1rw_o[1] <= 0;//Read not write
+            op2rw_o[0] <= 0; op2rw_o[1] <= 1;//Write not Read
+        end
+        26: begin //XOR immediate - RA, RS, UI
+            `ifdef DEBUG $display("Decode 2 D-form (Inst: %h): D-form: XOR immediate", instructionMajId_i); `endif
+            `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 D-form (Inst: %h): XD-form: OR immediate", instructionMajId_i); `endif
+            //Special Regs: CR0
+            enable_o <= 1;
+            immIsExtended_o <= 0; immIsShifted_o <= 0;
+            functionalUnitType_o <= FXUnitId; instMinId_o <= 0;
+            op1isReg_o <= 1;
+            op2isReg_o <= 1;
+            op1rw_o[0] <= 1; op1rw_o[1] <= 0;//Read not write
+            op2rw_o[0] <= 0; op2rw_o[1] <= 1;//Write not Read
+        end
+        27: begin //XOR immediate shifted - RA, RS, UI
+            `ifdef DEBUG $display("Decode 2 D-form (Inst: %h): D-form: XOR immediate shifted", instructionMajId_i); `endif
+            `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 D-form (Inst: %h): D-form: XOR immediate shifted", instructionMajId_i); `endif
+            //Special Regs: CR0
+            enable_o <= 1;
+            immIsExtended_o <= 0; immIsShifted_o <= 1;
+            functionalUnitType_o <= FXUnitId; instMinId_o <= 0;
+            op1isReg_o <= 1;
+            op2isReg_o <= 1;
+            op1rw_o[0] <= 1; op1rw_o[1] <= 0;//Read not write
+            op2rw_o[0] <= 0; op2rw_o[1] <= 1;//Write not Read
+        end
+        48: begin //Load floating point single - FRT, RA, D
+            `ifdef DEBUG $display("Decode 2 D-form (Inst: %h): D-form: Load floating point single", instructionMajId_i); `endif
+            `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 D-form (Inst: %h): D-form: Load floating point single", instructionMajId_i); `endif
+            //Special Regs: Na
+            enable_o <= 1;
+            immIsExtended_o <= 1; immIsShifted_o <= 0;
+            functionalUnitType_o <= FPUnitId; instMinId_o <= 0;
+            //is val or zero - if RA is zero, we treat it like an imm with zero val. Realistically we can just not use it at all if zeroed
+            if(instruction_i[11:15] == 0)
+                op1isReg_o <= 0;
+            else
+                op1isReg_o <= 1;
+            op2isReg_o <= 1;
+            op1rw_o[0] <= 0; op1rw_o[1] <= 1;//Write not read
+            op2rw_o[0] <= 1; op2rw_o[1] <= 0;//Read not write
+        end
+        49: begin //Load floating point single with update - FRT, RA, D
+            `ifdef DEBUG $display("Decode 2 D-form (Inst: %h): D-form: Load floating point single with update", instructionMajId_i); `endif
+            `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 D-form (Inst: %h): D-form: Load floating point single with update", instructionMajId_i); `endif
+            //Special Regs: Na
+            enable_o <= 1;
+            immIsExtended_o <= 1; immIsShifted_o <= 0;
+            functionalUnitType_o <= FPUnitId; instMinId_o <= 0;
+            //is val or zero - if RA is zero, we treat it like an imm with zero val. Realistically we can just not use it at all if zeroed
+            op1isReg_o <= 1;
+            op2isReg_o <= 1;
+            op1rw_o[0] <= 0; op1rw_o[1] <= 1;//Write not read
+            op2rw_o[0] <= 1; op2rw_o[1] <= 1;//Read and write
+            //If operand 2 is 0, instruction invalid
+        end
+        50: begin //Load floating point double - FRT, RA, D
+            `ifdef DEBUG $display("Decode 2 D-form (Inst: %h): D-form: Load floating point double", instructionMajId_i); `endif
+            `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 D-form (Inst: %h): D-form: Load floating point double", instructionMajId_i); `endif
+            //Special Regs: Na
+            enable_o <= 1;
+            immIsExtended_o <= 1; immIsShifted_o <= 0;
+            functionalUnitType_o <= FPUnitId; instMinId_o <= 0;
+            //is val or zero - if RA is zero, we treat it like an imm with zero val. Realistically we can just not use it at all if zeroed
+            if(instruction_i[11:15] == 0)
+                op1isReg_o <= 0;
+            else
+                op1isReg_o <= 1;
+            op2isReg_o <= 1;
+            op1rw_o[0] <= 0; op1rw_o[1] <= 1;//Write not read
+            op2rw_o[0] <= 1; op2rw_o[1] <= 0;//Read not write
+        end
+        51: begin //Load floating point double with update - FRT, RA, D
+            `ifdef DEBUG $display("Decode 2 D-form (Inst: %h): D-form: Load floating point double with update", instructionMajId_i); `endif
+            `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 D-form (Inst: %h): D-form: Load floating point double with update", instructionMajId_i); `endif
+            //Special Regs: Na
+            enable_o <= 1;
+            immIsExtended_o <= 1; immIsShifted_o <= 0;
+            functionalUnitType_o <= FPUnitId; instMinId_o <= 0;
+            //is val or zero - if RA is zero, we treat it like an imm with zero val. Realistically we can just not use it at all if zeroed
+            op1isReg_o <= 1;
+            op2isReg_o <= 1;
+            op1rw_o[0] <= 0; op1rw_o[1] <= 1;//Write not read
+            op2rw_o[0] <= 1; op2rw_o[1] <= 1;//Read and write
+            //If operand 2 is 0, instruction invalid
+        end
 
+        52: begin //Store floating point single - FRS, RA, D
+            `ifdef DEBUG $display("Decode 2 D-form (Inst: %h): D-form: Store floating point single", instructionMajId_i); `endif
+            `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 D-form (Inst: %h): D-form: LStore floating point single", instructionMajId_i); `endif
+            //Special Regs: Na
+            enable_o <= 1;
+            immIsExtended_o <= 1; immIsShifted_o <= 0;
+            functionalUnitType_o <= FPUnitId; instMinId_o <= 0;
+            //is val or zero - if RA is zero, we treat it like an imm with zero val. Realistically we can just not use it at all if zeroed
+            if(instruction_i[11:15] == 0)
+                op1isReg_o <= 0;
+            else
+                op1isReg_o <= 1;
+            op2isReg_o <= 1;
+            op1rw_o[0] <= 0; op1rw_o[1] <= 1;//Write not read
+            op2rw_o[0] <= 1; op2rw_o[1] <= 0;//Read not write
+        end
+        53: begin //Store floating point single with update - FRS, RA, D
+            `ifdef DEBUG $display("Decode 2 D-form (Inst: %h): D-form: Store floating point single with update", instructionMajId_i); `endif
+            `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 D-form (Inst: %h): D-form: Store floating point single with update", instructionMajId_i); `endif
+            //Special Regs: Na
+            enable_o <= 1;
+            immIsExtended_o <= 1; immIsShifted_o <= 0;
+            functionalUnitType_o <= FPUnitId; instMinId_o <= 0;
+            //is val or zero - if RA is zero, we treat it like an imm with zero val. Realistically we can just not use it at all if zeroed
+            op1isReg_o <= 1;
+            op2isReg_o <= 1;
+            op1rw_o[0] <= 0; op1rw_o[1] <= 1;//Write not read
+            op2rw_o[0] <= 1; op2rw_o[1] <= 1;//Read and write
+            //If operand 2 is 0, instruction invalid
+        end
+        54: begin //Store floating point double - FRS, RA, D
+            `ifdef DEBUG $display("Decode 2 D-form (Inst: %h): D-form: Store floating point double", instructionMajId_i); `endif
+            `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 D-form (Inst: %h): D-form: LStore floating point double", instructionMajId_i); `endif
+            //Special Regs: Na
+            enable_o <= 1;
+            immIsExtended_o <= 1; immIsShifted_o <= 0;
+            functionalUnitType_o <= FPUnitId; instMinId_o <= 0;
+            //is val or zero - if RA is zero, we treat it like an imm with zero val. Realistically we can just not use it at all if zeroed
+            if(instruction_i[11:15] == 0)
+                op1isReg_o <= 0;
+            else
+                op1isReg_o <= 1;
+            op2isReg_o <= 1;
+            op1rw_o[0] <= 0; op1rw_o[1] <= 1;//Write not read
+            op2rw_o[0] <= 1; op2rw_o[1] <= 0;//Read not write
+        end
+        55: begin //Store floating point double with update - FRS, RA, D
+            `ifdef DEBUG $display("Decode 2 D-form (Inst: %h): D-form: Store floating point double with update", instructionMajId_i); `endif
+            `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 D-form (Inst: %h): D-form: Store floating point double with update", instructionMajId_i); `endif
+            //Special Regs: Na
+            enable_o <= 1;
+            immIsExtended_o <= 1; immIsShifted_o <= 0;
+            functionalUnitType_o <= FPUnitId; instMinId_o <= 0;
+            //is val or zero - if RA is zero, we treat it like an imm with zero val. Realistically we can just not use it at all if zeroed
+            op1isReg_o <= 1;
+            op2isReg_o <= 1;
+            op1rw_o[0] <= 0; op1rw_o[1] <= 1;//Write not read
+            op2rw_o[0] <= 1; op2rw_o[1] <= 1;//Read and write
+            //If operand 2 is 0, instruction invalid
+        end
         default: begin
             `ifdef DEBUG $display("Decode 2 D-form: Invalid instruction recieved");`endif
             `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 D-form (Inst: %h): D-form: Invalid instruction recieved", instructionMajId_i); `endif
