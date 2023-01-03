@@ -4,4 +4,9 @@ A full Super scalar, pipelines, out of order processor implementing the Power IS
 
 current features:
  - Direct mapped, pipelined L1-I cache with a 16K capacity (256 - 64Byte cache lines) with a 3 cycle latency.
- - Decode unit capable of detecting instruction formats (actual decoding coming soon)
+ - Decode unit capable of detecting instruction formats. Decoding for instruction formats are implemented as follows:
+    - A format,
+    - B format,
+    - D format
+
+Others coming soon.
