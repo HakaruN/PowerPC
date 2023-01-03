@@ -32,7 +32,7 @@ Floating Negative Multiply-Add Single
 Floating Negative Multiply-Subtract Single
 */
 
-module AFormat_Decoder
+module AFormatDecoder
 #(
     parameter addressWidth = 64, //addresses are 64 bits wide
     parameter instructionWidth = 4 * 8, // POWER instructions are 4 byte fixed sized

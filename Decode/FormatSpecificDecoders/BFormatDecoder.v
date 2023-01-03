@@ -11,7 +11,7 @@ Branch Conditional
 There are no other B format instructions in the ISA
 */
 
-module BFormat_Decoder
+module BFormatDecoder
 #(
     parameter addressWidth = 64, //addresses are 64 bits wide
     parameter instructionWidth = 4 * 8, // POWER instructions are 4 byte fixed sized

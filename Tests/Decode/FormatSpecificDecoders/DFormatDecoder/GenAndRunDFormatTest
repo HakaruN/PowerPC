@@ -1,0 +1,4 @@
+#!/bin/bash
+iverilog -o DDecodeTest.bin DFormatDecoder_Test.v
+./DDecodeTest.bin
+rm fetchTest.bin

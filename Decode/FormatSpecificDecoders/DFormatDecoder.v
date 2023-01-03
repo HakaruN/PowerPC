@@ -1,6 +1,7 @@
 `timescale 1ns / 1ps
 `define DEBUG
 `define DEBUG_PRINT
+//`define QUIET_INVALID
 
 /*/////////Format decode/////////////
 Writen by Josh "Hakaru" Cantwell - 02.12.2022
@@ -87,7 +88,7 @@ Store floating point double
 Store floating point double with update
 */
 
-module DFormat_Decoder
+module DFormatDecoder
 #(
     parameter addressWidth = 64, //addresses are 64 bits wide
     parameter instructionWidth = 4 * 8, // POWER instructions are 4 byte fixed sized
@@ -99,17 +100,17 @@ module DFormat_Decoder
     parameter regRead = 2'b10, parameter regWrite = 2'b01, 
     parameter isImmediateSize = 1, parameter immediateSize = 16,
     parameter funcUnitCodeSize = 3, //can have up to 8 types of func unit.
-    parameter Op1Pos = 6, parameter RAPos = 11, parameter ImmPos = 16;//positions in the instruction
+    parameter Op1Pos = 6, parameter RAPos = 11, parameter ImmPos = 16,//positions in the instruction
     parameter immWidth = 16,
     //FX = int, FP = float, VX = vector, CR = condition, LS = load/store
     parameter FXUnitId = 0, parameter FPUnitId = 1, parameter VXUnitId = 2, parameter CRUnitId = 3, parameter LSUnitId = 4,  parameter BranchUnitID = 6,   
-    parameter D = 2**05,
+    parameter D = (2**05),
     parameter DDecoderInstance = 0
 )
 (
     ///Input
     //command
-    input wire clock_i,
+    input wire clock_i, reset_i,
     input wire enable_i, stall_i,
     //Data
     input wire [0:25] instFormat_i,
@@ -119,7 +120,7 @@ module DFormat_Decoder
     input wire is64Bit_i,
     input wire [0:PidSize-1] instructionPid_i,
     input wire [0:TidSize-1] instructionTid_i,
-    input wire [0:instructionCounterWidth-1] instructionMajId_i
+    input wire [0:instructionCounterWidth-1] instructionMajId_i,
     ///Output
     output reg enable_o,
     ///Instrution components
@@ -135,47 +136,19 @@ module DFormat_Decoder
     output reg [0:regAccessPatternSize-1] op1rw_o, op2rw_o,//how are the operands accessed, are they writen to and/or read from [0] write flag, [1] write flag.
     output reg op1isReg_o, op2isReg_o, immIsExtended_o, immIsShifted_o,//if imm is shifted, its shifted up 2 bytes
     //Instruction body - data contents are 26 bits wide. There are also flags to include
-    output reg [0:(2 * regSize) + immediateSize - 1] instructionBody_o,
+    output reg [0:(2 * regSize) + immediateSize - 1] instructionBody_o
 );
 
-//Generate the log file
-integer debugFID = DDecoderInstance;
-`ifdef DEBUG_PRINT
-initial begin
-    case(DDecoderInstance)//If we have multiple decoders, they each get different files. The second number indicates the decoder# log file.
-    0: begin 
-        debugFID = $fopen("Decode2-0.log", "w");
-    end
-    1: begin 
-        debugFID = $fopen("Decode2-1.log", "w");
-    end
-    2: begin 
-        debugFID = $fopen("Decode2-2.log", "w");
-    end
-    3: begin 
-        debugFID = $fopen("Decode2-3.log", "w");
-    end
-    4: begin 
-        debugFID = $fopen("Decode2-4.log", "w");
-    end
-    5: begin 
-        debugFID = $fopen("Decode2-5.log", "w");
-    end
-    6: begin 
-        debugFID = $fopen("Decode2-6.log", "w");
-    end
-    7: begin 
-        debugFID = $fopen("Decode2-7.log", "w");
-    end
-    endcase
-end
-`endif DEBUG_PRINT
-
+integer debugFID;
 always @(posedge clock_i)
 begin
-    if(enable_i && (instFormat_i | D) && !stall_i)
+    if(reset_i)
     begin
-        `ifdef DEBUG $display("D format instruction recieved"); `endif
+        debugFID = $fopen("Decode2-D.log", "w");
+    end
+    else if(enable_i && (instFormat_i | D) && !stall_i)
+    begin
+        `ifdef DEBUG $display("D format instruction recieved. Opcode: ", instructionOpcode_i); `endif
         `ifdef DEBUG_PRINT $fdisplay(debugFID, "D format instruction recieved"); `endif
         //Parse the instruction agnostic parts of the instruction
         instructionOpcode_o <= instructionOpcode_i;
@@ -752,11 +725,16 @@ begin
             //If operand 2 is 0, instruction invalid
         end
         default: begin
-            `ifdef DEBUG $display("Decode 2 D-form: Invalid instruction recieved");`endif
-            `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 D-form (Inst: %h): D-form: Invalid instruction recieved", instructionMajId_i); `endif
+            `ifndef QUIET_INVALID
+                `ifdef DEBUG $display("Decode 2 D-form: Invalid instruction recieved");`endif
+                `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 D-form (Inst: %h): D-form: Invalid instruction recieved", instructionMajId_i); `endif
+            `endif
             enable_o <= 0; 
         end
         endcase
+
+        `ifdef DEBUG $display(""); `endif
+        `ifdef DEBUG_PRINT $fdisplay(debugFID,""); `endif
     end
 end
 
