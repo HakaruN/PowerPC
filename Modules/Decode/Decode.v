@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
 `define DEBUG
-
+`define DEBUG_PRINT
 /*/////////Decode Unit/////////////
 Writen by Josh "Hakaru" Cantwell - 19.12.2022
 
@@ -44,11 +44,24 @@ module Decode_Unit
     //data
     input wire [0:instructionWidth-1] instruction_i,
     input wire [0:addressWidth-1] instructionAddress_i,
+    input wire is64Bit_i,
     input wire [0:PidSize-1] instructionPid_i,
     input wire [0:TidSize-1] instructionTid_i,
     input wire [0:instructionCounterWidth-1] instructionMajId_i,
 
     //output
+    output wire enableOut,
+    output wire [0:opcodeSize-1] opcodeOut,
+    output wire [0:addressWidth-1] addressOut,
+    output wire [0:funcUnitCodeSize-1] funcUnitTypeOut,
+    output wire [0:instructionCounterWidth-1] majIDOut,
+    output wire [0:instMinIdWidth-1] minIDOut,
+    output wire is64BitOut,
+    output wire [0:PidSize-1] pidOut,
+    output wire [0:TidSize-1] tidOut,
+    output wire [0:regAccessPatternSize-1] op1rwOut, op2rwOut, op3rwOut, op4rwOut,
+    output wire op1IsRegOut, op2IsRegOut, op3IsRegOut, op4IsRegOut,
+    output wire [0:84-1] bodyOut//contains all operands. Large enough for 4 reg operands and a 64bit imm
 );
 
 
@@ -57,6 +70,7 @@ wire stage1EnableOut;
 wire [0:4] stage1instFormatOut;
 wire [0:instructionWidth-1] stage1instructionOut;
 wire [0:addressWidth-1] stage1instructionAddressOut;
+wire stage1is64BitOut;
 wire [0:PidSize-1] stage1instructionPidOut;
 wire [0:TidSize-1] stage1instructionTidOut;
 wire [0:instructionCounterWidth-1] stage1instructionMajIdOut;
@@ -74,7 +88,7 @@ Format_Decoder #(
     .VX(VX), .VC(VC), .MD(MD), .MDS(MDS), .XFL(XFL),
     .Z22(Z22), .XX2(XX2), .XX3(XX3)
 )
-stage1Decode
+dormatDecoder
 (
     ///Input
     //command
@@ -83,6 +97,7 @@ stage1Decode
     //data
     .instruction_i(instruction_i),
     .instructionAddress_i(instructionAddress_i),
+    .is64Bit_i(is64Bit_i),
     .instructionPid_i(instructionPid_i),
     .instructionTid_i(instructionTid_i),
     .instructionMajId_i(instructionMajId_i),
@@ -91,77 +106,204 @@ stage1Decode
     .instFormat_o(instFormat_o),
     .instruction_o(instruction_o),
     .instructionAddress_o(instructionAddress_o),
+    .is64Bit_o(stage1is64BitOut),
     .instructionPid_o(instructionPid_o),
     .instructionTid_o(instructionTid_o),
     .instructionMajId_o(instructionMajId_o)
 );
 
 ////Decode stage 2 - Format specific decode
-
-
-////Decode stage 3 - Instruction mux to output
-
-DecodeMux #(
-)
-decodeMux
-(
-    ////Inputs
-    ///Command
-    .clock_i(clockIn),
     ///A format
-    .Aenable_i(AenableIn),
-    .AOpcode_i(AOpcodeIn),
-    .AAddress_i(AAddressIn),
-    .AUnitType_i(AUnitTypeIn),
-    .AMajId_i(AMajIdIn),
-    .AMinId_i(AMinIdIn),
-    .Ais64Bit_i(Ais64BitIn),
-    .APid_i(APidIn),
-    .ATid_i(ATidIn),
-    .Aop1rw_o(Aop1rwOut), .Aop2rw_o(Aop2rwOut), .Aop3rw_o(Aop3rwOut), .Aop4rw_o(Aop4rwOut),
-    .Aop1IsReg_o(Aop1IsRegOut), .Aop2IsReg_o(Aop2IsRegOut), .Aop3IsReg_o(Aop3IsRegOut), .Aop4IsReg_o(Aop4IsRegOut),
-    .ABody_i(ABodyIn),
+    wire AenableIn;
+    wire [0:opcodeSize-1] AOpcodeIn;
+    wire [0:addressWidth-1] AAddressIn;
+    wire [0:funcUnitCodeSize-1] AUnitTypeIn;
+    wire [0:instructionCounterWidth] AMajIdIn;
+    wire [0:instMinIdWidth-1] AMinIdIn;
+    wire Ais64BitIn;
+    wire [0:PidSize-1] APidIn;
+    wire [0:TidSize-1] ATidIn;
+    wire [0:regAccessPatternSize-1] Aop1rwOut, Aop2rwOut, Aop3rwOut, Aop4rwOut;
+    wire Aop1IsRegOut, Aop2IsRegOut, Aop3IsRegOut, Aop4IsRegOut;
+    wire [0:4 * regSize] ABodyIn;
+
+    AFormatDecoder #()
+    aFormatDecoder
+    (
+        .clock_i(clockIn),
+        `ifdef `define DEBUG_PRINT .reset_i(resetIn), `endif
+        .enable_i(stage1EnableOut), .stall_i(stallIn),
+        .instFormat_i(stage1instFormatOut),
+        .instructionOpcode_i(stage1instructionOut),
+        .instruction_i(stage1instructionOut),
+        .instructionAddress_i(instructionAddressIn),
+        .is64Bit_i(stage1is64BitOut),
+        .instructionPid_i(stage1instructionPidOut),
+        .instructionTid_i(stage1instructionTidOut),
+        .instructionMajId_i(stage1instructionMajIdOut),
+
+        .enable_o(enableOAenableInut),
+        .opcode_o(AOpcodeIn),
+        .instructionAddress_o(AAddressIn),
+        .functionalUnitType_o(AUnitTypeIn),
+        .instMajId_o(AMajIdIn),
+        .instMinId_o(AMinIdIn),
+        .is64Bit_o(Ais64BitIn),
+        .instPid_o(APidIn),
+        .instTid_o(ATidIn),
+        .op1rw_o(Aop1rwOut), .op2rw_o(Aop2rwOut), .op3rw_o(Aop3rwOut), .op4rw_o(Aop4rwOut),//reg operand are read/write flags
+        .op1IsReg_o(Aop1IsRegOut), .op2IsReg_o(Aop2IsRegOut), .op3IsReg_o(Aop3IsRegOut), .op4IsReg_o(Aop4IsRegOut),//Reg operands isReg flags
+        .instructionBody_o(ABodyIn)
+    );
 
     ///B format
-    .Benable_i(BenableIn),
-    .BOpcode_i(BOpcodeIn),
-    .BAddress_i(BAddressIn),
-    .BUnitType_i(BUnitTypeIn),
-    .BMajId_i(BMajIdIn),
-    .BMinId_i(BMinIdIn),
-    .Bis64Bit_i(Bis64BitIn),
-    .BPid_i(BPidIn),
-    .BTid_i(BTidIn),
-    .BBody_i(BBodyIn),
+    wire BenableIn;
+    wire [0:opcodeSize-1] BOpcodeIn;
+    wire [0:addressWidth-1] BAddressIn;
+    wire [0:funcUnitCodeSize-1] BUnitTypeIn;
+    wire [0:instructionCounterWidth] BMajIdIn;
+    wire [0:instMinIdWidth-1] BMinIdIn;
+    wire Bis64BitIn;
+    wire [0:PidSize-1] BPidIn;
+    wire [0:TidSize-1] BTidIn;
+    wire [0:(2 * regSize) + BimmediateSize + 3] BBodyIn;
+
+    BFormatDecoder #()
+    bFormatDecoder
+    (
+        .clock_i(clockIn),
+        `ifdef `define DEBUG_PRINT .reset_i(resetIn), `endif
+        .enable_i(stage1EnableOut), .stall_i(stallIn),
+        .instFormat_i(stage1instFormatOut),
+        .instructionOpcode_i(stage1instructionOut),
+        .instruction_i(stage1instructionOut),
+        .instructionAddress_i(instructionAddressIn),
+        .is64Bit_i(stage1is64BitOut),
+        .instructionPid_i(stage1instructionPidOut),
+        .instructionTid_i(stage1instructionTidOut),
+        .instructionMajId_i(stage1instructionMajIdOut),
+
+        .enable_o(BenableIn),
+        .opcode_o(BOpcodeIn),
+        .instructionAddress_o(BAddressIn),
+        .functionalUnitType_o(BUnitTypeIn),
+        .instMajId_o(BMajIdIn),
+        .instMinId_o(BMinIdIn),
+        .is64Bit_o(Bis64BitIn),
+        .instPid_o(BPidIn),
+        .instTid_o(BTidIn),
+        .instructionBody_o(BBodyIn)
+);
 
     ///D format
-    .Denable_i(DenableIn),
-    .DOpcode_i(DOpcodeIn),
-    .DAddress_i(DAddressIn),
-    .DUnitType_i(DUnitTypeIn),
-    .DMajId_i(DMajIdIn),
-    .DMinId_i(DMinIdIn),
-    .Dis64Bit_i(Dis64BitIn),
-    .DPid_i(DPidIn),
-    .DTid_i(DTidIn),
-    .Dop1rw_i(Dop1rwIn), .Dop2rw_i(Dop2rwIn),
-    .Dop1isReg_i(Dop1isRegIn), .Dop2isReg_i(Dop2isRegIn), .immIsExtended_i(immIsExtendedIn), .immIsShifted_i(immIsShiftedIn),
-    .DBody_i(DBodyIn),
+    wire DenableIn;
+    wire [0:opcodeSize-1] DOpcodeIn;
+    wire [0:addressWidth-1] DAddressIn;
+    wire [0:funcUnitCodeSize-1] DUnitTypeIn;
+    wire [0:instructionCounterWidth] DMajIdIn;
+    wire [0:instMinIdWidth-1] DMinIdIn;
+    wire Dis64BitIn;
+    wire [0:PidSize-1] DPidIn;
+    wire [0:TidSize-1] DTidIn;
+    wire [0:regAccessPatternSize-1] Dop1rwIn, Dop2rwIn;
+    wire Dop1isRegIn, Dop2isRegIn, immIsExtendedIn, immIsShiftedIn;
+    wire [0:(2 * regSize) + DimmediateSize - 1] DBodyIn;
 
-    ///output
-    .enable_o(enableOut),
-    .opcode_o(opcodeOut),
-    .address_o(addressOut),
-    .funcUnitType_o(funcUnitTypeOut),
-    .majID_o(majIDOut),
-    .minID_o(minIDOut),
-    .is64Bit_o(is64BitOut),
-    .pid_o(pidOut),
-    .tid_o(tidOut),
-    .op1rw_o(op1rwOut), .op2rw_o(op2rwOut), .op3rw_o(op3rwOut), .op4rw_o(op4rwOut),
-    .op1IsReg_o(op1IsRegOut), .op2IsReg_o(op2IsRegOut), .op3IsReg_o(op3IsRegOut), .op4IsReg_o(op4IsRegOut),
-    .body_o(bodyOut)
-);
+    DFormatDecoder #()
+    dFormatDecoder
+    (
+        .clock_i(clockIn),
+        `ifdef `define DEBUG_PRINT .reset_i(resetIn), `endif
+        .enable_i(stage1EnableOut), .stall_i(stallIn),
+        .instFormat_i(stage1instFormatOut),
+        .instructionOpcode_i(stage1instructionOut),
+        .instruction_i(stage1instructionOut),
+        .instructionAddress_i(instructionAddressIn),
+        .is64Bit_i(stage1is64BitOut),
+        .instructionPid_i(stage1instructionPidOut),
+        .instructionTid_i(stage1instructionTidOut),
+        .instructionMajId_i(stage1instructionMajIdOut),,
+
+        .enable_o(DenableIn),
+        .opcode_o(DOpcodeIn),
+        .instructionAddress_o(DAddressIn),
+        .functionalUnitType_o(DUnitTypeIn),
+        .instMajId_o(DMajIdIn),
+        .instMinId_o(DMinIdIn),
+        .is64Bit_o(Dis64BitIn),
+        .instPid_o(DPidIn),
+        .instTid_o(DTidIn),
+        .op1rw_o(Dop1rwIn), .op2rw_o(Dop2rwIn),
+        .op1isReg_o(Dop1isRegIn), .op2isReg_o(Dop2isRegIn), .immIsExtended_o(immIsExtendedIn), .immIsShifted_o(immIsShiftedIn),
+        .instructionBody_o(DBodyIn)
+    );
+
+    ////Decode stage 3 - Instruction mux to output 
+
+    DecodeMux #(
+    )
+    decodeMux
+    (
+        ////Inputs
+        ///Command
+        .clock_i(clockIn),    
+    `ifdef DEBUG_PRINT 
+        .reset_i(resetIn),
+    `endif
+        ///A format
+        .Aenable_i(AenableIn),
+        .AOpcode_i(AOpcodeIn),
+        .AAddress_i(AAddressIn),
+        .AUnitType_i(AUnitTypeIn),
+        .AMajId_i(AMajIdIn),
+        .AMinId_i(AMinIdIn),
+        .Ais64Bit_i(Ais64BitIn),
+        .APid_i(APidIn),
+        .ATid_i(ATidIn),
+        .Aop1rw_o(Aop1rwOut), .Aop2rw_o(Aop2rwOut), .Aop3rw_o(Aop3rwOut), .Aop4rw_o(Aop4rwOut),
+        .Aop1IsReg_o(Aop1IsRegOut), .Aop2IsReg_o(Aop2IsRegOut), .Aop3IsReg_o(Aop3IsRegOut), .Aop4IsReg_o(Aop4IsRegOut),
+        .ABody_i(ABodyIn),
+
+        ///B format
+        .Benable_i(BenableIn),
+        .BOpcode_i(BOpcodeIn),
+        .BAddress_i(BAddressIn),
+        .BUnitType_i(BUnitTypeIn),
+        .BMajId_i(BMajIdIn),
+        .BMinId_i(BMinIdIn),
+        .Bis64Bit_i(Bis64BitIn),
+        .BPid_i(BPidIn),
+        .BTid_i(BTidIn),
+        .BBody_i(BBodyIn),
+
+        ///D format
+        .Denable_i(DenableIn),
+        .DOpcode_i(DOpcodeIn),
+        .DAddress_i(DAddressIn),
+        .DUnitType_i(DUnitTypeIn),
+        .DMajId_i(DMajIdIn),
+        .DMinId_i(DMinIdIn),
+        .Dis64Bit_i(Dis64BitIn),
+        .DPid_i(DPidIn),
+        .DTid_i(DTidIn),
+        .Dop1rw_i(Dop1rwIn), .Dop2rw_i(Dop2rwIn),
+        .Dop1isReg_i(Dop1isRegIn), .Dop2isReg_i(Dop2isRegIn), .immIsExtended_i(immIsExtendedIn), .immIsShifted_i(immIsShiftedIn),
+        .DBody_i(DBodyIn),
+
+        ///output
+        .enable_o(enableOut),
+        .opcode_o(opcodeOut),
+        .address_o(addressOut),
+        .funcUnitType_o(funcUnitTypeOut),
+        .majID_o(majIDOut),
+        .minID_o(minIDOut),
+        .is64Bit_o(is64BitOut),
+        .pid_o(pidOut),
+        .tid_o(tidOut),
+        .op1rw_o(op1rwOut), .op2rw_o(op2rwOut), .op3rw_o(op3rwOut), .op4rw_o(op4rwOut),
+        .op1IsReg_o(op1IsRegOut), .op2IsReg_o(op2IsRegOut), .op3IsReg_o(op3IsRegOut), .op4IsReg_o(op4IsRegOut),
+        .body_o(bodyOut)
+    );
 
 
 endmodule
