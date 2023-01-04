@@ -47,7 +47,6 @@ module DecodeMux
     ///A format
     input wire Aenable_i,
     input wire [0:opcodeSize-1] AOpcode_i,
-    input wire [0:XOSize-1] AXO_i,
     input wire [0:addressWidth-1] AAddress_i,
     input wire [0:funcUnitCodeSize-1] AUnitType_i,
     input wire [0:instructionCounterWidth] AMajId_i,
@@ -95,8 +94,9 @@ module DecodeMux
     output wire is64Bit_o,
     output wire [0:PidSize-1] pid_o,
     output wire [0:TidSize-1] tid_o,
-    output wire [0:regSize-1] op1_o, op2_o, op3_o, op4_o,
-    output wire [0:immWidth-1] imm_o
+    output wire [0:84-1] body_o,//contains all operands. Large enough for 4 reg operands and a 64bit imm
+    output wire [0:regAccessPatternSize-1] op1rw_o, op2rw_o, op3rw_o, op4rw_o,
+    output wire op1IsReg_o, op2IsReg_o, op3IsReg_o, op4IsReg_o,
 );
 
 always @(posedge clock_i)
@@ -105,6 +105,10 @@ begin
     begin
         enable_o <= 1;
         opcode_o <= AOpcode_i;
+        address_o <= AAddress_i;
+        funcUnitType_o <= A;
+        majID_o <= AMajId_i; tid_o <= ATid_i;
+        op1_o, op2_o, op3_o, op4_o;
     end
     else if(Benable_i)
     begin

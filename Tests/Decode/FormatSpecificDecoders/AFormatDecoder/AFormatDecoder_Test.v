@@ -21,7 +21,6 @@ module AFormatDecoderTest #(
 )
 (
 );
-
     ///Input
     //command
     reg clockIn, resetIn;
@@ -48,7 +47,6 @@ module AFormatDecoderTest #(
     wire [0:regAccessPatternSize-1] op1rwOut, op2rwOut, op3rwOut, op4rwOut;
     wire op1IsRegOut, op2IsRegOut, op3IsRegOut, op4IsRegOut;
     wire [0:4 * regSize] instructionBodyOut;
-
 
 
 AFormatDecoder #(

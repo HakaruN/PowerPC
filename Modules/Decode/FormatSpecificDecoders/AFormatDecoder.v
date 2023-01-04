@@ -110,7 +110,6 @@ module AFormatDecoder
     output reg [0:TidSize-1] instTid_o,//Thread ID
     output reg [0:regAccessPatternSize-1] op1rw_o, op2rw_o, op3rw_o, op4rw_o,//reg operand are read/write flags
     output reg op1IsReg_o, op2IsReg_o, op3IsReg_o, op4IsReg_o,//Reg operands isReg flags
-    output reg rcFlag,
     //Instruction body - data contents are 26 bits wide. There are also flags to include
     output reg [0:4 * regSize] instructionBody_o
 );
