@@ -819,6 +819,10 @@ begin
         `ifdef DEBUG $display(""); `endif
         `ifdef DEBUG_PRINT $fdisplay(debugFID,""); `endif
     end
+    else
+    begin
+        enable_o <= 0; 
+    end
 end
 
 

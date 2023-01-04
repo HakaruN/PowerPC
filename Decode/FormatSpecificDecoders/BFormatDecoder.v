@@ -154,6 +154,10 @@ begin
             end
         endcase
     end
+    else
+    begin
+        enable_o <= 0; 
+    end
 end
 
 
