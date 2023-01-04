@@ -1,4 +1,0 @@
-#!/bin/bash
-iverilog -o DecodeStageTest.bin DecodeStage1_Test.v
-./DecodeStageTest.bin
-rm DecodeStageTest.bin

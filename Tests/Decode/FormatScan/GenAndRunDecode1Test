@@ -1,0 +1,4 @@
+#!/bin/bash
+iverilog -o FormatScanTest.bin FormatScan_Test.v
+./FormatScanTest.bin
+rm FormatScanTest.bin

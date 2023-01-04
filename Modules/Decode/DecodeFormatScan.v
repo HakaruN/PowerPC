@@ -59,7 +59,7 @@ begin
         instructionPid_o <= instructionPid_i;
         instructionTid_o <= instructionTid_i;
         instructionMajId_o <= instructionMajId_i;
-
+        instOpcode_o <= instruction_i[0+:opcodeSize];
         //determine the instructino format
         case(instruction_i[0+:opcodeSize])
         18: begin outputEnable_o <= 1; instFormat_o <= I;           `ifdef DEBUG $display("Fetch stage 1 (Opcode: %d): Instruction I Format", instruction_i[0:opcodeSize-1]); `endif end //I-form

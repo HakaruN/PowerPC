@@ -1,5 +1,5 @@
 `timescale 1ns / 1ps
-`include "../../../Decode/DecodeStage1.v"
+`include "../../../Modules/Decode/DecodeFormatScan.v"
 
 module DecodeStage1_Test
 #(
@@ -51,7 +51,7 @@ Format_Decoder #(
     .VX(VX), .VC(VC), .MD(MD), .MDS(MDS), .XFL(XFL),
     .Z22(Z22), .XX2(XX2), .XX3(XX3)
 )
-stage1Decode
+formatScanDecode
 (
     ///Input
     //command
@@ -77,8 +77,8 @@ stage1Decode
 integer i;
 
 initial begin
-    $dumpfile("decodeStage1Test.vcd");
-    $dumpvars(0, stage1Decode);
+    $dumpfile("FormatScanTest.vcd");
+    $dumpvars(0,formatScanDecode);
     //init vars
     clockIn = 0;
     enableIn = 0; stallIn = 0;
