@@ -1,7 +1,7 @@
 `timescale 1ns / 1ps
 `define DEBUG
 `define DEBUG_PRINT
-//`define QUIET_INVALID
+`define QUIET_INVALID
 /*/////////Format decode/////////////
 Writen by Josh "Hakaru" Cantwell - 02.12.2022
 
@@ -95,7 +95,7 @@ module AFormatDecoder
     input wire is64Bit_i,
     input wire [0:PidSize-1] instructionPid_i,
     input wire [0:TidSize-1] instructionTid_i,
-    input wire [0:instructionCounterWidth-1] instructionMajId_i
+    input wire [0:instructionCounterWidth-1] instructionMajId_i,
     ///Output
     output reg enable_o,
     ///Instrution components
@@ -112,7 +112,7 @@ module AFormatDecoder
     output reg op1IsReg_o, op2IsReg_o, op3IsReg_o, op4IsReg_o,//Reg operands isReg flags
     output reg rcFlag,
     //Instruction body - data contents are 26 bits wide. There are also flags to include
-    output reg [0:4 * regSize] instructionBody_o,
+    output reg [0:4 * regSize] instructionBody_o
 );
 
 `ifdef DEBUG_PRINT
@@ -154,8 +154,10 @@ begin
     end
     else if(enable_i && instFormat_i || A)
     begin
+        `ifndef QUIET_INVALID
         `ifdef DEBUG $display("A format instruction recieved"); `endif
         `ifdef DEBUG_PRINT $fdisplay(debugFID, "A format instruction recieved"); `endif
+        `endif
         //Parse the instruction agnostic parts of the instruction
         instructionAddress_o <= instructionAddress_i;
         instMajId_o <= instructionMajId_i;
@@ -177,9 +179,11 @@ begin
                 functionalUnitType_o <= CRUnitId;
 
                 //Operand isReg and read/write:
-                op1IsReg_o <= 1; op1rw_o <= write;
+                op1IsReg_o <= 1; op1rw_o <= regWrite;
                 if(instruction_i[11+:regSize] == 0)//if RA == 0
+                begin
                     op2IsReg_o <= 0; op2rw_o <= 2'b00;//treat as imm
+                end
                 else
                 begin
                     op2IsReg_o <= 1; op2rw_o <= regRead;
@@ -377,7 +381,7 @@ begin
             end
             endcase
         end
-        else if(instructionOpcode_i == 59)
+        else if(instructionOpcode_i == 59)//11 instructions
         begin
             case(instruction_i[26+:XOSize])
             21: begin//Floating Add Single
@@ -497,7 +501,7 @@ begin
                 functionalUnitType_o <= FPUnitId;           
                 enable_o <= 1;
             end
-            31: begin//Floating Negative Multiply-Add Single
+            31: begin//Floating Negative Multiply-Add Single - not Hit
                 `ifdef DEBUG $display("Decode 2 A-form (Inst: %h): Floating Negative Multiply-Add Single", instructionMajId_i); `endif
                 `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 A-form (Inst: %h): Floating Negative Multiply-Add Single", instructionMajId_i); `endif    
                 //Special regs: FPRF FR FI FX OX UX XX VXSNAN VXISI VXIMZ CR1

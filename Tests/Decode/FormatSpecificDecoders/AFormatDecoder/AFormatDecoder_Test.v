@@ -47,7 +47,7 @@ module AFormatDecoderTest #(
     wire [0:TidSize-1] instTidOut;//Thread ID
     wire [0:regAccessPatternSize-1] op1rwOut, op2rwOut, op3rwOut, op4rwOut;
     wire op1IsRegOut, op2IsRegOut, op3IsRegOut, op4IsRegOut;
-    wire [0:(2 * regSize) + immediateSize + 3] instructionBodyOut;
+    wire [0:4 * regSize] instructionBodyOut;
 
 
 
@@ -88,6 +88,11 @@ reg [0:4] operand4;
 reg [0:4] xopcode;
 reg RCflag;
 
+integer validInstCtrTot = 0;
+integer validInstCtrTmp = 0;
+integer numValidInstr = 24;
+integer OpLoopCtr = 0;
+integer XopLoopCtr = 0;
 
 initial begin
     $dumpfile("AFormatDecodeTest.vcd");
@@ -121,11 +126,85 @@ initial begin
     #1;
 
 
-    for(opcode = 0; opcode < 6'b111111; opcode = opcode + 1)
+/*
+    //Test opcode == 31 insts
+    opcode = 31; validInstCtrTmp = 0;
+    for(XopLoopCtr = 0; XopLoopCtr < 32; XopLoopCtr = XopLoopCtr + 1)
     begin
-        for(xopcode = 0; xopcode < 5'b11111; xopcode = xopcode + 1)
+        //test inst:
+        xopcode = XopLoopCtr;
+        #1;
+        instructionIn = {opcode, operand1, operand2, operand3, operand4, xopcode, RCflag};
+        instructionOpcodeIn = opcode; instructionMajIdIn = opcode; instructionAddressIn = opcode;
+        enableIn = 1;
+        clockIn = 1;
+        #1;
+        clockIn = 0;
+        enableIn = 0;
+        #1;
+
+        if(enableOut == 1)//count how many valid instructions are detected. Should be 24
+        begin
+            validInstCtrTmp = validInstCtrTmp + 1;
+        end
+    end
+    $display("Detected %d valid instructions for opcode = 31. There shoule be 1.", validInstCtrTmp);
+
+    //teset opcode == 63
+    opcode = 63; validInstCtrTmp = 0;
+    for(XopLoopCtr = 0; XopLoopCtr < 32; XopLoopCtr = XopLoopCtr + 1)
+    begin
+        //test inst:
+        xopcode = XopLoopCtr;
+        #1;
+        instructionIn = {opcode, operand1, operand2, operand3, operand4, xopcode, RCflag};
+        instructionOpcodeIn = opcode; instructionMajIdIn = opcode; instructionAddressIn = opcode;
+        enableIn = 1;
+        clockIn = 1;
+        #1;
+        clockIn = 0;
+        enableIn = 0;
+        #1;
+
+        if(enableOut == 1)//count how many valid instructions are detected. Should be 24
+        begin
+            validInstCtrTmp = validInstCtrTmp + 1;
+        end
+    end
+    $display("Detected %d valid instructions for opcode = 63. There shoule be 12.", validInstCtrTmp);
+
+    //teset opcode == 59
+    opcode = 59; validInstCtrTmp = 0;
+    for(XopLoopCtr = 0; XopLoopCtr < 32; XopLoopCtr = XopLoopCtr + 1)
+    begin
+        //test inst:
+        xopcode = XopLoopCtr;
+        #1;
+        instructionIn = {opcode, operand1, operand2, operand3, operand4, xopcode, RCflag};
+        instructionOpcodeIn = opcode; instructionMajIdIn = opcode; instructionAddressIn = opcode;
+        enableIn = 1;
+        clockIn = 1;
+        #1;
+        clockIn = 0;
+        enableIn = 0;
+        #1;
+
+        if(enableOut == 1)//count how many valid instructions are detected. Should be 24
+        begin
+            validInstCtrTmp = validInstCtrTmp + 1;
+        end
+    end
+    $display("Detected %d valid instructions for opcode = 59. There shoule be 11.", validInstCtrTmp);
+*/
+
+    validInstCtrTmp = 0;
+    for(OpLoopCtr = 0; OpLoopCtr < 64; OpLoopCtr = OpLoopCtr + 1)
+    begin
+        for(XopLoopCtr = 0; XopLoopCtr < 32; XopLoopCtr = XopLoopCtr + 1)
         begin
             //test inst:
+            opcode = OpLoopCtr;
+            xopcode = XopLoopCtr;
             #1;
             instructionIn = {opcode, operand1, operand2, operand3, operand4, xopcode, RCflag};
             instructionOpcodeIn = opcode; instructionMajIdIn = opcode; instructionAddressIn = opcode;
@@ -135,10 +214,17 @@ initial begin
             clockIn = 0;
             enableIn = 0;
             #1;
+            if(enableOut == 1)//count how many valid instructions are detected. Should be 24
+            begin
+                validInstCtrTmp = validInstCtrTmp + 1;
+            end
         end
     end
 
-
+    $display("Detected %d valid instructions", validInstCtrTmp);
+    if(numValidInstr != validInstCtrTmp)
+        $display("Error: %d instructions correctly detected out of %d supposed to pass", validInstCtrTmp, numValidInstr);
+        
 
 end
 

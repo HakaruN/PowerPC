@@ -1,0 +1,24 @@
+Decode 2 A-form (Inst: 000000000000001f): Integer Seclect instruction
+Decode 2 A-form (Inst: 000000000000003b): Floating Divide Single
+Decode 2 A-form (Inst: 000000000000003b): Floating Subtract Single
+Decode 2 A-form (Inst: 000000000000003b): Floating Add Single
+Decode 2 A-form (Inst: 000000000000003b): Floating Square Root Single
+Decode 2 A-form (Inst: 000000000000003b): Floating Reciprocal Estimate Single
+Decode 2 A-form (Inst: 000000000000003b): Floating Multiply Single
+Decode 2 A-form (Inst: 000000000000003b): Floating Reciprocal Square Root Estimate Single
+Decode 2 A-form (Inst: 000000000000003b): Floating Multiply-Subtract Single
+Decode 2 A-form (Inst: 000000000000003b): Floating Multiply-Add Single
+Decode 2 A-form (Inst: 000000000000003b): Floating Negative Multiply-Subtract Single
+Decode 2 A-form (Inst: 000000000000003b): Floating Negative Multiply-Add Single
+Decode 2 A-form (Inst: 000000000000003f): Floating divide
+Decode 2 A-form (Inst: 000000000000003f): Floating Subtract
+Decode 2 A-form (Inst: 000000000000003f): Floating Add
+Decode 2 A-form (Inst: 000000000000003f): Floating square root
+Decode 2 A-form (Inst: 000000000000003f): Floating Select
+Decode 2 A-form (Inst: 000000000000003f): Floating Reciprocal Estimate
+Decode 2 A-form (Inst: 000000000000003f): Floating multiply
+Decode 2 A-form (Inst: 000000000000003f): Floating reciprocal Square Root Estimate
+Decode 2 A-form (Inst: 000000000000003f): Floating Multiply-Subtract
+Decode 2 A-form (Inst: 000000000000003f): Floating Multiply-Add
+Decode 2 A-form (Inst: 000000000000003f): Floating Negative Multiply-Subtract
+Decode 2 A-form (Inst: 000000000000003f): Floating Negative Multiply-Add
