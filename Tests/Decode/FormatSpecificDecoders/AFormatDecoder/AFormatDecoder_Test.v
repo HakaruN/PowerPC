@@ -221,9 +221,10 @@ initial begin
         end
     end
 
-    $display("Detected %d valid instructions", validInstCtrTmp);
-    if(numValidInstr != validInstCtrTmp)
-        $display("Error: %d instructions correctly detected out of %d supposed to pass", validInstCtrTmp, numValidInstr);
+    if(validInstCtrTmp == numValidInstr)
+    $display("PASS: %d out of %d instructions correctly detected", validInstCtrTmp, numValidInstr);
+    else
+    $display("FAIL: %d out of %d instructions correctly detected", validInstCtrTmp, numValidInstr);
         
 
 end

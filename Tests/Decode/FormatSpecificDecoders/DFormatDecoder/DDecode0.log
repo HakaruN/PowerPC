@@ -1,189 +1,40 @@
-D format instruction recieved. Opcode:  0
-Decode 2 D-form (Inst: 0000000000000000): D-form: Invalid instruction recieved
-
-D format instruction recieved. Opcode:  1
-Decode 2 D-form (Inst: 0000000000000001): D-form: Invalid instruction recieved
-
-D format instruction recieved. Opcode:  2
 Decode 2 D-form (Inst: 0000000000000002): D-form: Trap doubleword immediate
-
-D format instruction recieved. Opcode:  3
 Decode 2 D-form (Inst: 0000000000000003): D-form: Trap word immediate
-
-D format instruction recieved. Opcode:  4
-Decode 2 D-form (Inst: 0000000000000004): D-form: Invalid instruction recieved
-
-D format instruction recieved. Opcode:  5
-Decode 2 D-form (Inst: 0000000000000005): D-form: Invalid instruction recieved
-
-D format instruction recieved. Opcode:  6
-Decode 2 D-form (Inst: 0000000000000006): D-form: Invalid instruction recieved
-
-D format instruction recieved. Opcode:  7
 Decode 2 D-form (Inst: 0000000000000007): D-form: Multiply low immediate
-
-D format instruction recieved. Opcode:  8
 Decode 2 D-form (Inst: 0000000000000008): D-form: Subtract from immediate carrying
-
-D format instruction recieved. Opcode:  9
-Decode 2 D-form (Inst: 0000000000000009): D-form: Invalid instruction recieved
-
-D format instruction recieved. Opcode: 10
 Decode 2 D-form (Inst: 000000000000000a): D-form: Compare logical immediate
-
-D format instruction recieved. Opcode: 11
 Decode 2 D-form (Inst: 000000000000000b): D-form: Compare immediate
-
-D format instruction recieved. Opcode: 12
 Decode 2 D-form (Inst: 000000000000000c): D-form: Add immediate carrying
-
-D format instruction recieved. Opcode: 13
 Decode 2 D-form (Inst: 000000000000000d): D-form: Add immediate carrying and record
-
-D format instruction recieved. Opcode: 14
 Decode 2 D-form (Inst: 000000000000000e): D-form: Add immediate
-
-D format instruction recieved. Opcode: 15
 Decode 2 D-form (Inst: 000000000000000f): D-form: Add immediate shifted
-
-D format instruction recieved. Opcode: 16
-Decode 2 D-form (Inst: 0000000000000010): D-form: Invalid instruction recieved
-
-D format instruction recieved. Opcode: 17
-Decode 2 D-form (Inst: 0000000000000011): D-form: Invalid instruction recieved
-
-D format instruction recieved. Opcode: 18
-Decode 2 D-form (Inst: 0000000000000012): D-form: Invalid instruction recieved
-
-D format instruction recieved. Opcode: 19
-Decode 2 D-form (Inst: 0000000000000013): D-form: Invalid instruction recieved
-
-D format instruction recieved. Opcode: 20
-Decode 2 D-form (Inst: 0000000000000014): D-form: Invalid instruction recieved
-
-D format instruction recieved. Opcode: 21
-Decode 2 D-form (Inst: 0000000000000015): D-form: Invalid instruction recieved
-
-D format instruction recieved. Opcode: 22
-Decode 2 D-form (Inst: 0000000000000016): D-form: Invalid instruction recieved
-
-D format instruction recieved. Opcode: 23
-Decode 2 D-form (Inst: 0000000000000017): D-form: Invalid instruction recieved
-
-D format instruction recieved. Opcode: 24
 Decode 2 D-form (Inst: 0000000000000018): D-form: OR immediate
-
-D format instruction recieved. Opcode: 25
 Decode 2 D-form (Inst: 0000000000000019): D-form: OR immediate shifted
-
-D format instruction recieved. Opcode: 26
 Decode 2 D-form (Inst: 000000000000001a): XD-form: OR immediate
-
-D format instruction recieved. Opcode: 27
 Decode 2 D-form (Inst: 000000000000001b): D-form: XOR immediate shifted
-
-D format instruction recieved. Opcode: 28
 Decode 2 D-form (Inst: 000000000000001c): D-form: AND immediate
-
-D format instruction recieved. Opcode: 29
 Decode 2 D-form (Inst: 000000000000001d): D-form: AND immediate shifted
-
-D format instruction recieved. Opcode: 30
-Decode 2 D-form (Inst: 000000000000001e): D-form: Invalid instruction recieved
-
-D format instruction recieved. Opcode: 31
-Decode 2 D-form (Inst: 000000000000001f): D-form: Invalid instruction recieved
-
-D format instruction recieved. Opcode: 32
 Decode 2 D-form (Inst: 0000000000000020): D-form: Load word and zero
-
-D format instruction recieved. Opcode: 33
 Decode 2 D-form (Inst: 0000000000000021): D-form: Load word and zero with update
-
-D format instruction recieved. Opcode: 34
 Decode 2 D-form (Inst: 0000000000000022): Load Byte and Zero
-
-D format instruction recieved. Opcode: 35
 Decode 2 D-form (Inst: 0000000000000023): Load Byte and Zero with update
-
-D format instruction recieved. Opcode: 36
 Decode 2 D-form (Inst: 0000000000000024): D-form: Store word
-
-D format instruction recieved. Opcode: 37
 Decode 2 D-form (Inst: 0000000000000025): D-form: Store word with update
-
-D format instruction recieved. Opcode: 38
 Decode 2 D-form (Inst: 0000000000000026): D-form: Store byte
-
-D format instruction recieved. Opcode: 39
 Decode 2 D-form (Inst: 0000000000000027): D-form: Store byte with update
-
-D format instruction recieved. Opcode: 40
 Decode 2 D-form (Inst: 0000000000000028): Load Half word and Zero
-
-D format instruction recieved. Opcode: 41
 Decode 2 D-form (Inst: 0000000000000029): Load Half word and Zero with update
-
-D format instruction recieved. Opcode: 42
 Decode 2 D-form (Inst: 000000000000002a): Load Half word algebraic
-
-D format instruction recieved. Opcode: 43
 Decode 2 D-form (Inst: 000000000000002b): Load Half word algebraic with update
-
-D format instruction recieved. Opcode: 44
 Decode 2 D-form (Inst: 000000000000002c): D-form: Store halfword
-
-D format instruction recieved. Opcode: 45
 Decode 2 D-form (Inst: 000000000000002d): D-form: store halfword with update
-
-D format instruction recieved. Opcode: 46
 Decode 2 D-form (Inst: 000000000000002e): D-form: Load multiple word
-
-D format instruction recieved. Opcode: 47
 Decode 2 D-form (Inst: 000000000000002f): D-form: Store multiple word
-
-D format instruction recieved. Opcode: 48
 Decode 2 D-form (Inst: 0000000000000030): D-form: Load floating point single
-
-D format instruction recieved. Opcode: 49
 Decode 2 D-form (Inst: 0000000000000031): D-form: Load floating point single with update
-
-D format instruction recieved. Opcode: 50
 Decode 2 D-form (Inst: 0000000000000032): D-form: Load floating point double
-
-D format instruction recieved. Opcode: 51
 Decode 2 D-form (Inst: 0000000000000033): D-form: Load floating point double with update
-
-D format instruction recieved. Opcode: 52
 Decode 2 D-form (Inst: 0000000000000034): D-form: LStore floating point single
-
-D format instruction recieved. Opcode: 53
 Decode 2 D-form (Inst: 0000000000000035): D-form: Store floating point single with update
-
-D format instruction recieved. Opcode: 54
 Decode 2 D-form (Inst: 0000000000000036): D-form: LStore floating point double
-
-D format instruction recieved. Opcode: 55
 Decode 2 D-form (Inst: 0000000000000037): D-form: Store floating point double with update
-
-D format instruction recieved. Opcode: 56
-Decode 2 D-form (Inst: 0000000000000038): D-form: Invalid instruction recieved
-
-D format instruction recieved. Opcode: 57
-Decode 2 D-form (Inst: 0000000000000039): D-form: Invalid instruction recieved
-
-D format instruction recieved. Opcode: 58
-Decode 2 D-form (Inst: 000000000000003a): D-form: Invalid instruction recieved
-
-D format instruction recieved. Opcode: 59
-Decode 2 D-form (Inst: 000000000000003b): D-form: Invalid instruction recieved
-
-D format instruction recieved. Opcode: 60
-Decode 2 D-form (Inst: 000000000000003c): D-form: Invalid instruction recieved
-
-D format instruction recieved. Opcode: 61
-Decode 2 D-form (Inst: 000000000000003d): D-form: Invalid instruction recieved
-
-D format instruction recieved. Opcode: 62
-Decode 2 D-form (Inst: 000000000000003e): D-form: Invalid instruction recieved
-

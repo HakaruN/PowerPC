@@ -90,6 +90,11 @@ reg [6:10] operand1;
 reg [11:15] operand2;
 reg [16:31] immediate;
 
+//Test stage
+integer validInstCtrTmp = 0;
+integer numValidInstr = 40;
+integer OpLoopCtr = 0;
+
 initial begin
     $dumpfile("DFormatDecodeTest.vcd");
     $dumpvars(0,dFormatDecoder);
@@ -120,10 +125,11 @@ initial begin
     resetIn = 0;
     #1;
 
-    for(opcode = 0; opcode < 6'b111111; opcode = opcode + 1)
+    for(OpLoopCtr = 0; OpLoopCtr <= 6'b111111; OpLoopCtr = OpLoopCtr + 1)
     begin
     //test inst:
     #1;
+    opcode = OpLoopCtr;
     instructionIn = {opcode, operand1, operand2, immediate};
     instructionOpcodeIn = opcode; instructionMajIdIn = opcode; instructionAddressIn = opcode;
     enableIn = 1;
@@ -131,10 +137,15 @@ initial begin
     #1;
     clockIn = 0;
     enableIn = 0;
+    if(enableOut)
+        validInstCtrTmp = validInstCtrTmp + 1;
     #1;
     end
 
-
+    if(validInstCtrTmp == numValidInstr)
+    $display("PASS: %d out of %d instructions correctly detected", validInstCtrTmp, numValidInstr);
+    else
+    $display("FAIL: %d out of %d instructions correctly detected", validInstCtrTmp, numValidInstr);
 
 end
 

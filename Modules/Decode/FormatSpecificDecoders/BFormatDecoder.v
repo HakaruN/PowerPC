@@ -1,7 +1,7 @@
 `timescale 1ns / 1ps
 `define DEBUG
 `define DEBUG_PRINT
-
+`define QUIET_INVALID
 /*/////////Format decode/////////////
 Writen by Josh "Hakaru" Cantwell - 02.12.2022
 
@@ -125,8 +125,10 @@ begin
     end
     else if(enable_i && (instFormat_i | B) && !stall_i)
     begin
+        `ifndef QUIET_INVALID
         `ifdef DEBUG $display("B format instruction recieved"); `endif
         `ifdef DEBUG_PRINT $fdisplay(debugFID, "B format instruction recieved"); `endif
+        `endif
         //Parse the instruction agnostic parts of the instruction
         instructionAddress_o <= instructionAddress_i;
         instMajId_o <= instructionMajId_i;
@@ -148,8 +150,10 @@ begin
 
             end
             default: begin
+                `ifndef QUIET_INVALID
                 `ifdef DEBUG $display("Decode 2 B-form: Invalid instruction recieved");`endif
                 `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 B-form (Inst: %h): D-form: Invalid instruction recieved", instructionMajId_i); `endif
+                `endif
                 enable_o <= 0; 
             end
         endcase

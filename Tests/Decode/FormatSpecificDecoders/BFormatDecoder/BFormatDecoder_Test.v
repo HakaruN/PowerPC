@@ -84,6 +84,11 @@ reg [0:13] immediate;
 reg AA;
 reg LK;
 
+
+integer validInstCtrTmp = 0;
+integer numValidInstr = 1;
+integer OpLoopCtr = 0;
+
 initial begin
     $dumpfile("BFormatDecodeTest.vcd");
     $dumpvars(0,bFormatDecoder);
@@ -115,12 +120,10 @@ initial begin
     #1;
 
 
-    for(opcode = 0; opcode < 6'b111111; opcode = opcode + 1)
+    for(OpLoopCtr = 0; OpLoopCtr <= 6'b111111; OpLoopCtr = OpLoopCtr + 1)
     begin
     //test inst:
-    #1;
-    LK = opcode % 2;
-    AA = !LK;
+    opcode = OpLoopCtr;
     instructionIn = {opcode, operand1, operand2, immediate, AA, LK};
     instructionOpcodeIn = opcode; instructionMajIdIn = opcode; instructionAddressIn = opcode;
     enableIn = 1;
@@ -128,8 +131,15 @@ initial begin
     #1;
     clockIn = 0;
     enableIn = 0;
+    if(enableOut)
+        validInstCtrTmp = validInstCtrTmp + 1;
     #1;
     end
+
+    if(validInstCtrTmp == numValidInstr)
+    $display("PASS: %d out of %d instructions correctly detected", validInstCtrTmp, numValidInstr);
+    else
+    $display("FAIL: %d out of %d instructions correctly detected", validInstCtrTmp, numValidInstr);
 
 
 

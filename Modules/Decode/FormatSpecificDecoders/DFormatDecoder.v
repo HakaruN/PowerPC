@@ -1,7 +1,7 @@
 `timescale 1ns / 1ps
 `define DEBUG
 `define DEBUG_PRINT
-//`define QUIET_INVALID
+`define QUIET_INVALID
 
 /*/////////Format decode/////////////
 Writen by Josh "Hakaru" Cantwell - 02.12.2022
@@ -179,8 +179,10 @@ begin
     end
     else if(enable_i && (instFormat_i | D) && !stall_i)
     begin
+        `ifndef QUIET_INVALID
         `ifdef DEBUG $display("D format instruction recieved. Opcode: ", instructionOpcode_i); `endif
         `ifdef DEBUG_PRINT $fdisplay(debugFID, "D format instruction recieved. Opcode: ", instructionOpcode_i); `endif
+        `endif
         //Parse the instruction agnostic parts of the instruction
         instructionAddress_o <= instructionAddress_i;
         instMajId_o <= instructionMajId_i;
@@ -815,9 +817,6 @@ begin
             enable_o <= 0; 
         end
         endcase
-
-        `ifdef DEBUG $display(""); `endif
-        `ifdef DEBUG_PRINT $fdisplay(debugFID,""); `endif
     end
     else
     begin
