@@ -1,6 +1,4 @@
 #!/bin/bash
-cd ../../
-rm DecodeTest.bin
-iverilog -o Tests/Decode/DecodeTest.bin Decode_Test.v 
-cd Tests/Decode/
+iverilog -o DecodeTest.bin Decode_Test.v
 ./DecodeTest.bin
+rm DecodeTest.bin
