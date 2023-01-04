@@ -1,11 +1,36 @@
 `timescale 1ns / 1ps
 `define DEBUG
 `define DEBUG_PRINT
+//`define QUIET_INVALID
 /*/////////Format decode/////////////
 Writen by Josh "Hakaru" Cantwell - 02.12.2022
 
-This is the decoder for A format instructions.
+This decoder implements all A format instruction specified in the POWER ISA version 3.0B.
 This decoder implements opcodes 1-23
+
+TODO:
+Implement outputs for special registers access
+
+A format instructions are composed of 4 register sized operands however not all are used for every instruction, in that case they are ignored.
+These are described as below:
+Operand 1 [6:11]
+FRT - Field used to specify a FPR to be used as a target
+RT - Field used o specify a GPR to be used as a target
+
+Operand 2 [11:15]
+Na - Not used
+FRA - Field used to specify a FPR to be used as a source
+RA - Field used to specify a GTP to be used as a source or a target
+
+Operand 3 [16:20]
+FRB - Field used to specify a FPR to be used as a source
+Na - Not used
+RB - Field used to specify a GTP to be used as a source
+
+operand 4 [21:25]
+Na - Not used
+FRC - Field used to specify a FPR to be used as a source
+BC - Used to specify a bit in the CR to be used as a source
 
 A format instructions are:
 Integer select
@@ -44,7 +69,7 @@ module AFormatDecoder
     parameter opcodeSize = 12,
     parameter PrimOpcodeSize = 6, parameter regSize = 5, parameter XOSize = 5,
     parameter regAccessPatternSize = 2,//2 bit field, [0] == is read, [1] == is writen. Both can be true EG: (A = A + B)
-    parameter read = 2'b10, parameter write = 2'b01, 
+    parameter regRead = 2'b10, parameter regWrite = 2'b01, 
     parameter immediateSize = 24,
     parameter funcUnitCodeSize = 3, //can have up to 8 types of func unit.
     //FX = int, FP = float, VX = vector, CR = condition, LS = load/store
@@ -64,6 +89,7 @@ module AFormatDecoder
     input wire [0:PrimOpcodeSize-1] instructionOpcode_i,
     input wire [0:instructionWidth-1] instruction_i,
     input wire [0:addressWidth-1] instructionAddress_i,
+    input wire is64Bit_i,
     input wire [0:PidSize-1] instructionPid_i,
     input wire [0:TidSize-1] instructionTid_i,
     input wire [0:instructionCounterWidth-1] instructionMajId_i
@@ -79,9 +105,8 @@ module AFormatDecoder
     output reg is64Bit_o,
     output reg [0:PidSize-1] instPid_o,//process ID
     output reg [0:TidSize-1] instTid_o,//Thread ID
-
-    output reg [0:regAccessPatternSize-1] RTrw_o, RArw_o, RBrw_o, RCrw_o,//how are the operands accessed, are they writen to and/or read from [0] write flag, [1] write flag.
-    output reg operandRTisReg_o, operandRAisReg_o, operandRBisReg_o, operandRCisReg_o,//Always a reg
+    output reg [0:regAccessPatternSize-1] op1rw_o, op2rw_o, op3rw_o, op4rw_o,//reg operand are read/write flags
+    output reg op1IsReg_o, op2IsReg_o, op3IsReg_o, op4IsReg_o,//Reg operands isReg flags
     //Instruction body - data contents are 26 bits wide. There are also flags to include
     output reg [0:4 * regSize] instructionBody_o,
 );
@@ -132,6 +157,8 @@ begin
         instructionAddress_o <= instructionAddress_i;
         instMajId_o <= instructionMajId_i;
         instPid_o <= instructionPid_i; instTid_o <= instructionTid_i;
+        is64Bit_o <= is64Bit_i;
+        //parse the instruction
         instructionBody_o[0+:4 * regSize-1] <= instruction_i[6:25];
         instructionBody_o[4*regSize] <= instruction_i[31];
 
@@ -142,24 +169,32 @@ begin
                 opcode_o <= 1;
                 `ifdef DEBUG $display("Decode 2 A-form (Inst: %h): Integer Seclect instruction", instructionMajId_i); `endif
                 `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 A-form (Inst: %h): Integer Seclect instruction", instructionMajId_i); `endif
+                //Special Regs: Na
                 instMinId_o <= 0;
                 functionalUnitType_o <= CRUnitId;
 
                 //Operand isReg and read/write:
-                operandRTisReg_o <= 1; RTrw_o <= write;
+                op1IsReg_o <= 1; op1rw_o <= write;
                 if(instruction_i[11+:regSize] == 0)//if RA == 0
-                    operandRAisReg_o <= 0; RArw_o <= read;
+                    op2IsReg_o <= 0; op2rw_o <= 2'b00;//treat as imm
                 else
-                    operandRAisReg_o <= 1; RArw_o <= read;
-                operandRBisReg_o <= 1; RBrw_o <= read;
-                operandRCisReg_o <= 0; RCrw_o <= read;
+                begin
+                    op2IsReg_o <= 1; op2rw_o <= regRead;
+                end
+                
+                op3IsReg_o <= 1; op3rw_o <= regRead;
+                op4IsReg_o <= 0; op4rw_o <= regRead;
                 //set the functional unit to handle the instruction
+
+
 
                 enable_o <= 1;
             end
             default: begin
+                `ifndef QUIET_INVALID//invalid instructions are not reported to clean up output
                 `ifdef DEBUG $display("Decode 2 A-form: (Inst: %h) Invalid instrution revieved", instructionMajId_i); `endif
                 `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 A-form: (Inst: %h) Invalid instrution revieved", instructionMajId_i); `endif
+                `endif
                 enable_o <= 0; 
             end
             endcase
@@ -170,153 +205,172 @@ begin
             21: begin//Floating Add
                 `ifdef DEBUG $display("Decode 2 A-form (Inst: %h): Floating Add", instructionMajId_i); `endif
                 `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 A-form (Inst: %h): Floating Add", instructionMajId_i); `endif
+                //Special regs: FPRF FR FI FX OX UX XX VXSNAN VXISI CR1
                 opcode_o <= 2;
                 instMinId_o <= 0;
-                operandRTisReg_o <= 1; RTrw_o <= regWrite;
-                operandRAisReg_o <= 1; RArw_o <= regRead;
-                operandRBisReg_o <= 1; RBrw_o <= regRead;
-                operandRCisReg_o <= 0; RCrw_o <= regRead;//Not used
+
+                op1IsReg_o <= 1; op1rw_o <= regWrite;
+                op2IsReg_o <= 1; op2rw_o <= regRead;
+                op3IsReg_o <= 1; op3rw_o <= regRead;
+                op4IsReg_o <= 0; op4rw_o <= 2'b00;//Not used
                 functionalUnitType_o <= FPUnitId;     
                 enable_o <= 1;      
             end
             20: begin//Floating Subtract
                 `ifdef DEBUG $display("Decode 2 A-form (Inst: %h): Floating Subtract", instructionMajId_i); `endif
                 `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 A-form (Inst: %h): Floating Subtract", instructionMajId_i); `endif
+                //Special regs: FPRF FR FI FX OX UX XX VXSNAN VXISI CR1
                 opcode_o <= 3;
                 instMinId_o <= 0;
-                operandRTisReg_o <= 1; RTrw_o <= regWrite;
-                operandRAisReg_o <= 1; RArw_o <= regRead;
-                operandRBisReg_o <= 1; RBrw_o <= regRead;
-                operandRCisReg_o <= 0; RCrw_o <= regRead;//Not used
+                op1IsReg_o <= 1; op1rw_o <= regWrite;
+                op2IsReg_o <= 1; op2rw_o <= regRead;
+                op3IsReg_o <= 1; op3rw_o <= regRead;
+                op4IsReg_o <= 0; op4rw_o <= 2'b00;//Not used
+
                 functionalUnitType_o <= FPUnitId;   
                 enable_o <= 1;        
             end
             25: begin//Floating Multiply
                 `ifdef DEBUG $display("Decode 2 A-form (Inst: %h): Floating multiply", instructionMajId_i); `endif
                 `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 A-form (Inst: %h): Floating multiply", instructionMajId_i); `endif
+                //Special regs: FPRF FR FI FX OX UX XX VXSNAN VXIMZ CR1
                 opcode_o <= 4;
                 instMinId_o <= 0;
-                operandRTisReg_o <= 1; RTrw_o <= regWrite;
-                operandRAisReg_o <= 1; RArw_o <= regRead;
-                operandRBisReg_o <= 0; RBrw_o <= regRead;//Not used
-                operandRCisReg_o <= 1; RCrw_o <= regRead;
+
+                op1IsReg_o <= 1; op1rw_o <= regWrite;
+                op2IsReg_o <= 1; op2rw_o <= regRead;
+                op3IsReg_o <= 0; op3rw_o <= 2'b00;//Not used
+                op4IsReg_o <= 1; op4rw_o <= regRead;
+
                 functionalUnitType_o <= FPUnitId;   
                 enable_o <= 1;        
             end
             18: begin//Floating Divide
                 `ifdef DEBUG $display("Decode 2 A-form (Inst: %h): Floating divide", instructionMajId_i); `endif
                 `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 A-form (Inst: %h): Floating divide", instructionMajId_i); `endif
+                //Special regs: FPRF FR FI FX OX UX XX VXSNAN VXIDI VXZDZ CR1
                 opcode_o <= 5;
                 instMinId_o <= 0;
-                operandRTisReg_o <= 1; RTrw_o <= regWrite;
-                operandRAisReg_o <= 1; RArw_o <= regRead;
-                operandRBisReg_o <= 1; RBrw_o <= regRead;
-                operandRCisReg_o <= 0; RCrw_o <= regRead;//Not used
+                op1IsReg_o <= 1; op1rw_o <= regWrite;
+                op2IsReg_o <= 1; op2rw_o <= regRead;
+                op3IsReg_o <= 1; op3rw_o <= regRead;
+                op4IsReg_o <= 0; op4rw_o <= 2'b00;//Not used
+                
                 functionalUnitType_o <= FPUnitId;   
                 enable_o <= 1;        
             end
             22: begin//Floating Square Root
                 `ifdef DEBUG $display("Decode 2 A-form (Inst: %h): Floating square root", instructionMajId_i); `endif
                 `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 A-form (Inst: %h): Floating square root", instructionMajId_i); `endif
+                //Special regs: FPRF FR FI FX OX UX XX VXSNAN VXSQRT CR1
                 opcode_o <= 6;
                 instMinId_o <= 0;
-                operandRTisReg_o <= 1; RTrw_o <= regWrite;
-                operandRAisReg_o <= 0; RArw_o <= regRead;//Not used
-                operandRBisReg_o <= 1; RBrw_o <= regRead;
-                operandRCisReg_o <= 0; RCrw_o <= regRead;//Not used
+                op1IsReg_o <= 1; op1rw_o <= regWrite;
+                op2IsReg_o <= 0; op2rw_o <= 2'b00;//Not used
+                op3IsReg_o <= 1; op3rw_o <= regRead;
+                op4IsReg_o <= 0; op4rw_o <= 2'b00;//Not used
+                
                 functionalUnitType_o <= FPUnitId;
                 enable_o <= 1;           
             end
             24: begin//Floating Reciprocal Estimate
                 `ifdef DEBUG $display("Decode 2 A-form (Inst: %h): Floating Reciprocal Estimate", instructionMajId_i); `endif
                 `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 A-form (Inst: %h): Floating Reciprocal Estimate", instructionMajId_i); `endif
+                //Special regs: FPRF FR (undefined) FI (undefined) FX OX UX XX (undefined) VXSNAN CR1
                 opcode_o <= 7;
                 instMinId_o <= 0;
-                operandRTisReg_o <= 1; RTrw_o <= regWrite;
-                operandRAisReg_o <= 0; RArw_o <= regRead;//Not used
-                operandRBisReg_o <= 1; RBrw_o <= regRead;
-                operandRCisReg_o <= 0; RCrw_o <= regRead;//Not used
+                op1IsReg_o <= 1; op1rw_o <= regWrite;
+                op2IsReg_o <= 0; op2rw_o <= 2'b00;//Not used
+                op3IsReg_o <= 1; op3rw_o <= regRead;
+                op4IsReg_o <= 0; op4rw_o <= 2'b00;//Not used
                 functionalUnitType_o <= FPUnitId;  
                 enable_o <= 1;         
             end
             26: begin//Floating Reciprocal Square Root Estimate
                 `ifdef DEBUG $display("Decode 2 A-form (Inst: %h): Floating reciprocal Square Root Estimate", instructionMajId_i); `endif
                 `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 A-form (Inst: %h): Floating reciprocal Square Root Estimate", instructionMajId_i); `endif
+                //Special regs: FPRF FR (undefined) FI (undefined) FX OX UX ZX XX (undefined) VXSNAN VXSQRT CR1
                 opcode_o <= 8;
                 instMinId_o <= 0;
-                operandRTisReg_o <= 1; RTrw_o <= regWrite;
-                operandRAisReg_o <= 0; RArw_o <= regRead;//Not used
-                operandRBisReg_o <= 1; RBrw_o <= regRead;
-                operandRCisReg_o <= 0; RCrw_o <= regRead;//Not used
+                op1IsReg_o <= 1; op1rw_o <= regWrite;
+                op2IsReg_o <= 0; op2rw_o <= 2'b00;//Not used
+                op3IsReg_o <= 1; op3rw_o <= regRead;
+                op4IsReg_o <= 0; op4rw_o <= 2'b00;//Not used
                 functionalUnitType_o <= FPUnitId; 
                 enable_o <= 1;          
             end
             29: begin//Floating Multiply-Add
                 `ifdef DEBUG $display("Decode 2 A-form (Inst: %h): Floating Multiply-Add", instructionMajId_i); `endif
                 `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 A-form (Inst: %h): Floating Multiply-Add", instructionMajId_i); `endif
+                //Special regs: FPRF FR FI FX OX UX XX VXSNAN VXISI VXIMZ CR1
                 opcode_o <= 9;
                 instMinId_o <= 0;
-                operandRTisReg_o <= 1; RTrw_o <= regWrite;
-                operandRAisReg_o <= 1; RArw_o <= regRead;
-                operandRBisReg_o <= 1; RBrw_o <= regRead;
-                operandRCisReg_o <= 1; RBrw_o <= regRead;
-                operandRCisReg_o <= 1; RCrw_o <= regRead;
+                op1IsReg_o <= 1; op1rw_o <= regWrite;
+                op2IsReg_o <= 1; op2rw_o <= regRead;
+                op3IsReg_o <= 1; op3rw_o <= regRead;
+                op4IsReg_o <= 1; op4rw_o <= regRead;
                 functionalUnitType_o <= FPUnitId;     
                 enable_o <= 1;      
             end
             28: begin//Floating Multiply-Subtract
                 `ifdef DEBUG $display("Decode 2 A-form (Inst: %h): Floating Multiply-Subtract", instructionMajId_i); `endif
                 `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 A-form (Inst: %h): Floating Multiply-Subtract", instructionMajId_i); `endif
+                //Special regs: FPRF FR FI FX OX UX XX VXSNAN VXISI VXIMZ CR1
                 opcode_o <= 10;
                 instMinId_o <= 0;
-                operandRTisReg_o <= 1; RTrw_o <= regWrite;
-                operandRAisReg_o <= 1; RArw_o <= regRead;
-                operandRBisReg_o <= 1; RBrw_o <= regRead;
-                operandRCisReg_o <= 1; RBrw_o <= regRead;
-                operandRCisReg_o <= 1; RCrw_o <= regRead;
+                op1IsReg_o <= 1; op1rw_o <= regWrite;
+                op2IsReg_o <= 1; op2rw_o <= regRead;
+                op3IsReg_o <= 1; op3rw_o <= regRead;
+                op4IsReg_o <= 1; op4rw_o <= regRead;
                 functionalUnitType_o <= FPUnitId;     
                 enable_o <= 1;      
             end
             31: begin//Floating Negative Multiply-Add
                 `ifdef DEBUG $display("Decode 2 A-form (Inst: %h): Floating Negative Multiply-Add", instructionMajId_i); `endif
                 `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 A-form (Inst: %h): Floating Negative Multiply-Add", instructionMajId_i); `endif
+                //Special regs: FPRF FR FI FX OX UX XX VXSNAN VXISI VXIMZ CR1
                 opcode_o <= 11;
                 instMinId_o <= 0;
-                operandRTisReg_o <= 1; RTrw_o <= regWrite;
-                operandRAisReg_o <= 1; RArw_o <= regRead;
-                operandRBisReg_o <= 1; RBrw_o <= regRead;
-                operandRCisReg_o <= 1; RBrw_o <= regRead;
+                op1IsReg_o <= 1; op1rw_o <= regWrite;
+                op2IsReg_o <= 1; op2rw_o <= regRead;
+                op3IsReg_o <= 1; op3rw_o <= regRead;
+                op4IsReg_o <= 1; op4rw_o <= regRead;
                 functionalUnitType_o <= FPUnitId;       
                 enable_o <= 1;    
             end
             30: begin//Floating Negative Multiply-Subtract
                 `ifdef DEBUG $display("Decode 2 A-form (Inst: %h): Floating Negative Multiply-Subtract", instructionMajId_i); `endif
-                `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 A-form (Inst: %h): Floating Negative Multiply-Subtract", instructionMajId_i); `endif
+                `ifdef DEBUG_PRINT $fdisplay(debugFID,
+                 "Decode 2 A-form (Inst: %h): Floating Negative Multiply-Subtract", instructionMajId_i); `endif
+                 //Special regs: FPRF FR FI FX OX UX XX VXSNAN VXISI VXIMZ CR1
                 opcode_o <= 12;
                 instMinId_o <= 0;
-                operandRTisReg_o <= 1; RTrw_o <= regWrite;
-                operandRAisReg_o <= 1; RArw_o <= regRead;
-                operandRBisReg_o <= 1; RBrw_o <= regRead;
-                operandRCisReg_o <= 1; RBrw_o <= regRead;
+                op1IsReg_o <= 1; op1rw_o <= regWrite;
+                op2IsReg_o <= 1; op2rw_o <= regRead;
+                op3IsReg_o <= 1; op3rw_o <= regRead;
+                op4IsReg_o <= 1; op4rw_o <= regRead;
                 functionalUnitType_o <= FPUnitId;      
                 enable_o <= 1;     
             end
             23: begin//Floating Select
                 `ifdef DEBUG $display("Decode 2 A-form (Inst: %h): Floating Select", instructionMajId_i); `endif
                 `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 A-form (Inst: %h): Floating Select", instructionMajId_i); `endif
+                //Special regs: CR1
                 opcode_o <= 13;
                 instMinId_o <= 0;
-                operandRTisReg_o <= 1; RTrw_o <= regWrite;
-                operandRAisReg_o <= 1; RArw_o <= regRead;
-                operandRBisReg_o <= 1; RBrw_o <= regRead;
-                operandRCisReg_o <= 1; RBrw_o <= regRead;
+                op1IsReg_o <= 1; op1rw_o <= regWrite;
+                op2IsReg_o <= 1; op2rw_o <= regRead;
+                op3IsReg_o <= 1; op3rw_o <= regRead;
+                op4IsReg_o <= 1; op4rw_o <= regRead;
                 functionalUnitType_o <= FPUnitId;      
                 enable_o <= 1;     
             end
             default: begin
+                `ifndef QUIET_INVALID//invalid instructions are not reported to clean up output
                 `ifdef DEBUG $display("Decode 2 A-form: (Inst: %h) Invalid instrution revieved", instructionMajId_i); `endif
                 `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 A-form: (Inst: %h) Invalid instrution revieved", instructionMajId_i); `endif
-                enable_o <= 0; 
+                `endif
+                enable_o <= 0;
             end
             endcase
         end
@@ -326,138 +380,151 @@ begin
             21: begin//Floating Add Single
                 `ifdef DEBUG $display("Decode 2 A-form (Inst: %h): Floating Add Single", instructionMajId_i); `endif
                 `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 A-form (Inst: %h): Floating Add Single", instructionMajId_i); `endif
+                //Special regs: FPRF FR FI FX OX UX XX VXSNAN VXISI CR1
                 opcode_o <= 14;
                 instMinId_o <= 0;
-                operandRTisReg_o <= 1; RTrw_o <= regWrite;
-                operandRAisReg_o <= 1; RArw_o <= regRead;
-                operandRBisReg_o <= 1; RBrw_o <= regRead;
-                operandRCisReg_o <= 0; RCrw_o <= regRead;//Not used
+                op1IsReg_o <= 1; op1rw_o <= regWrite;
+                op2IsReg_o <= 1; op2rw_o <= regRead;
+                op3IsReg_o <= 1; op3rw_o <= regRead;
+                op4IsReg_o <= 0; op4rw_o <= 2'b00;//Not used
                 functionalUnitType_o <= FPUnitId; 
                 enable_o <= 1;          
             end
             20: begin//Floating Subtract Single
                 `ifdef DEBUG $display("Decode 2 A-form (Inst: %h): Floating Subtract Single", instructionMajId_i); `endif
                 `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 A-form (Inst: %h): Floating Subtract Single", instructionMajId_i); `endif
+                //Special regs: FPRF FR FI FX OX UX XX VXSNAN VXISI CR1
                 opcode_o <= 15;
                 instMinId_o <= 0;
-                operandRTisReg_o <= 1; RTrw_o <= regWrite;
-                operandRAisReg_o <= 1; RArw_o <= regRead;
-                operandRBisReg_o <= 1; RBrw_o <= regRead;
-                operandRCisReg_o <= 0; RCrw_o <= regRead;//Not used
+                op1IsReg_o <= 1; op1rw_o <= regWrite;
+                op2IsReg_o <= 1; op2rw_o <= regRead;
+                op3IsReg_o <= 1; op3rw_o <= regRead;
+                op4IsReg_o <= 0; op4rw_o <= 2'b00;//Not used
                 functionalUnitType_o <= FPUnitId;          
                 enable_o <= 1; 
             end
             25: begin//Floating Multiply Single
                 `ifdef DEBUG $display("Decode 2 A-form (Inst: %h): Floating Multiply Single", instructionMajId_i); `endif
                 `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 A-form (Inst: %h): Floating Multiply Single", instructionMajId_i); `endif
+                //Special regs: FPRF FR FI FX OX UX XX VXSNAN VXIMZ CR1
                 opcode_o <= 15;
                 instMinId_o <= 0;
-                operandRTisReg_o <= 1; RTrw_o <= regWrite;
-                operandRAisReg_o <= 1; RArw_o <= regRead;
-                operandRBisReg_o <= 0; RBrw_o <= regRead;//Not used
-                operandRCisReg_o <= 1; RCrw_o <= regRead;
+                op1IsReg_o <= 1; op1rw_o <= regWrite;
+                op2IsReg_o <= 1; op2rw_o <= regRead;
+                op3IsReg_o <= 0; op3rw_o <= 2'b00;//Not used
+                op4IsReg_o <= 1; op4rw_o <= regRead;
                 functionalUnitType_o <= FPUnitId;     
                 enable_o <= 1;      
             end
             18: begin//Floating Divide Single
                 `ifdef DEBUG $display("Decode 2 A-form (Inst: %h): Floating Divide Single", instructionMajId_i); `endif
                 `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 A-form (Inst: %h): Floating Divide Single", instructionMajId_i); `endif
+                //Special regs: FPRF FR FI FX OX UX XX VXSNAN VXIDI VXZDZ CR1
                 opcode_o <= 16;
                 instMinId_o <= 0;
-                operandRTisReg_o <= 1; RTrw_o <= regWrite;
-                operandRAisReg_o <= 1; RArw_o <= regRead;
-                operandRBisReg_o <= 1; RBrw_o <= regRead;
-                operandRCisReg_o <= 0; RCrw_o <= regRead;//Not used
+                op1IsReg_o <= 1; op1rw_o <= regWrite;
+                op2IsReg_o <= 1; op2rw_o <= regRead;
+                op3IsReg_o <= 1; op3rw_o <= regRead;
+                op4IsReg_o <= 0; op4rw_o <= 2'b00;//Not used
                 functionalUnitType_o <= FPUnitId;     
                 enable_o <= 1;      
             end
             22: begin//Floating Square Root Single
                 `ifdef DEBUG $display("Decode 2 A-form (Inst: %h): Floating Square Root Single", instructionMajId_i); `endif
                 `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 A-form (Inst: %h): Floating Square Root Single", instructionMajId_i); `endif
+                //Special regs: FPRF FR FI FX OX UX XX VXSNAN VXSQRT CR1
                 opcode_o <= 17;
                 instMinId_o <= 0;
-                operandRTisReg_o <= 1; RTrw_o <= regWrite;
-                operandRAisReg_o <= 0; RArw_o <= regRead;//Not used
-                operandRBisReg_o <= 1; RBrw_o <= regRead;
-                operandRCisReg_o <= 0; RCrw_o <= regRead;//Not used
+                op1IsReg_o <= 1; op1rw_o <= regWrite;
+                op2IsReg_o <= 0; op2rw_o <= 2'b00;//Not used
+                op3IsReg_o <= 1; op3rw_o <= regRead;
+                op4IsReg_o <= 0; op4rw_o <= 2'b00;//Not used
                 functionalUnitType_o <= FPUnitId;    
                 enable_o <= 1;       
             end
             24: begin//Floating Reciprocal Estimate Single
                 `ifdef DEBUG $display("Decode 2 A-form (Inst: %h): Floating Reciprocal Estimate Single", instructionMajId_i); `endif
                 `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 A-form (Inst: %h): Floating Reciprocal Estimate Single", instructionMajId_i); `endif
+                //Special regs: FPRF FR (undefined) FI (undefined) FX OX UX XX (undefined) VXSNAN CR1
                 opcode_o <= 18;
                 instMinId_o <= 0;
-                operandRTisReg_o <= 1; RTrw_o <= regWrite;
-                operandRAisReg_o <= 0; RArw_o <= regRead;//Not used
-                operandRBisReg_o <= 1; RBrw_o <= regRead;
-                operandRCisReg_o <= 0; RCrw_o <= regRead;//Not used
+                op1IsReg_o <= 1; op1rw_o <= regWrite;
+                op2IsReg_o <= 0; op2rw_o <= 2'b00;//Not used
+                op3IsReg_o <= 1; op3rw_o <= regRead;
+                op4IsReg_o <= 0; op4rw_o <= 2'b00;//Not used
                 functionalUnitType_o <= FPUnitId;    
                 enable_o <= 1;       
             end
             26: begin//Floating Reciprocal Square Root Estimate Single
                 `ifdef DEBUG $display("Decode 2 A-form (Inst: %h): Floating Reciprocal Square Root Estimate Single", instructionMajId_i); `endif
                 `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 A-form (Inst: %h): Floating Reciprocal Square Root Estimate Single", instructionMajId_i); `endif                
+                //Special regs: FPRF FR (undefined) FI (undefined) FX OX UX ZX XX (undefined) VXSNAN VXSQRT CR1
                 opcode_o <= 19;
                 instMinId_o <= 0;
-                operandRTisReg_o <= 1; RTrw_o <= regWrite;
-                operandRAisReg_o <= 0; RArw_o <= regRead;//Not used
-                operandRBisReg_o <= 1; RBrw_o <= regRead;
-                operandRCisReg_o <= 0; RCrw_o <= regRead;//Not used
+                op1IsReg_o <= 1; op1rw_o <= regWrite;
+                op2IsReg_o <= 0; op2rw_o <= 2'b00;//Not used
+                op3IsReg_o <= 1; op3rw_o <= regRead;
+                op4IsReg_o <= 0; op4rw_o <= 2'b00;//Not used
                 functionalUnitType_o <= FPUnitId;         
                 enable_o <= 1;  
             end
             29: begin//Floating Multiply-Add Single
                 `ifdef DEBUG $display("Decode 2 A-form (Inst: %h): Floating Multiply-Add Single", instructionMajId_i); `endif
                 `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 A-form (Inst: %h): Floating Multiply-Add Single", instructionMajId_i); `endif                
+                //Special regs: FPRF FR FI FX OX UX XX VXSNAN VXISI VXIMZ CR1
                 opcode_o <= 20;
                 instMinId_o <= 0;
-                operandRTisReg_o <= 1; RTrw_o <= regWrite;
-                operandRAisReg_o <= 1; RArw_o <= regRead;
-                operandRBisReg_o <= 1; RBrw_o <= regRead;
-                operandRCisReg_o <= 1; RCrw_o <= regRead;
+                op1IsReg_o <= 1; op1rw_o <= regWrite;
+                op2IsReg_o <= 1; op2rw_o <= regRead;
+                op3IsReg_o <= 1; op3rw_o <= regRead;
+                op4IsReg_o <= 1; op4rw_o <= regRead;
                 functionalUnitType_o <= FPUnitId;        
                 enable_o <= 1;   
             end
             28: begin//Floating Multiply-Subtract Single
                 `ifdef DEBUG $display("Decode 2 A-form (Inst: %h): Floating Multiply-Subtract Single", instructionMajId_i); `endif
                 `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 A-form (Inst: %h): Floating Multiply-Subtract Single", instructionMajId_i); `endif    
+                //Special regs: FPRF FR FI FX OX UX XX VXSNAN VXISI VXIMZ CR1
                 opcode_o <= 21;
                 instMinId_o <= 0;
-                operandRTisReg_o <= 1; RTrw_o <= regWrite;
-                operandRAisReg_o <= 1; RArw_o <= regRead;
-                operandRBisReg_o <= 1; RBrw_o <= regRead;
-                operandRCisReg_o <= 1; RCrw_o <= regRead;
+                op1IsReg_o <= 1; op1rw_o <= regWrite;
+                op2IsReg_o <= 1; op2rw_o <= regRead;
+                op3IsReg_o <= 1; op3rw_o <= regRead;
+                op4IsReg_o <= 1; op4rw_o <= regRead;
                 functionalUnitType_o <= FPUnitId;           
                 enable_o <= 1;
             end
             31: begin//Floating Negative Multiply-Add Single
                 `ifdef DEBUG $display("Decode 2 A-form (Inst: %h): Floating Negative Multiply-Add Single", instructionMajId_i); `endif
                 `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 A-form (Inst: %h): Floating Negative Multiply-Add Single", instructionMajId_i); `endif    
+                //Special regs: FPRF FR FI FX OX UX XX VXSNAN VXISI VXIMZ CR1
                 opcode_o <= 22;
                 instMinId_o <= 0;
-                operandRTisReg_o <= 1; RTrw_o <= regWrite;
-                operandRAisReg_o <= 1; RArw_o <= regRead;
-                operandRBisReg_o <= 1; RBrw_o <= regRead;
-                operandRCisReg_o <= 1; RCrw_o <= regRead;
+                op1IsReg_o <= 1; op1rw_o <= regWrite;
+                op2IsReg_o <= 1; op2rw_o <= regRead;
+                op3IsReg_o <= 1; op3rw_o <= regRead;
+                op4IsReg_o <= 1; op4rw_o <= regRead;
                 functionalUnitType_o <= FPUnitId;      
                 enable_o <= 1;     
             end
             30: begin//Floating Negative Multiply-Subtract Single
                 `ifdef DEBUG $display("Decode 2 A-form (Inst: %h): Floating Negative Multiply-Subtract Single", instructionMajId_i); `endif
                 `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 A-form (Inst: %h): Floating Negative Multiply-Subtract Single", instructionMajId_i); `endif    
+                //Special regs: FPRF FR FI FX OX UX XX VXSNAN VXISI VXIMZ CR1
                 opcode_o <= 23;
                 instMinId_o <= 0;
-                operandRTisReg_o <= 1; RTrw_o <= regWrite;
-                operandRAisReg_o <= 1; RArw_o <= regRead;
-                operandRBisReg_o <= 1; RBrw_o <= regRead;
-                operandRCisReg_o <= 1; RCrw_o <= regRead;
+                op1IsReg_o <= 1; op1rw_o <= regWrite;
+                op2IsReg_o <= 1; op2rw_o <= regRead;
+                op3IsReg_o <= 1; op3rw_o <= regRead;
+                op4IsReg_o <= 1; op4rw_o <= regRead;
                 functionalUnitType_o <= FPUnitId;         
                 enable_o <= 1;  
             end
             default: begin
+                `ifndef QUIET_INVALID//invalid instructions are not reported to clean up output
                 `ifdef DEBUG $display("Decode 2 A-form: (Inst: %h) Invalid instrution revieved", instructionMajId_i); `endif
                 `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 A-form: (Inst: %h) Invalid instrution revieved", instructionMajId_i); `endif
+                `endif
                 enable_o <= 0; 
             end
             endcase            

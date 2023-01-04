@@ -1,7 +1,7 @@
 `timescale 1ns / 1ps
 `include "../../../../Decode/FormatSpecificDecoders/AFormatDecoder.v"
 
-module BFormatDecoderTest #(
+module AFormatDecoderTest #(
     parameter addressWidth = 64, //addresses are 64 bits wide
     parameter instructionWidth = 4 * 8, // POWER instructions are 4 byte fixed sized
     parameter PidSize = 20, parameter TidSize = 16, //1048K processes uniquly identifiable and 64K threads per process.
@@ -16,8 +16,8 @@ module BFormatDecoderTest #(
     parameter operand1Pos = 6, parameter immPos = 16,
     //FX = int, FP = float, VX = vector, CR = condition, LS = load/store
     parameter FXUnitId = 0, parameter FPUnitId = 1, parameter VXUnitId = 2, parameter CRUnitId = 3, parameter LSUnitId = 4,  parameter BranchUnitID = 6,   
-    parameter B = 2**01,
-    parameter BDecoderInstance = 0
+    parameter A = 2**01,
+    parameter ADecoderInstance = 0
 )
 (
 );
@@ -38,7 +38,6 @@ module BFormatDecoderTest #(
     ///Output
     wire enableOut;
     wire [0:opcodeSize-1] opcodeOut;//decoded opcode
-    wire [0:PrimOpcodeSize-1] instructionOpcodeOut;//primary opcode
     wire [0:addressWidth-1] instructionAddressOut;//address of the instruction
     wire [0:funcUnitCodeSize-1] functionalUnitTypeOut;//tells the backend what type of func unit to use
     wire [0:instructionCounterWidth] instMajIdOut;//major ID - the IDs are used to determine instruction order for reordering after execution
@@ -46,13 +45,15 @@ module BFormatDecoderTest #(
     wire is64BitOut;
     wire [0:PidSize-1] instPidOut;//process ID
     wire [0:TidSize-1] instTidOut;//Thread ID
+    wire [0:regAccessPatternSize-1] op1rwOut, op2rwOut, op3rwOut, op4rwOut;
+    wire op1IsRegOut, op2IsRegOut, op3IsRegOut, op4IsRegOut;
     wire [0:(2 * regSize) + immediateSize + 3] instructionBodyOut;
 
 
 
-BFormatDecoder #(
+AFormatDecoder #(
 )
-bFormatDecoder
+aFormatDecoder
 (
     .clock_i(clockIn), .reset_i(resetIn),
     .enable_i(enableIn), .stall_i(stallIn),
@@ -74,31 +75,32 @@ bFormatDecoder
     .is64Bit_o(is64BitOut),
     .instPid_o(instPidOut),
     .instTid_o(instTidOut),
+    .op1rw_o(op1rwOut), .op2rw_o(op2rwOut), .op3rw_o(op3rwOut), .op4rw_o(op4rwOut),//reg operand are read/write flags
+    .op1IsReg_o(op1IsRegOut), .op2IsReg_o(op2IsRegOut), .op3IsReg_o(op3IsRegOut), .op4IsReg_o(op4IsRegOut),//Reg operands isReg flags
     .instructionBody_o(instructionBodyOut)
 );
 
 reg [0:5] opcode;
 reg [0:4] operand1;
 reg [0:4] operand2;
-reg [0:13] immediate;
-reg AA;
-reg LK;
+reg [0:4] operand3;
+reg [0:4] operand4;
+
 
 initial begin
-    $dumpfile("BFormatDecodeTest.vcd");
-    $dumpvars(0,bFormatDecoder);
+    $dumpfile("AFormatDecodeTest.vcd");
+    $dumpvars(0,aFormatDecoder);
     //init vars
     clockIn = 0; enableIn = 0;
     stallIn = 0;
-    instFormatIn = B;
+    instFormatIn = A;
     instructionOpcodeIn = 0;
 
     opcode = 0;
     operand1 = 5'b01110;
-    operand2 = 5'b10001;
-    immediate = 14'b0000_1111_1111_00;
-    AA = 1;
-    LK = 1;
+    operand2 = 5'b10101;
+    operand3 = 5'b01010;
+    operand4 = 5'b10001;
 
     instructionAddressIn = 0;
     is64BitIn = 1;
@@ -119,9 +121,7 @@ initial begin
     begin
     //test inst:
     #1;
-    LK = opcode % 2;
-    AA = !LK;
-    instructionIn = {opcode, operand1, operand2, immediate, AA, LK};
+    instructionIn = {opcode, operand1, operand2, operand3, operand4};
     instructionOpcodeIn = opcode; instructionMajIdIn = opcode; instructionAddressIn = opcode;
     enableIn = 1;
     clockIn = 1;

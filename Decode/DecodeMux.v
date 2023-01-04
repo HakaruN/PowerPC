@@ -18,7 +18,7 @@ module DecodeMux
     parameter PidSize = 20, parameter TidSize = 16, //1048K processes uniquly identifiable and 64K threads per process.
     parameter instructionCounterWidth = 64,// 64 bit counter to uniquly identify instructions, this is known as the major ID as instructions may be broken into micro instructions which will have the same major ID yet unique minor IDs
     parameter instMinIdWidth = 7,
-    parameter opcodeSize = 6, parameter regSize = 5,
+    parameter opcodeSize = 12, parameter regSize = 5,
     parameter regAccessPatternSize = 2,//2 bit field, [0] == is read, [1] == is writen. Both can be true EG: (A = A + B)
     parameter regRead = 2'b10, parameter regWrite = 2'b01, 
     parameter immWidth = 64,
@@ -55,8 +55,8 @@ module DecodeMux
     input wire Ais64Bit_i,
     input wire [0:PidSize-1] APid_i,
     input wire [0:TidSize-1] ATid_i,
-    input wire [0:regAccessPatternSize-1] ARTrw_i, ARArw_i, ARBrw_i, ARCrw_i,
-    input wire AoperandRTisReg_i, AoperandRAisReg_i, AoperandRBisReg_i, AoperandRCisReg_i,
+    input wire [0:regAccessPatternSize-1] Aop1rw_o, Aop2rw_o, Aop3rw_o, Aop4rw_o,
+    input wire Aop1IsReg_o, Aop2IsReg_o, Aop3IsReg_o, Aop4IsReg_o,
     input wire [0:4 * regSize] ABody_i,
 
     ///B format
