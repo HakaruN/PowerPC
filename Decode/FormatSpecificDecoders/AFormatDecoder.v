@@ -42,7 +42,7 @@ module AFormatDecoder
     parameter opcodeSize = 6, parameter regSize = 5, parameter XOSize = 5,
     parameter regAccessPatternSize = 2,//2 bit field, [0] == is read, [1] == is writen. Both can be true EG: (A = A + B)
     parameter read = 2'b10, parameter write = 2'b01, 
-    parameter isImmediateSize = 1, parameter immediateSize = 24,
+    parameter immediateSize = 24,
     parameter funcUnitCodeSize = 3, //can have up to 8 types of func unit.
     //FX = int, FP = float, VX = vector, CR = condition, LS = load/store
     parameter FXUnitId = 0, parameter FPUnitId = 1, parameter VXUnitId = 2, parameter CRUnitId = 3, parameter LSUnitId = 4,     

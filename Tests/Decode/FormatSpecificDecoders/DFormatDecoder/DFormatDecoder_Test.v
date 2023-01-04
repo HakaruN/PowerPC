@@ -90,7 +90,7 @@ reg [11:15] operand2;
 reg [16:31] immediate;
 
 initial begin
-    $dumpfile("DformatDecodeTest.vcd");
+    $dumpfile("DFormatDecodeTest.vcd");
     $dumpvars(0,dFormatDecoder);
     //init vars
     clockIn = 0; enableIn = 0;
