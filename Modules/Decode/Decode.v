@@ -1,6 +1,11 @@
 `timescale 1ns / 1ps
 `define DEBUG
 `define DEBUG_PRINT
+`include "DecodeFormatScan.v"
+`include "FormatSpecificDecoders/AFormatDecoder.v"
+`include "FormatSpecificDecoders/BFormatDecoder.v"
+`include "FormatSpecificDecoders/DFormatDecoder.v"
+`include "DecodeMux.v"
 /*/////////Decode Unit/////////////
 Writen by Josh "Hakaru" Cantwell - 19.12.2022
 
@@ -21,14 +26,22 @@ of the decode unit.
 TODO:
 Replace POWER opcodes & Xopcodes with unified optype-specific opcodes and implement unified register space.
 */
-module Decode_Unit
+module DecodeUnit
 #(
     parameter addressWidth = 64, //addresses are 64 bits wide
     parameter instructionWidth = 4 * 8, // POWER instructions are 4 byte fixed sized
     parameter PidSize = 20, parameter TidSize = 16, //1048K processes uniquly identifiable and 64K threads per process.
     parameter instructionCounterWidth = 64,// 64 bit counter to uniquly identify instructions, this is known as the major ID as instructions may be broken into micro instructions which will have the same major ID yet unique minor IDs
-    parameter opcodeSize = 6,
+    parameter instMinIdWidth = 7,//width of inst minor ID
+    parameter primOpcodeSize = 6,
+    parameter opcodeSize = 12,
+    parameter regSize = 5,
+    parameter regAccessPatternSize = 2,//2 bit field, [0] == is read, [1] == is writen. Both can be true EG: (A = A + B)
+    parameter funcUnitCodeSize = 3,
 
+    ////Format Specific
+    parameter BimmediateSize = 14,
+    parameter DimmediateSize = 16,
     //Each format has a unique bit, this means that I can or multiple formats together into a single variable to pass to
     //the next stage for the format-specific decoders to look at for the instruction opcodes with multiple possible formats
     parameter I = 2**00, parameter B = 2**01, parameter XL = 2**02, parameter DX = 2**03, parameter SC = 2**04,
@@ -67,20 +80,21 @@ module Decode_Unit
 
 ////Decode stage 1 - Format decode
 wire stage1EnableOut;
-wire [0:4] stage1instFormatOut;
+wire [0:25-1] stage1instFormatOut;
+wire [0:primOpcodeSize-1] stage1OpcodeOut;
 wire [0:instructionWidth-1] stage1instructionOut;
 wire [0:addressWidth-1] stage1instructionAddressOut;
 wire stage1is64BitOut;
 wire [0:PidSize-1] stage1instructionPidOut;
 wire [0:TidSize-1] stage1instructionTidOut;
 wire [0:instructionCounterWidth-1] stage1instructionMajIdOut;
-Format_Decoder #(
+FormatScanner #(
     //Sizes
     .addressWidth(addressWidth),
     .instructionWidth(instructionWidth),
     .PidSize(PidSize), .TidSize(TidSize),
     .instructionCounterWidth(instructionCounterWidth),
-    .opcodeSize(opcodeSize),
+    .primOpcodeSize(primOpcodeSize),
     //Formats
     .I(I), .B(B), .XL(XL), .DX(DX), .SC(SC),
     .D(D), .X(X), .XO(XO), .Z23(Z23), .A(A),
@@ -88,7 +102,7 @@ Format_Decoder #(
     .VX(VX), .VC(VC), .MD(MD), .MDS(MDS), .XFL(XFL),
     .Z22(Z22), .XX2(XX2), .XX3(XX3)
 )
-dormatDecoder
+formatScanner
 (
     ///Input
     //command
@@ -102,17 +116,18 @@ dormatDecoder
     .instructionTid_i(instructionTid_i),
     .instructionMajId_i(instructionMajId_i),
     ///Output
-    .outputEnable_o(outputEnable_o),
-    .instFormat_o(instFormat_o),
-    .instruction_o(instruction_o),
-    .instructionAddress_o(instructionAddress_o),
+    .outputEnable_o(stage1EnableOut),
+    .instFormat_o(stage1instFormatOut),
+    .instOpcode_o(stage1OpcodeOut),
+    .instruction_o(stage1instructionOut),
+    .instructionAddress_o(stage1instructionAddressOut),
     .is64Bit_o(stage1is64BitOut),
-    .instructionPid_o(instructionPid_o),
-    .instructionTid_o(instructionTid_o),
-    .instructionMajId_o(instructionMajId_o)
+    .instructionPid_o(stage1instructionPidOut),
+    .instructionTid_o(stage1instructionTidOut),
+    .instructionMajId_o(stage1instructionMajIdOut)
 );
 
-////Decode stage 2 - Format specific decode
+    ////Decode stage 2 - Format specific decode
     ///A format
     wire AenableIn;
     wire [0:opcodeSize-1] AOpcodeIn;
@@ -131,12 +146,12 @@ dormatDecoder
     aFormatDecoder
     (
         .clock_i(clockIn),
-        `ifdef `define DEBUG_PRINT .reset_i(resetIn), `endif
+        `ifdef DEBUG_PRINT .reset_i(resetIn), `endif
         .enable_i(stage1EnableOut), .stall_i(stallIn),
         .instFormat_i(stage1instFormatOut),
-        .instructionOpcode_i(stage1instructionOut),
+        .instructionOpcode_i(stage1OpcodeOut),
         .instruction_i(stage1instructionOut),
-        .instructionAddress_i(instructionAddressIn),
+        .instructionAddress_i(stage1instructionAddressOut),
         .is64Bit_i(stage1is64BitOut),
         .instructionPid_i(stage1instructionPidOut),
         .instructionTid_i(stage1instructionTidOut),
@@ -172,12 +187,12 @@ dormatDecoder
     bFormatDecoder
     (
         .clock_i(clockIn),
-        `ifdef `define DEBUG_PRINT .reset_i(resetIn), `endif
+        `ifdef DEBUG_PRINT .reset_i(resetIn), `endif
         .enable_i(stage1EnableOut), .stall_i(stallIn),
         .instFormat_i(stage1instFormatOut),
-        .instructionOpcode_i(stage1instructionOut),
+        .instructionOpcode_i(stage1OpcodeOut),
         .instruction_i(stage1instructionOut),
-        .instructionAddress_i(instructionAddressIn),
+        .instructionAddress_i(stage1instructionAddressOut),
         .is64Bit_i(stage1is64BitOut),
         .instructionPid_i(stage1instructionPidOut),
         .instructionTid_i(stage1instructionTidOut),
@@ -213,16 +228,16 @@ dormatDecoder
     dFormatDecoder
     (
         .clock_i(clockIn),
-        `ifdef `define DEBUG_PRINT .reset_i(resetIn), `endif
+        `ifdef DEBUG_PRINT .reset_i(resetIn), `endif
         .enable_i(stage1EnableOut), .stall_i(stallIn),
         .instFormat_i(stage1instFormatOut),
-        .instructionOpcode_i(stage1instructionOut),
+        .instructionOpcode_i(stage1OpcodeOut),
         .instruction_i(stage1instructionOut),
-        .instructionAddress_i(instructionAddressIn),
+        .instructionAddress_i(stage1instructionAddressOut),
         .is64Bit_i(stage1is64BitOut),
         .instructionPid_i(stage1instructionPidOut),
         .instructionTid_i(stage1instructionTidOut),
-        .instructionMajId_i(stage1instructionMajIdOut),,
+        .instructionMajId_i(stage1instructionMajIdOut),
 
         .enable_o(DenableIn),
         .opcode_o(DOpcodeIn),

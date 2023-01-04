@@ -28,7 +28,7 @@ module DFormatDecoderTest #(
     reg clockIn, resetIn;
     reg enableIn, stallIn;
     //Data
-    reg [0:25] instFormatIn;
+    reg [0:25-1] instFormatIn;
     reg [0:PrimOpcodeSize-1] instructionOpcodeIn;
     reg [0:instructionWidth-1] instructionIn;
     reg [0:addressWidth-1] instructionAddressIn;

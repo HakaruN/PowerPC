@@ -37,7 +37,7 @@ wire [0:PidSize-1] stage1instructionPidOut;
 wire [0:TidSize-1] stage1instructionTidOut;
 wire [0:instructionCounterWidth-1] stage1instructionMajIdOut;
 
-Format_Decoder #(
+FormatDecoder #(
     //Sizes
     .addressWidth(addressWidth),
     .instructionWidth(instructionWidth),

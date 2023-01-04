@@ -114,7 +114,7 @@ module DFormatDecoder
 `endif
     input wire enable_i, stall_i,
     //Data
-    input wire [0:25] instFormat_i,
+    input wire [0:25-1] instFormat_i,
     input wire [0:PrimOpcodeSize-1] instructionOpcode_i,
     input wire [0:instructionWidth-1] instruction_i,
     input wire [0:addressWidth-1] instructionAddress_i,
