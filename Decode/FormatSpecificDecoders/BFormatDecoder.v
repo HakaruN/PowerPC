@@ -46,7 +46,7 @@ module BFormatDecoder
     parameter regRead = 2'b10, parameter regWrite = 2'b01, 
     parameter immediateSize = 14,
     parameter funcUnitCodeSize = 3, //can have up to 8 types of func unit.
-    parameter operand1Pos = 6,
+    parameter operand1Pos = 6, parameter immPos = 16,
     //FX = int, FP = float, VX = vector, CR = condition, LS = load/store
     parameter FXUnitId = 0, parameter FPUnitId = 1, parameter VXUnitId = 2, parameter CRUnitId = 3, parameter LSUnitId = 4,  parameter BranchUnitID = 6,   
     parameter B = 2**01,
@@ -82,7 +82,7 @@ module BFormatDecoder
     output reg [0:PidSize-1] instPid_o,//process ID
     output reg [0:TidSize-1] instTid_o,//Thread ID
     //Instruction body - data contents are 26 bits wide. There are also flags to include
-    output reg [0:(2 * regSize) + immediateSize + 1] instructionBody_o,//the +1 is because there are actually an aditional 2 bits in the inst, which offets the -1 to be +1.    
+    output reg [0:(2 * regSize) + immediateSize + 3] instructionBody_o,//the +3 is because there are an aditional 2 bits in the inst for the flags and then an aditional 2 bits for the imm.
 );
 
 `ifdef DEBUG_PRINT
@@ -133,7 +133,9 @@ begin
         instPid_o <= instructionPid_i; instTid_o <= instructionTid_i;
         is64Bit_o <= is64Bit_i;        
         //parse the instruction
-        instructionBody_o[0+:(2*regSize) + immediateSize + 2] <= instruction_i[operand1Pos:31];
+        instructionBody_o[0+:(2*regSize)] <= instruction_i[operand1Pos+:(2*regSize)];//copy the reg-sized operands
+        instructionBody_o[(2*regSize)+:immediateSize + 2] <= {instruction_i[immPos+:immediateSize], 2b00};//append the bits onto the imm and cop to the output
+        instructionBody_o[((2*regSize)+immediateSize + 2)+:2] <= instruction_i[30:31];
 
         case(instructionOpcode_i)
         16: begin //Branch Conditional - BO, BI, BD, AA, LK
