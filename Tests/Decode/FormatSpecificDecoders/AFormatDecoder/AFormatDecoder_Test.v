@@ -85,6 +85,8 @@ reg [0:4] operand1;
 reg [0:4] operand2;
 reg [0:4] operand3;
 reg [0:4] operand4;
+reg [0:4] xopcode;
+reg RCflag;
 
 
 initial begin
@@ -101,6 +103,8 @@ initial begin
     operand2 = 5'b10101;
     operand3 = 5'b01010;
     operand4 = 5'b10001;
+    xopcode = 0;
+    RCflag = 0;
 
     instructionAddressIn = 0;
     is64BitIn = 1;
@@ -119,16 +123,19 @@ initial begin
 
     for(opcode = 0; opcode < 6'b111111; opcode = opcode + 1)
     begin
-    //test inst:
-    #1;
-    instructionIn = {opcode, operand1, operand2, operand3, operand4};
-    instructionOpcodeIn = opcode; instructionMajIdIn = opcode; instructionAddressIn = opcode;
-    enableIn = 1;
-    clockIn = 1;
-    #1;
-    clockIn = 0;
-    enableIn = 0;
-    #1;
+        for(xopcode = 0; xopcode < 5'b11111; xopcode = xopcode + 1)
+        begin
+            //test inst:
+            #1;
+            instructionIn = {opcode, operand1, operand2, operand3, operand4, xopcode, RCflag};
+            instructionOpcodeIn = opcode; instructionMajIdIn = opcode; instructionAddressIn = opcode;
+            enableIn = 1;
+            clockIn = 1;
+            #1;
+            clockIn = 0;
+            enableIn = 0;
+            #1;
+        end
     end
 
 

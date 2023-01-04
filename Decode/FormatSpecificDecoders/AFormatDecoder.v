@@ -11,7 +11,7 @@ This decoder implements opcodes 1-23
 TODO:
 Implement outputs for special registers access
 
-A format instructions are composed of 4 register sized operands however not all are used for every instruction, in that case they are ignored.
+A format instructions are composed of 4 register sized operands and a single 1 bit flag however not all are used for every instruction, in that case they are ignored.
 These are described as below:
 Operand 1 [6:11]
 FRT - Field used to specify a FPR to be used as a target
@@ -31,6 +31,9 @@ operand 4 [21:25]
 Na - Not used
 FRC - Field used to specify a FPR to be used as a source
 BC - Used to specify a bit in the CR to be used as a source
+
+operand 5 [31]
+RC - Record bit, if RC == 0, do not alter CR, if RC == 1, set teh CR field 0 or field 1 as described in section 2.3.1 on page 30 of POWER ISA version 3.0B
 
 A format instructions are:
 Integer select
@@ -107,6 +110,7 @@ module AFormatDecoder
     output reg [0:TidSize-1] instTid_o,//Thread ID
     output reg [0:regAccessPatternSize-1] op1rw_o, op2rw_o, op3rw_o, op4rw_o,//reg operand are read/write flags
     output reg op1IsReg_o, op2IsReg_o, op3IsReg_o, op4IsReg_o,//Reg operands isReg flags
+    output reg rcFlag,
     //Instruction body - data contents are 26 bits wide. There are also flags to include
     output reg [0:4 * regSize] instructionBody_o,
 );
@@ -153,14 +157,13 @@ begin
         `ifdef DEBUG $display("A format instruction recieved"); `endif
         `ifdef DEBUG_PRINT $fdisplay(debugFID, "A format instruction recieved"); `endif
         //Parse the instruction agnostic parts of the instruction
-        XO_o <= instruction_i[26+:XOSize];
         instructionAddress_o <= instructionAddress_i;
         instMajId_o <= instructionMajId_i;
         instPid_o <= instructionPid_i; instTid_o <= instructionTid_i;
         is64Bit_o <= is64Bit_i;
         //parse the instruction
-        instructionBody_o[0+:4 * regSize-1] <= instruction_i[6:25];
-        instructionBody_o[4*regSize] <= instruction_i[31];
+        instructionBody_o[0+:4 * regSize-1] <= instruction_i[6:25];//Copy the reg sized fields
+        instructionBody_o[4*regSize] <= instruction_i[31];//copy the RC flag
 
         if(instructionOpcode_i == 31)
         begin
