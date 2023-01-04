@@ -68,7 +68,7 @@ module BFormatDecoder
     input wire is64Bit_i,
     input wire [0:PidSize-1] instructionPid_i,
     input wire [0:TidSize-1] instructionTid_i,
-    input wire [0:instructionCounterWidth-1] instructionMajId_i
+    input wire [0:instructionCounterWidth-1] instructionMajId_i,
     ///Output
     output reg enable_o,
     ///Instrution components
@@ -82,7 +82,7 @@ module BFormatDecoder
     output reg [0:PidSize-1] instPid_o,//process ID
     output reg [0:TidSize-1] instTid_o,//Thread ID
     //Instruction body - data contents are 26 bits wide. There are also flags to include
-    output reg [0:(2 * regSize) + immediateSize + 3] instructionBody_o,//the +3 is because there are an aditional 2 bits in the inst for the flags and then an aditional 2 bits for the imm.
+    output reg [0:(2 * regSize) + immediateSize + 3] instructionBody_o//the +3 is because there are an aditional 2 bits in the inst for the flags and then an aditional 2 bits for the imm.
 );
 
 `ifdef DEBUG_PRINT
@@ -133,9 +133,10 @@ begin
         instPid_o <= instructionPid_i; instTid_o <= instructionTid_i;
         is64Bit_o <= is64Bit_i;        
         //parse the instruction
-        instructionBody_o[0+:(2*regSize)] <= instruction_i[operand1Pos+:(2*regSize)];//copy the reg-sized operands
-        instructionBody_o[(2*regSize)+:immediateSize + 2] <= {instruction_i[immPos+:immediateSize], 2b00};//append the bits onto the imm and cop to the output
-        instructionBody_o[((2*regSize)+immediateSize + 2)+:2] <= instruction_i[30:31];
+        //instructionBody_o[0+:(2*regSize) + immediateSize] <= instruction_i[operand1Pos+:(2*regSize)+ immediateSize];//copy the reg-sized operands and the imm into the buffer
+        instructionBody_o[0:23] <= instruction_i[6:29];
+        instructionBody_o[24:25] <= 2'b00;//append the bits onto the imm in the buffer
+        instructionBody_o[26:27] <= instruction_i[30:31];
 
         case(instructionOpcode_i)
         16: begin //Branch Conditional - BO, BI, BD, AA, LK

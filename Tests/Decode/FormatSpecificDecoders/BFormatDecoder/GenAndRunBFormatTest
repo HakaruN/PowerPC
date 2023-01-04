@@ -1,0 +1,4 @@
+#!/bin/bash
+iverilog -o BDecodeTest.bin BFormatDecoder_Test.v
+./BDecodeTest.bin
+rm BDecodeTest.bin
