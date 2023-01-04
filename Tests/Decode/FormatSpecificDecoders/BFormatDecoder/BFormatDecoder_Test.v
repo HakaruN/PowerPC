@@ -67,7 +67,6 @@ bFormatDecoder
 
     .enable_o(enableOut),
     .opcode_o(opcodeOut),
-    .instructionOpcode_o(instructionOpcodeOut),
     .instructionAddress_o(instructionAddressOut),
     .functionalUnitType_o(functionalUnitTypeOut),
     .instMajId_o(instMajIdOut),

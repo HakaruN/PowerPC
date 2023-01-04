@@ -41,7 +41,6 @@ module DFormatDecoderTest #(
     ///Instrution components
     //Instruction header
     wire [0:opcodeSize-1] opcodeOut;//decoded opcode
-    wire [0:PrimOpcodeSize-1] instructionOpcodeOut;//primary opcode
     wire [0:addressWidth-1] instructionAddressOut;//address of the instruction
     wire [0:funcUnitCodeSize-1] functionalUnitTypeOut;//tells the backend what type of func unit to use
     wire [0:instructionCounterWidth] instMajIdOut;//major ID - the IDs are used to determine instruction order for reordering after execution
@@ -73,7 +72,6 @@ dFormatDecoder
 
     .enable_o(enableOut),
     .opcode_o(opcodeOut),
-    .instructionOpcode_o(instructionOpcodeOut),
     .instructionAddress_o(instructionAddressOut),
     .functionalUnitType_o(functionalUnitTypeOut),
     .instMajId_o(instMajIdOut),

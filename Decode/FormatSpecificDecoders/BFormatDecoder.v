@@ -74,7 +74,6 @@ module BFormatDecoder
     output reg enable_o,
     ///Instrution components
     //Instruction header
-    output reg [0:PrimOpcodeSize-1] instructionOpcode_o,//primary opcode
     output reg [0:opcodeSize-1] opcode_o,
     output reg [0:addressWidth-1] instructionAddress_o,//address of the instruction
     output reg [0:funcUnitCodeSize-1] functionalUnitType_o,//tells the backend what type of func unit to use
@@ -129,7 +128,6 @@ begin
         `ifdef DEBUG $display("B format instruction recieved"); `endif
         `ifdef DEBUG_PRINT $fdisplay(debugFID, "B format instruction recieved"); `endif
         //Parse the instruction agnostic parts of the instruction
-        instructionOpcode_o <= instructionOpcode_i;
         instructionAddress_o <= instructionAddress_i;
         instMajId_o <= instructionMajId_i;
         instPid_o <= instructionPid_i; instTid_o <= instructionTid_i;

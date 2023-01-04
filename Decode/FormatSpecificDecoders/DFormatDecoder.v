@@ -92,8 +92,9 @@ module DFormatDecoder
     parameter PidSize = 20, parameter TidSize = 16, //1048K processes uniquly identifiable and 64K threads per process.
     parameter instructionCounterWidth = 64,// 64 bit counter to uniquly identify instructions, this is known as the major ID as instructions may be broken into micro instructions which will have the same major ID yet unique minor IDs
     parameter instMinIdWidth = 7,
+    parameter PrimOpcodeSize = 6,
     parameter opcodeSize = 12,
-    parameter PrimOpcodeSize = 6, parameter regSize = 5,
+    parameter regSize = 5,
     parameter regAccessPatternSize = 2,//2 bit field, [0] == is read, [1] == is writen. Both can be true EG: (A = A + B)
     parameter regRead = 2'b10, parameter regWrite = 2'b01, 
     parameter immediateSize = 16,
@@ -125,7 +126,6 @@ module DFormatDecoder
     output reg enable_o,
     ///Instrution components
     //Instruction header
-    output reg [0:PrimOpcodeSize-1] instructionOpcode_o,//primary opcode
     output reg [0:opcodeSize-1] opcode_o,
     output reg [0:addressWidth-1] instructionAddress_o,//address of the instruction
     output reg [0:funcUnitCodeSize-1] functionalUnitType_o,//tells the backend what type of func unit to use
@@ -182,7 +182,6 @@ begin
         `ifdef DEBUG $display("D format instruction recieved. Opcode: ", instructionOpcode_i); `endif
         `ifdef DEBUG_PRINT $fdisplay(debugFID, "D format instruction recieved. Opcode: ", instructionOpcode_i); `endif
         //Parse the instruction agnostic parts of the instruction
-        instructionOpcode_o <= instructionOpcode_i;
         instructionAddress_o <= instructionAddress_i;
         instMajId_o <= instructionMajId_i;
         instPid_o <= instructionPid_i; instTid_o <= instructionTid_i;
