@@ -7,8 +7,6 @@ Writen by Josh "Hakaru" Cantwell - 04.01.2023
 
 This is the third stage of the decode unit, it is responsible for multiplexing the outputs of the second stage (format specific decoders) into a single output.
 
-
-
 *////////////////////////////////////
 
 module DecodeMux
@@ -37,13 +35,16 @@ module DecodeMux
     parameter D = 2**05, parameter X = 2**06, parameter XO = 2**07, parameter Z23 = 2**08, parameter A = 2**09,
     parameter XS = 2**10, parameter XFX = 2**11, parameter DS = 2**12, parameter DQ = 2**13, parameter VA = 2**14,
     parameter VX = 2**15, parameter VC = 2**16, parameter MD = 2**17, parameter MDS = 2**18, parameter XFL = 2**19,
-    parameter Z22 = 2**20, parameter XX2 = 2**21, parameter XX3 = 2**22
+    parameter Z22 = 2**20, parameter XX2 = 2**21, parameter XX3 = 2**22,
+    parameter DecoderMuxInstance = 0
 )
 (
     ////Inputs
     ///Command
     input wire clock_i,    
-
+`ifdef DEBUG_PRINT 
+    input wire reset_i,
+`endif
     ///A format
     input wire Aenable_i,
     input wire [0:opcodeSize-1] AOpcode_i,
@@ -99,10 +100,47 @@ module DecodeMux
     output reg [0:84-1] body_o//contains all operands. Large enough for 4 reg operands and a 64bit imm
 );
 
+`ifdef DEBUG_PRINT
+integer debugFID;
+`endif
+
 always @(posedge clock_i)
 begin
-    if(Aenable_i)
+    if(reset_i)
     begin
+        `ifdef DEBUG_PRINT
+        case(DecoderMuxInstance)//If we have multiple decoders, they each get different files. The second number indicates the decoder# log file.
+        0: begin 
+            debugFID = $fopen("DecodeMux0.log", "w");
+        end
+        1: begin 
+            debugFID = $fopen("DecodeMux1.log", "w");
+        end
+        2: begin 
+            debugFID = $fopen("DecodeMux2.log", "w");
+        end
+        3: begin 
+            debugFID = $fopen("DecodeMux3.log", "w");
+        end
+        4: begin 
+            debugFID = $fopen("DecodeMux4.log", "w");
+        end
+        5: begin 
+            debugFID = $fopen("DecodeMux5.log", "w");
+        end
+        6: begin 
+            debugFID = $fopen("DecodeMux6.log", "w");
+        end
+        7: begin 
+            debugFID = $fopen("DecodeMux7.log", "w");
+        end
+        endcase
+        `endif
+    end
+    else if(Aenable_i)
+    begin
+        `ifdef DEBUG $display("Decode Mux: A format instruction (Inst: %h)", AMajId_i); `endif
+        `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode Mux: A format instruction (Inst: %h)", AMajId_i); `endif
         enable_o <= 1;
         opcode_o <= AOpcode_i;
         address_o <= AAddress_i;
@@ -118,6 +156,8 @@ begin
     end
     else if(Benable_i)
     begin
+        `ifdef DEBUG $display("Decode Mux: B format instruction (Inst: %h)", BMajId_i); `endif
+        `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode Mux: B format instruction (Inst: %h)", BMajId_i); `endif
         enable_o <= 1;
         opcode_o <= BOpcode_i;
         address_o <= BAddress_i;
@@ -132,6 +172,8 @@ begin
     end
     else if(Denable_i)
     begin
+        `ifdef DEBUG $display("Decode Mux: D format instruction (Inst: %h)", DMajId_i); `endif
+        `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode Mux: D format instruction (Inst: %h)", DMajId_i); `endif
         enable_o <= 1;
         opcode_o <= DOpcode_i;
         address_o <= DAddress_i;
@@ -158,6 +200,10 @@ begin
     end
     else
     begin
+        `ifndef QUIET_INVALID
+        `ifdef DEBUG $display("Decode Mux: Unsupported instruction"); `endif
+        `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode Mux: Unsupported instruction"); `endif
+        `endif
         enable_o <= 0;
     end
 

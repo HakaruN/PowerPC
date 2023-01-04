@@ -1,0 +1,4 @@
+#!/bin/bash
+iverilog -o DecodeMuxTest.bin DecodeMux_Test.v
+./DecodeMuxTest.bin
+rm DecodeMuxTest.bin

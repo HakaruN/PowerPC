@@ -83,7 +83,7 @@ module AFormatDecoder
     ///Input
     //command
     input wire clock_i,
-    `ifdef DEBUG_PRINT 
+`ifdef DEBUG_PRINT 
     input wire reset_i,
 `endif
     input wire enable_i, stall_i,
