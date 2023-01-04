@@ -81,22 +81,22 @@ module DecodeMux
     input wire [0:PidSize-1] DPid_i,
     input wire [0:TidSize-1] DTid_i,
     input wire [0:regAccessPatternSize-1] Dop1rw_i, Dop2rw_i,
-    input wire op1isReg_i, op2isReg_i, immIsExtended_i, immIsShifted_i,
+    input wire Dop1isReg_i, Dop2isReg_i, immIsExtended_i, immIsShifted_i,
     input wire [0:(2 * regSize) + DimmediateSize - 1] DBody_i,
 
     ///output
-    output wire enable_o,
-    output wire [0:opcodeSize-1] opcode_o,
-    output wire [0addressWidth-1] address_o,
-    output wire [0:funcUnitCodeSize-1] funcUnitType_o,
-    output wire [0:instructionCounterWidth-1] majID_o,
-    output wire [0:instMinIdWidth-1] minID_o,
-    output wire is64Bit_o,
-    output wire [0:PidSize-1] pid_o,
-    output wire [0:TidSize-1] tid_o,
-    output wire [0:84-1] body_o,//contains all operands. Large enough for 4 reg operands and a 64bit imm
-    output wire [0:regAccessPatternSize-1] op1rw_o, op2rw_o, op3rw_o, op4rw_o,
-    output wire op1IsReg_o, op2IsReg_o, op3IsReg_o, op4IsReg_o,
+    output reg enable_o,
+    output reg [0:opcodeSize-1] opcode_o,
+    output reg [0:addressWidth-1] address_o,
+    output reg [0:funcUnitCodeSize-1] funcUnitType_o,
+    output reg [0:instructionCounterWidth-1] majID_o,
+    output reg [0:instMinIdWidth-1] minID_o,
+    output reg is64Bit_o,
+    output reg [0:PidSize-1] pid_o,
+    output reg [0:TidSize-1] tid_o,
+    output reg [0:regAccessPatternSize-1] op1rw_o, op2rw_o, op3rw_o, op4rw_o,
+    output reg op1IsReg_o, op2IsReg_o, op3IsReg_o, op4IsReg_o,
+    output reg [0:84-1] body_o//contains all operands. Large enough for 4 reg operands and a 64bit imm
 );
 
 always @(posedge clock_i)
@@ -107,20 +107,58 @@ begin
         opcode_o <= AOpcode_i;
         address_o <= AAddress_i;
         funcUnitType_o <= A;
-        majID_o <= AMajId_i; tid_o <= ATid_i;
-        op1_o, op2_o, op3_o, op4_o;
+        majID_o <= AMajId_i; minID_o <= AMinId_i;//inst IDs
+        is64Bit_o <= Ais64Bit_i;//32/64b mode
+        pid_o <= APid_i; tid_o <= ATid_i;//Process and Thread ID
+        //Operand reg flags
+        op1rw_o <= Aop1rw_o;        op2rw_o <= Aop2rw_o;        op3rw_o <= Aop3rw_o;        op4rw_o <= Aop4rw_o;
+        op1IsReg_o <= Aop1IsReg_o;  op2IsReg_o <= Aop2IsReg_o;  op3IsReg_o <= Aop3IsReg_o;  op4IsReg_o <= Aop4IsReg_o;
+        //operand data
+        body_o <= ABody_i;
     end
     else if(Benable_i)
     begin
         enable_o <= 1;
+        opcode_o <= BOpcode_i;
+        address_o <= BAddress_i;
+        funcUnitType_o <= B;
+        majID_o <= BMajId_i; minID_o <= BMinId_i;//inst IDs
+        is64Bit_o <= Bis64Bit_i;//32/64b mode
+        pid_o <= BPid_i; tid_o <= BTid_i;//Process and Thread ID
+        //Operand reg flags - none used
+        op1rw_o <= 0;       op2rw_o <= 0;       op3rw_o <= 0;   op4rw_o <= 0;
+        op1IsReg_o <= 0;    op2IsReg_o <= 0;    op3IsReg_o <= 0;    op4IsReg_o <= 0;
+        body_o <= BBody_i;
     end
     else if(Denable_i)
     begin
         enable_o <= 1;
+        opcode_o <= DOpcode_i;
+        address_o <= DAddress_i;
+        funcUnitType_o <= D;
+        majID_o <= DMajId_i; minID_o <= DMinId_i;//inst IDs
+        is64Bit_o <= Dis64Bit_i;//32/64b mode
+        pid_o <= DPid_i; tid_o <= DTid_i;//Process and Thread ID
+        //Operand reg flags - none used
+        op1rw_o <= Dop1rw_i;        op2rw_o <= Dop2rw_i;        op3rw_o <= 0;       op4rw_o <= 0;
+        op1IsReg_o <= Dop1isReg_i;  op2IsReg_o <= Dop2isReg_i;  op3IsReg_o <= 0;    op4IsReg_o <= 0;
+
+        //Copy the registers across to buffer
+        body_o[0+:10] <= DBody_i[0+:10];//copy regs
+
+        //If the immediate is to be shifted, perform the shift here then sign extend to 64 bits and copy to buffer
+        if(immIsShifted_i)
+        begin
+            body_o[10+:64] <= $signed(DBody_i[10+:16]);//copy and extend the imm
+        end
+        else
+        begin
+            body_o[10+:64] <= $signed({DBody_i[10+:16], 16'b00000000_00000000});//shift, extend and copy the imm
+        end
     end
     else
     begin
-        enable_o <= 1;
+        enable_o <= 0;
     end
 
 end
