@@ -101,5 +101,67 @@ stage1Decode
 
 ////Decode stage 3 - Instruction mux to output
 
+DecodeMux #(
+)
+decodeMux
+(
+    ////Inputs
+    ///Command
+    .clock_i(clockIn),
+    ///A format
+    .Aenable_i(AenableIn),
+    .AOpcode_i(AOpcodeIn),
+    .AAddress_i(AAddressIn),
+    .AUnitType_i(AUnitTypeIn),
+    .AMajId_i(AMajIdIn),
+    .AMinId_i(AMinIdIn),
+    .Ais64Bit_i(Ais64BitIn),
+    .APid_i(APidIn),
+    .ATid_i(ATidIn),
+    .Aop1rw_o(Aop1rwOut), .Aop2rw_o(Aop2rwOut), .Aop3rw_o(Aop3rwOut), .Aop4rw_o(Aop4rwOut),
+    .Aop1IsReg_o(Aop1IsRegOut), .Aop2IsReg_o(Aop2IsRegOut), .Aop3IsReg_o(Aop3IsRegOut), .Aop4IsReg_o(Aop4IsRegOut),
+    .ABody_i(ABodyIn),
+
+    ///B format
+    .Benable_i(BenableIn),
+    .BOpcode_i(BOpcodeIn),
+    .BAddress_i(BAddressIn),
+    .BUnitType_i(BUnitTypeIn),
+    .BMajId_i(BMajIdIn),
+    .BMinId_i(BMinIdIn),
+    .Bis64Bit_i(Bis64BitIn),
+    .BPid_i(BPidIn),
+    .BTid_i(BTidIn),
+    .BBody_i(BBodyIn),
+
+    ///D format
+    .Denable_i(DenableIn),
+    .DOpcode_i(DOpcodeIn),
+    .DAddress_i(DAddressIn),
+    .DUnitType_i(DUnitTypeIn),
+    .DMajId_i(DMajIdIn),
+    .DMinId_i(DMinIdIn),
+    .Dis64Bit_i(Dis64BitIn),
+    .DPid_i(DPidIn),
+    .DTid_i(DTidIn),
+    .Dop1rw_i(Dop1rwIn), .Dop2rw_i(Dop2rwIn),
+    .Dop1isReg_i(Dop1isRegIn), .Dop2isReg_i(Dop2isRegIn), .immIsExtended_i(immIsExtendedIn), .immIsShifted_i(immIsShiftedIn),
+    .DBody_i(DBodyIn),
+
+    ///output
+    .enable_o(enableOut),
+    .opcode_o(opcodeOut),
+    .address_o(addressOut),
+    .funcUnitType_o(funcUnitTypeOut),
+    .majID_o(majIDOut),
+    .minID_o(minIDOut),
+    .is64Bit_o(is64BitOut),
+    .pid_o(pidOut),
+    .tid_o(tidOut),
+    .op1rw_o(op1rwOut), .op2rw_o(op2rwOut), .op3rw_o(op3rwOut), .op4rw_o(op4rwOut),
+    .op1IsReg_o(op1IsRegOut), .op2IsReg_o(op2IsRegOut), .op3IsReg_o(op3IsRegOut), .op4IsReg_o(op4IsRegOut),
+    .body_o(bodyOut)
+);
+
 
 endmodule

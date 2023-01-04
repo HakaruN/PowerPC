@@ -1,5 +1,6 @@
 `timescale 1ns / 1ps
 `include "../../../Modules/Decode/DecodeMux.v"
+`define DEBUG_PRINT
 
 module DecodeMuxTest #(
     parameter addressWidth = 64, //addresses are 64 bits wide
@@ -33,6 +34,9 @@ module DecodeMuxTest #(
     ////Inputs
     ///Command
     reg clockIn;
+    `ifdef DEBUG_PRINT
+    reg resetIn;
+    `endif
 
     ///A format
     reg AenableIn;
@@ -96,7 +100,9 @@ decodeMux
     ////Inputs
     ///Command
     .clock_i(clockIn),    
-
+`ifdef DEBUG_PRINT 
+    .reset_i(resetIn),
+`endif
     ///A format
     .Aenable_i(AenableIn),
     .AOpcode_i(AOpcodeIn),
@@ -196,6 +202,13 @@ initial begin
     Dop1isRegIn = 0; Dop2isRegIn = 0; immIsExtendedIn = 0; immIsShiftedIn = 0;
     DBodyIn = 0;
 
+    //Reset
+    resetIn = 1;
+    clockIn = 1;
+    #1;
+    clockIn = 0;
+    resetIn = 0;
+    #1;
 
     //Start with A format
     AenableIn = 1;
