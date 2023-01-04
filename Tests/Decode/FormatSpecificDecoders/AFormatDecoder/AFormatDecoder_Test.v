@@ -1,5 +1,5 @@
 `timescale 1ns / 1ps
-`include "../../../../Decode/FormatSpecificDecoders/AFormatDecoder.v"
+`include "../../../../Modules/Decode/FormatSpecificDecoders/AFormatDecoder.v"
 
 module AFormatDecoderTest #(
     parameter addressWidth = 64, //addresses are 64 bits wide

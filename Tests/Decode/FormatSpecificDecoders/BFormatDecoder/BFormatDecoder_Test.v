@@ -1,5 +1,5 @@
 `timescale 1ns / 1ps
-`include "../../../../Decode/FormatSpecificDecoders/BFormatDecoder.v"
+`include "../../../../Modules/Decode/FormatSpecificDecoders/BFormatDecoder.v"
 
 module BFormatDecoderTest #(
     parameter addressWidth = 64, //addresses are 64 bits wide
