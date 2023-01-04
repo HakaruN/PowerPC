@@ -21,6 +21,7 @@ module DecodeMux
     parameter opcodeSize = 6, parameter regSize = 5,
     parameter regAccessPatternSize = 2,//2 bit field, [0] == is read, [1] == is writen. Both can be true EG: (A = A + B)
     parameter regRead = 2'b10, parameter regWrite = 2'b01, 
+    parameter immWidth = 64,
     ////Generic
     parameter funcUnitCodeSize = 3, //can have up to 8 types of func unit.
     //FX = int, FP = float, VX = vector, CR = condition, LS = load/store
@@ -28,7 +29,7 @@ module DecodeMux
 
     ////Format Specific
     parameter BimmediateSize = 14,
-    parameter DFormatImmediateSize = 16,    
+    parameter DimmediateSize = 16,    
 
     //Each format has a unique bit, this means that I can or multiple formats together into a single variable to pass to
     //the next stage for the format-specific decoders to look at for the instruction opcodes with multiple possible formats
@@ -68,7 +69,7 @@ module DecodeMux
     input wire Bis64Bit_i,
     input wire [0:PidSize-1] BPid_i,
     input wire [0:TidSize-1] BTid_i,
-    input wire [0:(2 * regSize) + BimmediateSize + 1] BBody_i,
+    input wire [0:(2 * regSize) + BimmediateSize + 3] BBody_i,
 
     ///D format
     input wire Denable_i,
@@ -82,11 +83,41 @@ module DecodeMux
     input wire [0:TidSize-1] DTid_i,
     input wire [0:regAccessPatternSize-1] Dop1rw_i, Dop2rw_i,
     input wire op1isReg_i, op2isReg_i, immIsExtended_i, immIsShifted_i,
-    input wire [0:(2 * regSize) + DFormatImmediateSize - 1] DBody_i,
+    input wire [0:(2 * regSize) + DimmediateSize - 1] DBody_i,
+
+    ///output
+    output wire enable_o,
+    output wire [0:opcodeSize-1] opcode_o,
+    output wire [0addressWidth-1] address_o,
+    output wire [0:funcUnitCodeSize-1] funcUnitType_o,
+    output wire [0:instructionCounterWidth-1] majID_o,
+    output wire [0:instMinIdWidth-1] minID_o,
+    output wire is64Bit_o,
+    output wire [0:PidSize-1] pid_o,
+    output wire [0:TidSize-1] tid_o,
+    output wire [0:regSize-1] op1_o, op2_o, op3_o, op4_o,
+    output wire [0:immWidth-1] imm_o
 );
 
 always @(posedge clock_i)
 begin
+    if(Aenable_i)
+    begin
+        enable_o <= 1;
+        opcode_o <= AOpcode_i;
+    end
+    else if(Benable_i)
+    begin
+        enable_o <= 1;
+    end
+    else if(Denable_i)
+    begin
+        enable_o <= 1;
+    end
+    else
+    begin
+        enable_o <= 1;
+    end
 
 end
 

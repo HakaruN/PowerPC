@@ -7,7 +7,8 @@ module BFormatDecoderTest #(
     parameter PidSize = 20, parameter TidSize = 16, //1048K processes uniquly identifiable and 64K threads per process.
     parameter instructionCounterWidth = 64,// 64 bit counter to uniquly identify instructions, this is known as the major ID as instructions may be broken into micro instructions which will have the same major ID yet unique minor IDs
     parameter instMinIdWidth = 7,
-    parameter opcodeSize = 6, parameter regSize = 5,
+    parameter opcodeSize = 12,
+    parameter PrimOpcodeSize = 6, parameter regSize = 5,
     parameter regAccessPatternSize = 2,//2 bit field, [0] == is read, [1] == is writen. Both can be true EG: (A = A + B)
     parameter regRead = 2'b10, parameter regWrite = 2'b01, 
     parameter immediateSize = 14,
@@ -27,7 +28,7 @@ module BFormatDecoderTest #(
     reg enableIn, stallIn;
     //Data
     reg [0:25] instFormatIn;
-    reg [0:opcodeSize-1] instructionOpcodeIn;
+    reg [0:PrimOpcodeSize-1] instructionOpcodeIn;
     reg [0:instructionWidth-1] instructionIn;
     reg [0:addressWidth-1] instructionAddressIn;
     reg is64BitIn;
@@ -36,7 +37,8 @@ module BFormatDecoderTest #(
     reg [0:instructionCounterWidth-1] instructionMajIdIn;
     ///Output
     wire enableOut;
-    wire [0:opcodeSize-1] instructionOpcodeOut;//primary opcode
+    wire [0:opcodeSize-1] opcodeOut;//decoded opcode
+    wire [0:PrimOpcodeSize-1] instructionOpcodeOut;//primary opcode
     wire [0:addressWidth-1] instructionAddressOut;//address of the instruction
     wire [0:funcUnitCodeSize-1] functionalUnitTypeOut;//tells the backend what type of func unit to use
     wire [0:instructionCounterWidth] instMajIdOut;//major ID - the IDs are used to determine instruction order for reordering after execution
@@ -64,6 +66,7 @@ bFormatDecoder
     .instructionMajId_i(instructionMajIdIn),
 
     .enable_o(enableOut),
+    .opcode_o(opcodeOut),
     .instructionOpcode_o(instructionOpcodeOut),
     .instructionAddress_o(instructionAddressOut),
     .functionalUnitType_o(functionalUnitTypeOut),

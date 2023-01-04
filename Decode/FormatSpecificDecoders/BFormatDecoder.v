@@ -6,9 +6,9 @@
 Writen by Josh "Hakaru" Cantwell - 02.12.2022
 
 This decoder implements all D format instruction specified in the POWER ISA version 3.0B.
+This decoder implements the opcode 24.
 
 TODO:
-Replace POWER opcodes & Xopcodes with unified optype-specific opcodes and implement unified register space.
 Implement outputs for special registers access
 
 B format instructions are composed of 2 register-sized operands, 1 14 bit immediate operand and a pair of single bit flags.
@@ -41,7 +41,8 @@ module BFormatDecoder
     parameter PidSize = 20, parameter TidSize = 16, //1048K processes uniquly identifiable and 64K threads per process.
     parameter instructionCounterWidth = 64,// 64 bit counter to uniquly identify instructions, this is known as the major ID as instructions may be broken into micro instructions which will have the same major ID yet unique minor IDs
     parameter instMinIdWidth = 7,
-    parameter opcodeSize = 6, parameter regSize = 5,
+    parameter opcodeSize = 12,
+    parameter PrimOpcodeSize = 6, parameter regSize = 5,
     parameter regAccessPatternSize = 2,//2 bit field, [0] == is read, [1] == is writen. Both can be true EG: (A = A + B)
     parameter regRead = 2'b10, parameter regWrite = 2'b01, 
     parameter immediateSize = 14,
@@ -62,7 +63,7 @@ module BFormatDecoder
     input wire enable_i, stall_i,
     //Data
     input wire [0:25] instFormat_i,
-    input wire [0:opcodeSize-1] instructionOpcode_i,
+    input wire [0:PrimOpcodeSize-1] instructionOpcode_i,
     input wire [0:instructionWidth-1] instruction_i,
     input wire [0:addressWidth-1] instructionAddress_i,
     input wire is64Bit_i,
@@ -73,7 +74,8 @@ module BFormatDecoder
     output reg enable_o,
     ///Instrution components
     //Instruction header
-    output reg [0:opcodeSize-1] instructionOpcode_o,//primary opcode
+    output reg [0:PrimOpcodeSize-1] instructionOpcode_o,//primary opcode
+    output reg [0:opcodeSize-1] opcode_o,
     output reg [0:addressWidth-1] instructionAddress_o,//address of the instruction
     output reg [0:funcUnitCodeSize-1] functionalUnitType_o,//tells the backend what type of func unit to use
     output reg [0:instructionCounterWidth] instMajId_o,//major ID - the IDs are used to determine instruction order for reordering after execution
@@ -133,15 +135,15 @@ begin
         instPid_o <= instructionPid_i; instTid_o <= instructionTid_i;
         is64Bit_o <= is64Bit_i;        
         //parse the instruction
-        //instructionBody_o[0+:(2*regSize) + immediateSize] <= instruction_i[operand1Pos+:(2*regSize)+ immediateSize];//copy the reg-sized operands and the imm into the buffer
-        instructionBody_o[0:23] <= instruction_i[6:29];
+        instructionBody_o[0+:((2*regSize) + immediateSize)] <= instruction_i[6:29];//Copy the regs and the imms
         instructionBody_o[24:25] <= 2'b00;//append the bits onto the imm in the buffer
-        instructionBody_o[26:27] <= instruction_i[30:31];
+        instructionBody_o[26:27] <= instruction_i[30:31];//copy the flags
 
         case(instructionOpcode_i)
         16: begin //Branch Conditional - BO, BI, BD, AA, LK
             `ifdef DEBUG $display("Decode 2 B-form (Inst: %h): Branch Conditional", instructionMajId_i); `endif
             `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 B-form (Inst: %h): Branch Conditional", instructionMajId_i); `endif
+            opcode_o <= 24;//set the decocde opcode
             //Special Regs: CTR if BO[2] == 0, LR if LK  == 1
             enable_o <= 1;
             functionalUnitType_o <= BranchUnitID; instMinId_o <= 0;
