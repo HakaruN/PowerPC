@@ -171,7 +171,7 @@ begin
         op1rw_o <= 0;       op2rw_o <= 0;       op3rw_o <= 0;   op4rw_o <= 0;
         op1IsReg_o <= 0;    op2IsReg_o <= 0;    op3IsReg_o <= 0;    op4IsReg_o <= 0;
         body_o[0:27] <= BBody_i;
-        body_o[27:84-1] <= 0;//zero out top of buffer
+        body_o[28:84-1] <= 0;//zero out top of buffer
     end
     else if(Denable_i)
     begin
@@ -192,15 +192,16 @@ begin
         body_o[0+:10] <= DBody_i[0+:10];//copy regs
 
         //If the immediate is to be shifted, perform the shift here then sign extend to 64 bits and copy to buffer
+        //$display("%b", DBody_i[10+:16]);
         if(immIsShifted_i)
         begin
-            body_o[10+:64] <= $signed(DBody_i[10+:16]);//copy and extend the imm
+            body_o[10+:64] <= {48'h0000_0000_0000_0000_0000_0000, DBody_i[10+:16]};//copy and extend the imm
         end
         else
         begin
             body_o[10+:64] <= $signed({DBody_i[10+:16], 16'b00000000_00000000});//shift, extend and copy the imm
         end
-        body_o[65:84-1] <= 0;//zero out top of buffer
+        body_o[74:84-1] <= 0;//zero out top of buffer
     end
     else
     begin

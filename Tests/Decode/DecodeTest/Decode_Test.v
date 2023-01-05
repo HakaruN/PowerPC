@@ -155,8 +155,8 @@ initial begin
         clockIn = 0;
         #1;
     end 
+    $display();
 
-/*
     ///Test A format instructions:
     instCtr = 0; numInstTested = 24; decodedInsts = 0;
     //Iterate all possible opcodes
@@ -188,35 +188,26 @@ initial begin
 
             //run the inst through the pipe and let it dry
             enableIn = 0;
-            for(i = 0; i < 2; i = i + 1) 
-            begin
             clockIn = 1;
             #1;
             clockIn = 0;
             #1;
-            end 
+            clockIn = 1;
+            #1;
+            clockIn = 0;
+            #1; 
+            //check the instruction came out correctly
             if(enableOut == 1 && instFormatOut == A)
             begin
-                
-                //$display("Mux Body: %b", bodyOut);
-                //$display("%b", bodyOut[5:9]);
                 if(bodyOut[0:4] == 5'b11111 && bodyOut[5:9] == 5'b00000 && bodyOut[10:14] == 5'b11111 && bodyOut[15:19] == 5'b00000 && bodyOut[20] == xopcode%2)
-                begin
-                    //$display("Correct instruction parse");
                     decodedInsts = decodedInsts + 1;
-                end
-                else
-                begin
-                    //$display("Incorrect instruction parse");
-                end
-                
-
             end
 
             addressIn = addressIn + 4;
             instCtr = instCtr + 1;
         end
     end
+    //Report pass/fail
     $display("Decoded %d of %d total supported instructions", decodedInsts, numInstTested);
     if(decodedInsts == numInstTested)
         $display("PASS");
@@ -232,7 +223,14 @@ initial begin
     for(opcode = 0; opcode <= 6'b111111; opcode = opcode + 1)
     begin
             instMajIdIn = instCtr;
+            //set the opcode
             instructionIn[0:primOpcodeSize-1] = opcode;
+            //set the regs - can be set to the xopcode so make validation easier
+            instructionIn[6:10] <= 5'b11111;//Operand 1
+            instructionIn[11:15] <= 5'b00000;//Operand 2
+            instructionIn[16:29] <= 14'b1111_000000_1111;//imm
+            instructionIn[30] <= !opcode%2;//AA
+            instructionIn[31] = opcode%2;//Lk
             enableIn = 1;
 
             //present ints to pipeline
@@ -243,16 +241,21 @@ initial begin
 
             //run the inst through the pipe and let it dry
             enableIn = 0;
-            for(i = 0; i < 2; i = i + 1) 
-            begin
             clockIn = 1;
             #1;
             clockIn = 0;
             #1;
-            end 
-
+            clockIn = 1;
+            #1;
+            clockIn = 0;
+            #1; 
+            //check the instruction came out correctly
             if(enableOut == 1 && instFormatOut == B)
-                decodedInsts = decodedInsts + 1;
+            begin
+                //$display("%b",bodyOut);
+                if(bodyOut[0:4] == 5'b11111 && bodyOut[5:9] == 5'b00000 && bodyOut[10:25] == {14'b1111_000000_1111, 2'b00} && bodyOut[26] == !opcode%2 && bodyOut[27] == opcode%2)
+                    decodedInsts = decodedInsts + 1;
+            end
 
             addressIn = addressIn + 4;
             instCtr = instCtr + 1;
@@ -271,7 +274,12 @@ initial begin
     for(opcode = 0; opcode <= 6'b111111; opcode = opcode + 1)
     begin
             instMajIdIn = instCtr;
+            //set the opcode
             instructionIn[0:primOpcodeSize-1] = opcode;
+            //set the regs - can be set to the xopcode so make validation easier
+            instructionIn[6:10] <= 5'b11111;//Operand 1
+            instructionIn[11:15] <= 5'b00000;//Operand 2
+            instructionIn[16:31] <= 16'b1111_0000__0000_1111;//imm
             enableIn = 1;
 
             //present ints to pipeline
@@ -282,16 +290,23 @@ initial begin
 
             //run the inst through the pipe and let it dry
             enableIn = 0;
-            for(i = 0; i < 2; i = i + 1) 
-            begin
             clockIn = 1;
             #1;
             clockIn = 0;
             #1;
-            end 
-
+            clockIn = 1;
+            #1;
+            clockIn = 0;
+            #1; 
+            //check the instruction came out correctly
             if(enableOut == 1 && instFormatOut == D)
-                decodedInsts = decodedInsts + 1;
+            begin
+                $display("Opcode %d, %b", opcode,bodyOut); 
+                if(bodyOut[0:4] == 5'b11111 && bodyOut[5:9] == 5'b00000 && 
+                (bodyOut[10:41] == 32'h0000_0000_0000_0000 || bodyOut[10:41] == 32'hFFFF_FFFF_FFFF_FFFF)
+                )
+                    decodedInsts = decodedInsts + 1;
+            end
 
             addressIn = addressIn + 4;
             instCtr = instCtr + 1;
@@ -302,7 +317,7 @@ initial begin
     else
         $display("FAIL");
     $display();
-*/
+
 
 end
 
