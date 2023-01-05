@@ -1,15 +1,15 @@
 [*]
 [*] GTKWave Analyzer v3.3.106 (w)1999-2020 BSI
-[*] Thu Jan  5 16:14:42 2023
+[*] Thu Jan  5 17:16:51 2023
 [*]
 [dumpfile] "/home/hakaru/Projects/Verilog/PowerPC/Tests/Decode/DecodeTest/DecodeTest.vcd"
-[dumpfile_mtime] "Thu Jan  5 16:12:50 2023"
-[dumpfile_size] 59270
+[dumpfile_mtime] "Thu Jan  5 17:16:00 2023"
+[dumpfile_size] 1764879
 [savefile] "/home/hakaru/Projects/Verilog/PowerPC/Tests/Decode/DecodeTest/TestWaves.gtkw"
-[timestart] 20570
+[timestart] 3711620
 [size] 1920 1012
 [pos] -1 -1
-*-14.000000 4790 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+*-12.000000 3721490 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 [treeopen] DecodeTest.
 [sst_width] 335
 [signals_width] 190
@@ -19,11 +19,13 @@
 DecodeTest.decodeUnit.enableOut
 @22
 DecodeTest.decodeUnit.opcodeOut[0:11]
+@24
 DecodeTest.decodeUnit.addressOut[0:63]
 @28
 DecodeTest.decodeUnit.funcUnitTypeOut[0:2]
-@22
+@24
 DecodeTest.decodeUnit.majIDOut[0:63]
+@22
 DecodeTest.decodeUnit.minIDOut[0:6]
 DecodeTest.decodeUnit.pidOut[0:19]
 DecodeTest.decodeUnit.tidOut[0:15]
