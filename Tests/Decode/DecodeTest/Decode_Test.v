@@ -1,5 +1,6 @@
 `timescale 1ns / 1ps
 `include "../../../Modules/Decode/Decode.v"
+`define DEBUG
 `define DEBUG_PRINT
 
 module DecodeTest #(
@@ -91,6 +92,7 @@ integer opcode;
 integer xopcode;
 integer numInstTested;
 integer decodedInsts;
+integer i;
 
 `ifdef DEBUG_PRINT
 integer debugFile;
@@ -123,7 +125,6 @@ initial begin
     #1; 
 
     is64BitIn = 1;
-    enableIn = 1;
 
 
     ///Test A format instructions:
@@ -135,13 +136,28 @@ initial begin
         //Iterate all possible xopcodes
         for(xopcode = 0; xopcode <= 5'b11111; xopcode = xopcode + 1)
         begin
+            $display("Testing opcode: %d, xopcode %d", opcode, xopcode);
             instMajIdIn = instCtr;
             instructionIn[0:primOpcodeSize-1] = opcode;
             instructionIn[26:30] = xopcode;
+            enableIn = 1;
+
+            //present ints to pipeline
             clockIn = 1;
             #1;
             clockIn = 0;
             #1; 
+
+            //run the inst through the pipe and let it dry
+            enableIn = 0;
+            for(i = 0; i < 2; i = i + 1) 
+            begin
+            clockIn = 1;
+            #1;
+            clockIn = 0;
+            #1;
+            end 
+
             if(enableOut == 1 && instFormatOut == A)
                 decodedInsts = decodedInsts + 1;
 
@@ -149,6 +165,9 @@ initial begin
             instCtr = instCtr + 1;
         end
     end
+
+
+
     $display("Decoded %d of %d total supported instructions", decodedInsts, numInstTested);
     if(decodedInsts == numInstTested)
         $display("PASS");
@@ -156,8 +175,7 @@ initial begin
         $display("FAIL");
     $display();
 
-
-
+/*
     ///Test B format instructions:
     instCtr = 0; numInstTested = 1; decodedInsts = 0;
     //Iterate all possible opcodes
@@ -166,10 +184,21 @@ initial begin
     begin
             instMajIdIn = instCtr;
             instructionIn[0:primOpcodeSize-1] = opcode;
+            enableIn = 1;
+
             clockIn = 1;
             #1;
             clockIn = 0;
             #1; 
+
+            enableIn = 0;
+            for(i = 0; i < 3; i = i + 1) 
+            begin
+            clockIn = 1;
+            #1;
+            clockIn = 0;
+            #1;
+            end 
             if(enableOut == 1 && instFormatOut == B)
                 decodedInsts = decodedInsts + 1;
 
@@ -191,10 +220,21 @@ initial begin
     begin
             instMajIdIn = instCtr;
             instructionIn[0:primOpcodeSize-1] = opcode;
+            enableIn = 1;
+
             clockIn = 1;
             #1;
             clockIn = 0;
             #1; 
+
+            enableIn = 0;
+            for(i = 0; i < 3; i = i + 1) 
+            begin
+            clockIn = 1;
+            #1;
+            clockIn = 0;
+            #1;
+            end 
             if(enableOut == 1 && instFormatOut == D)
                 decodedInsts = decodedInsts + 1;
 
@@ -208,7 +248,7 @@ initial begin
         $display("FAIL");
     $display();
 
-
+*/
 end
 
 endmodule

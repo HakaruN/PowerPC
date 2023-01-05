@@ -1,40 +1,1280 @@
-Decode 2 D-form Inst:                    2. Opcode: 000010 ( 2).                    2. Opcode: 000010 ( 2). D-form Inst: Trap doubleword immediate
-Decode 2 D-form Inst:                    3. Opcode: 000011 ( 3).                    3. Opcode: 000011 ( 3). D-form Inst: Trap word immediate
-Decode 2 D-form Inst:                    7. Opcode: 000111 ( 7).                    7. Opcode: 000111 ( 7). D-form Inst: Multiply low immediate
-Decode 2 D-form Inst:                    8. Opcode: 001000 ( 8).                    8. Opcode: 001000 ( 8). D-form Inst: Subtract from immediate carrying
-Decode 2 D-form Inst:                   10. Opcode: 001010 (10).                   10. Opcode: 001010 (10). D-form Inst: Compare logical immediate
-Decode 2 D-form Inst:                   11. Opcode: 001011 (11).                   11. Opcode: 001011 (11). D-form Inst: Compare immediate
-Decode 2 D-form Inst:                   12. Opcode: 001100 (12).                   12. Opcode: 001100 (12). D-form Inst: Add immediate carrying
-Decode 2 D-form Inst:                   13. Opcode: 001101 (13).                   13. Opcode: 001101 (13). D-form Inst: Add immediate carrying and record
-Decode 2 D-form Inst:                   14. Opcode: 001110 (14).                   14. Opcode: 001110 (14). D-form Inst: Add immediate
-Decode 2 D-form Inst:                   15. Opcode: 001111 (15).                   15. Opcode: 001111 (15). D-form Inst: Add immediate shifted
-Decode 2 D-form Inst:                   24. Opcode: 011000 (24).                   24. Opcode: 011000 (24). D-form Inst: OR immediate
-Decode 2 D-form Inst:                   25. Opcode: 011001 (25).                   25. Opcode: 011001 (25). D-form Inst: OR immediate shifted
-Decode 2 D-form Inst:                   26. Opcode: 011010 (26).                   26. Opcode: 011010 (26). XD-form Inst: OR immediate
-Decode 2 D-form Inst:                   27. Opcode: 011011 (27).                   27. Opcode: 011011 (27). D-form Inst: XOR immediate shifted
-Decode 2 D-form Inst:                   28. Opcode: 011100 (28).                   28. Opcode: 011100 (28). D-form Inst: AND immediate
-Decode 2 D-form Inst:                   29. Opcode: 011101 (29).                   29. Opcode: 011101 (29). D-form Inst: AND immediate shifted
-Decode 2 D-form Inst:                   32. Opcode: 100000 (32).                   32. Opcode: 100000 (32). D-form Inst: Load word and zero
-Decode 2 D-form Inst:                   33. Opcode: 100001 (33).                   33. Opcode: 100001 (33). D-form Inst: Load word and zero with update
-Decode 2 D-form Inst:                   34. Opcode: 100010 (34).                   34. Opcode: 100010 (34). Load Byte and Zero
-Decode 2 D-form Inst:                   35. Opcode: 100011 (35).                   35. Opcode: 100011 (35). Load Byte and Zero with update
-Decode 2 D-form Inst:                   36. Opcode: 100100 (36).                   36. Opcode: 100100 (36). D-form Inst: Store word
-Decode 2 D-form Inst:                   37. Opcode: 100101 (37).                   37. Opcode: 100101 (37). D-form Inst: Store word with update
-Decode 2 D-form Inst:                   38. Opcode: 100110 (38).                   38. Opcode: 100110 (38). D-form Inst: Store byte
-Decode 2 D-form Inst:                   39. Opcode: 100111 (39).                   39. Opcode: 100111 (39). D-form Inst: Store byte with update
-Decode 2 D-form Inst:                   40. Opcode: 101000 (40).                   40. Opcode: 101000 (40). Load Half word and Zero
-Decode 2 D-form Inst:                   41. Opcode: 101001 (41).                   41. Opcode: 101001 (41). Load Half word and Zero with update
-Decode 2 D-form Inst:                   42. Opcode: 101010 (42).                   42. Opcode: 101010 (42). Load Half word algebraic
-Decode 2 D-form Inst:                   43. Opcode: 101011 (43).                   43. Opcode: 101011 (43). Load Half word algebraic with update
-Decode 2 D-form Inst:                   44. Opcode: 101100 (44).                   44. Opcode: 101100 (44). D-form Inst: Store halfword
-Decode 2 D-form Inst:                   45. Opcode: 101101 (45).                   45. Opcode: 101101 (45). D-form Inst: store halfword with update
-Decode 2 D-form Inst:                   46. Opcode: 101110 (46).                   46. Opcode: 101110 (46). D-form Inst: Load multiple word
-Decode 2 D-form Inst:                   47. Opcode: 101111 (47).                   47. Opcode: 101111 (47). D-form Inst: Store multiple word
-Decode 2 D-form Inst:                   48. Opcode: 110000 (48).                   48. Opcode: 110000 (48). D-form Inst: Load floating point single
-Decode 2 D-form Inst:                   49. Opcode: 110001 (49).                   49. Opcode: 110001 (49). D-form Inst: Load floating point single with update
-Decode 2 D-form Inst:                   50. Opcode: 110010 (50).                   50. Opcode: 110010 (50). D-form Inst: Load floating point double
-Decode 2 D-form Inst:                   51. Opcode: 110011 (51).                   51. Opcode: 110011 (51). D-form Inst: Load floating point double with update
-Decode 2 D-form Inst:                   52. Opcode: 110100 (52).                   52. Opcode: 110100 (52). D-form Inst: LStore floating point single
-Decode 2 D-form Inst:                   53. Opcode: 110101 (53).                   53. Opcode: 110101 (53). D-form Inst: Store floating point single with update
-Decode 2 D-form Inst:                   54. Opcode: 110110 (54).                   54. Opcode: 110110 (54). D-form Inst: LStore floating point double
-Decode 2 D-form Inst:                   55. Opcode: 110111 (55).                   55. Opcode: 110111 (55). D-form Inst: Store floating point double with update
+Decode 2 D-form Inst:                   64. Opcode: 000010 ( 2).                   64. Opcode: 000010 ( 2). D-form Inst: Trap doubleword immediate
+Decode 2 D-form Inst:                   65. Opcode: 000010 ( 2).                   65. Opcode: 000010 ( 2). D-form Inst: Trap doubleword immediate
+Decode 2 D-form Inst:                   66. Opcode: 000010 ( 2).                   66. Opcode: 000010 ( 2). D-form Inst: Trap doubleword immediate
+Decode 2 D-form Inst:                   67. Opcode: 000010 ( 2).                   67. Opcode: 000010 ( 2). D-form Inst: Trap doubleword immediate
+Decode 2 D-form Inst:                   68. Opcode: 000010 ( 2).                   68. Opcode: 000010 ( 2). D-form Inst: Trap doubleword immediate
+Decode 2 D-form Inst:                   69. Opcode: 000010 ( 2).                   69. Opcode: 000010 ( 2). D-form Inst: Trap doubleword immediate
+Decode 2 D-form Inst:                   70. Opcode: 000010 ( 2).                   70. Opcode: 000010 ( 2). D-form Inst: Trap doubleword immediate
+Decode 2 D-form Inst:                   71. Opcode: 000010 ( 2).                   71. Opcode: 000010 ( 2). D-form Inst: Trap doubleword immediate
+Decode 2 D-form Inst:                   72. Opcode: 000010 ( 2).                   72. Opcode: 000010 ( 2). D-form Inst: Trap doubleword immediate
+Decode 2 D-form Inst:                   73. Opcode: 000010 ( 2).                   73. Opcode: 000010 ( 2). D-form Inst: Trap doubleword immediate
+Decode 2 D-form Inst:                   74. Opcode: 000010 ( 2).                   74. Opcode: 000010 ( 2). D-form Inst: Trap doubleword immediate
+Decode 2 D-form Inst:                   75. Opcode: 000010 ( 2).                   75. Opcode: 000010 ( 2). D-form Inst: Trap doubleword immediate
+Decode 2 D-form Inst:                   76. Opcode: 000010 ( 2).                   76. Opcode: 000010 ( 2). D-form Inst: Trap doubleword immediate
+Decode 2 D-form Inst:                   77. Opcode: 000010 ( 2).                   77. Opcode: 000010 ( 2). D-form Inst: Trap doubleword immediate
+Decode 2 D-form Inst:                   78. Opcode: 000010 ( 2).                   78. Opcode: 000010 ( 2). D-form Inst: Trap doubleword immediate
+Decode 2 D-form Inst:                   79. Opcode: 000010 ( 2).                   79. Opcode: 000010 ( 2). D-form Inst: Trap doubleword immediate
+Decode 2 D-form Inst:                   80. Opcode: 000010 ( 2).                   80. Opcode: 000010 ( 2). D-form Inst: Trap doubleword immediate
+Decode 2 D-form Inst:                   81. Opcode: 000010 ( 2).                   81. Opcode: 000010 ( 2). D-form Inst: Trap doubleword immediate
+Decode 2 D-form Inst:                   82. Opcode: 000010 ( 2).                   82. Opcode: 000010 ( 2). D-form Inst: Trap doubleword immediate
+Decode 2 D-form Inst:                   83. Opcode: 000010 ( 2).                   83. Opcode: 000010 ( 2). D-form Inst: Trap doubleword immediate
+Decode 2 D-form Inst:                   84. Opcode: 000010 ( 2).                   84. Opcode: 000010 ( 2). D-form Inst: Trap doubleword immediate
+Decode 2 D-form Inst:                   85. Opcode: 000010 ( 2).                   85. Opcode: 000010 ( 2). D-form Inst: Trap doubleword immediate
+Decode 2 D-form Inst:                   86. Opcode: 000010 ( 2).                   86. Opcode: 000010 ( 2). D-form Inst: Trap doubleword immediate
+Decode 2 D-form Inst:                   87. Opcode: 000010 ( 2).                   87. Opcode: 000010 ( 2). D-form Inst: Trap doubleword immediate
+Decode 2 D-form Inst:                   88. Opcode: 000010 ( 2).                   88. Opcode: 000010 ( 2). D-form Inst: Trap doubleword immediate
+Decode 2 D-form Inst:                   89. Opcode: 000010 ( 2).                   89. Opcode: 000010 ( 2). D-form Inst: Trap doubleword immediate
+Decode 2 D-form Inst:                   90. Opcode: 000010 ( 2).                   90. Opcode: 000010 ( 2). D-form Inst: Trap doubleword immediate
+Decode 2 D-form Inst:                   91. Opcode: 000010 ( 2).                   91. Opcode: 000010 ( 2). D-form Inst: Trap doubleword immediate
+Decode 2 D-form Inst:                   92. Opcode: 000010 ( 2).                   92. Opcode: 000010 ( 2). D-form Inst: Trap doubleword immediate
+Decode 2 D-form Inst:                   93. Opcode: 000010 ( 2).                   93. Opcode: 000010 ( 2). D-form Inst: Trap doubleword immediate
+Decode 2 D-form Inst:                   94. Opcode: 000010 ( 2).                   94. Opcode: 000010 ( 2). D-form Inst: Trap doubleword immediate
+Decode 2 D-form Inst:                   95. Opcode: 000010 ( 2).                   95. Opcode: 000010 ( 2). D-form Inst: Trap doubleword immediate
+Decode 2 D-form Inst:                   96. Opcode: 000011 ( 3).                   96. Opcode: 000011 ( 3). D-form Inst: Trap word immediate
+Decode 2 D-form Inst:                   97. Opcode: 000011 ( 3).                   97. Opcode: 000011 ( 3). D-form Inst: Trap word immediate
+Decode 2 D-form Inst:                   98. Opcode: 000011 ( 3).                   98. Opcode: 000011 ( 3). D-form Inst: Trap word immediate
+Decode 2 D-form Inst:                   99. Opcode: 000011 ( 3).                   99. Opcode: 000011 ( 3). D-form Inst: Trap word immediate
+Decode 2 D-form Inst:                  100. Opcode: 000011 ( 3).                  100. Opcode: 000011 ( 3). D-form Inst: Trap word immediate
+Decode 2 D-form Inst:                  101. Opcode: 000011 ( 3).                  101. Opcode: 000011 ( 3). D-form Inst: Trap word immediate
+Decode 2 D-form Inst:                  102. Opcode: 000011 ( 3).                  102. Opcode: 000011 ( 3). D-form Inst: Trap word immediate
+Decode 2 D-form Inst:                  103. Opcode: 000011 ( 3).                  103. Opcode: 000011 ( 3). D-form Inst: Trap word immediate
+Decode 2 D-form Inst:                  104. Opcode: 000011 ( 3).                  104. Opcode: 000011 ( 3). D-form Inst: Trap word immediate
+Decode 2 D-form Inst:                  105. Opcode: 000011 ( 3).                  105. Opcode: 000011 ( 3). D-form Inst: Trap word immediate
+Decode 2 D-form Inst:                  106. Opcode: 000011 ( 3).                  106. Opcode: 000011 ( 3). D-form Inst: Trap word immediate
+Decode 2 D-form Inst:                  107. Opcode: 000011 ( 3).                  107. Opcode: 000011 ( 3). D-form Inst: Trap word immediate
+Decode 2 D-form Inst:                  108. Opcode: 000011 ( 3).                  108. Opcode: 000011 ( 3). D-form Inst: Trap word immediate
+Decode 2 D-form Inst:                  109. Opcode: 000011 ( 3).                  109. Opcode: 000011 ( 3). D-form Inst: Trap word immediate
+Decode 2 D-form Inst:                  110. Opcode: 000011 ( 3).                  110. Opcode: 000011 ( 3). D-form Inst: Trap word immediate
+Decode 2 D-form Inst:                  111. Opcode: 000011 ( 3).                  111. Opcode: 000011 ( 3). D-form Inst: Trap word immediate
+Decode 2 D-form Inst:                  112. Opcode: 000011 ( 3).                  112. Opcode: 000011 ( 3). D-form Inst: Trap word immediate
+Decode 2 D-form Inst:                  113. Opcode: 000011 ( 3).                  113. Opcode: 000011 ( 3). D-form Inst: Trap word immediate
+Decode 2 D-form Inst:                  114. Opcode: 000011 ( 3).                  114. Opcode: 000011 ( 3). D-form Inst: Trap word immediate
+Decode 2 D-form Inst:                  115. Opcode: 000011 ( 3).                  115. Opcode: 000011 ( 3). D-form Inst: Trap word immediate
+Decode 2 D-form Inst:                  116. Opcode: 000011 ( 3).                  116. Opcode: 000011 ( 3). D-form Inst: Trap word immediate
+Decode 2 D-form Inst:                  117. Opcode: 000011 ( 3).                  117. Opcode: 000011 ( 3). D-form Inst: Trap word immediate
+Decode 2 D-form Inst:                  118. Opcode: 000011 ( 3).                  118. Opcode: 000011 ( 3). D-form Inst: Trap word immediate
+Decode 2 D-form Inst:                  119. Opcode: 000011 ( 3).                  119. Opcode: 000011 ( 3). D-form Inst: Trap word immediate
+Decode 2 D-form Inst:                  120. Opcode: 000011 ( 3).                  120. Opcode: 000011 ( 3). D-form Inst: Trap word immediate
+Decode 2 D-form Inst:                  121. Opcode: 000011 ( 3).                  121. Opcode: 000011 ( 3). D-form Inst: Trap word immediate
+Decode 2 D-form Inst:                  122. Opcode: 000011 ( 3).                  122. Opcode: 000011 ( 3). D-form Inst: Trap word immediate
+Decode 2 D-form Inst:                  123. Opcode: 000011 ( 3).                  123. Opcode: 000011 ( 3). D-form Inst: Trap word immediate
+Decode 2 D-form Inst:                  124. Opcode: 000011 ( 3).                  124. Opcode: 000011 ( 3). D-form Inst: Trap word immediate
+Decode 2 D-form Inst:                  125. Opcode: 000011 ( 3).                  125. Opcode: 000011 ( 3). D-form Inst: Trap word immediate
+Decode 2 D-form Inst:                  126. Opcode: 000011 ( 3).                  126. Opcode: 000011 ( 3). D-form Inst: Trap word immediate
+Decode 2 D-form Inst:                  127. Opcode: 000011 ( 3).                  127. Opcode: 000011 ( 3). D-form Inst: Trap word immediate
+Decode 2 D-form Inst:                  224. Opcode: 000111 ( 7).                  224. Opcode: 000111 ( 7). D-form Inst: Multiply low immediate
+Decode 2 D-form Inst:                  225. Opcode: 000111 ( 7).                  225. Opcode: 000111 ( 7). D-form Inst: Multiply low immediate
+Decode 2 D-form Inst:                  226. Opcode: 000111 ( 7).                  226. Opcode: 000111 ( 7). D-form Inst: Multiply low immediate
+Decode 2 D-form Inst:                  227. Opcode: 000111 ( 7).                  227. Opcode: 000111 ( 7). D-form Inst: Multiply low immediate
+Decode 2 D-form Inst:                  228. Opcode: 000111 ( 7).                  228. Opcode: 000111 ( 7). D-form Inst: Multiply low immediate
+Decode 2 D-form Inst:                  229. Opcode: 000111 ( 7).                  229. Opcode: 000111 ( 7). D-form Inst: Multiply low immediate
+Decode 2 D-form Inst:                  230. Opcode: 000111 ( 7).                  230. Opcode: 000111 ( 7). D-form Inst: Multiply low immediate
+Decode 2 D-form Inst:                  231. Opcode: 000111 ( 7).                  231. Opcode: 000111 ( 7). D-form Inst: Multiply low immediate
+Decode 2 D-form Inst:                  232. Opcode: 000111 ( 7).                  232. Opcode: 000111 ( 7). D-form Inst: Multiply low immediate
+Decode 2 D-form Inst:                  233. Opcode: 000111 ( 7).                  233. Opcode: 000111 ( 7). D-form Inst: Multiply low immediate
+Decode 2 D-form Inst:                  234. Opcode: 000111 ( 7).                  234. Opcode: 000111 ( 7). D-form Inst: Multiply low immediate
+Decode 2 D-form Inst:                  235. Opcode: 000111 ( 7).                  235. Opcode: 000111 ( 7). D-form Inst: Multiply low immediate
+Decode 2 D-form Inst:                  236. Opcode: 000111 ( 7).                  236. Opcode: 000111 ( 7). D-form Inst: Multiply low immediate
+Decode 2 D-form Inst:                  237. Opcode: 000111 ( 7).                  237. Opcode: 000111 ( 7). D-form Inst: Multiply low immediate
+Decode 2 D-form Inst:                  238. Opcode: 000111 ( 7).                  238. Opcode: 000111 ( 7). D-form Inst: Multiply low immediate
+Decode 2 D-form Inst:                  239. Opcode: 000111 ( 7).                  239. Opcode: 000111 ( 7). D-form Inst: Multiply low immediate
+Decode 2 D-form Inst:                  240. Opcode: 000111 ( 7).                  240. Opcode: 000111 ( 7). D-form Inst: Multiply low immediate
+Decode 2 D-form Inst:                  241. Opcode: 000111 ( 7).                  241. Opcode: 000111 ( 7). D-form Inst: Multiply low immediate
+Decode 2 D-form Inst:                  242. Opcode: 000111 ( 7).                  242. Opcode: 000111 ( 7). D-form Inst: Multiply low immediate
+Decode 2 D-form Inst:                  243. Opcode: 000111 ( 7).                  243. Opcode: 000111 ( 7). D-form Inst: Multiply low immediate
+Decode 2 D-form Inst:                  244. Opcode: 000111 ( 7).                  244. Opcode: 000111 ( 7). D-form Inst: Multiply low immediate
+Decode 2 D-form Inst:                  245. Opcode: 000111 ( 7).                  245. Opcode: 000111 ( 7). D-form Inst: Multiply low immediate
+Decode 2 D-form Inst:                  246. Opcode: 000111 ( 7).                  246. Opcode: 000111 ( 7). D-form Inst: Multiply low immediate
+Decode 2 D-form Inst:                  247. Opcode: 000111 ( 7).                  247. Opcode: 000111 ( 7). D-form Inst: Multiply low immediate
+Decode 2 D-form Inst:                  248. Opcode: 000111 ( 7).                  248. Opcode: 000111 ( 7). D-form Inst: Multiply low immediate
+Decode 2 D-form Inst:                  249. Opcode: 000111 ( 7).                  249. Opcode: 000111 ( 7). D-form Inst: Multiply low immediate
+Decode 2 D-form Inst:                  250. Opcode: 000111 ( 7).                  250. Opcode: 000111 ( 7). D-form Inst: Multiply low immediate
+Decode 2 D-form Inst:                  251. Opcode: 000111 ( 7).                  251. Opcode: 000111 ( 7). D-form Inst: Multiply low immediate
+Decode 2 D-form Inst:                  252. Opcode: 000111 ( 7).                  252. Opcode: 000111 ( 7). D-form Inst: Multiply low immediate
+Decode 2 D-form Inst:                  253. Opcode: 000111 ( 7).                  253. Opcode: 000111 ( 7). D-form Inst: Multiply low immediate
+Decode 2 D-form Inst:                  254. Opcode: 000111 ( 7).                  254. Opcode: 000111 ( 7). D-form Inst: Multiply low immediate
+Decode 2 D-form Inst:                  255. Opcode: 000111 ( 7).                  255. Opcode: 000111 ( 7). D-form Inst: Multiply low immediate
+Decode 2 D-form Inst:                  256. Opcode: 001000 ( 8).                  256. Opcode: 001000 ( 8). D-form Inst: Subtract from immediate carrying
+Decode 2 D-form Inst:                  257. Opcode: 001000 ( 8).                  257. Opcode: 001000 ( 8). D-form Inst: Subtract from immediate carrying
+Decode 2 D-form Inst:                  258. Opcode: 001000 ( 8).                  258. Opcode: 001000 ( 8). D-form Inst: Subtract from immediate carrying
+Decode 2 D-form Inst:                  259. Opcode: 001000 ( 8).                  259. Opcode: 001000 ( 8). D-form Inst: Subtract from immediate carrying
+Decode 2 D-form Inst:                  260. Opcode: 001000 ( 8).                  260. Opcode: 001000 ( 8). D-form Inst: Subtract from immediate carrying
+Decode 2 D-form Inst:                  261. Opcode: 001000 ( 8).                  261. Opcode: 001000 ( 8). D-form Inst: Subtract from immediate carrying
+Decode 2 D-form Inst:                  262. Opcode: 001000 ( 8).                  262. Opcode: 001000 ( 8). D-form Inst: Subtract from immediate carrying
+Decode 2 D-form Inst:                  263. Opcode: 001000 ( 8).                  263. Opcode: 001000 ( 8). D-form Inst: Subtract from immediate carrying
+Decode 2 D-form Inst:                  264. Opcode: 001000 ( 8).                  264. Opcode: 001000 ( 8). D-form Inst: Subtract from immediate carrying
+Decode 2 D-form Inst:                  265. Opcode: 001000 ( 8).                  265. Opcode: 001000 ( 8). D-form Inst: Subtract from immediate carrying
+Decode 2 D-form Inst:                  266. Opcode: 001000 ( 8).                  266. Opcode: 001000 ( 8). D-form Inst: Subtract from immediate carrying
+Decode 2 D-form Inst:                  267. Opcode: 001000 ( 8).                  267. Opcode: 001000 ( 8). D-form Inst: Subtract from immediate carrying
+Decode 2 D-form Inst:                  268. Opcode: 001000 ( 8).                  268. Opcode: 001000 ( 8). D-form Inst: Subtract from immediate carrying
+Decode 2 D-form Inst:                  269. Opcode: 001000 ( 8).                  269. Opcode: 001000 ( 8). D-form Inst: Subtract from immediate carrying
+Decode 2 D-form Inst:                  270. Opcode: 001000 ( 8).                  270. Opcode: 001000 ( 8). D-form Inst: Subtract from immediate carrying
+Decode 2 D-form Inst:                  271. Opcode: 001000 ( 8).                  271. Opcode: 001000 ( 8). D-form Inst: Subtract from immediate carrying
+Decode 2 D-form Inst:                  272. Opcode: 001000 ( 8).                  272. Opcode: 001000 ( 8). D-form Inst: Subtract from immediate carrying
+Decode 2 D-form Inst:                  273. Opcode: 001000 ( 8).                  273. Opcode: 001000 ( 8). D-form Inst: Subtract from immediate carrying
+Decode 2 D-form Inst:                  274. Opcode: 001000 ( 8).                  274. Opcode: 001000 ( 8). D-form Inst: Subtract from immediate carrying
+Decode 2 D-form Inst:                  275. Opcode: 001000 ( 8).                  275. Opcode: 001000 ( 8). D-form Inst: Subtract from immediate carrying
+Decode 2 D-form Inst:                  276. Opcode: 001000 ( 8).                  276. Opcode: 001000 ( 8). D-form Inst: Subtract from immediate carrying
+Decode 2 D-form Inst:                  277. Opcode: 001000 ( 8).                  277. Opcode: 001000 ( 8). D-form Inst: Subtract from immediate carrying
+Decode 2 D-form Inst:                  278. Opcode: 001000 ( 8).                  278. Opcode: 001000 ( 8). D-form Inst: Subtract from immediate carrying
+Decode 2 D-form Inst:                  279. Opcode: 001000 ( 8).                  279. Opcode: 001000 ( 8). D-form Inst: Subtract from immediate carrying
+Decode 2 D-form Inst:                  280. Opcode: 001000 ( 8).                  280. Opcode: 001000 ( 8). D-form Inst: Subtract from immediate carrying
+Decode 2 D-form Inst:                  281. Opcode: 001000 ( 8).                  281. Opcode: 001000 ( 8). D-form Inst: Subtract from immediate carrying
+Decode 2 D-form Inst:                  282. Opcode: 001000 ( 8).                  282. Opcode: 001000 ( 8). D-form Inst: Subtract from immediate carrying
+Decode 2 D-form Inst:                  283. Opcode: 001000 ( 8).                  283. Opcode: 001000 ( 8). D-form Inst: Subtract from immediate carrying
+Decode 2 D-form Inst:                  284. Opcode: 001000 ( 8).                  284. Opcode: 001000 ( 8). D-form Inst: Subtract from immediate carrying
+Decode 2 D-form Inst:                  285. Opcode: 001000 ( 8).                  285. Opcode: 001000 ( 8). D-form Inst: Subtract from immediate carrying
+Decode 2 D-form Inst:                  286. Opcode: 001000 ( 8).                  286. Opcode: 001000 ( 8). D-form Inst: Subtract from immediate carrying
+Decode 2 D-form Inst:                  287. Opcode: 001000 ( 8).                  287. Opcode: 001000 ( 8). D-form Inst: Subtract from immediate carrying
+Decode 2 D-form Inst:                  320. Opcode: 001010 (10).                  320. Opcode: 001010 (10). D-form Inst: Compare logical immediate
+Decode 2 D-form Inst:                  321. Opcode: 001010 (10).                  321. Opcode: 001010 (10). D-form Inst: Compare logical immediate
+Decode 2 D-form Inst:                  322. Opcode: 001010 (10).                  322. Opcode: 001010 (10). D-form Inst: Compare logical immediate
+Decode 2 D-form Inst:                  323. Opcode: 001010 (10).                  323. Opcode: 001010 (10). D-form Inst: Compare logical immediate
+Decode 2 D-form Inst:                  324. Opcode: 001010 (10).                  324. Opcode: 001010 (10). D-form Inst: Compare logical immediate
+Decode 2 D-form Inst:                  325. Opcode: 001010 (10).                  325. Opcode: 001010 (10). D-form Inst: Compare logical immediate
+Decode 2 D-form Inst:                  326. Opcode: 001010 (10).                  326. Opcode: 001010 (10). D-form Inst: Compare logical immediate
+Decode 2 D-form Inst:                  327. Opcode: 001010 (10).                  327. Opcode: 001010 (10). D-form Inst: Compare logical immediate
+Decode 2 D-form Inst:                  328. Opcode: 001010 (10).                  328. Opcode: 001010 (10). D-form Inst: Compare logical immediate
+Decode 2 D-form Inst:                  329. Opcode: 001010 (10).                  329. Opcode: 001010 (10). D-form Inst: Compare logical immediate
+Decode 2 D-form Inst:                  330. Opcode: 001010 (10).                  330. Opcode: 001010 (10). D-form Inst: Compare logical immediate
+Decode 2 D-form Inst:                  331. Opcode: 001010 (10).                  331. Opcode: 001010 (10). D-form Inst: Compare logical immediate
+Decode 2 D-form Inst:                  332. Opcode: 001010 (10).                  332. Opcode: 001010 (10). D-form Inst: Compare logical immediate
+Decode 2 D-form Inst:                  333. Opcode: 001010 (10).                  333. Opcode: 001010 (10). D-form Inst: Compare logical immediate
+Decode 2 D-form Inst:                  334. Opcode: 001010 (10).                  334. Opcode: 001010 (10). D-form Inst: Compare logical immediate
+Decode 2 D-form Inst:                  335. Opcode: 001010 (10).                  335. Opcode: 001010 (10). D-form Inst: Compare logical immediate
+Decode 2 D-form Inst:                  336. Opcode: 001010 (10).                  336. Opcode: 001010 (10). D-form Inst: Compare logical immediate
+Decode 2 D-form Inst:                  337. Opcode: 001010 (10).                  337. Opcode: 001010 (10). D-form Inst: Compare logical immediate
+Decode 2 D-form Inst:                  338. Opcode: 001010 (10).                  338. Opcode: 001010 (10). D-form Inst: Compare logical immediate
+Decode 2 D-form Inst:                  339. Opcode: 001010 (10).                  339. Opcode: 001010 (10). D-form Inst: Compare logical immediate
+Decode 2 D-form Inst:                  340. Opcode: 001010 (10).                  340. Opcode: 001010 (10). D-form Inst: Compare logical immediate
+Decode 2 D-form Inst:                  341. Opcode: 001010 (10).                  341. Opcode: 001010 (10). D-form Inst: Compare logical immediate
+Decode 2 D-form Inst:                  342. Opcode: 001010 (10).                  342. Opcode: 001010 (10). D-form Inst: Compare logical immediate
+Decode 2 D-form Inst:                  343. Opcode: 001010 (10).                  343. Opcode: 001010 (10). D-form Inst: Compare logical immediate
+Decode 2 D-form Inst:                  344. Opcode: 001010 (10).                  344. Opcode: 001010 (10). D-form Inst: Compare logical immediate
+Decode 2 D-form Inst:                  345. Opcode: 001010 (10).                  345. Opcode: 001010 (10). D-form Inst: Compare logical immediate
+Decode 2 D-form Inst:                  346. Opcode: 001010 (10).                  346. Opcode: 001010 (10). D-form Inst: Compare logical immediate
+Decode 2 D-form Inst:                  347. Opcode: 001010 (10).                  347. Opcode: 001010 (10). D-form Inst: Compare logical immediate
+Decode 2 D-form Inst:                  348. Opcode: 001010 (10).                  348. Opcode: 001010 (10). D-form Inst: Compare logical immediate
+Decode 2 D-form Inst:                  349. Opcode: 001010 (10).                  349. Opcode: 001010 (10). D-form Inst: Compare logical immediate
+Decode 2 D-form Inst:                  350. Opcode: 001010 (10).                  350. Opcode: 001010 (10). D-form Inst: Compare logical immediate
+Decode 2 D-form Inst:                  351. Opcode: 001010 (10).                  351. Opcode: 001010 (10). D-form Inst: Compare logical immediate
+Decode 2 D-form Inst:                  352. Opcode: 001011 (11).                  352. Opcode: 001011 (11). D-form Inst: Compare immediate
+Decode 2 D-form Inst:                  353. Opcode: 001011 (11).                  353. Opcode: 001011 (11). D-form Inst: Compare immediate
+Decode 2 D-form Inst:                  354. Opcode: 001011 (11).                  354. Opcode: 001011 (11). D-form Inst: Compare immediate
+Decode 2 D-form Inst:                  355. Opcode: 001011 (11).                  355. Opcode: 001011 (11). D-form Inst: Compare immediate
+Decode 2 D-form Inst:                  356. Opcode: 001011 (11).                  356. Opcode: 001011 (11). D-form Inst: Compare immediate
+Decode 2 D-form Inst:                  357. Opcode: 001011 (11).                  357. Opcode: 001011 (11). D-form Inst: Compare immediate
+Decode 2 D-form Inst:                  358. Opcode: 001011 (11).                  358. Opcode: 001011 (11). D-form Inst: Compare immediate
+Decode 2 D-form Inst:                  359. Opcode: 001011 (11).                  359. Opcode: 001011 (11). D-form Inst: Compare immediate
+Decode 2 D-form Inst:                  360. Opcode: 001011 (11).                  360. Opcode: 001011 (11). D-form Inst: Compare immediate
+Decode 2 D-form Inst:                  361. Opcode: 001011 (11).                  361. Opcode: 001011 (11). D-form Inst: Compare immediate
+Decode 2 D-form Inst:                  362. Opcode: 001011 (11).                  362. Opcode: 001011 (11). D-form Inst: Compare immediate
+Decode 2 D-form Inst:                  363. Opcode: 001011 (11).                  363. Opcode: 001011 (11). D-form Inst: Compare immediate
+Decode 2 D-form Inst:                  364. Opcode: 001011 (11).                  364. Opcode: 001011 (11). D-form Inst: Compare immediate
+Decode 2 D-form Inst:                  365. Opcode: 001011 (11).                  365. Opcode: 001011 (11). D-form Inst: Compare immediate
+Decode 2 D-form Inst:                  366. Opcode: 001011 (11).                  366. Opcode: 001011 (11). D-form Inst: Compare immediate
+Decode 2 D-form Inst:                  367. Opcode: 001011 (11).                  367. Opcode: 001011 (11). D-form Inst: Compare immediate
+Decode 2 D-form Inst:                  368. Opcode: 001011 (11).                  368. Opcode: 001011 (11). D-form Inst: Compare immediate
+Decode 2 D-form Inst:                  369. Opcode: 001011 (11).                  369. Opcode: 001011 (11). D-form Inst: Compare immediate
+Decode 2 D-form Inst:                  370. Opcode: 001011 (11).                  370. Opcode: 001011 (11). D-form Inst: Compare immediate
+Decode 2 D-form Inst:                  371. Opcode: 001011 (11).                  371. Opcode: 001011 (11). D-form Inst: Compare immediate
+Decode 2 D-form Inst:                  372. Opcode: 001011 (11).                  372. Opcode: 001011 (11). D-form Inst: Compare immediate
+Decode 2 D-form Inst:                  373. Opcode: 001011 (11).                  373. Opcode: 001011 (11). D-form Inst: Compare immediate
+Decode 2 D-form Inst:                  374. Opcode: 001011 (11).                  374. Opcode: 001011 (11). D-form Inst: Compare immediate
+Decode 2 D-form Inst:                  375. Opcode: 001011 (11).                  375. Opcode: 001011 (11). D-form Inst: Compare immediate
+Decode 2 D-form Inst:                  376. Opcode: 001011 (11).                  376. Opcode: 001011 (11). D-form Inst: Compare immediate
+Decode 2 D-form Inst:                  377. Opcode: 001011 (11).                  377. Opcode: 001011 (11). D-form Inst: Compare immediate
+Decode 2 D-form Inst:                  378. Opcode: 001011 (11).                  378. Opcode: 001011 (11). D-form Inst: Compare immediate
+Decode 2 D-form Inst:                  379. Opcode: 001011 (11).                  379. Opcode: 001011 (11). D-form Inst: Compare immediate
+Decode 2 D-form Inst:                  380. Opcode: 001011 (11).                  380. Opcode: 001011 (11). D-form Inst: Compare immediate
+Decode 2 D-form Inst:                  381. Opcode: 001011 (11).                  381. Opcode: 001011 (11). D-form Inst: Compare immediate
+Decode 2 D-form Inst:                  382. Opcode: 001011 (11).                  382. Opcode: 001011 (11). D-form Inst: Compare immediate
+Decode 2 D-form Inst:                  383. Opcode: 001011 (11).                  383. Opcode: 001011 (11). D-form Inst: Compare immediate
+Decode 2 D-form Inst:                  384. Opcode: 001100 (12).                  384. Opcode: 001100 (12). D-form Inst: Add immediate carrying
+Decode 2 D-form Inst:                  385. Opcode: 001100 (12).                  385. Opcode: 001100 (12). D-form Inst: Add immediate carrying
+Decode 2 D-form Inst:                  386. Opcode: 001100 (12).                  386. Opcode: 001100 (12). D-form Inst: Add immediate carrying
+Decode 2 D-form Inst:                  387. Opcode: 001100 (12).                  387. Opcode: 001100 (12). D-form Inst: Add immediate carrying
+Decode 2 D-form Inst:                  388. Opcode: 001100 (12).                  388. Opcode: 001100 (12). D-form Inst: Add immediate carrying
+Decode 2 D-form Inst:                  389. Opcode: 001100 (12).                  389. Opcode: 001100 (12). D-form Inst: Add immediate carrying
+Decode 2 D-form Inst:                  390. Opcode: 001100 (12).                  390. Opcode: 001100 (12). D-form Inst: Add immediate carrying
+Decode 2 D-form Inst:                  391. Opcode: 001100 (12).                  391. Opcode: 001100 (12). D-form Inst: Add immediate carrying
+Decode 2 D-form Inst:                  392. Opcode: 001100 (12).                  392. Opcode: 001100 (12). D-form Inst: Add immediate carrying
+Decode 2 D-form Inst:                  393. Opcode: 001100 (12).                  393. Opcode: 001100 (12). D-form Inst: Add immediate carrying
+Decode 2 D-form Inst:                  394. Opcode: 001100 (12).                  394. Opcode: 001100 (12). D-form Inst: Add immediate carrying
+Decode 2 D-form Inst:                  395. Opcode: 001100 (12).                  395. Opcode: 001100 (12). D-form Inst: Add immediate carrying
+Decode 2 D-form Inst:                  396. Opcode: 001100 (12).                  396. Opcode: 001100 (12). D-form Inst: Add immediate carrying
+Decode 2 D-form Inst:                  397. Opcode: 001100 (12).                  397. Opcode: 001100 (12). D-form Inst: Add immediate carrying
+Decode 2 D-form Inst:                  398. Opcode: 001100 (12).                  398. Opcode: 001100 (12). D-form Inst: Add immediate carrying
+Decode 2 D-form Inst:                  399. Opcode: 001100 (12).                  399. Opcode: 001100 (12). D-form Inst: Add immediate carrying
+Decode 2 D-form Inst:                  400. Opcode: 001100 (12).                  400. Opcode: 001100 (12). D-form Inst: Add immediate carrying
+Decode 2 D-form Inst:                  401. Opcode: 001100 (12).                  401. Opcode: 001100 (12). D-form Inst: Add immediate carrying
+Decode 2 D-form Inst:                  402. Opcode: 001100 (12).                  402. Opcode: 001100 (12). D-form Inst: Add immediate carrying
+Decode 2 D-form Inst:                  403. Opcode: 001100 (12).                  403. Opcode: 001100 (12). D-form Inst: Add immediate carrying
+Decode 2 D-form Inst:                  404. Opcode: 001100 (12).                  404. Opcode: 001100 (12). D-form Inst: Add immediate carrying
+Decode 2 D-form Inst:                  405. Opcode: 001100 (12).                  405. Opcode: 001100 (12). D-form Inst: Add immediate carrying
+Decode 2 D-form Inst:                  406. Opcode: 001100 (12).                  406. Opcode: 001100 (12). D-form Inst: Add immediate carrying
+Decode 2 D-form Inst:                  407. Opcode: 001100 (12).                  407. Opcode: 001100 (12). D-form Inst: Add immediate carrying
+Decode 2 D-form Inst:                  408. Opcode: 001100 (12).                  408. Opcode: 001100 (12). D-form Inst: Add immediate carrying
+Decode 2 D-form Inst:                  409. Opcode: 001100 (12).                  409. Opcode: 001100 (12). D-form Inst: Add immediate carrying
+Decode 2 D-form Inst:                  410. Opcode: 001100 (12).                  410. Opcode: 001100 (12). D-form Inst: Add immediate carrying
+Decode 2 D-form Inst:                  411. Opcode: 001100 (12).                  411. Opcode: 001100 (12). D-form Inst: Add immediate carrying
+Decode 2 D-form Inst:                  412. Opcode: 001100 (12).                  412. Opcode: 001100 (12). D-form Inst: Add immediate carrying
+Decode 2 D-form Inst:                  413. Opcode: 001100 (12).                  413. Opcode: 001100 (12). D-form Inst: Add immediate carrying
+Decode 2 D-form Inst:                  414. Opcode: 001100 (12).                  414. Opcode: 001100 (12). D-form Inst: Add immediate carrying
+Decode 2 D-form Inst:                  415. Opcode: 001100 (12).                  415. Opcode: 001100 (12). D-form Inst: Add immediate carrying
+Decode 2 D-form Inst:                  416. Opcode: 001101 (13).                  416. Opcode: 001101 (13). D-form Inst: Add immediate carrying and record
+Decode 2 D-form Inst:                  417. Opcode: 001101 (13).                  417. Opcode: 001101 (13). D-form Inst: Add immediate carrying and record
+Decode 2 D-form Inst:                  418. Opcode: 001101 (13).                  418. Opcode: 001101 (13). D-form Inst: Add immediate carrying and record
+Decode 2 D-form Inst:                  419. Opcode: 001101 (13).                  419. Opcode: 001101 (13). D-form Inst: Add immediate carrying and record
+Decode 2 D-form Inst:                  420. Opcode: 001101 (13).                  420. Opcode: 001101 (13). D-form Inst: Add immediate carrying and record
+Decode 2 D-form Inst:                  421. Opcode: 001101 (13).                  421. Opcode: 001101 (13). D-form Inst: Add immediate carrying and record
+Decode 2 D-form Inst:                  422. Opcode: 001101 (13).                  422. Opcode: 001101 (13). D-form Inst: Add immediate carrying and record
+Decode 2 D-form Inst:                  423. Opcode: 001101 (13).                  423. Opcode: 001101 (13). D-form Inst: Add immediate carrying and record
+Decode 2 D-form Inst:                  424. Opcode: 001101 (13).                  424. Opcode: 001101 (13). D-form Inst: Add immediate carrying and record
+Decode 2 D-form Inst:                  425. Opcode: 001101 (13).                  425. Opcode: 001101 (13). D-form Inst: Add immediate carrying and record
+Decode 2 D-form Inst:                  426. Opcode: 001101 (13).                  426. Opcode: 001101 (13). D-form Inst: Add immediate carrying and record
+Decode 2 D-form Inst:                  427. Opcode: 001101 (13).                  427. Opcode: 001101 (13). D-form Inst: Add immediate carrying and record
+Decode 2 D-form Inst:                  428. Opcode: 001101 (13).                  428. Opcode: 001101 (13). D-form Inst: Add immediate carrying and record
+Decode 2 D-form Inst:                  429. Opcode: 001101 (13).                  429. Opcode: 001101 (13). D-form Inst: Add immediate carrying and record
+Decode 2 D-form Inst:                  430. Opcode: 001101 (13).                  430. Opcode: 001101 (13). D-form Inst: Add immediate carrying and record
+Decode 2 D-form Inst:                  431. Opcode: 001101 (13).                  431. Opcode: 001101 (13). D-form Inst: Add immediate carrying and record
+Decode 2 D-form Inst:                  432. Opcode: 001101 (13).                  432. Opcode: 001101 (13). D-form Inst: Add immediate carrying and record
+Decode 2 D-form Inst:                  433. Opcode: 001101 (13).                  433. Opcode: 001101 (13). D-form Inst: Add immediate carrying and record
+Decode 2 D-form Inst:                  434. Opcode: 001101 (13).                  434. Opcode: 001101 (13). D-form Inst: Add immediate carrying and record
+Decode 2 D-form Inst:                  435. Opcode: 001101 (13).                  435. Opcode: 001101 (13). D-form Inst: Add immediate carrying and record
+Decode 2 D-form Inst:                  436. Opcode: 001101 (13).                  436. Opcode: 001101 (13). D-form Inst: Add immediate carrying and record
+Decode 2 D-form Inst:                  437. Opcode: 001101 (13).                  437. Opcode: 001101 (13). D-form Inst: Add immediate carrying and record
+Decode 2 D-form Inst:                  438. Opcode: 001101 (13).                  438. Opcode: 001101 (13). D-form Inst: Add immediate carrying and record
+Decode 2 D-form Inst:                  439. Opcode: 001101 (13).                  439. Opcode: 001101 (13). D-form Inst: Add immediate carrying and record
+Decode 2 D-form Inst:                  440. Opcode: 001101 (13).                  440. Opcode: 001101 (13). D-form Inst: Add immediate carrying and record
+Decode 2 D-form Inst:                  441. Opcode: 001101 (13).                  441. Opcode: 001101 (13). D-form Inst: Add immediate carrying and record
+Decode 2 D-form Inst:                  442. Opcode: 001101 (13).                  442. Opcode: 001101 (13). D-form Inst: Add immediate carrying and record
+Decode 2 D-form Inst:                  443. Opcode: 001101 (13).                  443. Opcode: 001101 (13). D-form Inst: Add immediate carrying and record
+Decode 2 D-form Inst:                  444. Opcode: 001101 (13).                  444. Opcode: 001101 (13). D-form Inst: Add immediate carrying and record
+Decode 2 D-form Inst:                  445. Opcode: 001101 (13).                  445. Opcode: 001101 (13). D-form Inst: Add immediate carrying and record
+Decode 2 D-form Inst:                  446. Opcode: 001101 (13).                  446. Opcode: 001101 (13). D-form Inst: Add immediate carrying and record
+Decode 2 D-form Inst:                  447. Opcode: 001101 (13).                  447. Opcode: 001101 (13). D-form Inst: Add immediate carrying and record
+Decode 2 D-form Inst:                  448. Opcode: 001110 (14).                  448. Opcode: 001110 (14). D-form Inst: Add immediate
+Decode 2 D-form Inst:                  449. Opcode: 001110 (14).                  449. Opcode: 001110 (14). D-form Inst: Add immediate
+Decode 2 D-form Inst:                  450. Opcode: 001110 (14).                  450. Opcode: 001110 (14). D-form Inst: Add immediate
+Decode 2 D-form Inst:                  451. Opcode: 001110 (14).                  451. Opcode: 001110 (14). D-form Inst: Add immediate
+Decode 2 D-form Inst:                  452. Opcode: 001110 (14).                  452. Opcode: 001110 (14). D-form Inst: Add immediate
+Decode 2 D-form Inst:                  453. Opcode: 001110 (14).                  453. Opcode: 001110 (14). D-form Inst: Add immediate
+Decode 2 D-form Inst:                  454. Opcode: 001110 (14).                  454. Opcode: 001110 (14). D-form Inst: Add immediate
+Decode 2 D-form Inst:                  455. Opcode: 001110 (14).                  455. Opcode: 001110 (14). D-form Inst: Add immediate
+Decode 2 D-form Inst:                  456. Opcode: 001110 (14).                  456. Opcode: 001110 (14). D-form Inst: Add immediate
+Decode 2 D-form Inst:                  457. Opcode: 001110 (14).                  457. Opcode: 001110 (14). D-form Inst: Add immediate
+Decode 2 D-form Inst:                  458. Opcode: 001110 (14).                  458. Opcode: 001110 (14). D-form Inst: Add immediate
+Decode 2 D-form Inst:                  459. Opcode: 001110 (14).                  459. Opcode: 001110 (14). D-form Inst: Add immediate
+Decode 2 D-form Inst:                  460. Opcode: 001110 (14).                  460. Opcode: 001110 (14). D-form Inst: Add immediate
+Decode 2 D-form Inst:                  461. Opcode: 001110 (14).                  461. Opcode: 001110 (14). D-form Inst: Add immediate
+Decode 2 D-form Inst:                  462. Opcode: 001110 (14).                  462. Opcode: 001110 (14). D-form Inst: Add immediate
+Decode 2 D-form Inst:                  463. Opcode: 001110 (14).                  463. Opcode: 001110 (14). D-form Inst: Add immediate
+Decode 2 D-form Inst:                  464. Opcode: 001110 (14).                  464. Opcode: 001110 (14). D-form Inst: Add immediate
+Decode 2 D-form Inst:                  465. Opcode: 001110 (14).                  465. Opcode: 001110 (14). D-form Inst: Add immediate
+Decode 2 D-form Inst:                  466. Opcode: 001110 (14).                  466. Opcode: 001110 (14). D-form Inst: Add immediate
+Decode 2 D-form Inst:                  467. Opcode: 001110 (14).                  467. Opcode: 001110 (14). D-form Inst: Add immediate
+Decode 2 D-form Inst:                  468. Opcode: 001110 (14).                  468. Opcode: 001110 (14). D-form Inst: Add immediate
+Decode 2 D-form Inst:                  469. Opcode: 001110 (14).                  469. Opcode: 001110 (14). D-form Inst: Add immediate
+Decode 2 D-form Inst:                  470. Opcode: 001110 (14).                  470. Opcode: 001110 (14). D-form Inst: Add immediate
+Decode 2 D-form Inst:                  471. Opcode: 001110 (14).                  471. Opcode: 001110 (14). D-form Inst: Add immediate
+Decode 2 D-form Inst:                  472. Opcode: 001110 (14).                  472. Opcode: 001110 (14). D-form Inst: Add immediate
+Decode 2 D-form Inst:                  473. Opcode: 001110 (14).                  473. Opcode: 001110 (14). D-form Inst: Add immediate
+Decode 2 D-form Inst:                  474. Opcode: 001110 (14).                  474. Opcode: 001110 (14). D-form Inst: Add immediate
+Decode 2 D-form Inst:                  475. Opcode: 001110 (14).                  475. Opcode: 001110 (14). D-form Inst: Add immediate
+Decode 2 D-form Inst:                  476. Opcode: 001110 (14).                  476. Opcode: 001110 (14). D-form Inst: Add immediate
+Decode 2 D-form Inst:                  477. Opcode: 001110 (14).                  477. Opcode: 001110 (14). D-form Inst: Add immediate
+Decode 2 D-form Inst:                  478. Opcode: 001110 (14).                  478. Opcode: 001110 (14). D-form Inst: Add immediate
+Decode 2 D-form Inst:                  479. Opcode: 001110 (14).                  479. Opcode: 001110 (14). D-form Inst: Add immediate
+Decode 2 D-form Inst:                  480. Opcode: 001111 (15).                  480. Opcode: 001111 (15). D-form Inst: Add immediate shifted
+Decode 2 D-form Inst:                  481. Opcode: 001111 (15).                  481. Opcode: 001111 (15). D-form Inst: Add immediate shifted
+Decode 2 D-form Inst:                  482. Opcode: 001111 (15).                  482. Opcode: 001111 (15). D-form Inst: Add immediate shifted
+Decode 2 D-form Inst:                  483. Opcode: 001111 (15).                  483. Opcode: 001111 (15). D-form Inst: Add immediate shifted
+Decode 2 D-form Inst:                  484. Opcode: 001111 (15).                  484. Opcode: 001111 (15). D-form Inst: Add immediate shifted
+Decode 2 D-form Inst:                  485. Opcode: 001111 (15).                  485. Opcode: 001111 (15). D-form Inst: Add immediate shifted
+Decode 2 D-form Inst:                  486. Opcode: 001111 (15).                  486. Opcode: 001111 (15). D-form Inst: Add immediate shifted
+Decode 2 D-form Inst:                  487. Opcode: 001111 (15).                  487. Opcode: 001111 (15). D-form Inst: Add immediate shifted
+Decode 2 D-form Inst:                  488. Opcode: 001111 (15).                  488. Opcode: 001111 (15). D-form Inst: Add immediate shifted
+Decode 2 D-form Inst:                  489. Opcode: 001111 (15).                  489. Opcode: 001111 (15). D-form Inst: Add immediate shifted
+Decode 2 D-form Inst:                  490. Opcode: 001111 (15).                  490. Opcode: 001111 (15). D-form Inst: Add immediate shifted
+Decode 2 D-form Inst:                  491. Opcode: 001111 (15).                  491. Opcode: 001111 (15). D-form Inst: Add immediate shifted
+Decode 2 D-form Inst:                  492. Opcode: 001111 (15).                  492. Opcode: 001111 (15). D-form Inst: Add immediate shifted
+Decode 2 D-form Inst:                  493. Opcode: 001111 (15).                  493. Opcode: 001111 (15). D-form Inst: Add immediate shifted
+Decode 2 D-form Inst:                  494. Opcode: 001111 (15).                  494. Opcode: 001111 (15). D-form Inst: Add immediate shifted
+Decode 2 D-form Inst:                  495. Opcode: 001111 (15).                  495. Opcode: 001111 (15). D-form Inst: Add immediate shifted
+Decode 2 D-form Inst:                  496. Opcode: 001111 (15).                  496. Opcode: 001111 (15). D-form Inst: Add immediate shifted
+Decode 2 D-form Inst:                  497. Opcode: 001111 (15).                  497. Opcode: 001111 (15). D-form Inst: Add immediate shifted
+Decode 2 D-form Inst:                  498. Opcode: 001111 (15).                  498. Opcode: 001111 (15). D-form Inst: Add immediate shifted
+Decode 2 D-form Inst:                  499. Opcode: 001111 (15).                  499. Opcode: 001111 (15). D-form Inst: Add immediate shifted
+Decode 2 D-form Inst:                  500. Opcode: 001111 (15).                  500. Opcode: 001111 (15). D-form Inst: Add immediate shifted
+Decode 2 D-form Inst:                  501. Opcode: 001111 (15).                  501. Opcode: 001111 (15). D-form Inst: Add immediate shifted
+Decode 2 D-form Inst:                  502. Opcode: 001111 (15).                  502. Opcode: 001111 (15). D-form Inst: Add immediate shifted
+Decode 2 D-form Inst:                  503. Opcode: 001111 (15).                  503. Opcode: 001111 (15). D-form Inst: Add immediate shifted
+Decode 2 D-form Inst:                  504. Opcode: 001111 (15).                  504. Opcode: 001111 (15). D-form Inst: Add immediate shifted
+Decode 2 D-form Inst:                  505. Opcode: 001111 (15).                  505. Opcode: 001111 (15). D-form Inst: Add immediate shifted
+Decode 2 D-form Inst:                  506. Opcode: 001111 (15).                  506. Opcode: 001111 (15). D-form Inst: Add immediate shifted
+Decode 2 D-form Inst:                  507. Opcode: 001111 (15).                  507. Opcode: 001111 (15). D-form Inst: Add immediate shifted
+Decode 2 D-form Inst:                  508. Opcode: 001111 (15).                  508. Opcode: 001111 (15). D-form Inst: Add immediate shifted
+Decode 2 D-form Inst:                  509. Opcode: 001111 (15).                  509. Opcode: 001111 (15). D-form Inst: Add immediate shifted
+Decode 2 D-form Inst:                  510. Opcode: 001111 (15).                  510. Opcode: 001111 (15). D-form Inst: Add immediate shifted
+Decode 2 D-form Inst:                  511. Opcode: 001111 (15).                  511. Opcode: 001111 (15). D-form Inst: Add immediate shifted
+Decode 2 D-form Inst:                  768. Opcode: 011000 (24).                  768. Opcode: 011000 (24). D-form Inst: OR immediate
+Decode 2 D-form Inst:                  769. Opcode: 011000 (24).                  769. Opcode: 011000 (24). D-form Inst: OR immediate
+Decode 2 D-form Inst:                  770. Opcode: 011000 (24).                  770. Opcode: 011000 (24). D-form Inst: OR immediate
+Decode 2 D-form Inst:                  771. Opcode: 011000 (24).                  771. Opcode: 011000 (24). D-form Inst: OR immediate
+Decode 2 D-form Inst:                  772. Opcode: 011000 (24).                  772. Opcode: 011000 (24). D-form Inst: OR immediate
+Decode 2 D-form Inst:                  773. Opcode: 011000 (24).                  773. Opcode: 011000 (24). D-form Inst: OR immediate
+Decode 2 D-form Inst:                  774. Opcode: 011000 (24).                  774. Opcode: 011000 (24). D-form Inst: OR immediate
+Decode 2 D-form Inst:                  775. Opcode: 011000 (24).                  775. Opcode: 011000 (24). D-form Inst: OR immediate
+Decode 2 D-form Inst:                  776. Opcode: 011000 (24).                  776. Opcode: 011000 (24). D-form Inst: OR immediate
+Decode 2 D-form Inst:                  777. Opcode: 011000 (24).                  777. Opcode: 011000 (24). D-form Inst: OR immediate
+Decode 2 D-form Inst:                  778. Opcode: 011000 (24).                  778. Opcode: 011000 (24). D-form Inst: OR immediate
+Decode 2 D-form Inst:                  779. Opcode: 011000 (24).                  779. Opcode: 011000 (24). D-form Inst: OR immediate
+Decode 2 D-form Inst:                  780. Opcode: 011000 (24).                  780. Opcode: 011000 (24). D-form Inst: OR immediate
+Decode 2 D-form Inst:                  781. Opcode: 011000 (24).                  781. Opcode: 011000 (24). D-form Inst: OR immediate
+Decode 2 D-form Inst:                  782. Opcode: 011000 (24).                  782. Opcode: 011000 (24). D-form Inst: OR immediate
+Decode 2 D-form Inst:                  783. Opcode: 011000 (24).                  783. Opcode: 011000 (24). D-form Inst: OR immediate
+Decode 2 D-form Inst:                  784. Opcode: 011000 (24).                  784. Opcode: 011000 (24). D-form Inst: OR immediate
+Decode 2 D-form Inst:                  785. Opcode: 011000 (24).                  785. Opcode: 011000 (24). D-form Inst: OR immediate
+Decode 2 D-form Inst:                  786. Opcode: 011000 (24).                  786. Opcode: 011000 (24). D-form Inst: OR immediate
+Decode 2 D-form Inst:                  787. Opcode: 011000 (24).                  787. Opcode: 011000 (24). D-form Inst: OR immediate
+Decode 2 D-form Inst:                  788. Opcode: 011000 (24).                  788. Opcode: 011000 (24). D-form Inst: OR immediate
+Decode 2 D-form Inst:                  789. Opcode: 011000 (24).                  789. Opcode: 011000 (24). D-form Inst: OR immediate
+Decode 2 D-form Inst:                  790. Opcode: 011000 (24).                  790. Opcode: 011000 (24). D-form Inst: OR immediate
+Decode 2 D-form Inst:                  791. Opcode: 011000 (24).                  791. Opcode: 011000 (24). D-form Inst: OR immediate
+Decode 2 D-form Inst:                  792. Opcode: 011000 (24).                  792. Opcode: 011000 (24). D-form Inst: OR immediate
+Decode 2 D-form Inst:                  793. Opcode: 011000 (24).                  793. Opcode: 011000 (24). D-form Inst: OR immediate
+Decode 2 D-form Inst:                  794. Opcode: 011000 (24).                  794. Opcode: 011000 (24). D-form Inst: OR immediate
+Decode 2 D-form Inst:                  795. Opcode: 011000 (24).                  795. Opcode: 011000 (24). D-form Inst: OR immediate
+Decode 2 D-form Inst:                  796. Opcode: 011000 (24).                  796. Opcode: 011000 (24). D-form Inst: OR immediate
+Decode 2 D-form Inst:                  797. Opcode: 011000 (24).                  797. Opcode: 011000 (24). D-form Inst: OR immediate
+Decode 2 D-form Inst:                  798. Opcode: 011000 (24).                  798. Opcode: 011000 (24). D-form Inst: OR immediate
+Decode 2 D-form Inst:                  799. Opcode: 011000 (24).                  799. Opcode: 011000 (24). D-form Inst: OR immediate
+Decode 2 D-form Inst:                  800. Opcode: 011001 (25).                  800. Opcode: 011001 (25). D-form Inst: OR immediate shifted
+Decode 2 D-form Inst:                  801. Opcode: 011001 (25).                  801. Opcode: 011001 (25). D-form Inst: OR immediate shifted
+Decode 2 D-form Inst:                  802. Opcode: 011001 (25).                  802. Opcode: 011001 (25). D-form Inst: OR immediate shifted
+Decode 2 D-form Inst:                  803. Opcode: 011001 (25).                  803. Opcode: 011001 (25). D-form Inst: OR immediate shifted
+Decode 2 D-form Inst:                  804. Opcode: 011001 (25).                  804. Opcode: 011001 (25). D-form Inst: OR immediate shifted
+Decode 2 D-form Inst:                  805. Opcode: 011001 (25).                  805. Opcode: 011001 (25). D-form Inst: OR immediate shifted
+Decode 2 D-form Inst:                  806. Opcode: 011001 (25).                  806. Opcode: 011001 (25). D-form Inst: OR immediate shifted
+Decode 2 D-form Inst:                  807. Opcode: 011001 (25).                  807. Opcode: 011001 (25). D-form Inst: OR immediate shifted
+Decode 2 D-form Inst:                  808. Opcode: 011001 (25).                  808. Opcode: 011001 (25). D-form Inst: OR immediate shifted
+Decode 2 D-form Inst:                  809. Opcode: 011001 (25).                  809. Opcode: 011001 (25). D-form Inst: OR immediate shifted
+Decode 2 D-form Inst:                  810. Opcode: 011001 (25).                  810. Opcode: 011001 (25). D-form Inst: OR immediate shifted
+Decode 2 D-form Inst:                  811. Opcode: 011001 (25).                  811. Opcode: 011001 (25). D-form Inst: OR immediate shifted
+Decode 2 D-form Inst:                  812. Opcode: 011001 (25).                  812. Opcode: 011001 (25). D-form Inst: OR immediate shifted
+Decode 2 D-form Inst:                  813. Opcode: 011001 (25).                  813. Opcode: 011001 (25). D-form Inst: OR immediate shifted
+Decode 2 D-form Inst:                  814. Opcode: 011001 (25).                  814. Opcode: 011001 (25). D-form Inst: OR immediate shifted
+Decode 2 D-form Inst:                  815. Opcode: 011001 (25).                  815. Opcode: 011001 (25). D-form Inst: OR immediate shifted
+Decode 2 D-form Inst:                  816. Opcode: 011001 (25).                  816. Opcode: 011001 (25). D-form Inst: OR immediate shifted
+Decode 2 D-form Inst:                  817. Opcode: 011001 (25).                  817. Opcode: 011001 (25). D-form Inst: OR immediate shifted
+Decode 2 D-form Inst:                  818. Opcode: 011001 (25).                  818. Opcode: 011001 (25). D-form Inst: OR immediate shifted
+Decode 2 D-form Inst:                  819. Opcode: 011001 (25).                  819. Opcode: 011001 (25). D-form Inst: OR immediate shifted
+Decode 2 D-form Inst:                  820. Opcode: 011001 (25).                  820. Opcode: 011001 (25). D-form Inst: OR immediate shifted
+Decode 2 D-form Inst:                  821. Opcode: 011001 (25).                  821. Opcode: 011001 (25). D-form Inst: OR immediate shifted
+Decode 2 D-form Inst:                  822. Opcode: 011001 (25).                  822. Opcode: 011001 (25). D-form Inst: OR immediate shifted
+Decode 2 D-form Inst:                  823. Opcode: 011001 (25).                  823. Opcode: 011001 (25). D-form Inst: OR immediate shifted
+Decode 2 D-form Inst:                  824. Opcode: 011001 (25).                  824. Opcode: 011001 (25). D-form Inst: OR immediate shifted
+Decode 2 D-form Inst:                  825. Opcode: 011001 (25).                  825. Opcode: 011001 (25). D-form Inst: OR immediate shifted
+Decode 2 D-form Inst:                  826. Opcode: 011001 (25).                  826. Opcode: 011001 (25). D-form Inst: OR immediate shifted
+Decode 2 D-form Inst:                  827. Opcode: 011001 (25).                  827. Opcode: 011001 (25). D-form Inst: OR immediate shifted
+Decode 2 D-form Inst:                  828. Opcode: 011001 (25).                  828. Opcode: 011001 (25). D-form Inst: OR immediate shifted
+Decode 2 D-form Inst:                  829. Opcode: 011001 (25).                  829. Opcode: 011001 (25). D-form Inst: OR immediate shifted
+Decode 2 D-form Inst:                  830. Opcode: 011001 (25).                  830. Opcode: 011001 (25). D-form Inst: OR immediate shifted
+Decode 2 D-form Inst:                  831. Opcode: 011001 (25).                  831. Opcode: 011001 (25). D-form Inst: OR immediate shifted
+Decode 2 D-form Inst:                  832. Opcode: 011010 (26).                  832. Opcode: 011010 (26). XD-form Inst: OR immediate
+Decode 2 D-form Inst:                  833. Opcode: 011010 (26).                  833. Opcode: 011010 (26). XD-form Inst: OR immediate
+Decode 2 D-form Inst:                  834. Opcode: 011010 (26).                  834. Opcode: 011010 (26). XD-form Inst: OR immediate
+Decode 2 D-form Inst:                  835. Opcode: 011010 (26).                  835. Opcode: 011010 (26). XD-form Inst: OR immediate
+Decode 2 D-form Inst:                  836. Opcode: 011010 (26).                  836. Opcode: 011010 (26). XD-form Inst: OR immediate
+Decode 2 D-form Inst:                  837. Opcode: 011010 (26).                  837. Opcode: 011010 (26). XD-form Inst: OR immediate
+Decode 2 D-form Inst:                  838. Opcode: 011010 (26).                  838. Opcode: 011010 (26). XD-form Inst: OR immediate
+Decode 2 D-form Inst:                  839. Opcode: 011010 (26).                  839. Opcode: 011010 (26). XD-form Inst: OR immediate
+Decode 2 D-form Inst:                  840. Opcode: 011010 (26).                  840. Opcode: 011010 (26). XD-form Inst: OR immediate
+Decode 2 D-form Inst:                  841. Opcode: 011010 (26).                  841. Opcode: 011010 (26). XD-form Inst: OR immediate
+Decode 2 D-form Inst:                  842. Opcode: 011010 (26).                  842. Opcode: 011010 (26). XD-form Inst: OR immediate
+Decode 2 D-form Inst:                  843. Opcode: 011010 (26).                  843. Opcode: 011010 (26). XD-form Inst: OR immediate
+Decode 2 D-form Inst:                  844. Opcode: 011010 (26).                  844. Opcode: 011010 (26). XD-form Inst: OR immediate
+Decode 2 D-form Inst:                  845. Opcode: 011010 (26).                  845. Opcode: 011010 (26). XD-form Inst: OR immediate
+Decode 2 D-form Inst:                  846. Opcode: 011010 (26).                  846. Opcode: 011010 (26). XD-form Inst: OR immediate
+Decode 2 D-form Inst:                  847. Opcode: 011010 (26).                  847. Opcode: 011010 (26). XD-form Inst: OR immediate
+Decode 2 D-form Inst:                  848. Opcode: 011010 (26).                  848. Opcode: 011010 (26). XD-form Inst: OR immediate
+Decode 2 D-form Inst:                  849. Opcode: 011010 (26).                  849. Opcode: 011010 (26). XD-form Inst: OR immediate
+Decode 2 D-form Inst:                  850. Opcode: 011010 (26).                  850. Opcode: 011010 (26). XD-form Inst: OR immediate
+Decode 2 D-form Inst:                  851. Opcode: 011010 (26).                  851. Opcode: 011010 (26). XD-form Inst: OR immediate
+Decode 2 D-form Inst:                  852. Opcode: 011010 (26).                  852. Opcode: 011010 (26). XD-form Inst: OR immediate
+Decode 2 D-form Inst:                  853. Opcode: 011010 (26).                  853. Opcode: 011010 (26). XD-form Inst: OR immediate
+Decode 2 D-form Inst:                  854. Opcode: 011010 (26).                  854. Opcode: 011010 (26). XD-form Inst: OR immediate
+Decode 2 D-form Inst:                  855. Opcode: 011010 (26).                  855. Opcode: 011010 (26). XD-form Inst: OR immediate
+Decode 2 D-form Inst:                  856. Opcode: 011010 (26).                  856. Opcode: 011010 (26). XD-form Inst: OR immediate
+Decode 2 D-form Inst:                  857. Opcode: 011010 (26).                  857. Opcode: 011010 (26). XD-form Inst: OR immediate
+Decode 2 D-form Inst:                  858. Opcode: 011010 (26).                  858. Opcode: 011010 (26). XD-form Inst: OR immediate
+Decode 2 D-form Inst:                  859. Opcode: 011010 (26).                  859. Opcode: 011010 (26). XD-form Inst: OR immediate
+Decode 2 D-form Inst:                  860. Opcode: 011010 (26).                  860. Opcode: 011010 (26). XD-form Inst: OR immediate
+Decode 2 D-form Inst:                  861. Opcode: 011010 (26).                  861. Opcode: 011010 (26). XD-form Inst: OR immediate
+Decode 2 D-form Inst:                  862. Opcode: 011010 (26).                  862. Opcode: 011010 (26). XD-form Inst: OR immediate
+Decode 2 D-form Inst:                  863. Opcode: 011010 (26).                  863. Opcode: 011010 (26). XD-form Inst: OR immediate
+Decode 2 D-form Inst:                  864. Opcode: 011011 (27).                  864. Opcode: 011011 (27). D-form Inst: XOR immediate shifted
+Decode 2 D-form Inst:                  865. Opcode: 011011 (27).                  865. Opcode: 011011 (27). D-form Inst: XOR immediate shifted
+Decode 2 D-form Inst:                  866. Opcode: 011011 (27).                  866. Opcode: 011011 (27). D-form Inst: XOR immediate shifted
+Decode 2 D-form Inst:                  867. Opcode: 011011 (27).                  867. Opcode: 011011 (27). D-form Inst: XOR immediate shifted
+Decode 2 D-form Inst:                  868. Opcode: 011011 (27).                  868. Opcode: 011011 (27). D-form Inst: XOR immediate shifted
+Decode 2 D-form Inst:                  869. Opcode: 011011 (27).                  869. Opcode: 011011 (27). D-form Inst: XOR immediate shifted
+Decode 2 D-form Inst:                  870. Opcode: 011011 (27).                  870. Opcode: 011011 (27). D-form Inst: XOR immediate shifted
+Decode 2 D-form Inst:                  871. Opcode: 011011 (27).                  871. Opcode: 011011 (27). D-form Inst: XOR immediate shifted
+Decode 2 D-form Inst:                  872. Opcode: 011011 (27).                  872. Opcode: 011011 (27). D-form Inst: XOR immediate shifted
+Decode 2 D-form Inst:                  873. Opcode: 011011 (27).                  873. Opcode: 011011 (27). D-form Inst: XOR immediate shifted
+Decode 2 D-form Inst:                  874. Opcode: 011011 (27).                  874. Opcode: 011011 (27). D-form Inst: XOR immediate shifted
+Decode 2 D-form Inst:                  875. Opcode: 011011 (27).                  875. Opcode: 011011 (27). D-form Inst: XOR immediate shifted
+Decode 2 D-form Inst:                  876. Opcode: 011011 (27).                  876. Opcode: 011011 (27). D-form Inst: XOR immediate shifted
+Decode 2 D-form Inst:                  877. Opcode: 011011 (27).                  877. Opcode: 011011 (27). D-form Inst: XOR immediate shifted
+Decode 2 D-form Inst:                  878. Opcode: 011011 (27).                  878. Opcode: 011011 (27). D-form Inst: XOR immediate shifted
+Decode 2 D-form Inst:                  879. Opcode: 011011 (27).                  879. Opcode: 011011 (27). D-form Inst: XOR immediate shifted
+Decode 2 D-form Inst:                  880. Opcode: 011011 (27).                  880. Opcode: 011011 (27). D-form Inst: XOR immediate shifted
+Decode 2 D-form Inst:                  881. Opcode: 011011 (27).                  881. Opcode: 011011 (27). D-form Inst: XOR immediate shifted
+Decode 2 D-form Inst:                  882. Opcode: 011011 (27).                  882. Opcode: 011011 (27). D-form Inst: XOR immediate shifted
+Decode 2 D-form Inst:                  883. Opcode: 011011 (27).                  883. Opcode: 011011 (27). D-form Inst: XOR immediate shifted
+Decode 2 D-form Inst:                  884. Opcode: 011011 (27).                  884. Opcode: 011011 (27). D-form Inst: XOR immediate shifted
+Decode 2 D-form Inst:                  885. Opcode: 011011 (27).                  885. Opcode: 011011 (27). D-form Inst: XOR immediate shifted
+Decode 2 D-form Inst:                  886. Opcode: 011011 (27).                  886. Opcode: 011011 (27). D-form Inst: XOR immediate shifted
+Decode 2 D-form Inst:                  887. Opcode: 011011 (27).                  887. Opcode: 011011 (27). D-form Inst: XOR immediate shifted
+Decode 2 D-form Inst:                  888. Opcode: 011011 (27).                  888. Opcode: 011011 (27). D-form Inst: XOR immediate shifted
+Decode 2 D-form Inst:                  889. Opcode: 011011 (27).                  889. Opcode: 011011 (27). D-form Inst: XOR immediate shifted
+Decode 2 D-form Inst:                  890. Opcode: 011011 (27).                  890. Opcode: 011011 (27). D-form Inst: XOR immediate shifted
+Decode 2 D-form Inst:                  891. Opcode: 011011 (27).                  891. Opcode: 011011 (27). D-form Inst: XOR immediate shifted
+Decode 2 D-form Inst:                  892. Opcode: 011011 (27).                  892. Opcode: 011011 (27). D-form Inst: XOR immediate shifted
+Decode 2 D-form Inst:                  893. Opcode: 011011 (27).                  893. Opcode: 011011 (27). D-form Inst: XOR immediate shifted
+Decode 2 D-form Inst:                  894. Opcode: 011011 (27).                  894. Opcode: 011011 (27). D-form Inst: XOR immediate shifted
+Decode 2 D-form Inst:                  895. Opcode: 011011 (27).                  895. Opcode: 011011 (27). D-form Inst: XOR immediate shifted
+Decode 2 D-form Inst:                  896. Opcode: 011100 (28).                  896. Opcode: 011100 (28). D-form Inst: AND immediate
+Decode 2 D-form Inst:                  897. Opcode: 011100 (28).                  897. Opcode: 011100 (28). D-form Inst: AND immediate
+Decode 2 D-form Inst:                  898. Opcode: 011100 (28).                  898. Opcode: 011100 (28). D-form Inst: AND immediate
+Decode 2 D-form Inst:                  899. Opcode: 011100 (28).                  899. Opcode: 011100 (28). D-form Inst: AND immediate
+Decode 2 D-form Inst:                  900. Opcode: 011100 (28).                  900. Opcode: 011100 (28). D-form Inst: AND immediate
+Decode 2 D-form Inst:                  901. Opcode: 011100 (28).                  901. Opcode: 011100 (28). D-form Inst: AND immediate
+Decode 2 D-form Inst:                  902. Opcode: 011100 (28).                  902. Opcode: 011100 (28). D-form Inst: AND immediate
+Decode 2 D-form Inst:                  903. Opcode: 011100 (28).                  903. Opcode: 011100 (28). D-form Inst: AND immediate
+Decode 2 D-form Inst:                  904. Opcode: 011100 (28).                  904. Opcode: 011100 (28). D-form Inst: AND immediate
+Decode 2 D-form Inst:                  905. Opcode: 011100 (28).                  905. Opcode: 011100 (28). D-form Inst: AND immediate
+Decode 2 D-form Inst:                  906. Opcode: 011100 (28).                  906. Opcode: 011100 (28). D-form Inst: AND immediate
+Decode 2 D-form Inst:                  907. Opcode: 011100 (28).                  907. Opcode: 011100 (28). D-form Inst: AND immediate
+Decode 2 D-form Inst:                  908. Opcode: 011100 (28).                  908. Opcode: 011100 (28). D-form Inst: AND immediate
+Decode 2 D-form Inst:                  909. Opcode: 011100 (28).                  909. Opcode: 011100 (28). D-form Inst: AND immediate
+Decode 2 D-form Inst:                  910. Opcode: 011100 (28).                  910. Opcode: 011100 (28). D-form Inst: AND immediate
+Decode 2 D-form Inst:                  911. Opcode: 011100 (28).                  911. Opcode: 011100 (28). D-form Inst: AND immediate
+Decode 2 D-form Inst:                  912. Opcode: 011100 (28).                  912. Opcode: 011100 (28). D-form Inst: AND immediate
+Decode 2 D-form Inst:                  913. Opcode: 011100 (28).                  913. Opcode: 011100 (28). D-form Inst: AND immediate
+Decode 2 D-form Inst:                  914. Opcode: 011100 (28).                  914. Opcode: 011100 (28). D-form Inst: AND immediate
+Decode 2 D-form Inst:                  915. Opcode: 011100 (28).                  915. Opcode: 011100 (28). D-form Inst: AND immediate
+Decode 2 D-form Inst:                  916. Opcode: 011100 (28).                  916. Opcode: 011100 (28). D-form Inst: AND immediate
+Decode 2 D-form Inst:                  917. Opcode: 011100 (28).                  917. Opcode: 011100 (28). D-form Inst: AND immediate
+Decode 2 D-form Inst:                  918. Opcode: 011100 (28).                  918. Opcode: 011100 (28). D-form Inst: AND immediate
+Decode 2 D-form Inst:                  919. Opcode: 011100 (28).                  919. Opcode: 011100 (28). D-form Inst: AND immediate
+Decode 2 D-form Inst:                  920. Opcode: 011100 (28).                  920. Opcode: 011100 (28). D-form Inst: AND immediate
+Decode 2 D-form Inst:                  921. Opcode: 011100 (28).                  921. Opcode: 011100 (28). D-form Inst: AND immediate
+Decode 2 D-form Inst:                  922. Opcode: 011100 (28).                  922. Opcode: 011100 (28). D-form Inst: AND immediate
+Decode 2 D-form Inst:                  923. Opcode: 011100 (28).                  923. Opcode: 011100 (28). D-form Inst: AND immediate
+Decode 2 D-form Inst:                  924. Opcode: 011100 (28).                  924. Opcode: 011100 (28). D-form Inst: AND immediate
+Decode 2 D-form Inst:                  925. Opcode: 011100 (28).                  925. Opcode: 011100 (28). D-form Inst: AND immediate
+Decode 2 D-form Inst:                  926. Opcode: 011100 (28).                  926. Opcode: 011100 (28). D-form Inst: AND immediate
+Decode 2 D-form Inst:                  927. Opcode: 011100 (28).                  927. Opcode: 011100 (28). D-form Inst: AND immediate
+Decode 2 D-form Inst:                  928. Opcode: 011101 (29).                  928. Opcode: 011101 (29). D-form Inst: AND immediate shifted
+Decode 2 D-form Inst:                  929. Opcode: 011101 (29).                  929. Opcode: 011101 (29). D-form Inst: AND immediate shifted
+Decode 2 D-form Inst:                  930. Opcode: 011101 (29).                  930. Opcode: 011101 (29). D-form Inst: AND immediate shifted
+Decode 2 D-form Inst:                  931. Opcode: 011101 (29).                  931. Opcode: 011101 (29). D-form Inst: AND immediate shifted
+Decode 2 D-form Inst:                  932. Opcode: 011101 (29).                  932. Opcode: 011101 (29). D-form Inst: AND immediate shifted
+Decode 2 D-form Inst:                  933. Opcode: 011101 (29).                  933. Opcode: 011101 (29). D-form Inst: AND immediate shifted
+Decode 2 D-form Inst:                  934. Opcode: 011101 (29).                  934. Opcode: 011101 (29). D-form Inst: AND immediate shifted
+Decode 2 D-form Inst:                  935. Opcode: 011101 (29).                  935. Opcode: 011101 (29). D-form Inst: AND immediate shifted
+Decode 2 D-form Inst:                  936. Opcode: 011101 (29).                  936. Opcode: 011101 (29). D-form Inst: AND immediate shifted
+Decode 2 D-form Inst:                  937. Opcode: 011101 (29).                  937. Opcode: 011101 (29). D-form Inst: AND immediate shifted
+Decode 2 D-form Inst:                  938. Opcode: 011101 (29).                  938. Opcode: 011101 (29). D-form Inst: AND immediate shifted
+Decode 2 D-form Inst:                  939. Opcode: 011101 (29).                  939. Opcode: 011101 (29). D-form Inst: AND immediate shifted
+Decode 2 D-form Inst:                  940. Opcode: 011101 (29).                  940. Opcode: 011101 (29). D-form Inst: AND immediate shifted
+Decode 2 D-form Inst:                  941. Opcode: 011101 (29).                  941. Opcode: 011101 (29). D-form Inst: AND immediate shifted
+Decode 2 D-form Inst:                  942. Opcode: 011101 (29).                  942. Opcode: 011101 (29). D-form Inst: AND immediate shifted
+Decode 2 D-form Inst:                  943. Opcode: 011101 (29).                  943. Opcode: 011101 (29). D-form Inst: AND immediate shifted
+Decode 2 D-form Inst:                  944. Opcode: 011101 (29).                  944. Opcode: 011101 (29). D-form Inst: AND immediate shifted
+Decode 2 D-form Inst:                  945. Opcode: 011101 (29).                  945. Opcode: 011101 (29). D-form Inst: AND immediate shifted
+Decode 2 D-form Inst:                  946. Opcode: 011101 (29).                  946. Opcode: 011101 (29). D-form Inst: AND immediate shifted
+Decode 2 D-form Inst:                  947. Opcode: 011101 (29).                  947. Opcode: 011101 (29). D-form Inst: AND immediate shifted
+Decode 2 D-form Inst:                  948. Opcode: 011101 (29).                  948. Opcode: 011101 (29). D-form Inst: AND immediate shifted
+Decode 2 D-form Inst:                  949. Opcode: 011101 (29).                  949. Opcode: 011101 (29). D-form Inst: AND immediate shifted
+Decode 2 D-form Inst:                  950. Opcode: 011101 (29).                  950. Opcode: 011101 (29). D-form Inst: AND immediate shifted
+Decode 2 D-form Inst:                  951. Opcode: 011101 (29).                  951. Opcode: 011101 (29). D-form Inst: AND immediate shifted
+Decode 2 D-form Inst:                  952. Opcode: 011101 (29).                  952. Opcode: 011101 (29). D-form Inst: AND immediate shifted
+Decode 2 D-form Inst:                  953. Opcode: 011101 (29).                  953. Opcode: 011101 (29). D-form Inst: AND immediate shifted
+Decode 2 D-form Inst:                  954. Opcode: 011101 (29).                  954. Opcode: 011101 (29). D-form Inst: AND immediate shifted
+Decode 2 D-form Inst:                  955. Opcode: 011101 (29).                  955. Opcode: 011101 (29). D-form Inst: AND immediate shifted
+Decode 2 D-form Inst:                  956. Opcode: 011101 (29).                  956. Opcode: 011101 (29). D-form Inst: AND immediate shifted
+Decode 2 D-form Inst:                  957. Opcode: 011101 (29).                  957. Opcode: 011101 (29). D-form Inst: AND immediate shifted
+Decode 2 D-form Inst:                  958. Opcode: 011101 (29).                  958. Opcode: 011101 (29). D-form Inst: AND immediate shifted
+Decode 2 D-form Inst:                  959. Opcode: 011101 (29).                  959. Opcode: 011101 (29). D-form Inst: AND immediate shifted
+Decode 2 D-form Inst:                 1024. Opcode: 100000 (32).                 1024. Opcode: 100000 (32). D-form Inst: Load word and zero
+Decode 2 D-form Inst:                 1025. Opcode: 100000 (32).                 1025. Opcode: 100000 (32). D-form Inst: Load word and zero
+Decode 2 D-form Inst:                 1026. Opcode: 100000 (32).                 1026. Opcode: 100000 (32). D-form Inst: Load word and zero
+Decode 2 D-form Inst:                 1027. Opcode: 100000 (32).                 1027. Opcode: 100000 (32). D-form Inst: Load word and zero
+Decode 2 D-form Inst:                 1028. Opcode: 100000 (32).                 1028. Opcode: 100000 (32). D-form Inst: Load word and zero
+Decode 2 D-form Inst:                 1029. Opcode: 100000 (32).                 1029. Opcode: 100000 (32). D-form Inst: Load word and zero
+Decode 2 D-form Inst:                 1030. Opcode: 100000 (32).                 1030. Opcode: 100000 (32). D-form Inst: Load word and zero
+Decode 2 D-form Inst:                 1031. Opcode: 100000 (32).                 1031. Opcode: 100000 (32). D-form Inst: Load word and zero
+Decode 2 D-form Inst:                 1032. Opcode: 100000 (32).                 1032. Opcode: 100000 (32). D-form Inst: Load word and zero
+Decode 2 D-form Inst:                 1033. Opcode: 100000 (32).                 1033. Opcode: 100000 (32). D-form Inst: Load word and zero
+Decode 2 D-form Inst:                 1034. Opcode: 100000 (32).                 1034. Opcode: 100000 (32). D-form Inst: Load word and zero
+Decode 2 D-form Inst:                 1035. Opcode: 100000 (32).                 1035. Opcode: 100000 (32). D-form Inst: Load word and zero
+Decode 2 D-form Inst:                 1036. Opcode: 100000 (32).                 1036. Opcode: 100000 (32). D-form Inst: Load word and zero
+Decode 2 D-form Inst:                 1037. Opcode: 100000 (32).                 1037. Opcode: 100000 (32). D-form Inst: Load word and zero
+Decode 2 D-form Inst:                 1038. Opcode: 100000 (32).                 1038. Opcode: 100000 (32). D-form Inst: Load word and zero
+Decode 2 D-form Inst:                 1039. Opcode: 100000 (32).                 1039. Opcode: 100000 (32). D-form Inst: Load word and zero
+Decode 2 D-form Inst:                 1040. Opcode: 100000 (32).                 1040. Opcode: 100000 (32). D-form Inst: Load word and zero
+Decode 2 D-form Inst:                 1041. Opcode: 100000 (32).                 1041. Opcode: 100000 (32). D-form Inst: Load word and zero
+Decode 2 D-form Inst:                 1042. Opcode: 100000 (32).                 1042. Opcode: 100000 (32). D-form Inst: Load word and zero
+Decode 2 D-form Inst:                 1043. Opcode: 100000 (32).                 1043. Opcode: 100000 (32). D-form Inst: Load word and zero
+Decode 2 D-form Inst:                 1044. Opcode: 100000 (32).                 1044. Opcode: 100000 (32). D-form Inst: Load word and zero
+Decode 2 D-form Inst:                 1045. Opcode: 100000 (32).                 1045. Opcode: 100000 (32). D-form Inst: Load word and zero
+Decode 2 D-form Inst:                 1046. Opcode: 100000 (32).                 1046. Opcode: 100000 (32). D-form Inst: Load word and zero
+Decode 2 D-form Inst:                 1047. Opcode: 100000 (32).                 1047. Opcode: 100000 (32). D-form Inst: Load word and zero
+Decode 2 D-form Inst:                 1048. Opcode: 100000 (32).                 1048. Opcode: 100000 (32). D-form Inst: Load word and zero
+Decode 2 D-form Inst:                 1049. Opcode: 100000 (32).                 1049. Opcode: 100000 (32). D-form Inst: Load word and zero
+Decode 2 D-form Inst:                 1050. Opcode: 100000 (32).                 1050. Opcode: 100000 (32). D-form Inst: Load word and zero
+Decode 2 D-form Inst:                 1051. Opcode: 100000 (32).                 1051. Opcode: 100000 (32). D-form Inst: Load word and zero
+Decode 2 D-form Inst:                 1052. Opcode: 100000 (32).                 1052. Opcode: 100000 (32). D-form Inst: Load word and zero
+Decode 2 D-form Inst:                 1053. Opcode: 100000 (32).                 1053. Opcode: 100000 (32). D-form Inst: Load word and zero
+Decode 2 D-form Inst:                 1054. Opcode: 100000 (32).                 1054. Opcode: 100000 (32). D-form Inst: Load word and zero
+Decode 2 D-form Inst:                 1055. Opcode: 100000 (32).                 1055. Opcode: 100000 (32). D-form Inst: Load word and zero
+Decode 2 D-form Inst:                 1056. Opcode: 100001 (33).                 1056. Opcode: 100001 (33). D-form Inst: Load word and zero with update
+Decode 2 D-form Inst:                 1057. Opcode: 100001 (33).                 1057. Opcode: 100001 (33). D-form Inst: Load word and zero with update
+Decode 2 D-form Inst:                 1058. Opcode: 100001 (33).                 1058. Opcode: 100001 (33). D-form Inst: Load word and zero with update
+Decode 2 D-form Inst:                 1059. Opcode: 100001 (33).                 1059. Opcode: 100001 (33). D-form Inst: Load word and zero with update
+Decode 2 D-form Inst:                 1060. Opcode: 100001 (33).                 1060. Opcode: 100001 (33). D-form Inst: Load word and zero with update
+Decode 2 D-form Inst:                 1061. Opcode: 100001 (33).                 1061. Opcode: 100001 (33). D-form Inst: Load word and zero with update
+Decode 2 D-form Inst:                 1062. Opcode: 100001 (33).                 1062. Opcode: 100001 (33). D-form Inst: Load word and zero with update
+Decode 2 D-form Inst:                 1063. Opcode: 100001 (33).                 1063. Opcode: 100001 (33). D-form Inst: Load word and zero with update
+Decode 2 D-form Inst:                 1064. Opcode: 100001 (33).                 1064. Opcode: 100001 (33). D-form Inst: Load word and zero with update
+Decode 2 D-form Inst:                 1065. Opcode: 100001 (33).                 1065. Opcode: 100001 (33). D-form Inst: Load word and zero with update
+Decode 2 D-form Inst:                 1066. Opcode: 100001 (33).                 1066. Opcode: 100001 (33). D-form Inst: Load word and zero with update
+Decode 2 D-form Inst:                 1067. Opcode: 100001 (33).                 1067. Opcode: 100001 (33). D-form Inst: Load word and zero with update
+Decode 2 D-form Inst:                 1068. Opcode: 100001 (33).                 1068. Opcode: 100001 (33). D-form Inst: Load word and zero with update
+Decode 2 D-form Inst:                 1069. Opcode: 100001 (33).                 1069. Opcode: 100001 (33). D-form Inst: Load word and zero with update
+Decode 2 D-form Inst:                 1070. Opcode: 100001 (33).                 1070. Opcode: 100001 (33). D-form Inst: Load word and zero with update
+Decode 2 D-form Inst:                 1071. Opcode: 100001 (33).                 1071. Opcode: 100001 (33). D-form Inst: Load word and zero with update
+Decode 2 D-form Inst:                 1072. Opcode: 100001 (33).                 1072. Opcode: 100001 (33). D-form Inst: Load word and zero with update
+Decode 2 D-form Inst:                 1073. Opcode: 100001 (33).                 1073. Opcode: 100001 (33). D-form Inst: Load word and zero with update
+Decode 2 D-form Inst:                 1074. Opcode: 100001 (33).                 1074. Opcode: 100001 (33). D-form Inst: Load word and zero with update
+Decode 2 D-form Inst:                 1075. Opcode: 100001 (33).                 1075. Opcode: 100001 (33). D-form Inst: Load word and zero with update
+Decode 2 D-form Inst:                 1076. Opcode: 100001 (33).                 1076. Opcode: 100001 (33). D-form Inst: Load word and zero with update
+Decode 2 D-form Inst:                 1077. Opcode: 100001 (33).                 1077. Opcode: 100001 (33). D-form Inst: Load word and zero with update
+Decode 2 D-form Inst:                 1078. Opcode: 100001 (33).                 1078. Opcode: 100001 (33). D-form Inst: Load word and zero with update
+Decode 2 D-form Inst:                 1079. Opcode: 100001 (33).                 1079. Opcode: 100001 (33). D-form Inst: Load word and zero with update
+Decode 2 D-form Inst:                 1080. Opcode: 100001 (33).                 1080. Opcode: 100001 (33). D-form Inst: Load word and zero with update
+Decode 2 D-form Inst:                 1081. Opcode: 100001 (33).                 1081. Opcode: 100001 (33). D-form Inst: Load word and zero with update
+Decode 2 D-form Inst:                 1082. Opcode: 100001 (33).                 1082. Opcode: 100001 (33). D-form Inst: Load word and zero with update
+Decode 2 D-form Inst:                 1083. Opcode: 100001 (33).                 1083. Opcode: 100001 (33). D-form Inst: Load word and zero with update
+Decode 2 D-form Inst:                 1084. Opcode: 100001 (33).                 1084. Opcode: 100001 (33). D-form Inst: Load word and zero with update
+Decode 2 D-form Inst:                 1085. Opcode: 100001 (33).                 1085. Opcode: 100001 (33). D-form Inst: Load word and zero with update
+Decode 2 D-form Inst:                 1086. Opcode: 100001 (33).                 1086. Opcode: 100001 (33). D-form Inst: Load word and zero with update
+Decode 2 D-form Inst:                 1087. Opcode: 100001 (33).                 1087. Opcode: 100001 (33). D-form Inst: Load word and zero with update
+Decode 2 D-form Inst:                 1088. Opcode: 100010 (34).                 1088. Opcode: 100010 (34). Load Byte and Zero
+Decode 2 D-form Inst:                 1089. Opcode: 100010 (34).                 1089. Opcode: 100010 (34). Load Byte and Zero
+Decode 2 D-form Inst:                 1090. Opcode: 100010 (34).                 1090. Opcode: 100010 (34). Load Byte and Zero
+Decode 2 D-form Inst:                 1091. Opcode: 100010 (34).                 1091. Opcode: 100010 (34). Load Byte and Zero
+Decode 2 D-form Inst:                 1092. Opcode: 100010 (34).                 1092. Opcode: 100010 (34). Load Byte and Zero
+Decode 2 D-form Inst:                 1093. Opcode: 100010 (34).                 1093. Opcode: 100010 (34). Load Byte and Zero
+Decode 2 D-form Inst:                 1094. Opcode: 100010 (34).                 1094. Opcode: 100010 (34). Load Byte and Zero
+Decode 2 D-form Inst:                 1095. Opcode: 100010 (34).                 1095. Opcode: 100010 (34). Load Byte and Zero
+Decode 2 D-form Inst:                 1096. Opcode: 100010 (34).                 1096. Opcode: 100010 (34). Load Byte and Zero
+Decode 2 D-form Inst:                 1097. Opcode: 100010 (34).                 1097. Opcode: 100010 (34). Load Byte and Zero
+Decode 2 D-form Inst:                 1098. Opcode: 100010 (34).                 1098. Opcode: 100010 (34). Load Byte and Zero
+Decode 2 D-form Inst:                 1099. Opcode: 100010 (34).                 1099. Opcode: 100010 (34). Load Byte and Zero
+Decode 2 D-form Inst:                 1100. Opcode: 100010 (34).                 1100. Opcode: 100010 (34). Load Byte and Zero
+Decode 2 D-form Inst:                 1101. Opcode: 100010 (34).                 1101. Opcode: 100010 (34). Load Byte and Zero
+Decode 2 D-form Inst:                 1102. Opcode: 100010 (34).                 1102. Opcode: 100010 (34). Load Byte and Zero
+Decode 2 D-form Inst:                 1103. Opcode: 100010 (34).                 1103. Opcode: 100010 (34). Load Byte and Zero
+Decode 2 D-form Inst:                 1104. Opcode: 100010 (34).                 1104. Opcode: 100010 (34). Load Byte and Zero
+Decode 2 D-form Inst:                 1105. Opcode: 100010 (34).                 1105. Opcode: 100010 (34). Load Byte and Zero
+Decode 2 D-form Inst:                 1106. Opcode: 100010 (34).                 1106. Opcode: 100010 (34). Load Byte and Zero
+Decode 2 D-form Inst:                 1107. Opcode: 100010 (34).                 1107. Opcode: 100010 (34). Load Byte and Zero
+Decode 2 D-form Inst:                 1108. Opcode: 100010 (34).                 1108. Opcode: 100010 (34). Load Byte and Zero
+Decode 2 D-form Inst:                 1109. Opcode: 100010 (34).                 1109. Opcode: 100010 (34). Load Byte and Zero
+Decode 2 D-form Inst:                 1110. Opcode: 100010 (34).                 1110. Opcode: 100010 (34). Load Byte and Zero
+Decode 2 D-form Inst:                 1111. Opcode: 100010 (34).                 1111. Opcode: 100010 (34). Load Byte and Zero
+Decode 2 D-form Inst:                 1112. Opcode: 100010 (34).                 1112. Opcode: 100010 (34). Load Byte and Zero
+Decode 2 D-form Inst:                 1113. Opcode: 100010 (34).                 1113. Opcode: 100010 (34). Load Byte and Zero
+Decode 2 D-form Inst:                 1114. Opcode: 100010 (34).                 1114. Opcode: 100010 (34). Load Byte and Zero
+Decode 2 D-form Inst:                 1115. Opcode: 100010 (34).                 1115. Opcode: 100010 (34). Load Byte and Zero
+Decode 2 D-form Inst:                 1116. Opcode: 100010 (34).                 1116. Opcode: 100010 (34). Load Byte and Zero
+Decode 2 D-form Inst:                 1117. Opcode: 100010 (34).                 1117. Opcode: 100010 (34). Load Byte and Zero
+Decode 2 D-form Inst:                 1118. Opcode: 100010 (34).                 1118. Opcode: 100010 (34). Load Byte and Zero
+Decode 2 D-form Inst:                 1119. Opcode: 100010 (34).                 1119. Opcode: 100010 (34). Load Byte and Zero
+Decode 2 D-form Inst:                 1120. Opcode: 100011 (35).                 1120. Opcode: 100011 (35). Load Byte and Zero with update
+Decode 2 D-form Inst:                 1121. Opcode: 100011 (35).                 1121. Opcode: 100011 (35). Load Byte and Zero with update
+Decode 2 D-form Inst:                 1122. Opcode: 100011 (35).                 1122. Opcode: 100011 (35). Load Byte and Zero with update
+Decode 2 D-form Inst:                 1123. Opcode: 100011 (35).                 1123. Opcode: 100011 (35). Load Byte and Zero with update
+Decode 2 D-form Inst:                 1124. Opcode: 100011 (35).                 1124. Opcode: 100011 (35). Load Byte and Zero with update
+Decode 2 D-form Inst:                 1125. Opcode: 100011 (35).                 1125. Opcode: 100011 (35). Load Byte and Zero with update
+Decode 2 D-form Inst:                 1126. Opcode: 100011 (35).                 1126. Opcode: 100011 (35). Load Byte and Zero with update
+Decode 2 D-form Inst:                 1127. Opcode: 100011 (35).                 1127. Opcode: 100011 (35). Load Byte and Zero with update
+Decode 2 D-form Inst:                 1128. Opcode: 100011 (35).                 1128. Opcode: 100011 (35). Load Byte and Zero with update
+Decode 2 D-form Inst:                 1129. Opcode: 100011 (35).                 1129. Opcode: 100011 (35). Load Byte and Zero with update
+Decode 2 D-form Inst:                 1130. Opcode: 100011 (35).                 1130. Opcode: 100011 (35). Load Byte and Zero with update
+Decode 2 D-form Inst:                 1131. Opcode: 100011 (35).                 1131. Opcode: 100011 (35). Load Byte and Zero with update
+Decode 2 D-form Inst:                 1132. Opcode: 100011 (35).                 1132. Opcode: 100011 (35). Load Byte and Zero with update
+Decode 2 D-form Inst:                 1133. Opcode: 100011 (35).                 1133. Opcode: 100011 (35). Load Byte and Zero with update
+Decode 2 D-form Inst:                 1134. Opcode: 100011 (35).                 1134. Opcode: 100011 (35). Load Byte and Zero with update
+Decode 2 D-form Inst:                 1135. Opcode: 100011 (35).                 1135. Opcode: 100011 (35). Load Byte and Zero with update
+Decode 2 D-form Inst:                 1136. Opcode: 100011 (35).                 1136. Opcode: 100011 (35). Load Byte and Zero with update
+Decode 2 D-form Inst:                 1137. Opcode: 100011 (35).                 1137. Opcode: 100011 (35). Load Byte and Zero with update
+Decode 2 D-form Inst:                 1138. Opcode: 100011 (35).                 1138. Opcode: 100011 (35). Load Byte and Zero with update
+Decode 2 D-form Inst:                 1139. Opcode: 100011 (35).                 1139. Opcode: 100011 (35). Load Byte and Zero with update
+Decode 2 D-form Inst:                 1140. Opcode: 100011 (35).                 1140. Opcode: 100011 (35). Load Byte and Zero with update
+Decode 2 D-form Inst:                 1141. Opcode: 100011 (35).                 1141. Opcode: 100011 (35). Load Byte and Zero with update
+Decode 2 D-form Inst:                 1142. Opcode: 100011 (35).                 1142. Opcode: 100011 (35). Load Byte and Zero with update
+Decode 2 D-form Inst:                 1143. Opcode: 100011 (35).                 1143. Opcode: 100011 (35). Load Byte and Zero with update
+Decode 2 D-form Inst:                 1144. Opcode: 100011 (35).                 1144. Opcode: 100011 (35). Load Byte and Zero with update
+Decode 2 D-form Inst:                 1145. Opcode: 100011 (35).                 1145. Opcode: 100011 (35). Load Byte and Zero with update
+Decode 2 D-form Inst:                 1146. Opcode: 100011 (35).                 1146. Opcode: 100011 (35). Load Byte and Zero with update
+Decode 2 D-form Inst:                 1147. Opcode: 100011 (35).                 1147. Opcode: 100011 (35). Load Byte and Zero with update
+Decode 2 D-form Inst:                 1148. Opcode: 100011 (35).                 1148. Opcode: 100011 (35). Load Byte and Zero with update
+Decode 2 D-form Inst:                 1149. Opcode: 100011 (35).                 1149. Opcode: 100011 (35). Load Byte and Zero with update
+Decode 2 D-form Inst:                 1150. Opcode: 100011 (35).                 1150. Opcode: 100011 (35). Load Byte and Zero with update
+Decode 2 D-form Inst:                 1151. Opcode: 100011 (35).                 1151. Opcode: 100011 (35). Load Byte and Zero with update
+Decode 2 D-form Inst:                 1152. Opcode: 100100 (36).                 1152. Opcode: 100100 (36). D-form Inst: Store word
+Decode 2 D-form Inst:                 1153. Opcode: 100100 (36).                 1153. Opcode: 100100 (36). D-form Inst: Store word
+Decode 2 D-form Inst:                 1154. Opcode: 100100 (36).                 1154. Opcode: 100100 (36). D-form Inst: Store word
+Decode 2 D-form Inst:                 1155. Opcode: 100100 (36).                 1155. Opcode: 100100 (36). D-form Inst: Store word
+Decode 2 D-form Inst:                 1156. Opcode: 100100 (36).                 1156. Opcode: 100100 (36). D-form Inst: Store word
+Decode 2 D-form Inst:                 1157. Opcode: 100100 (36).                 1157. Opcode: 100100 (36). D-form Inst: Store word
+Decode 2 D-form Inst:                 1158. Opcode: 100100 (36).                 1158. Opcode: 100100 (36). D-form Inst: Store word
+Decode 2 D-form Inst:                 1159. Opcode: 100100 (36).                 1159. Opcode: 100100 (36). D-form Inst: Store word
+Decode 2 D-form Inst:                 1160. Opcode: 100100 (36).                 1160. Opcode: 100100 (36). D-form Inst: Store word
+Decode 2 D-form Inst:                 1161. Opcode: 100100 (36).                 1161. Opcode: 100100 (36). D-form Inst: Store word
+Decode 2 D-form Inst:                 1162. Opcode: 100100 (36).                 1162. Opcode: 100100 (36). D-form Inst: Store word
+Decode 2 D-form Inst:                 1163. Opcode: 100100 (36).                 1163. Opcode: 100100 (36). D-form Inst: Store word
+Decode 2 D-form Inst:                 1164. Opcode: 100100 (36).                 1164. Opcode: 100100 (36). D-form Inst: Store word
+Decode 2 D-form Inst:                 1165. Opcode: 100100 (36).                 1165. Opcode: 100100 (36). D-form Inst: Store word
+Decode 2 D-form Inst:                 1166. Opcode: 100100 (36).                 1166. Opcode: 100100 (36). D-form Inst: Store word
+Decode 2 D-form Inst:                 1167. Opcode: 100100 (36).                 1167. Opcode: 100100 (36). D-form Inst: Store word
+Decode 2 D-form Inst:                 1168. Opcode: 100100 (36).                 1168. Opcode: 100100 (36). D-form Inst: Store word
+Decode 2 D-form Inst:                 1169. Opcode: 100100 (36).                 1169. Opcode: 100100 (36). D-form Inst: Store word
+Decode 2 D-form Inst:                 1170. Opcode: 100100 (36).                 1170. Opcode: 100100 (36). D-form Inst: Store word
+Decode 2 D-form Inst:                 1171. Opcode: 100100 (36).                 1171. Opcode: 100100 (36). D-form Inst: Store word
+Decode 2 D-form Inst:                 1172. Opcode: 100100 (36).                 1172. Opcode: 100100 (36). D-form Inst: Store word
+Decode 2 D-form Inst:                 1173. Opcode: 100100 (36).                 1173. Opcode: 100100 (36). D-form Inst: Store word
+Decode 2 D-form Inst:                 1174. Opcode: 100100 (36).                 1174. Opcode: 100100 (36). D-form Inst: Store word
+Decode 2 D-form Inst:                 1175. Opcode: 100100 (36).                 1175. Opcode: 100100 (36). D-form Inst: Store word
+Decode 2 D-form Inst:                 1176. Opcode: 100100 (36).                 1176. Opcode: 100100 (36). D-form Inst: Store word
+Decode 2 D-form Inst:                 1177. Opcode: 100100 (36).                 1177. Opcode: 100100 (36). D-form Inst: Store word
+Decode 2 D-form Inst:                 1178. Opcode: 100100 (36).                 1178. Opcode: 100100 (36). D-form Inst: Store word
+Decode 2 D-form Inst:                 1179. Opcode: 100100 (36).                 1179. Opcode: 100100 (36). D-form Inst: Store word
+Decode 2 D-form Inst:                 1180. Opcode: 100100 (36).                 1180. Opcode: 100100 (36). D-form Inst: Store word
+Decode 2 D-form Inst:                 1181. Opcode: 100100 (36).                 1181. Opcode: 100100 (36). D-form Inst: Store word
+Decode 2 D-form Inst:                 1182. Opcode: 100100 (36).                 1182. Opcode: 100100 (36). D-form Inst: Store word
+Decode 2 D-form Inst:                 1183. Opcode: 100100 (36).                 1183. Opcode: 100100 (36). D-form Inst: Store word
+Decode 2 D-form Inst:                 1184. Opcode: 100101 (37).                 1184. Opcode: 100101 (37). D-form Inst: Store word with update
+Decode 2 D-form Inst:                 1185. Opcode: 100101 (37).                 1185. Opcode: 100101 (37). D-form Inst: Store word with update
+Decode 2 D-form Inst:                 1186. Opcode: 100101 (37).                 1186. Opcode: 100101 (37). D-form Inst: Store word with update
+Decode 2 D-form Inst:                 1187. Opcode: 100101 (37).                 1187. Opcode: 100101 (37). D-form Inst: Store word with update
+Decode 2 D-form Inst:                 1188. Opcode: 100101 (37).                 1188. Opcode: 100101 (37). D-form Inst: Store word with update
+Decode 2 D-form Inst:                 1189. Opcode: 100101 (37).                 1189. Opcode: 100101 (37). D-form Inst: Store word with update
+Decode 2 D-form Inst:                 1190. Opcode: 100101 (37).                 1190. Opcode: 100101 (37). D-form Inst: Store word with update
+Decode 2 D-form Inst:                 1191. Opcode: 100101 (37).                 1191. Opcode: 100101 (37). D-form Inst: Store word with update
+Decode 2 D-form Inst:                 1192. Opcode: 100101 (37).                 1192. Opcode: 100101 (37). D-form Inst: Store word with update
+Decode 2 D-form Inst:                 1193. Opcode: 100101 (37).                 1193. Opcode: 100101 (37). D-form Inst: Store word with update
+Decode 2 D-form Inst:                 1194. Opcode: 100101 (37).                 1194. Opcode: 100101 (37). D-form Inst: Store word with update
+Decode 2 D-form Inst:                 1195. Opcode: 100101 (37).                 1195. Opcode: 100101 (37). D-form Inst: Store word with update
+Decode 2 D-form Inst:                 1196. Opcode: 100101 (37).                 1196. Opcode: 100101 (37). D-form Inst: Store word with update
+Decode 2 D-form Inst:                 1197. Opcode: 100101 (37).                 1197. Opcode: 100101 (37). D-form Inst: Store word with update
+Decode 2 D-form Inst:                 1198. Opcode: 100101 (37).                 1198. Opcode: 100101 (37). D-form Inst: Store word with update
+Decode 2 D-form Inst:                 1199. Opcode: 100101 (37).                 1199. Opcode: 100101 (37). D-form Inst: Store word with update
+Decode 2 D-form Inst:                 1200. Opcode: 100101 (37).                 1200. Opcode: 100101 (37). D-form Inst: Store word with update
+Decode 2 D-form Inst:                 1201. Opcode: 100101 (37).                 1201. Opcode: 100101 (37). D-form Inst: Store word with update
+Decode 2 D-form Inst:                 1202. Opcode: 100101 (37).                 1202. Opcode: 100101 (37). D-form Inst: Store word with update
+Decode 2 D-form Inst:                 1203. Opcode: 100101 (37).                 1203. Opcode: 100101 (37). D-form Inst: Store word with update
+Decode 2 D-form Inst:                 1204. Opcode: 100101 (37).                 1204. Opcode: 100101 (37). D-form Inst: Store word with update
+Decode 2 D-form Inst:                 1205. Opcode: 100101 (37).                 1205. Opcode: 100101 (37). D-form Inst: Store word with update
+Decode 2 D-form Inst:                 1206. Opcode: 100101 (37).                 1206. Opcode: 100101 (37). D-form Inst: Store word with update
+Decode 2 D-form Inst:                 1207. Opcode: 100101 (37).                 1207. Opcode: 100101 (37). D-form Inst: Store word with update
+Decode 2 D-form Inst:                 1208. Opcode: 100101 (37).                 1208. Opcode: 100101 (37). D-form Inst: Store word with update
+Decode 2 D-form Inst:                 1209. Opcode: 100101 (37).                 1209. Opcode: 100101 (37). D-form Inst: Store word with update
+Decode 2 D-form Inst:                 1210. Opcode: 100101 (37).                 1210. Opcode: 100101 (37). D-form Inst: Store word with update
+Decode 2 D-form Inst:                 1211. Opcode: 100101 (37).                 1211. Opcode: 100101 (37). D-form Inst: Store word with update
+Decode 2 D-form Inst:                 1212. Opcode: 100101 (37).                 1212. Opcode: 100101 (37). D-form Inst: Store word with update
+Decode 2 D-form Inst:                 1213. Opcode: 100101 (37).                 1213. Opcode: 100101 (37). D-form Inst: Store word with update
+Decode 2 D-form Inst:                 1214. Opcode: 100101 (37).                 1214. Opcode: 100101 (37). D-form Inst: Store word with update
+Decode 2 D-form Inst:                 1215. Opcode: 100101 (37).                 1215. Opcode: 100101 (37). D-form Inst: Store word with update
+Decode 2 D-form Inst:                 1216. Opcode: 100110 (38).                 1216. Opcode: 100110 (38). D-form Inst: Store byte
+Decode 2 D-form Inst:                 1217. Opcode: 100110 (38).                 1217. Opcode: 100110 (38). D-form Inst: Store byte
+Decode 2 D-form Inst:                 1218. Opcode: 100110 (38).                 1218. Opcode: 100110 (38). D-form Inst: Store byte
+Decode 2 D-form Inst:                 1219. Opcode: 100110 (38).                 1219. Opcode: 100110 (38). D-form Inst: Store byte
+Decode 2 D-form Inst:                 1220. Opcode: 100110 (38).                 1220. Opcode: 100110 (38). D-form Inst: Store byte
+Decode 2 D-form Inst:                 1221. Opcode: 100110 (38).                 1221. Opcode: 100110 (38). D-form Inst: Store byte
+Decode 2 D-form Inst:                 1222. Opcode: 100110 (38).                 1222. Opcode: 100110 (38). D-form Inst: Store byte
+Decode 2 D-form Inst:                 1223. Opcode: 100110 (38).                 1223. Opcode: 100110 (38). D-form Inst: Store byte
+Decode 2 D-form Inst:                 1224. Opcode: 100110 (38).                 1224. Opcode: 100110 (38). D-form Inst: Store byte
+Decode 2 D-form Inst:                 1225. Opcode: 100110 (38).                 1225. Opcode: 100110 (38). D-form Inst: Store byte
+Decode 2 D-form Inst:                 1226. Opcode: 100110 (38).                 1226. Opcode: 100110 (38). D-form Inst: Store byte
+Decode 2 D-form Inst:                 1227. Opcode: 100110 (38).                 1227. Opcode: 100110 (38). D-form Inst: Store byte
+Decode 2 D-form Inst:                 1228. Opcode: 100110 (38).                 1228. Opcode: 100110 (38). D-form Inst: Store byte
+Decode 2 D-form Inst:                 1229. Opcode: 100110 (38).                 1229. Opcode: 100110 (38). D-form Inst: Store byte
+Decode 2 D-form Inst:                 1230. Opcode: 100110 (38).                 1230. Opcode: 100110 (38). D-form Inst: Store byte
+Decode 2 D-form Inst:                 1231. Opcode: 100110 (38).                 1231. Opcode: 100110 (38). D-form Inst: Store byte
+Decode 2 D-form Inst:                 1232. Opcode: 100110 (38).                 1232. Opcode: 100110 (38). D-form Inst: Store byte
+Decode 2 D-form Inst:                 1233. Opcode: 100110 (38).                 1233. Opcode: 100110 (38). D-form Inst: Store byte
+Decode 2 D-form Inst:                 1234. Opcode: 100110 (38).                 1234. Opcode: 100110 (38). D-form Inst: Store byte
+Decode 2 D-form Inst:                 1235. Opcode: 100110 (38).                 1235. Opcode: 100110 (38). D-form Inst: Store byte
+Decode 2 D-form Inst:                 1236. Opcode: 100110 (38).                 1236. Opcode: 100110 (38). D-form Inst: Store byte
+Decode 2 D-form Inst:                 1237. Opcode: 100110 (38).                 1237. Opcode: 100110 (38). D-form Inst: Store byte
+Decode 2 D-form Inst:                 1238. Opcode: 100110 (38).                 1238. Opcode: 100110 (38). D-form Inst: Store byte
+Decode 2 D-form Inst:                 1239. Opcode: 100110 (38).                 1239. Opcode: 100110 (38). D-form Inst: Store byte
+Decode 2 D-form Inst:                 1240. Opcode: 100110 (38).                 1240. Opcode: 100110 (38). D-form Inst: Store byte
+Decode 2 D-form Inst:                 1241. Opcode: 100110 (38).                 1241. Opcode: 100110 (38). D-form Inst: Store byte
+Decode 2 D-form Inst:                 1242. Opcode: 100110 (38).                 1242. Opcode: 100110 (38). D-form Inst: Store byte
+Decode 2 D-form Inst:                 1243. Opcode: 100110 (38).                 1243. Opcode: 100110 (38). D-form Inst: Store byte
+Decode 2 D-form Inst:                 1244. Opcode: 100110 (38).                 1244. Opcode: 100110 (38). D-form Inst: Store byte
+Decode 2 D-form Inst:                 1245. Opcode: 100110 (38).                 1245. Opcode: 100110 (38). D-form Inst: Store byte
+Decode 2 D-form Inst:                 1246. Opcode: 100110 (38).                 1246. Opcode: 100110 (38). D-form Inst: Store byte
+Decode 2 D-form Inst:                 1247. Opcode: 100110 (38).                 1247. Opcode: 100110 (38). D-form Inst: Store byte
+Decode 2 D-form Inst:                 1248. Opcode: 100111 (39).                 1248. Opcode: 100111 (39). D-form Inst: Store byte with update
+Decode 2 D-form Inst:                 1249. Opcode: 100111 (39).                 1249. Opcode: 100111 (39). D-form Inst: Store byte with update
+Decode 2 D-form Inst:                 1250. Opcode: 100111 (39).                 1250. Opcode: 100111 (39). D-form Inst: Store byte with update
+Decode 2 D-form Inst:                 1251. Opcode: 100111 (39).                 1251. Opcode: 100111 (39). D-form Inst: Store byte with update
+Decode 2 D-form Inst:                 1252. Opcode: 100111 (39).                 1252. Opcode: 100111 (39). D-form Inst: Store byte with update
+Decode 2 D-form Inst:                 1253. Opcode: 100111 (39).                 1253. Opcode: 100111 (39). D-form Inst: Store byte with update
+Decode 2 D-form Inst:                 1254. Opcode: 100111 (39).                 1254. Opcode: 100111 (39). D-form Inst: Store byte with update
+Decode 2 D-form Inst:                 1255. Opcode: 100111 (39).                 1255. Opcode: 100111 (39). D-form Inst: Store byte with update
+Decode 2 D-form Inst:                 1256. Opcode: 100111 (39).                 1256. Opcode: 100111 (39). D-form Inst: Store byte with update
+Decode 2 D-form Inst:                 1257. Opcode: 100111 (39).                 1257. Opcode: 100111 (39). D-form Inst: Store byte with update
+Decode 2 D-form Inst:                 1258. Opcode: 100111 (39).                 1258. Opcode: 100111 (39). D-form Inst: Store byte with update
+Decode 2 D-form Inst:                 1259. Opcode: 100111 (39).                 1259. Opcode: 100111 (39). D-form Inst: Store byte with update
+Decode 2 D-form Inst:                 1260. Opcode: 100111 (39).                 1260. Opcode: 100111 (39). D-form Inst: Store byte with update
+Decode 2 D-form Inst:                 1261. Opcode: 100111 (39).                 1261. Opcode: 100111 (39). D-form Inst: Store byte with update
+Decode 2 D-form Inst:                 1262. Opcode: 100111 (39).                 1262. Opcode: 100111 (39). D-form Inst: Store byte with update
+Decode 2 D-form Inst:                 1263. Opcode: 100111 (39).                 1263. Opcode: 100111 (39). D-form Inst: Store byte with update
+Decode 2 D-form Inst:                 1264. Opcode: 100111 (39).                 1264. Opcode: 100111 (39). D-form Inst: Store byte with update
+Decode 2 D-form Inst:                 1265. Opcode: 100111 (39).                 1265. Opcode: 100111 (39). D-form Inst: Store byte with update
+Decode 2 D-form Inst:                 1266. Opcode: 100111 (39).                 1266. Opcode: 100111 (39). D-form Inst: Store byte with update
+Decode 2 D-form Inst:                 1267. Opcode: 100111 (39).                 1267. Opcode: 100111 (39). D-form Inst: Store byte with update
+Decode 2 D-form Inst:                 1268. Opcode: 100111 (39).                 1268. Opcode: 100111 (39). D-form Inst: Store byte with update
+Decode 2 D-form Inst:                 1269. Opcode: 100111 (39).                 1269. Opcode: 100111 (39). D-form Inst: Store byte with update
+Decode 2 D-form Inst:                 1270. Opcode: 100111 (39).                 1270. Opcode: 100111 (39). D-form Inst: Store byte with update
+Decode 2 D-form Inst:                 1271. Opcode: 100111 (39).                 1271. Opcode: 100111 (39). D-form Inst: Store byte with update
+Decode 2 D-form Inst:                 1272. Opcode: 100111 (39).                 1272. Opcode: 100111 (39). D-form Inst: Store byte with update
+Decode 2 D-form Inst:                 1273. Opcode: 100111 (39).                 1273. Opcode: 100111 (39). D-form Inst: Store byte with update
+Decode 2 D-form Inst:                 1274. Opcode: 100111 (39).                 1274. Opcode: 100111 (39). D-form Inst: Store byte with update
+Decode 2 D-form Inst:                 1275. Opcode: 100111 (39).                 1275. Opcode: 100111 (39). D-form Inst: Store byte with update
+Decode 2 D-form Inst:                 1276. Opcode: 100111 (39).                 1276. Opcode: 100111 (39). D-form Inst: Store byte with update
+Decode 2 D-form Inst:                 1277. Opcode: 100111 (39).                 1277. Opcode: 100111 (39). D-form Inst: Store byte with update
+Decode 2 D-form Inst:                 1278. Opcode: 100111 (39).                 1278. Opcode: 100111 (39). D-form Inst: Store byte with update
+Decode 2 D-form Inst:                 1279. Opcode: 100111 (39).                 1279. Opcode: 100111 (39). D-form Inst: Store byte with update
+Decode 2 D-form Inst:                 1280. Opcode: 101000 (40).                 1280. Opcode: 101000 (40). Load Half word and Zero
+Decode 2 D-form Inst:                 1281. Opcode: 101000 (40).                 1281. Opcode: 101000 (40). Load Half word and Zero
+Decode 2 D-form Inst:                 1282. Opcode: 101000 (40).                 1282. Opcode: 101000 (40). Load Half word and Zero
+Decode 2 D-form Inst:                 1283. Opcode: 101000 (40).                 1283. Opcode: 101000 (40). Load Half word and Zero
+Decode 2 D-form Inst:                 1284. Opcode: 101000 (40).                 1284. Opcode: 101000 (40). Load Half word and Zero
+Decode 2 D-form Inst:                 1285. Opcode: 101000 (40).                 1285. Opcode: 101000 (40). Load Half word and Zero
+Decode 2 D-form Inst:                 1286. Opcode: 101000 (40).                 1286. Opcode: 101000 (40). Load Half word and Zero
+Decode 2 D-form Inst:                 1287. Opcode: 101000 (40).                 1287. Opcode: 101000 (40). Load Half word and Zero
+Decode 2 D-form Inst:                 1288. Opcode: 101000 (40).                 1288. Opcode: 101000 (40). Load Half word and Zero
+Decode 2 D-form Inst:                 1289. Opcode: 101000 (40).                 1289. Opcode: 101000 (40). Load Half word and Zero
+Decode 2 D-form Inst:                 1290. Opcode: 101000 (40).                 1290. Opcode: 101000 (40). Load Half word and Zero
+Decode 2 D-form Inst:                 1291. Opcode: 101000 (40).                 1291. Opcode: 101000 (40). Load Half word and Zero
+Decode 2 D-form Inst:                 1292. Opcode: 101000 (40).                 1292. Opcode: 101000 (40). Load Half word and Zero
+Decode 2 D-form Inst:                 1293. Opcode: 101000 (40).                 1293. Opcode: 101000 (40). Load Half word and Zero
+Decode 2 D-form Inst:                 1294. Opcode: 101000 (40).                 1294. Opcode: 101000 (40). Load Half word and Zero
+Decode 2 D-form Inst:                 1295. Opcode: 101000 (40).                 1295. Opcode: 101000 (40). Load Half word and Zero
+Decode 2 D-form Inst:                 1296. Opcode: 101000 (40).                 1296. Opcode: 101000 (40). Load Half word and Zero
+Decode 2 D-form Inst:                 1297. Opcode: 101000 (40).                 1297. Opcode: 101000 (40). Load Half word and Zero
+Decode 2 D-form Inst:                 1298. Opcode: 101000 (40).                 1298. Opcode: 101000 (40). Load Half word and Zero
+Decode 2 D-form Inst:                 1299. Opcode: 101000 (40).                 1299. Opcode: 101000 (40). Load Half word and Zero
+Decode 2 D-form Inst:                 1300. Opcode: 101000 (40).                 1300. Opcode: 101000 (40). Load Half word and Zero
+Decode 2 D-form Inst:                 1301. Opcode: 101000 (40).                 1301. Opcode: 101000 (40). Load Half word and Zero
+Decode 2 D-form Inst:                 1302. Opcode: 101000 (40).                 1302. Opcode: 101000 (40). Load Half word and Zero
+Decode 2 D-form Inst:                 1303. Opcode: 101000 (40).                 1303. Opcode: 101000 (40). Load Half word and Zero
+Decode 2 D-form Inst:                 1304. Opcode: 101000 (40).                 1304. Opcode: 101000 (40). Load Half word and Zero
+Decode 2 D-form Inst:                 1305. Opcode: 101000 (40).                 1305. Opcode: 101000 (40). Load Half word and Zero
+Decode 2 D-form Inst:                 1306. Opcode: 101000 (40).                 1306. Opcode: 101000 (40). Load Half word and Zero
+Decode 2 D-form Inst:                 1307. Opcode: 101000 (40).                 1307. Opcode: 101000 (40). Load Half word and Zero
+Decode 2 D-form Inst:                 1308. Opcode: 101000 (40).                 1308. Opcode: 101000 (40). Load Half word and Zero
+Decode 2 D-form Inst:                 1309. Opcode: 101000 (40).                 1309. Opcode: 101000 (40). Load Half word and Zero
+Decode 2 D-form Inst:                 1310. Opcode: 101000 (40).                 1310. Opcode: 101000 (40). Load Half word and Zero
+Decode 2 D-form Inst:                 1311. Opcode: 101000 (40).                 1311. Opcode: 101000 (40). Load Half word and Zero
+Decode 2 D-form Inst:                 1312. Opcode: 101001 (41).                 1312. Opcode: 101001 (41). Load Half word and Zero with update
+Decode 2 D-form Inst:                 1313. Opcode: 101001 (41).                 1313. Opcode: 101001 (41). Load Half word and Zero with update
+Decode 2 D-form Inst:                 1314. Opcode: 101001 (41).                 1314. Opcode: 101001 (41). Load Half word and Zero with update
+Decode 2 D-form Inst:                 1315. Opcode: 101001 (41).                 1315. Opcode: 101001 (41). Load Half word and Zero with update
+Decode 2 D-form Inst:                 1316. Opcode: 101001 (41).                 1316. Opcode: 101001 (41). Load Half word and Zero with update
+Decode 2 D-form Inst:                 1317. Opcode: 101001 (41).                 1317. Opcode: 101001 (41). Load Half word and Zero with update
+Decode 2 D-form Inst:                 1318. Opcode: 101001 (41).                 1318. Opcode: 101001 (41). Load Half word and Zero with update
+Decode 2 D-form Inst:                 1319. Opcode: 101001 (41).                 1319. Opcode: 101001 (41). Load Half word and Zero with update
+Decode 2 D-form Inst:                 1320. Opcode: 101001 (41).                 1320. Opcode: 101001 (41). Load Half word and Zero with update
+Decode 2 D-form Inst:                 1321. Opcode: 101001 (41).                 1321. Opcode: 101001 (41). Load Half word and Zero with update
+Decode 2 D-form Inst:                 1322. Opcode: 101001 (41).                 1322. Opcode: 101001 (41). Load Half word and Zero with update
+Decode 2 D-form Inst:                 1323. Opcode: 101001 (41).                 1323. Opcode: 101001 (41). Load Half word and Zero with update
+Decode 2 D-form Inst:                 1324. Opcode: 101001 (41).                 1324. Opcode: 101001 (41). Load Half word and Zero with update
+Decode 2 D-form Inst:                 1325. Opcode: 101001 (41).                 1325. Opcode: 101001 (41). Load Half word and Zero with update
+Decode 2 D-form Inst:                 1326. Opcode: 101001 (41).                 1326. Opcode: 101001 (41). Load Half word and Zero with update
+Decode 2 D-form Inst:                 1327. Opcode: 101001 (41).                 1327. Opcode: 101001 (41). Load Half word and Zero with update
+Decode 2 D-form Inst:                 1328. Opcode: 101001 (41).                 1328. Opcode: 101001 (41). Load Half word and Zero with update
+Decode 2 D-form Inst:                 1329. Opcode: 101001 (41).                 1329. Opcode: 101001 (41). Load Half word and Zero with update
+Decode 2 D-form Inst:                 1330. Opcode: 101001 (41).                 1330. Opcode: 101001 (41). Load Half word and Zero with update
+Decode 2 D-form Inst:                 1331. Opcode: 101001 (41).                 1331. Opcode: 101001 (41). Load Half word and Zero with update
+Decode 2 D-form Inst:                 1332. Opcode: 101001 (41).                 1332. Opcode: 101001 (41). Load Half word and Zero with update
+Decode 2 D-form Inst:                 1333. Opcode: 101001 (41).                 1333. Opcode: 101001 (41). Load Half word and Zero with update
+Decode 2 D-form Inst:                 1334. Opcode: 101001 (41).                 1334. Opcode: 101001 (41). Load Half word and Zero with update
+Decode 2 D-form Inst:                 1335. Opcode: 101001 (41).                 1335. Opcode: 101001 (41). Load Half word and Zero with update
+Decode 2 D-form Inst:                 1336. Opcode: 101001 (41).                 1336. Opcode: 101001 (41). Load Half word and Zero with update
+Decode 2 D-form Inst:                 1337. Opcode: 101001 (41).                 1337. Opcode: 101001 (41). Load Half word and Zero with update
+Decode 2 D-form Inst:                 1338. Opcode: 101001 (41).                 1338. Opcode: 101001 (41). Load Half word and Zero with update
+Decode 2 D-form Inst:                 1339. Opcode: 101001 (41).                 1339. Opcode: 101001 (41). Load Half word and Zero with update
+Decode 2 D-form Inst:                 1340. Opcode: 101001 (41).                 1340. Opcode: 101001 (41). Load Half word and Zero with update
+Decode 2 D-form Inst:                 1341. Opcode: 101001 (41).                 1341. Opcode: 101001 (41). Load Half word and Zero with update
+Decode 2 D-form Inst:                 1342. Opcode: 101001 (41).                 1342. Opcode: 101001 (41). Load Half word and Zero with update
+Decode 2 D-form Inst:                 1343. Opcode: 101001 (41).                 1343. Opcode: 101001 (41). Load Half word and Zero with update
+Decode 2 D-form Inst:                 1344. Opcode: 101010 (42).                 1344. Opcode: 101010 (42). Load Half word algebraic
+Decode 2 D-form Inst:                 1345. Opcode: 101010 (42).                 1345. Opcode: 101010 (42). Load Half word algebraic
+Decode 2 D-form Inst:                 1346. Opcode: 101010 (42).                 1346. Opcode: 101010 (42). Load Half word algebraic
+Decode 2 D-form Inst:                 1347. Opcode: 101010 (42).                 1347. Opcode: 101010 (42). Load Half word algebraic
+Decode 2 D-form Inst:                 1348. Opcode: 101010 (42).                 1348. Opcode: 101010 (42). Load Half word algebraic
+Decode 2 D-form Inst:                 1349. Opcode: 101010 (42).                 1349. Opcode: 101010 (42). Load Half word algebraic
+Decode 2 D-form Inst:                 1350. Opcode: 101010 (42).                 1350. Opcode: 101010 (42). Load Half word algebraic
+Decode 2 D-form Inst:                 1351. Opcode: 101010 (42).                 1351. Opcode: 101010 (42). Load Half word algebraic
+Decode 2 D-form Inst:                 1352. Opcode: 101010 (42).                 1352. Opcode: 101010 (42). Load Half word algebraic
+Decode 2 D-form Inst:                 1353. Opcode: 101010 (42).                 1353. Opcode: 101010 (42). Load Half word algebraic
+Decode 2 D-form Inst:                 1354. Opcode: 101010 (42).                 1354. Opcode: 101010 (42). Load Half word algebraic
+Decode 2 D-form Inst:                 1355. Opcode: 101010 (42).                 1355. Opcode: 101010 (42). Load Half word algebraic
+Decode 2 D-form Inst:                 1356. Opcode: 101010 (42).                 1356. Opcode: 101010 (42). Load Half word algebraic
+Decode 2 D-form Inst:                 1357. Opcode: 101010 (42).                 1357. Opcode: 101010 (42). Load Half word algebraic
+Decode 2 D-form Inst:                 1358. Opcode: 101010 (42).                 1358. Opcode: 101010 (42). Load Half word algebraic
+Decode 2 D-form Inst:                 1359. Opcode: 101010 (42).                 1359. Opcode: 101010 (42). Load Half word algebraic
+Decode 2 D-form Inst:                 1360. Opcode: 101010 (42).                 1360. Opcode: 101010 (42). Load Half word algebraic
+Decode 2 D-form Inst:                 1361. Opcode: 101010 (42).                 1361. Opcode: 101010 (42). Load Half word algebraic
+Decode 2 D-form Inst:                 1362. Opcode: 101010 (42).                 1362. Opcode: 101010 (42). Load Half word algebraic
+Decode 2 D-form Inst:                 1363. Opcode: 101010 (42).                 1363. Opcode: 101010 (42). Load Half word algebraic
+Decode 2 D-form Inst:                 1364. Opcode: 101010 (42).                 1364. Opcode: 101010 (42). Load Half word algebraic
+Decode 2 D-form Inst:                 1365. Opcode: 101010 (42).                 1365. Opcode: 101010 (42). Load Half word algebraic
+Decode 2 D-form Inst:                 1366. Opcode: 101010 (42).                 1366. Opcode: 101010 (42). Load Half word algebraic
+Decode 2 D-form Inst:                 1367. Opcode: 101010 (42).                 1367. Opcode: 101010 (42). Load Half word algebraic
+Decode 2 D-form Inst:                 1368. Opcode: 101010 (42).                 1368. Opcode: 101010 (42). Load Half word algebraic
+Decode 2 D-form Inst:                 1369. Opcode: 101010 (42).                 1369. Opcode: 101010 (42). Load Half word algebraic
+Decode 2 D-form Inst:                 1370. Opcode: 101010 (42).                 1370. Opcode: 101010 (42). Load Half word algebraic
+Decode 2 D-form Inst:                 1371. Opcode: 101010 (42).                 1371. Opcode: 101010 (42). Load Half word algebraic
+Decode 2 D-form Inst:                 1372. Opcode: 101010 (42).                 1372. Opcode: 101010 (42). Load Half word algebraic
+Decode 2 D-form Inst:                 1373. Opcode: 101010 (42).                 1373. Opcode: 101010 (42). Load Half word algebraic
+Decode 2 D-form Inst:                 1374. Opcode: 101010 (42).                 1374. Opcode: 101010 (42). Load Half word algebraic
+Decode 2 D-form Inst:                 1375. Opcode: 101010 (42).                 1375. Opcode: 101010 (42). Load Half word algebraic
+Decode 2 D-form Inst:                 1376. Opcode: 101011 (43).                 1376. Opcode: 101011 (43). Load Half word algebraic with update
+Decode 2 D-form Inst:                 1377. Opcode: 101011 (43).                 1377. Opcode: 101011 (43). Load Half word algebraic with update
+Decode 2 D-form Inst:                 1378. Opcode: 101011 (43).                 1378. Opcode: 101011 (43). Load Half word algebraic with update
+Decode 2 D-form Inst:                 1379. Opcode: 101011 (43).                 1379. Opcode: 101011 (43). Load Half word algebraic with update
+Decode 2 D-form Inst:                 1380. Opcode: 101011 (43).                 1380. Opcode: 101011 (43). Load Half word algebraic with update
+Decode 2 D-form Inst:                 1381. Opcode: 101011 (43).                 1381. Opcode: 101011 (43). Load Half word algebraic with update
+Decode 2 D-form Inst:                 1382. Opcode: 101011 (43).                 1382. Opcode: 101011 (43). Load Half word algebraic with update
+Decode 2 D-form Inst:                 1383. Opcode: 101011 (43).                 1383. Opcode: 101011 (43). Load Half word algebraic with update
+Decode 2 D-form Inst:                 1384. Opcode: 101011 (43).                 1384. Opcode: 101011 (43). Load Half word algebraic with update
+Decode 2 D-form Inst:                 1385. Opcode: 101011 (43).                 1385. Opcode: 101011 (43). Load Half word algebraic with update
+Decode 2 D-form Inst:                 1386. Opcode: 101011 (43).                 1386. Opcode: 101011 (43). Load Half word algebraic with update
+Decode 2 D-form Inst:                 1387. Opcode: 101011 (43).                 1387. Opcode: 101011 (43). Load Half word algebraic with update
+Decode 2 D-form Inst:                 1388. Opcode: 101011 (43).                 1388. Opcode: 101011 (43). Load Half word algebraic with update
+Decode 2 D-form Inst:                 1389. Opcode: 101011 (43).                 1389. Opcode: 101011 (43). Load Half word algebraic with update
+Decode 2 D-form Inst:                 1390. Opcode: 101011 (43).                 1390. Opcode: 101011 (43). Load Half word algebraic with update
+Decode 2 D-form Inst:                 1391. Opcode: 101011 (43).                 1391. Opcode: 101011 (43). Load Half word algebraic with update
+Decode 2 D-form Inst:                 1392. Opcode: 101011 (43).                 1392. Opcode: 101011 (43). Load Half word algebraic with update
+Decode 2 D-form Inst:                 1393. Opcode: 101011 (43).                 1393. Opcode: 101011 (43). Load Half word algebraic with update
+Decode 2 D-form Inst:                 1394. Opcode: 101011 (43).                 1394. Opcode: 101011 (43). Load Half word algebraic with update
+Decode 2 D-form Inst:                 1395. Opcode: 101011 (43).                 1395. Opcode: 101011 (43). Load Half word algebraic with update
+Decode 2 D-form Inst:                 1396. Opcode: 101011 (43).                 1396. Opcode: 101011 (43). Load Half word algebraic with update
+Decode 2 D-form Inst:                 1397. Opcode: 101011 (43).                 1397. Opcode: 101011 (43). Load Half word algebraic with update
+Decode 2 D-form Inst:                 1398. Opcode: 101011 (43).                 1398. Opcode: 101011 (43). Load Half word algebraic with update
+Decode 2 D-form Inst:                 1399. Opcode: 101011 (43).                 1399. Opcode: 101011 (43). Load Half word algebraic with update
+Decode 2 D-form Inst:                 1400. Opcode: 101011 (43).                 1400. Opcode: 101011 (43). Load Half word algebraic with update
+Decode 2 D-form Inst:                 1401. Opcode: 101011 (43).                 1401. Opcode: 101011 (43). Load Half word algebraic with update
+Decode 2 D-form Inst:                 1402. Opcode: 101011 (43).                 1402. Opcode: 101011 (43). Load Half word algebraic with update
+Decode 2 D-form Inst:                 1403. Opcode: 101011 (43).                 1403. Opcode: 101011 (43). Load Half word algebraic with update
+Decode 2 D-form Inst:                 1404. Opcode: 101011 (43).                 1404. Opcode: 101011 (43). Load Half word algebraic with update
+Decode 2 D-form Inst:                 1405. Opcode: 101011 (43).                 1405. Opcode: 101011 (43). Load Half word algebraic with update
+Decode 2 D-form Inst:                 1406. Opcode: 101011 (43).                 1406. Opcode: 101011 (43). Load Half word algebraic with update
+Decode 2 D-form Inst:                 1407. Opcode: 101011 (43).                 1407. Opcode: 101011 (43). Load Half word algebraic with update
+Decode 2 D-form Inst:                 1408. Opcode: 101100 (44).                 1408. Opcode: 101100 (44). D-form Inst: Store halfword
+Decode 2 D-form Inst:                 1409. Opcode: 101100 (44).                 1409. Opcode: 101100 (44). D-form Inst: Store halfword
+Decode 2 D-form Inst:                 1410. Opcode: 101100 (44).                 1410. Opcode: 101100 (44). D-form Inst: Store halfword
+Decode 2 D-form Inst:                 1411. Opcode: 101100 (44).                 1411. Opcode: 101100 (44). D-form Inst: Store halfword
+Decode 2 D-form Inst:                 1412. Opcode: 101100 (44).                 1412. Opcode: 101100 (44). D-form Inst: Store halfword
+Decode 2 D-form Inst:                 1413. Opcode: 101100 (44).                 1413. Opcode: 101100 (44). D-form Inst: Store halfword
+Decode 2 D-form Inst:                 1414. Opcode: 101100 (44).                 1414. Opcode: 101100 (44). D-form Inst: Store halfword
+Decode 2 D-form Inst:                 1415. Opcode: 101100 (44).                 1415. Opcode: 101100 (44). D-form Inst: Store halfword
+Decode 2 D-form Inst:                 1416. Opcode: 101100 (44).                 1416. Opcode: 101100 (44). D-form Inst: Store halfword
+Decode 2 D-form Inst:                 1417. Opcode: 101100 (44).                 1417. Opcode: 101100 (44). D-form Inst: Store halfword
+Decode 2 D-form Inst:                 1418. Opcode: 101100 (44).                 1418. Opcode: 101100 (44). D-form Inst: Store halfword
+Decode 2 D-form Inst:                 1419. Opcode: 101100 (44).                 1419. Opcode: 101100 (44). D-form Inst: Store halfword
+Decode 2 D-form Inst:                 1420. Opcode: 101100 (44).                 1420. Opcode: 101100 (44). D-form Inst: Store halfword
+Decode 2 D-form Inst:                 1421. Opcode: 101100 (44).                 1421. Opcode: 101100 (44). D-form Inst: Store halfword
+Decode 2 D-form Inst:                 1422. Opcode: 101100 (44).                 1422. Opcode: 101100 (44). D-form Inst: Store halfword
+Decode 2 D-form Inst:                 1423. Opcode: 101100 (44).                 1423. Opcode: 101100 (44). D-form Inst: Store halfword
+Decode 2 D-form Inst:                 1424. Opcode: 101100 (44).                 1424. Opcode: 101100 (44). D-form Inst: Store halfword
+Decode 2 D-form Inst:                 1425. Opcode: 101100 (44).                 1425. Opcode: 101100 (44). D-form Inst: Store halfword
+Decode 2 D-form Inst:                 1426. Opcode: 101100 (44).                 1426. Opcode: 101100 (44). D-form Inst: Store halfword
+Decode 2 D-form Inst:                 1427. Opcode: 101100 (44).                 1427. Opcode: 101100 (44). D-form Inst: Store halfword
+Decode 2 D-form Inst:                 1428. Opcode: 101100 (44).                 1428. Opcode: 101100 (44). D-form Inst: Store halfword
+Decode 2 D-form Inst:                 1429. Opcode: 101100 (44).                 1429. Opcode: 101100 (44). D-form Inst: Store halfword
+Decode 2 D-form Inst:                 1430. Opcode: 101100 (44).                 1430. Opcode: 101100 (44). D-form Inst: Store halfword
+Decode 2 D-form Inst:                 1431. Opcode: 101100 (44).                 1431. Opcode: 101100 (44). D-form Inst: Store halfword
+Decode 2 D-form Inst:                 1432. Opcode: 101100 (44).                 1432. Opcode: 101100 (44). D-form Inst: Store halfword
+Decode 2 D-form Inst:                 1433. Opcode: 101100 (44).                 1433. Opcode: 101100 (44). D-form Inst: Store halfword
+Decode 2 D-form Inst:                 1434. Opcode: 101100 (44).                 1434. Opcode: 101100 (44). D-form Inst: Store halfword
+Decode 2 D-form Inst:                 1435. Opcode: 101100 (44).                 1435. Opcode: 101100 (44). D-form Inst: Store halfword
+Decode 2 D-form Inst:                 1436. Opcode: 101100 (44).                 1436. Opcode: 101100 (44). D-form Inst: Store halfword
+Decode 2 D-form Inst:                 1437. Opcode: 101100 (44).                 1437. Opcode: 101100 (44). D-form Inst: Store halfword
+Decode 2 D-form Inst:                 1438. Opcode: 101100 (44).                 1438. Opcode: 101100 (44). D-form Inst: Store halfword
+Decode 2 D-form Inst:                 1439. Opcode: 101100 (44).                 1439. Opcode: 101100 (44). D-form Inst: Store halfword
+Decode 2 D-form Inst:                 1440. Opcode: 101101 (45).                 1440. Opcode: 101101 (45). D-form Inst: store halfword with update
+Decode 2 D-form Inst:                 1441. Opcode: 101101 (45).                 1441. Opcode: 101101 (45). D-form Inst: store halfword with update
+Decode 2 D-form Inst:                 1442. Opcode: 101101 (45).                 1442. Opcode: 101101 (45). D-form Inst: store halfword with update
+Decode 2 D-form Inst:                 1443. Opcode: 101101 (45).                 1443. Opcode: 101101 (45). D-form Inst: store halfword with update
+Decode 2 D-form Inst:                 1444. Opcode: 101101 (45).                 1444. Opcode: 101101 (45). D-form Inst: store halfword with update
+Decode 2 D-form Inst:                 1445. Opcode: 101101 (45).                 1445. Opcode: 101101 (45). D-form Inst: store halfword with update
+Decode 2 D-form Inst:                 1446. Opcode: 101101 (45).                 1446. Opcode: 101101 (45). D-form Inst: store halfword with update
+Decode 2 D-form Inst:                 1447. Opcode: 101101 (45).                 1447. Opcode: 101101 (45). D-form Inst: store halfword with update
+Decode 2 D-form Inst:                 1448. Opcode: 101101 (45).                 1448. Opcode: 101101 (45). D-form Inst: store halfword with update
+Decode 2 D-form Inst:                 1449. Opcode: 101101 (45).                 1449. Opcode: 101101 (45). D-form Inst: store halfword with update
+Decode 2 D-form Inst:                 1450. Opcode: 101101 (45).                 1450. Opcode: 101101 (45). D-form Inst: store halfword with update
+Decode 2 D-form Inst:                 1451. Opcode: 101101 (45).                 1451. Opcode: 101101 (45). D-form Inst: store halfword with update
+Decode 2 D-form Inst:                 1452. Opcode: 101101 (45).                 1452. Opcode: 101101 (45). D-form Inst: store halfword with update
+Decode 2 D-form Inst:                 1453. Opcode: 101101 (45).                 1453. Opcode: 101101 (45). D-form Inst: store halfword with update
+Decode 2 D-form Inst:                 1454. Opcode: 101101 (45).                 1454. Opcode: 101101 (45). D-form Inst: store halfword with update
+Decode 2 D-form Inst:                 1455. Opcode: 101101 (45).                 1455. Opcode: 101101 (45). D-form Inst: store halfword with update
+Decode 2 D-form Inst:                 1456. Opcode: 101101 (45).                 1456. Opcode: 101101 (45). D-form Inst: store halfword with update
+Decode 2 D-form Inst:                 1457. Opcode: 101101 (45).                 1457. Opcode: 101101 (45). D-form Inst: store halfword with update
+Decode 2 D-form Inst:                 1458. Opcode: 101101 (45).                 1458. Opcode: 101101 (45). D-form Inst: store halfword with update
+Decode 2 D-form Inst:                 1459. Opcode: 101101 (45).                 1459. Opcode: 101101 (45). D-form Inst: store halfword with update
+Decode 2 D-form Inst:                 1460. Opcode: 101101 (45).                 1460. Opcode: 101101 (45). D-form Inst: store halfword with update
+Decode 2 D-form Inst:                 1461. Opcode: 101101 (45).                 1461. Opcode: 101101 (45). D-form Inst: store halfword with update
+Decode 2 D-form Inst:                 1462. Opcode: 101101 (45).                 1462. Opcode: 101101 (45). D-form Inst: store halfword with update
+Decode 2 D-form Inst:                 1463. Opcode: 101101 (45).                 1463. Opcode: 101101 (45). D-form Inst: store halfword with update
+Decode 2 D-form Inst:                 1464. Opcode: 101101 (45).                 1464. Opcode: 101101 (45). D-form Inst: store halfword with update
+Decode 2 D-form Inst:                 1465. Opcode: 101101 (45).                 1465. Opcode: 101101 (45). D-form Inst: store halfword with update
+Decode 2 D-form Inst:                 1466. Opcode: 101101 (45).                 1466. Opcode: 101101 (45). D-form Inst: store halfword with update
+Decode 2 D-form Inst:                 1467. Opcode: 101101 (45).                 1467. Opcode: 101101 (45). D-form Inst: store halfword with update
+Decode 2 D-form Inst:                 1468. Opcode: 101101 (45).                 1468. Opcode: 101101 (45). D-form Inst: store halfword with update
+Decode 2 D-form Inst:                 1469. Opcode: 101101 (45).                 1469. Opcode: 101101 (45). D-form Inst: store halfword with update
+Decode 2 D-form Inst:                 1470. Opcode: 101101 (45).                 1470. Opcode: 101101 (45). D-form Inst: store halfword with update
+Decode 2 D-form Inst:                 1471. Opcode: 101101 (45).                 1471. Opcode: 101101 (45). D-form Inst: store halfword with update
+Decode 2 D-form Inst:                 1472. Opcode: 101110 (46).                 1472. Opcode: 101110 (46). D-form Inst: Load multiple word
+Decode 2 D-form Inst:                 1473. Opcode: 101110 (46).                 1473. Opcode: 101110 (46). D-form Inst: Load multiple word
+Decode 2 D-form Inst:                 1474. Opcode: 101110 (46).                 1474. Opcode: 101110 (46). D-form Inst: Load multiple word
+Decode 2 D-form Inst:                 1475. Opcode: 101110 (46).                 1475. Opcode: 101110 (46). D-form Inst: Load multiple word
+Decode 2 D-form Inst:                 1476. Opcode: 101110 (46).                 1476. Opcode: 101110 (46). D-form Inst: Load multiple word
+Decode 2 D-form Inst:                 1477. Opcode: 101110 (46).                 1477. Opcode: 101110 (46). D-form Inst: Load multiple word
+Decode 2 D-form Inst:                 1478. Opcode: 101110 (46).                 1478. Opcode: 101110 (46). D-form Inst: Load multiple word
+Decode 2 D-form Inst:                 1479. Opcode: 101110 (46).                 1479. Opcode: 101110 (46). D-form Inst: Load multiple word
+Decode 2 D-form Inst:                 1480. Opcode: 101110 (46).                 1480. Opcode: 101110 (46). D-form Inst: Load multiple word
+Decode 2 D-form Inst:                 1481. Opcode: 101110 (46).                 1481. Opcode: 101110 (46). D-form Inst: Load multiple word
+Decode 2 D-form Inst:                 1482. Opcode: 101110 (46).                 1482. Opcode: 101110 (46). D-form Inst: Load multiple word
+Decode 2 D-form Inst:                 1483. Opcode: 101110 (46).                 1483. Opcode: 101110 (46). D-form Inst: Load multiple word
+Decode 2 D-form Inst:                 1484. Opcode: 101110 (46).                 1484. Opcode: 101110 (46). D-form Inst: Load multiple word
+Decode 2 D-form Inst:                 1485. Opcode: 101110 (46).                 1485. Opcode: 101110 (46). D-form Inst: Load multiple word
+Decode 2 D-form Inst:                 1486. Opcode: 101110 (46).                 1486. Opcode: 101110 (46). D-form Inst: Load multiple word
+Decode 2 D-form Inst:                 1487. Opcode: 101110 (46).                 1487. Opcode: 101110 (46). D-form Inst: Load multiple word
+Decode 2 D-form Inst:                 1488. Opcode: 101110 (46).                 1488. Opcode: 101110 (46). D-form Inst: Load multiple word
+Decode 2 D-form Inst:                 1489. Opcode: 101110 (46).                 1489. Opcode: 101110 (46). D-form Inst: Load multiple word
+Decode 2 D-form Inst:                 1490. Opcode: 101110 (46).                 1490. Opcode: 101110 (46). D-form Inst: Load multiple word
+Decode 2 D-form Inst:                 1491. Opcode: 101110 (46).                 1491. Opcode: 101110 (46). D-form Inst: Load multiple word
+Decode 2 D-form Inst:                 1492. Opcode: 101110 (46).                 1492. Opcode: 101110 (46). D-form Inst: Load multiple word
+Decode 2 D-form Inst:                 1493. Opcode: 101110 (46).                 1493. Opcode: 101110 (46). D-form Inst: Load multiple word
+Decode 2 D-form Inst:                 1494. Opcode: 101110 (46).                 1494. Opcode: 101110 (46). D-form Inst: Load multiple word
+Decode 2 D-form Inst:                 1495. Opcode: 101110 (46).                 1495. Opcode: 101110 (46). D-form Inst: Load multiple word
+Decode 2 D-form Inst:                 1496. Opcode: 101110 (46).                 1496. Opcode: 101110 (46). D-form Inst: Load multiple word
+Decode 2 D-form Inst:                 1497. Opcode: 101110 (46).                 1497. Opcode: 101110 (46). D-form Inst: Load multiple word
+Decode 2 D-form Inst:                 1498. Opcode: 101110 (46).                 1498. Opcode: 101110 (46). D-form Inst: Load multiple word
+Decode 2 D-form Inst:                 1499. Opcode: 101110 (46).                 1499. Opcode: 101110 (46). D-form Inst: Load multiple word
+Decode 2 D-form Inst:                 1500. Opcode: 101110 (46).                 1500. Opcode: 101110 (46). D-form Inst: Load multiple word
+Decode 2 D-form Inst:                 1501. Opcode: 101110 (46).                 1501. Opcode: 101110 (46). D-form Inst: Load multiple word
+Decode 2 D-form Inst:                 1502. Opcode: 101110 (46).                 1502. Opcode: 101110 (46). D-form Inst: Load multiple word
+Decode 2 D-form Inst:                 1503. Opcode: 101110 (46).                 1503. Opcode: 101110 (46). D-form Inst: Load multiple word
+Decode 2 D-form Inst:                 1504. Opcode: 101111 (47).                 1504. Opcode: 101111 (47). D-form Inst: Store multiple word
+Decode 2 D-form Inst:                 1505. Opcode: 101111 (47).                 1505. Opcode: 101111 (47). D-form Inst: Store multiple word
+Decode 2 D-form Inst:                 1506. Opcode: 101111 (47).                 1506. Opcode: 101111 (47). D-form Inst: Store multiple word
+Decode 2 D-form Inst:                 1507. Opcode: 101111 (47).                 1507. Opcode: 101111 (47). D-form Inst: Store multiple word
+Decode 2 D-form Inst:                 1508. Opcode: 101111 (47).                 1508. Opcode: 101111 (47). D-form Inst: Store multiple word
+Decode 2 D-form Inst:                 1509. Opcode: 101111 (47).                 1509. Opcode: 101111 (47). D-form Inst: Store multiple word
+Decode 2 D-form Inst:                 1510. Opcode: 101111 (47).                 1510. Opcode: 101111 (47). D-form Inst: Store multiple word
+Decode 2 D-form Inst:                 1511. Opcode: 101111 (47).                 1511. Opcode: 101111 (47). D-form Inst: Store multiple word
+Decode 2 D-form Inst:                 1512. Opcode: 101111 (47).                 1512. Opcode: 101111 (47). D-form Inst: Store multiple word
+Decode 2 D-form Inst:                 1513. Opcode: 101111 (47).                 1513. Opcode: 101111 (47). D-form Inst: Store multiple word
+Decode 2 D-form Inst:                 1514. Opcode: 101111 (47).                 1514. Opcode: 101111 (47). D-form Inst: Store multiple word
+Decode 2 D-form Inst:                 1515. Opcode: 101111 (47).                 1515. Opcode: 101111 (47). D-form Inst: Store multiple word
+Decode 2 D-form Inst:                 1516. Opcode: 101111 (47).                 1516. Opcode: 101111 (47). D-form Inst: Store multiple word
+Decode 2 D-form Inst:                 1517. Opcode: 101111 (47).                 1517. Opcode: 101111 (47). D-form Inst: Store multiple word
+Decode 2 D-form Inst:                 1518. Opcode: 101111 (47).                 1518. Opcode: 101111 (47). D-form Inst: Store multiple word
+Decode 2 D-form Inst:                 1519. Opcode: 101111 (47).                 1519. Opcode: 101111 (47). D-form Inst: Store multiple word
+Decode 2 D-form Inst:                 1520. Opcode: 101111 (47).                 1520. Opcode: 101111 (47). D-form Inst: Store multiple word
+Decode 2 D-form Inst:                 1521. Opcode: 101111 (47).                 1521. Opcode: 101111 (47). D-form Inst: Store multiple word
+Decode 2 D-form Inst:                 1522. Opcode: 101111 (47).                 1522. Opcode: 101111 (47). D-form Inst: Store multiple word
+Decode 2 D-form Inst:                 1523. Opcode: 101111 (47).                 1523. Opcode: 101111 (47). D-form Inst: Store multiple word
+Decode 2 D-form Inst:                 1524. Opcode: 101111 (47).                 1524. Opcode: 101111 (47). D-form Inst: Store multiple word
+Decode 2 D-form Inst:                 1525. Opcode: 101111 (47).                 1525. Opcode: 101111 (47). D-form Inst: Store multiple word
+Decode 2 D-form Inst:                 1526. Opcode: 101111 (47).                 1526. Opcode: 101111 (47). D-form Inst: Store multiple word
+Decode 2 D-form Inst:                 1527. Opcode: 101111 (47).                 1527. Opcode: 101111 (47). D-form Inst: Store multiple word
+Decode 2 D-form Inst:                 1528. Opcode: 101111 (47).                 1528. Opcode: 101111 (47). D-form Inst: Store multiple word
+Decode 2 D-form Inst:                 1529. Opcode: 101111 (47).                 1529. Opcode: 101111 (47). D-form Inst: Store multiple word
+Decode 2 D-form Inst:                 1530. Opcode: 101111 (47).                 1530. Opcode: 101111 (47). D-form Inst: Store multiple word
+Decode 2 D-form Inst:                 1531. Opcode: 101111 (47).                 1531. Opcode: 101111 (47). D-form Inst: Store multiple word
+Decode 2 D-form Inst:                 1532. Opcode: 101111 (47).                 1532. Opcode: 101111 (47). D-form Inst: Store multiple word
+Decode 2 D-form Inst:                 1533. Opcode: 101111 (47).                 1533. Opcode: 101111 (47). D-form Inst: Store multiple word
+Decode 2 D-form Inst:                 1534. Opcode: 101111 (47).                 1534. Opcode: 101111 (47). D-form Inst: Store multiple word
+Decode 2 D-form Inst:                 1535. Opcode: 101111 (47).                 1535. Opcode: 101111 (47). D-form Inst: Store multiple word
+Decode 2 D-form Inst:                 1536. Opcode: 110000 (48).                 1536. Opcode: 110000 (48). D-form Inst: Load floating point single
+Decode 2 D-form Inst:                 1537. Opcode: 110000 (48).                 1537. Opcode: 110000 (48). D-form Inst: Load floating point single
+Decode 2 D-form Inst:                 1538. Opcode: 110000 (48).                 1538. Opcode: 110000 (48). D-form Inst: Load floating point single
+Decode 2 D-form Inst:                 1539. Opcode: 110000 (48).                 1539. Opcode: 110000 (48). D-form Inst: Load floating point single
+Decode 2 D-form Inst:                 1540. Opcode: 110000 (48).                 1540. Opcode: 110000 (48). D-form Inst: Load floating point single
+Decode 2 D-form Inst:                 1541. Opcode: 110000 (48).                 1541. Opcode: 110000 (48). D-form Inst: Load floating point single
+Decode 2 D-form Inst:                 1542. Opcode: 110000 (48).                 1542. Opcode: 110000 (48). D-form Inst: Load floating point single
+Decode 2 D-form Inst:                 1543. Opcode: 110000 (48).                 1543. Opcode: 110000 (48). D-form Inst: Load floating point single
+Decode 2 D-form Inst:                 1544. Opcode: 110000 (48).                 1544. Opcode: 110000 (48). D-form Inst: Load floating point single
+Decode 2 D-form Inst:                 1545. Opcode: 110000 (48).                 1545. Opcode: 110000 (48). D-form Inst: Load floating point single
+Decode 2 D-form Inst:                 1546. Opcode: 110000 (48).                 1546. Opcode: 110000 (48). D-form Inst: Load floating point single
+Decode 2 D-form Inst:                 1547. Opcode: 110000 (48).                 1547. Opcode: 110000 (48). D-form Inst: Load floating point single
+Decode 2 D-form Inst:                 1548. Opcode: 110000 (48).                 1548. Opcode: 110000 (48). D-form Inst: Load floating point single
+Decode 2 D-form Inst:                 1549. Opcode: 110000 (48).                 1549. Opcode: 110000 (48). D-form Inst: Load floating point single
+Decode 2 D-form Inst:                 1550. Opcode: 110000 (48).                 1550. Opcode: 110000 (48). D-form Inst: Load floating point single
+Decode 2 D-form Inst:                 1551. Opcode: 110000 (48).                 1551. Opcode: 110000 (48). D-form Inst: Load floating point single
+Decode 2 D-form Inst:                 1552. Opcode: 110000 (48).                 1552. Opcode: 110000 (48). D-form Inst: Load floating point single
+Decode 2 D-form Inst:                 1553. Opcode: 110000 (48).                 1553. Opcode: 110000 (48). D-form Inst: Load floating point single
+Decode 2 D-form Inst:                 1554. Opcode: 110000 (48).                 1554. Opcode: 110000 (48). D-form Inst: Load floating point single
+Decode 2 D-form Inst:                 1555. Opcode: 110000 (48).                 1555. Opcode: 110000 (48). D-form Inst: Load floating point single
+Decode 2 D-form Inst:                 1556. Opcode: 110000 (48).                 1556. Opcode: 110000 (48). D-form Inst: Load floating point single
+Decode 2 D-form Inst:                 1557. Opcode: 110000 (48).                 1557. Opcode: 110000 (48). D-form Inst: Load floating point single
+Decode 2 D-form Inst:                 1558. Opcode: 110000 (48).                 1558. Opcode: 110000 (48). D-form Inst: Load floating point single
+Decode 2 D-form Inst:                 1559. Opcode: 110000 (48).                 1559. Opcode: 110000 (48). D-form Inst: Load floating point single
+Decode 2 D-form Inst:                 1560. Opcode: 110000 (48).                 1560. Opcode: 110000 (48). D-form Inst: Load floating point single
+Decode 2 D-form Inst:                 1561. Opcode: 110000 (48).                 1561. Opcode: 110000 (48). D-form Inst: Load floating point single
+Decode 2 D-form Inst:                 1562. Opcode: 110000 (48).                 1562. Opcode: 110000 (48). D-form Inst: Load floating point single
+Decode 2 D-form Inst:                 1563. Opcode: 110000 (48).                 1563. Opcode: 110000 (48). D-form Inst: Load floating point single
+Decode 2 D-form Inst:                 1564. Opcode: 110000 (48).                 1564. Opcode: 110000 (48). D-form Inst: Load floating point single
+Decode 2 D-form Inst:                 1565. Opcode: 110000 (48).                 1565. Opcode: 110000 (48). D-form Inst: Load floating point single
+Decode 2 D-form Inst:                 1566. Opcode: 110000 (48).                 1566. Opcode: 110000 (48). D-form Inst: Load floating point single
+Decode 2 D-form Inst:                 1567. Opcode: 110000 (48).                 1567. Opcode: 110000 (48). D-form Inst: Load floating point single
+Decode 2 D-form Inst:                 1568. Opcode: 110001 (49).                 1568. Opcode: 110001 (49). D-form Inst: Load floating point single with update
+Decode 2 D-form Inst:                 1569. Opcode: 110001 (49).                 1569. Opcode: 110001 (49). D-form Inst: Load floating point single with update
+Decode 2 D-form Inst:                 1570. Opcode: 110001 (49).                 1570. Opcode: 110001 (49). D-form Inst: Load floating point single with update
+Decode 2 D-form Inst:                 1571. Opcode: 110001 (49).                 1571. Opcode: 110001 (49). D-form Inst: Load floating point single with update
+Decode 2 D-form Inst:                 1572. Opcode: 110001 (49).                 1572. Opcode: 110001 (49). D-form Inst: Load floating point single with update
+Decode 2 D-form Inst:                 1573. Opcode: 110001 (49).                 1573. Opcode: 110001 (49). D-form Inst: Load floating point single with update
+Decode 2 D-form Inst:                 1574. Opcode: 110001 (49).                 1574. Opcode: 110001 (49). D-form Inst: Load floating point single with update
+Decode 2 D-form Inst:                 1575. Opcode: 110001 (49).                 1575. Opcode: 110001 (49). D-form Inst: Load floating point single with update
+Decode 2 D-form Inst:                 1576. Opcode: 110001 (49).                 1576. Opcode: 110001 (49). D-form Inst: Load floating point single with update
+Decode 2 D-form Inst:                 1577. Opcode: 110001 (49).                 1577. Opcode: 110001 (49). D-form Inst: Load floating point single with update
+Decode 2 D-form Inst:                 1578. Opcode: 110001 (49).                 1578. Opcode: 110001 (49). D-form Inst: Load floating point single with update
+Decode 2 D-form Inst:                 1579. Opcode: 110001 (49).                 1579. Opcode: 110001 (49). D-form Inst: Load floating point single with update
+Decode 2 D-form Inst:                 1580. Opcode: 110001 (49).                 1580. Opcode: 110001 (49). D-form Inst: Load floating point single with update
+Decode 2 D-form Inst:                 1581. Opcode: 110001 (49).                 1581. Opcode: 110001 (49). D-form Inst: Load floating point single with update
+Decode 2 D-form Inst:                 1582. Opcode: 110001 (49).                 1582. Opcode: 110001 (49). D-form Inst: Load floating point single with update
+Decode 2 D-form Inst:                 1583. Opcode: 110001 (49).                 1583. Opcode: 110001 (49). D-form Inst: Load floating point single with update
+Decode 2 D-form Inst:                 1584. Opcode: 110001 (49).                 1584. Opcode: 110001 (49). D-form Inst: Load floating point single with update
+Decode 2 D-form Inst:                 1585. Opcode: 110001 (49).                 1585. Opcode: 110001 (49). D-form Inst: Load floating point single with update
+Decode 2 D-form Inst:                 1586. Opcode: 110001 (49).                 1586. Opcode: 110001 (49). D-form Inst: Load floating point single with update
+Decode 2 D-form Inst:                 1587. Opcode: 110001 (49).                 1587. Opcode: 110001 (49). D-form Inst: Load floating point single with update
+Decode 2 D-form Inst:                 1588. Opcode: 110001 (49).                 1588. Opcode: 110001 (49). D-form Inst: Load floating point single with update
+Decode 2 D-form Inst:                 1589. Opcode: 110001 (49).                 1589. Opcode: 110001 (49). D-form Inst: Load floating point single with update
+Decode 2 D-form Inst:                 1590. Opcode: 110001 (49).                 1590. Opcode: 110001 (49). D-form Inst: Load floating point single with update
+Decode 2 D-form Inst:                 1591. Opcode: 110001 (49).                 1591. Opcode: 110001 (49). D-form Inst: Load floating point single with update
+Decode 2 D-form Inst:                 1592. Opcode: 110001 (49).                 1592. Opcode: 110001 (49). D-form Inst: Load floating point single with update
+Decode 2 D-form Inst:                 1593. Opcode: 110001 (49).                 1593. Opcode: 110001 (49). D-form Inst: Load floating point single with update
+Decode 2 D-form Inst:                 1594. Opcode: 110001 (49).                 1594. Opcode: 110001 (49). D-form Inst: Load floating point single with update
+Decode 2 D-form Inst:                 1595. Opcode: 110001 (49).                 1595. Opcode: 110001 (49). D-form Inst: Load floating point single with update
+Decode 2 D-form Inst:                 1596. Opcode: 110001 (49).                 1596. Opcode: 110001 (49). D-form Inst: Load floating point single with update
+Decode 2 D-form Inst:                 1597. Opcode: 110001 (49).                 1597. Opcode: 110001 (49). D-form Inst: Load floating point single with update
+Decode 2 D-form Inst:                 1598. Opcode: 110001 (49).                 1598. Opcode: 110001 (49). D-form Inst: Load floating point single with update
+Decode 2 D-form Inst:                 1599. Opcode: 110001 (49).                 1599. Opcode: 110001 (49). D-form Inst: Load floating point single with update
+Decode 2 D-form Inst:                 1600. Opcode: 110010 (50).                 1600. Opcode: 110010 (50). D-form Inst: Load floating point double
+Decode 2 D-form Inst:                 1601. Opcode: 110010 (50).                 1601. Opcode: 110010 (50). D-form Inst: Load floating point double
+Decode 2 D-form Inst:                 1602. Opcode: 110010 (50).                 1602. Opcode: 110010 (50). D-form Inst: Load floating point double
+Decode 2 D-form Inst:                 1603. Opcode: 110010 (50).                 1603. Opcode: 110010 (50). D-form Inst: Load floating point double
+Decode 2 D-form Inst:                 1604. Opcode: 110010 (50).                 1604. Opcode: 110010 (50). D-form Inst: Load floating point double
+Decode 2 D-form Inst:                 1605. Opcode: 110010 (50).                 1605. Opcode: 110010 (50). D-form Inst: Load floating point double
+Decode 2 D-form Inst:                 1606. Opcode: 110010 (50).                 1606. Opcode: 110010 (50). D-form Inst: Load floating point double
+Decode 2 D-form Inst:                 1607. Opcode: 110010 (50).                 1607. Opcode: 110010 (50). D-form Inst: Load floating point double
+Decode 2 D-form Inst:                 1608. Opcode: 110010 (50).                 1608. Opcode: 110010 (50). D-form Inst: Load floating point double
+Decode 2 D-form Inst:                 1609. Opcode: 110010 (50).                 1609. Opcode: 110010 (50). D-form Inst: Load floating point double
+Decode 2 D-form Inst:                 1610. Opcode: 110010 (50).                 1610. Opcode: 110010 (50). D-form Inst: Load floating point double
+Decode 2 D-form Inst:                 1611. Opcode: 110010 (50).                 1611. Opcode: 110010 (50). D-form Inst: Load floating point double
+Decode 2 D-form Inst:                 1612. Opcode: 110010 (50).                 1612. Opcode: 110010 (50). D-form Inst: Load floating point double
+Decode 2 D-form Inst:                 1613. Opcode: 110010 (50).                 1613. Opcode: 110010 (50). D-form Inst: Load floating point double
+Decode 2 D-form Inst:                 1614. Opcode: 110010 (50).                 1614. Opcode: 110010 (50). D-form Inst: Load floating point double
+Decode 2 D-form Inst:                 1615. Opcode: 110010 (50).                 1615. Opcode: 110010 (50). D-form Inst: Load floating point double
+Decode 2 D-form Inst:                 1616. Opcode: 110010 (50).                 1616. Opcode: 110010 (50). D-form Inst: Load floating point double
+Decode 2 D-form Inst:                 1617. Opcode: 110010 (50).                 1617. Opcode: 110010 (50). D-form Inst: Load floating point double
+Decode 2 D-form Inst:                 1618. Opcode: 110010 (50).                 1618. Opcode: 110010 (50). D-form Inst: Load floating point double
+Decode 2 D-form Inst:                 1619. Opcode: 110010 (50).                 1619. Opcode: 110010 (50). D-form Inst: Load floating point double
+Decode 2 D-form Inst:                 1620. Opcode: 110010 (50).                 1620. Opcode: 110010 (50). D-form Inst: Load floating point double
+Decode 2 D-form Inst:                 1621. Opcode: 110010 (50).                 1621. Opcode: 110010 (50). D-form Inst: Load floating point double
+Decode 2 D-form Inst:                 1622. Opcode: 110010 (50).                 1622. Opcode: 110010 (50). D-form Inst: Load floating point double
+Decode 2 D-form Inst:                 1623. Opcode: 110010 (50).                 1623. Opcode: 110010 (50). D-form Inst: Load floating point double
+Decode 2 D-form Inst:                 1624. Opcode: 110010 (50).                 1624. Opcode: 110010 (50). D-form Inst: Load floating point double
+Decode 2 D-form Inst:                 1625. Opcode: 110010 (50).                 1625. Opcode: 110010 (50). D-form Inst: Load floating point double
+Decode 2 D-form Inst:                 1626. Opcode: 110010 (50).                 1626. Opcode: 110010 (50). D-form Inst: Load floating point double
+Decode 2 D-form Inst:                 1627. Opcode: 110010 (50).                 1627. Opcode: 110010 (50). D-form Inst: Load floating point double
+Decode 2 D-form Inst:                 1628. Opcode: 110010 (50).                 1628. Opcode: 110010 (50). D-form Inst: Load floating point double
+Decode 2 D-form Inst:                 1629. Opcode: 110010 (50).                 1629. Opcode: 110010 (50). D-form Inst: Load floating point double
+Decode 2 D-form Inst:                 1630. Opcode: 110010 (50).                 1630. Opcode: 110010 (50). D-form Inst: Load floating point double
+Decode 2 D-form Inst:                 1631. Opcode: 110010 (50).                 1631. Opcode: 110010 (50). D-form Inst: Load floating point double
+Decode 2 D-form Inst:                 1632. Opcode: 110011 (51).                 1632. Opcode: 110011 (51). D-form Inst: Load floating point double with update
+Decode 2 D-form Inst:                 1633. Opcode: 110011 (51).                 1633. Opcode: 110011 (51). D-form Inst: Load floating point double with update
+Decode 2 D-form Inst:                 1634. Opcode: 110011 (51).                 1634. Opcode: 110011 (51). D-form Inst: Load floating point double with update
+Decode 2 D-form Inst:                 1635. Opcode: 110011 (51).                 1635. Opcode: 110011 (51). D-form Inst: Load floating point double with update
+Decode 2 D-form Inst:                 1636. Opcode: 110011 (51).                 1636. Opcode: 110011 (51). D-form Inst: Load floating point double with update
+Decode 2 D-form Inst:                 1637. Opcode: 110011 (51).                 1637. Opcode: 110011 (51). D-form Inst: Load floating point double with update
+Decode 2 D-form Inst:                 1638. Opcode: 110011 (51).                 1638. Opcode: 110011 (51). D-form Inst: Load floating point double with update
+Decode 2 D-form Inst:                 1639. Opcode: 110011 (51).                 1639. Opcode: 110011 (51). D-form Inst: Load floating point double with update
+Decode 2 D-form Inst:                 1640. Opcode: 110011 (51).                 1640. Opcode: 110011 (51). D-form Inst: Load floating point double with update
+Decode 2 D-form Inst:                 1641. Opcode: 110011 (51).                 1641. Opcode: 110011 (51). D-form Inst: Load floating point double with update
+Decode 2 D-form Inst:                 1642. Opcode: 110011 (51).                 1642. Opcode: 110011 (51). D-form Inst: Load floating point double with update
+Decode 2 D-form Inst:                 1643. Opcode: 110011 (51).                 1643. Opcode: 110011 (51). D-form Inst: Load floating point double with update
+Decode 2 D-form Inst:                 1644. Opcode: 110011 (51).                 1644. Opcode: 110011 (51). D-form Inst: Load floating point double with update
+Decode 2 D-form Inst:                 1645. Opcode: 110011 (51).                 1645. Opcode: 110011 (51). D-form Inst: Load floating point double with update
+Decode 2 D-form Inst:                 1646. Opcode: 110011 (51).                 1646. Opcode: 110011 (51). D-form Inst: Load floating point double with update
+Decode 2 D-form Inst:                 1647. Opcode: 110011 (51).                 1647. Opcode: 110011 (51). D-form Inst: Load floating point double with update
+Decode 2 D-form Inst:                 1648. Opcode: 110011 (51).                 1648. Opcode: 110011 (51). D-form Inst: Load floating point double with update
+Decode 2 D-form Inst:                 1649. Opcode: 110011 (51).                 1649. Opcode: 110011 (51). D-form Inst: Load floating point double with update
+Decode 2 D-form Inst:                 1650. Opcode: 110011 (51).                 1650. Opcode: 110011 (51). D-form Inst: Load floating point double with update
+Decode 2 D-form Inst:                 1651. Opcode: 110011 (51).                 1651. Opcode: 110011 (51). D-form Inst: Load floating point double with update
+Decode 2 D-form Inst:                 1652. Opcode: 110011 (51).                 1652. Opcode: 110011 (51). D-form Inst: Load floating point double with update
+Decode 2 D-form Inst:                 1653. Opcode: 110011 (51).                 1653. Opcode: 110011 (51). D-form Inst: Load floating point double with update
+Decode 2 D-form Inst:                 1654. Opcode: 110011 (51).                 1654. Opcode: 110011 (51). D-form Inst: Load floating point double with update
+Decode 2 D-form Inst:                 1655. Opcode: 110011 (51).                 1655. Opcode: 110011 (51). D-form Inst: Load floating point double with update
+Decode 2 D-form Inst:                 1656. Opcode: 110011 (51).                 1656. Opcode: 110011 (51). D-form Inst: Load floating point double with update
+Decode 2 D-form Inst:                 1657. Opcode: 110011 (51).                 1657. Opcode: 110011 (51). D-form Inst: Load floating point double with update
+Decode 2 D-form Inst:                 1658. Opcode: 110011 (51).                 1658. Opcode: 110011 (51). D-form Inst: Load floating point double with update
+Decode 2 D-form Inst:                 1659. Opcode: 110011 (51).                 1659. Opcode: 110011 (51). D-form Inst: Load floating point double with update
+Decode 2 D-form Inst:                 1660. Opcode: 110011 (51).                 1660. Opcode: 110011 (51). D-form Inst: Load floating point double with update
+Decode 2 D-form Inst:                 1661. Opcode: 110011 (51).                 1661. Opcode: 110011 (51). D-form Inst: Load floating point double with update
+Decode 2 D-form Inst:                 1662. Opcode: 110011 (51).                 1662. Opcode: 110011 (51). D-form Inst: Load floating point double with update
+Decode 2 D-form Inst:                 1663. Opcode: 110011 (51).                 1663. Opcode: 110011 (51). D-form Inst: Load floating point double with update
+Decode 2 D-form Inst:                 1664. Opcode: 110100 (52).                 1664. Opcode: 110100 (52). D-form Inst: LStore floating point single
+Decode 2 D-form Inst:                 1665. Opcode: 110100 (52).                 1665. Opcode: 110100 (52). D-form Inst: LStore floating point single
+Decode 2 D-form Inst:                 1666. Opcode: 110100 (52).                 1666. Opcode: 110100 (52). D-form Inst: LStore floating point single
+Decode 2 D-form Inst:                 1667. Opcode: 110100 (52).                 1667. Opcode: 110100 (52). D-form Inst: LStore floating point single
+Decode 2 D-form Inst:                 1668. Opcode: 110100 (52).                 1668. Opcode: 110100 (52). D-form Inst: LStore floating point single
+Decode 2 D-form Inst:                 1669. Opcode: 110100 (52).                 1669. Opcode: 110100 (52). D-form Inst: LStore floating point single
+Decode 2 D-form Inst:                 1670. Opcode: 110100 (52).                 1670. Opcode: 110100 (52). D-form Inst: LStore floating point single
+Decode 2 D-form Inst:                 1671. Opcode: 110100 (52).                 1671. Opcode: 110100 (52). D-form Inst: LStore floating point single
+Decode 2 D-form Inst:                 1672. Opcode: 110100 (52).                 1672. Opcode: 110100 (52). D-form Inst: LStore floating point single
+Decode 2 D-form Inst:                 1673. Opcode: 110100 (52).                 1673. Opcode: 110100 (52). D-form Inst: LStore floating point single
+Decode 2 D-form Inst:                 1674. Opcode: 110100 (52).                 1674. Opcode: 110100 (52). D-form Inst: LStore floating point single
+Decode 2 D-form Inst:                 1675. Opcode: 110100 (52).                 1675. Opcode: 110100 (52). D-form Inst: LStore floating point single
+Decode 2 D-form Inst:                 1676. Opcode: 110100 (52).                 1676. Opcode: 110100 (52). D-form Inst: LStore floating point single
+Decode 2 D-form Inst:                 1677. Opcode: 110100 (52).                 1677. Opcode: 110100 (52). D-form Inst: LStore floating point single
+Decode 2 D-form Inst:                 1678. Opcode: 110100 (52).                 1678. Opcode: 110100 (52). D-form Inst: LStore floating point single
+Decode 2 D-form Inst:                 1679. Opcode: 110100 (52).                 1679. Opcode: 110100 (52). D-form Inst: LStore floating point single
+Decode 2 D-form Inst:                 1680. Opcode: 110100 (52).                 1680. Opcode: 110100 (52). D-form Inst: LStore floating point single
+Decode 2 D-form Inst:                 1681. Opcode: 110100 (52).                 1681. Opcode: 110100 (52). D-form Inst: LStore floating point single
+Decode 2 D-form Inst:                 1682. Opcode: 110100 (52).                 1682. Opcode: 110100 (52). D-form Inst: LStore floating point single
+Decode 2 D-form Inst:                 1683. Opcode: 110100 (52).                 1683. Opcode: 110100 (52). D-form Inst: LStore floating point single
+Decode 2 D-form Inst:                 1684. Opcode: 110100 (52).                 1684. Opcode: 110100 (52). D-form Inst: LStore floating point single
+Decode 2 D-form Inst:                 1685. Opcode: 110100 (52).                 1685. Opcode: 110100 (52). D-form Inst: LStore floating point single
+Decode 2 D-form Inst:                 1686. Opcode: 110100 (52).                 1686. Opcode: 110100 (52). D-form Inst: LStore floating point single
+Decode 2 D-form Inst:                 1687. Opcode: 110100 (52).                 1687. Opcode: 110100 (52). D-form Inst: LStore floating point single
+Decode 2 D-form Inst:                 1688. Opcode: 110100 (52).                 1688. Opcode: 110100 (52). D-form Inst: LStore floating point single
+Decode 2 D-form Inst:                 1689. Opcode: 110100 (52).                 1689. Opcode: 110100 (52). D-form Inst: LStore floating point single
+Decode 2 D-form Inst:                 1690. Opcode: 110100 (52).                 1690. Opcode: 110100 (52). D-form Inst: LStore floating point single
+Decode 2 D-form Inst:                 1691. Opcode: 110100 (52).                 1691. Opcode: 110100 (52). D-form Inst: LStore floating point single
+Decode 2 D-form Inst:                 1692. Opcode: 110100 (52).                 1692. Opcode: 110100 (52). D-form Inst: LStore floating point single
+Decode 2 D-form Inst:                 1693. Opcode: 110100 (52).                 1693. Opcode: 110100 (52). D-form Inst: LStore floating point single
+Decode 2 D-form Inst:                 1694. Opcode: 110100 (52).                 1694. Opcode: 110100 (52). D-form Inst: LStore floating point single
+Decode 2 D-form Inst:                 1695. Opcode: 110100 (52).                 1695. Opcode: 110100 (52). D-form Inst: LStore floating point single
+Decode 2 D-form Inst:                 1696. Opcode: 110101 (53).                 1696. Opcode: 110101 (53). D-form Inst: Store floating point single with update
+Decode 2 D-form Inst:                 1697. Opcode: 110101 (53).                 1697. Opcode: 110101 (53). D-form Inst: Store floating point single with update
+Decode 2 D-form Inst:                 1698. Opcode: 110101 (53).                 1698. Opcode: 110101 (53). D-form Inst: Store floating point single with update
+Decode 2 D-form Inst:                 1699. Opcode: 110101 (53).                 1699. Opcode: 110101 (53). D-form Inst: Store floating point single with update
+Decode 2 D-form Inst:                 1700. Opcode: 110101 (53).                 1700. Opcode: 110101 (53). D-form Inst: Store floating point single with update
+Decode 2 D-form Inst:                 1701. Opcode: 110101 (53).                 1701. Opcode: 110101 (53). D-form Inst: Store floating point single with update
+Decode 2 D-form Inst:                 1702. Opcode: 110101 (53).                 1702. Opcode: 110101 (53). D-form Inst: Store floating point single with update
+Decode 2 D-form Inst:                 1703. Opcode: 110101 (53).                 1703. Opcode: 110101 (53). D-form Inst: Store floating point single with update
+Decode 2 D-form Inst:                 1704. Opcode: 110101 (53).                 1704. Opcode: 110101 (53). D-form Inst: Store floating point single with update
+Decode 2 D-form Inst:                 1705. Opcode: 110101 (53).                 1705. Opcode: 110101 (53). D-form Inst: Store floating point single with update
+Decode 2 D-form Inst:                 1706. Opcode: 110101 (53).                 1706. Opcode: 110101 (53). D-form Inst: Store floating point single with update
+Decode 2 D-form Inst:                 1707. Opcode: 110101 (53).                 1707. Opcode: 110101 (53). D-form Inst: Store floating point single with update
+Decode 2 D-form Inst:                 1708. Opcode: 110101 (53).                 1708. Opcode: 110101 (53). D-form Inst: Store floating point single with update
+Decode 2 D-form Inst:                 1709. Opcode: 110101 (53).                 1709. Opcode: 110101 (53). D-form Inst: Store floating point single with update
+Decode 2 D-form Inst:                 1710. Opcode: 110101 (53).                 1710. Opcode: 110101 (53). D-form Inst: Store floating point single with update
+Decode 2 D-form Inst:                 1711. Opcode: 110101 (53).                 1711. Opcode: 110101 (53). D-form Inst: Store floating point single with update
+Decode 2 D-form Inst:                 1712. Opcode: 110101 (53).                 1712. Opcode: 110101 (53). D-form Inst: Store floating point single with update
+Decode 2 D-form Inst:                 1713. Opcode: 110101 (53).                 1713. Opcode: 110101 (53). D-form Inst: Store floating point single with update
+Decode 2 D-form Inst:                 1714. Opcode: 110101 (53).                 1714. Opcode: 110101 (53). D-form Inst: Store floating point single with update
+Decode 2 D-form Inst:                 1715. Opcode: 110101 (53).                 1715. Opcode: 110101 (53). D-form Inst: Store floating point single with update
+Decode 2 D-form Inst:                 1716. Opcode: 110101 (53).                 1716. Opcode: 110101 (53). D-form Inst: Store floating point single with update
+Decode 2 D-form Inst:                 1717. Opcode: 110101 (53).                 1717. Opcode: 110101 (53). D-form Inst: Store floating point single with update
+Decode 2 D-form Inst:                 1718. Opcode: 110101 (53).                 1718. Opcode: 110101 (53). D-form Inst: Store floating point single with update
+Decode 2 D-form Inst:                 1719. Opcode: 110101 (53).                 1719. Opcode: 110101 (53). D-form Inst: Store floating point single with update
+Decode 2 D-form Inst:                 1720. Opcode: 110101 (53).                 1720. Opcode: 110101 (53). D-form Inst: Store floating point single with update
+Decode 2 D-form Inst:                 1721. Opcode: 110101 (53).                 1721. Opcode: 110101 (53). D-form Inst: Store floating point single with update
+Decode 2 D-form Inst:                 1722. Opcode: 110101 (53).                 1722. Opcode: 110101 (53). D-form Inst: Store floating point single with update
+Decode 2 D-form Inst:                 1723. Opcode: 110101 (53).                 1723. Opcode: 110101 (53). D-form Inst: Store floating point single with update
+Decode 2 D-form Inst:                 1724. Opcode: 110101 (53).                 1724. Opcode: 110101 (53). D-form Inst: Store floating point single with update
+Decode 2 D-form Inst:                 1725. Opcode: 110101 (53).                 1725. Opcode: 110101 (53). D-form Inst: Store floating point single with update
+Decode 2 D-form Inst:                 1726. Opcode: 110101 (53).                 1726. Opcode: 110101 (53). D-form Inst: Store floating point single with update
+Decode 2 D-form Inst:                 1727. Opcode: 110101 (53).                 1727. Opcode: 110101 (53). D-form Inst: Store floating point single with update
+Decode 2 D-form Inst:                 1728. Opcode: 110110 (54).                 1728. Opcode: 110110 (54). D-form Inst: LStore floating point double
+Decode 2 D-form Inst:                 1729. Opcode: 110110 (54).                 1729. Opcode: 110110 (54). D-form Inst: LStore floating point double
+Decode 2 D-form Inst:                 1730. Opcode: 110110 (54).                 1730. Opcode: 110110 (54). D-form Inst: LStore floating point double
+Decode 2 D-form Inst:                 1731. Opcode: 110110 (54).                 1731. Opcode: 110110 (54). D-form Inst: LStore floating point double
+Decode 2 D-form Inst:                 1732. Opcode: 110110 (54).                 1732. Opcode: 110110 (54). D-form Inst: LStore floating point double
+Decode 2 D-form Inst:                 1733. Opcode: 110110 (54).                 1733. Opcode: 110110 (54). D-form Inst: LStore floating point double
+Decode 2 D-form Inst:                 1734. Opcode: 110110 (54).                 1734. Opcode: 110110 (54). D-form Inst: LStore floating point double
+Decode 2 D-form Inst:                 1735. Opcode: 110110 (54).                 1735. Opcode: 110110 (54). D-form Inst: LStore floating point double
+Decode 2 D-form Inst:                 1736. Opcode: 110110 (54).                 1736. Opcode: 110110 (54). D-form Inst: LStore floating point double
+Decode 2 D-form Inst:                 1737. Opcode: 110110 (54).                 1737. Opcode: 110110 (54). D-form Inst: LStore floating point double
+Decode 2 D-form Inst:                 1738. Opcode: 110110 (54).                 1738. Opcode: 110110 (54). D-form Inst: LStore floating point double
+Decode 2 D-form Inst:                 1739. Opcode: 110110 (54).                 1739. Opcode: 110110 (54). D-form Inst: LStore floating point double
+Decode 2 D-form Inst:                 1740. Opcode: 110110 (54).                 1740. Opcode: 110110 (54). D-form Inst: LStore floating point double
+Decode 2 D-form Inst:                 1741. Opcode: 110110 (54).                 1741. Opcode: 110110 (54). D-form Inst: LStore floating point double
+Decode 2 D-form Inst:                 1742. Opcode: 110110 (54).                 1742. Opcode: 110110 (54). D-form Inst: LStore floating point double
+Decode 2 D-form Inst:                 1743. Opcode: 110110 (54).                 1743. Opcode: 110110 (54). D-form Inst: LStore floating point double
+Decode 2 D-form Inst:                 1744. Opcode: 110110 (54).                 1744. Opcode: 110110 (54). D-form Inst: LStore floating point double
+Decode 2 D-form Inst:                 1745. Opcode: 110110 (54).                 1745. Opcode: 110110 (54). D-form Inst: LStore floating point double
+Decode 2 D-form Inst:                 1746. Opcode: 110110 (54).                 1746. Opcode: 110110 (54). D-form Inst: LStore floating point double
+Decode 2 D-form Inst:                 1747. Opcode: 110110 (54).                 1747. Opcode: 110110 (54). D-form Inst: LStore floating point double
+Decode 2 D-form Inst:                 1748. Opcode: 110110 (54).                 1748. Opcode: 110110 (54). D-form Inst: LStore floating point double
+Decode 2 D-form Inst:                 1749. Opcode: 110110 (54).                 1749. Opcode: 110110 (54). D-form Inst: LStore floating point double
+Decode 2 D-form Inst:                 1750. Opcode: 110110 (54).                 1750. Opcode: 110110 (54). D-form Inst: LStore floating point double
+Decode 2 D-form Inst:                 1751. Opcode: 110110 (54).                 1751. Opcode: 110110 (54). D-form Inst: LStore floating point double
+Decode 2 D-form Inst:                 1752. Opcode: 110110 (54).                 1752. Opcode: 110110 (54). D-form Inst: LStore floating point double
+Decode 2 D-form Inst:                 1753. Opcode: 110110 (54).                 1753. Opcode: 110110 (54). D-form Inst: LStore floating point double
+Decode 2 D-form Inst:                 1754. Opcode: 110110 (54).                 1754. Opcode: 110110 (54). D-form Inst: LStore floating point double
+Decode 2 D-form Inst:                 1755. Opcode: 110110 (54).                 1755. Opcode: 110110 (54). D-form Inst: LStore floating point double
+Decode 2 D-form Inst:                 1756. Opcode: 110110 (54).                 1756. Opcode: 110110 (54). D-form Inst: LStore floating point double
+Decode 2 D-form Inst:                 1757. Opcode: 110110 (54).                 1757. Opcode: 110110 (54). D-form Inst: LStore floating point double
+Decode 2 D-form Inst:                 1758. Opcode: 110110 (54).                 1758. Opcode: 110110 (54). D-form Inst: LStore floating point double
+Decode 2 D-form Inst:                 1759. Opcode: 110110 (54).                 1759. Opcode: 110110 (54). D-form Inst: LStore floating point double
+Decode 2 D-form Inst:                 1760. Opcode: 110111 (55).                 1760. Opcode: 110111 (55). D-form Inst: Store floating point double with update
+Decode 2 D-form Inst:                 1761. Opcode: 110111 (55).                 1761. Opcode: 110111 (55). D-form Inst: Store floating point double with update
+Decode 2 D-form Inst:                 1762. Opcode: 110111 (55).                 1762. Opcode: 110111 (55). D-form Inst: Store floating point double with update
+Decode 2 D-form Inst:                 1763. Opcode: 110111 (55).                 1763. Opcode: 110111 (55). D-form Inst: Store floating point double with update
+Decode 2 D-form Inst:                 1764. Opcode: 110111 (55).                 1764. Opcode: 110111 (55). D-form Inst: Store floating point double with update
+Decode 2 D-form Inst:                 1765. Opcode: 110111 (55).                 1765. Opcode: 110111 (55). D-form Inst: Store floating point double with update
+Decode 2 D-form Inst:                 1766. Opcode: 110111 (55).                 1766. Opcode: 110111 (55). D-form Inst: Store floating point double with update
+Decode 2 D-form Inst:                 1767. Opcode: 110111 (55).                 1767. Opcode: 110111 (55). D-form Inst: Store floating point double with update
+Decode 2 D-form Inst:                 1768. Opcode: 110111 (55).                 1768. Opcode: 110111 (55). D-form Inst: Store floating point double with update
+Decode 2 D-form Inst:                 1769. Opcode: 110111 (55).                 1769. Opcode: 110111 (55). D-form Inst: Store floating point double with update
+Decode 2 D-form Inst:                 1770. Opcode: 110111 (55).                 1770. Opcode: 110111 (55). D-form Inst: Store floating point double with update
+Decode 2 D-form Inst:                 1771. Opcode: 110111 (55).                 1771. Opcode: 110111 (55). D-form Inst: Store floating point double with update
+Decode 2 D-form Inst:                 1772. Opcode: 110111 (55).                 1772. Opcode: 110111 (55). D-form Inst: Store floating point double with update
+Decode 2 D-form Inst:                 1773. Opcode: 110111 (55).                 1773. Opcode: 110111 (55). D-form Inst: Store floating point double with update
+Decode 2 D-form Inst:                 1774. Opcode: 110111 (55).                 1774. Opcode: 110111 (55). D-form Inst: Store floating point double with update
+Decode 2 D-form Inst:                 1775. Opcode: 110111 (55).                 1775. Opcode: 110111 (55). D-form Inst: Store floating point double with update
+Decode 2 D-form Inst:                 1776. Opcode: 110111 (55).                 1776. Opcode: 110111 (55). D-form Inst: Store floating point double with update
+Decode 2 D-form Inst:                 1777. Opcode: 110111 (55).                 1777. Opcode: 110111 (55). D-form Inst: Store floating point double with update
+Decode 2 D-form Inst:                 1778. Opcode: 110111 (55).                 1778. Opcode: 110111 (55). D-form Inst: Store floating point double with update
+Decode 2 D-form Inst:                 1779. Opcode: 110111 (55).                 1779. Opcode: 110111 (55). D-form Inst: Store floating point double with update
+Decode 2 D-form Inst:                 1780. Opcode: 110111 (55).                 1780. Opcode: 110111 (55). D-form Inst: Store floating point double with update
+Decode 2 D-form Inst:                 1781. Opcode: 110111 (55).                 1781. Opcode: 110111 (55). D-form Inst: Store floating point double with update
+Decode 2 D-form Inst:                 1782. Opcode: 110111 (55).                 1782. Opcode: 110111 (55). D-form Inst: Store floating point double with update
+Decode 2 D-form Inst:                 1783. Opcode: 110111 (55).                 1783. Opcode: 110111 (55). D-form Inst: Store floating point double with update
+Decode 2 D-form Inst:                 1784. Opcode: 110111 (55).                 1784. Opcode: 110111 (55). D-form Inst: Store floating point double with update
+Decode 2 D-form Inst:                 1785. Opcode: 110111 (55).                 1785. Opcode: 110111 (55). D-form Inst: Store floating point double with update
+Decode 2 D-form Inst:                 1786. Opcode: 110111 (55).                 1786. Opcode: 110111 (55). D-form Inst: Store floating point double with update
+Decode 2 D-form Inst:                 1787. Opcode: 110111 (55).                 1787. Opcode: 110111 (55). D-form Inst: Store floating point double with update
+Decode 2 D-form Inst:                 1788. Opcode: 110111 (55).                 1788. Opcode: 110111 (55). D-form Inst: Store floating point double with update
+Decode 2 D-form Inst:                 1789. Opcode: 110111 (55).                 1789. Opcode: 110111 (55). D-form Inst: Store floating point double with update
+Decode 2 D-form Inst:                 1790. Opcode: 110111 (55).                 1790. Opcode: 110111 (55). D-form Inst: Store floating point double with update
+Decode 2 D-form Inst:                 1791. Opcode: 110111 (55).                 1791. Opcode: 110111 (55). D-form Inst: Store floating point double with update

@@ -353,6 +353,9 @@ begin
         end //Error, invalid instruction
         endcase
     end
+    else
+        outputEnable_o <= 0; 
+
 end
 
 endmodule

@@ -6,7 +6,7 @@
 Writen by Josh "Hakaru" Cantwell - 02.12.2022
 
 This decoder implements all D format instruction specified in the POWER ISA version 3.0B.
-This decoder implements the opcode 24.
+This decoder implements the opcode 25.
 
 TODO:
 Implement outputs for special registers access
@@ -142,7 +142,7 @@ begin
         16: begin //Branch Conditional - BO, BI, BD, AA, LK
             `ifdef DEBUG $display("Decode 2 B-form Inst: %d. Opcode: %b (%d). Branch Conditional", instructionMajId_i, instructionOpcode_i, instructionOpcode_i); `endif
             `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 B-form Inst: %d. Opcode: %b (%d). Branch Conditional", instructionMajId_i, instructionOpcode_i, instructionOpcode_i); `endif
-            opcode_o <= 24;//set the decocde opcode
+            opcode_o <= 25;//set the decocde opcode
             //Special Regs: CTR if BO[2] == 0, LR if LK  == 1
             enable_o <= 1;
             functionalUnitType_o <= BranchUnitID; instMinId_o <= 0;

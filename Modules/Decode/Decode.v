@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
 //`define DEBUG
-//`define DEBUG_PRINT
+`define DEBUG_PRINT
 //`include "DecodeFormatScan.v"
 `include "../../../Modules/Decode/DecodeFormatScan.v"
 `include "../../../Modules/Decode/FormatSpecificDecoders/AFormatDecoder.v"
