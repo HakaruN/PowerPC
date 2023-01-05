@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
-`define DEBUG
-`define DEBUG_PRINT
+//`define DEBUG
+//`define DEBUG_PRINT
 `define QUIET_INVALID
 /*/////////Format decode/////////////
 Writen by Josh "Hakaru" Cantwell - 02.12.2022
@@ -92,9 +92,9 @@ integer debugFID;
 
 always @(posedge clock_i)
 begin
+    `ifdef DEBUG_PRINT
     if(reset_i)
     begin
-        `ifdef DEBUG_PRINT
         case(BDecoderInstance)//If we have multiple decoders, they each get different files. The second number indicates the decoder# log file.
         0: begin 
             debugFID = $fopen("BDecode0.log", "w");
@@ -121,9 +121,8 @@ begin
             debugFID = $fopen("BDecode7.log", "w");
         end
         endcase
-        `endif
     end
-    else if(enable_i && (instFormat_i | B) && !stall_i)
+    else `endif if(enable_i && (instFormat_i | B) && !stall_i)
     begin
         `ifndef QUIET_INVALID
         `ifdef DEBUG $display("B format instruction recieved"); `endif

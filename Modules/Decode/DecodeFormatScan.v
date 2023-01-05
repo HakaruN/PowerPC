@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
-`define DEBUG
-`define DEBUG_PRINT
+//`define DEBUG
+//`define DEBUG_PRINT
 `define QUIET_INVALID
 /*/////////Format decode/////////////
 Writen by Josh "Hakaru" Cantwell - 19.12.2022
@@ -61,10 +61,10 @@ integer debugFID;
 
 always @(posedge clock_i)
 begin
+    `ifdef DEBUG_PRINT
     if(reset_i)
     begin
         $display("Format scanner reset");
-        `ifdef DEBUG_PRINT
         case(formatScannerInstance)//If we have multiple decoders, they each get different files. The second number indicates the decoder# log file.
         0: begin 
             debugFID = $fopen("DecodeFormatScan0.log", "w");
@@ -91,9 +91,9 @@ begin
             debugFID = $fopen("DecodeFormatScan7.log", "w");
         end
         endcase
-        `endif
+        
     end
-    else if(enable_i && !stall_i)
+    else `endif if(enable_i && !stall_i)
     begin
         //pass through the format agnostic data
         instruction_o <= instruction_i;

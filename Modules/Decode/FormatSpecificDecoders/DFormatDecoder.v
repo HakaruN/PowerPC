@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
-`define DEBUG
-`define DEBUG_PRINT
+//`define DEBUG
+//`define DEBUG_PRINT
 `define QUIET_INVALID
 
 /*/////////Format decode/////////////
@@ -146,9 +146,9 @@ integer debugFID;
 
 always @(posedge clock_i)
 begin
+    `ifdef DEBUG_PRINT
     if(reset_i)
     begin
-        `ifdef DEBUG_PRINT
         case(DDecoderInstance)//If we have multiple decoders, they each get different files. The second number indicates the decoder# log file.
         0: begin 
             debugFID = $fopen("DDecode0.log", "w");
@@ -175,9 +175,9 @@ begin
             debugFID = $fopen("DDecode7.log", "w");
         end
         endcase
-        `endif
+        
     end
-    else if(enable_i && (instFormat_i | D) && !stall_i)
+    else `endif if(enable_i && (instFormat_i | D) && !stall_i)
     begin
         `ifndef QUIET_INVALID
         `ifdef DEBUG $display("D format instruction recieved. Opcode: ", instructionOpcode_i, instructionMajId_i, instructionOpcode_i, instructionOpcode_i); `endif

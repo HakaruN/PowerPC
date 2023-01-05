@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
-`define DEBUG
-`define DEBUG_PRINT
+//`define DEBUG
+//`define DEBUG_PRINT
 `define QUIET_INVALID
 /*/////////Format decode/////////////
 Writen by Josh "Hakaru" Cantwell - 02.12.2022
@@ -120,9 +120,9 @@ integer debugFID;
 
 always @(posedge clock_i)
 begin
+    `ifdef DEBUG_PRINT
     if(reset_i)
     begin
-        `ifdef DEBUG_PRINT
         case(ADecoderInstance)//If we have multiple decoders, they each get different files. The second number indicates the decoder# log file.
         0: begin 
             debugFID = $fopen("ADecode0.log", "w");
@@ -149,9 +149,8 @@ begin
             debugFID = $fopen("ADecode7.log", "w");
         end
         endcase
-        `endif
     end
-    else if(enable_i && instFormat_i || A)
+    else `endif if(enable_i && instFormat_i || A)
     begin
         `ifndef QUIET_INVALID
         `ifdef DEBUG $display("A format instruction recieved"); `endif

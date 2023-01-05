@@ -125,11 +125,11 @@ initial begin
     is64BitIn = 1;
     enableIn = 1;
 
-/*
+
     ///Test A format instructions:
     instCtr = 0; numInstTested = 23; decodedInsts = 0;
     //Iterate all possible opcodes
-    $display("Testing A format instructions");
+    $display("Testing A format instructions:");
     for(opcode = 0; opcode <= 6'b111111; opcode = opcode + 1)
     begin
         //Iterate all possible xopcodes
@@ -154,13 +154,14 @@ initial begin
         $display("PASS");
     else
         $display("FAIL");
-*/
+    $display();
 
-/*
+
+
     ///Test B format instructions:
     instCtr = 0; numInstTested = 1; decodedInsts = 0;
     //Iterate all possible opcodes
-    $display("Testing B format instructions");
+    $display("Testing B format instructions:");
     for(opcode = 0; opcode <= 6'b111111; opcode = opcode + 1)
     begin
             instMajIdIn = instCtr;
@@ -180,12 +181,12 @@ initial begin
         $display("PASS");
     else
         $display("FAIL");
-        */
+    $display();
 
     ///Test D format instructions:
     instCtr = 0; numInstTested = 40; decodedInsts = 0;
     //Iterate all possible opcodes
-    $display("Testing D format instructions");
+    $display("Testing D format instructions:");
     for(opcode = 0; opcode <= 6'b111111; opcode = opcode + 1)
     begin
             instMajIdIn = instCtr;
@@ -205,7 +206,7 @@ initial begin
         $display("PASS");
     else
         $display("FAIL");
-    
+    $display();
 
 
 end

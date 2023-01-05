@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
-`define DEBUG
-`define DEBUG_PRINT
+//`define DEBUG
+//`define DEBUG_PRINT
 
 /*/////////Format decode/////////////
 Writen by Josh "Hakaru" Cantwell - 04.01.2023
@@ -107,9 +107,9 @@ integer debugFID;
 
 always @(posedge clock_i)
 begin
+    `ifdef DEBUG_PRINT
     if(reset_i)
     begin
-        `ifdef DEBUG_PRINT
         case(DecoderMuxInstance)//If we have multiple decoders, they each get different files. The second number indicates the decoder# log file.
         0: begin 
             debugFID = $fopen("DecodeMux0.log", "w");
@@ -136,9 +136,9 @@ begin
             debugFID = $fopen("DecodeMux7.log", "w");
         end
         endcase
-        `endif
+        
     end
-    else if(Aenable_i)
+    else `endif if(Aenable_i)
     begin
         `ifdef DEBUG $display("Decode Mux Inst: %d: A format instruction", AMajId_i); `endif
         `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode Mux Inst: %d: A format instruction", AMajId_i); `endif
