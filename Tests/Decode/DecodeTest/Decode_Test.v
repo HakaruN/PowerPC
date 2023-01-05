@@ -42,6 +42,7 @@ module DecodeTest #(
 
     ///outputs
     wire enableOut;
+    wire [0:25-1] instFormatOut;
     wire [0:opcodeSize-1] opcodeOut;
     wire [0:addressWidth-1] addressOut;
     wire [0:funcUnitCodeSize-1] funcUnitTypeOut;
@@ -71,6 +72,7 @@ module DecodeTest #(
     .instructionMajId_i(instMajIdIn),
     //output
     .enableOut(enableOut),
+    .instFormat_o(instFormatOut),
     .opcodeOut(opcodeOut),
     .addressOut(addressOut),
     .funcUnitTypeOut(funcUnitTypeOut),
@@ -87,10 +89,18 @@ module DecodeTest #(
 integer instCtr;
 integer opcode;
 integer xopcode;
+integer numInstTested;
+integer decodedInsts;
+
+`ifdef DEBUG_PRINT
+integer debugFile;
+`endif
 
 initial begin
     $dumpfile("DecodeTest.vcd");
     $dumpvars(0,decodeUnit);
+    //debugFile = $fopen("DecodeTest", "w");
+
     /////init vars
     clockIn = 0;
     enableIn = 0;
@@ -114,16 +124,16 @@ initial begin
 
     is64BitIn = 1;
     enableIn = 1;
-    //Put some instructions through
-    //for(loopCtr = 0; loopCtr < 32'b11111111_11111111_11111111_11111111; loopCtr = loopCtr + 1)
 
+/*
     ///Test A format instructions:
+    instCtr = 0; numInstTested = 23; decodedInsts = 0;
     //Iterate all possible opcodes
-    instCtr = 0;
-    for(opcode = 0; opcode < 6'b111111; opcode = opcode + 1)
+    $display("Testing A format instructions");
+    for(opcode = 0; opcode <= 6'b111111; opcode = opcode + 1)
     begin
         //Iterate all possible xopcodes
-        for(xopcode = 0; xopcode < 5'b11111; xopcode = xopcode + 1)
+        for(xopcode = 0; xopcode <= 5'b11111; xopcode = xopcode + 1)
         begin
             instMajIdIn = instCtr;
             instructionIn[0:primOpcodeSize-1] = opcode;
@@ -132,12 +142,70 @@ initial begin
             #1;
             clockIn = 0;
             #1; 
-            $display();
+            if(enableOut == 1 && instFormatOut == A)
+                decodedInsts = decodedInsts + 1;
 
             addressIn = addressIn + 4;
             instCtr = instCtr + 1;
         end
     end
+    $display("Decoded %d of %d total supported instructions", decodedInsts, numInstTested);
+    if(decodedInsts == numInstTested)
+        $display("PASS");
+    else
+        $display("FAIL");
+*/
+
+/*
+    ///Test B format instructions:
+    instCtr = 0; numInstTested = 1; decodedInsts = 0;
+    //Iterate all possible opcodes
+    $display("Testing B format instructions");
+    for(opcode = 0; opcode <= 6'b111111; opcode = opcode + 1)
+    begin
+            instMajIdIn = instCtr;
+            instructionIn[0:primOpcodeSize-1] = opcode;
+            clockIn = 1;
+            #1;
+            clockIn = 0;
+            #1; 
+            if(enableOut == 1 && instFormatOut == B)
+                decodedInsts = decodedInsts + 1;
+
+            addressIn = addressIn + 4;
+            instCtr = instCtr + 1;
+    end
+    $display("Decoded %d of %d total supported instructions", decodedInsts, numInstTested);
+    if(decodedInsts == numInstTested)
+        $display("PASS");
+    else
+        $display("FAIL");
+        */
+
+    ///Test D format instructions:
+    instCtr = 0; numInstTested = 40; decodedInsts = 0;
+    //Iterate all possible opcodes
+    $display("Testing D format instructions");
+    for(opcode = 0; opcode <= 6'b111111; opcode = opcode + 1)
+    begin
+            instMajIdIn = instCtr;
+            instructionIn[0:primOpcodeSize-1] = opcode;
+            clockIn = 1;
+            #1;
+            clockIn = 0;
+            #1; 
+            if(enableOut == 1 && instFormatOut == D)
+                decodedInsts = decodedInsts + 1;
+
+            addressIn = addressIn + 4;
+            instCtr = instCtr + 1;
+    end
+    $display("Decoded %d of %d total supported instructions", decodedInsts, numInstTested);
+    if(decodedInsts == numInstTested)
+        $display("PASS");
+    else
+        $display("FAIL");
+    
 
 
 end
