@@ -22,3 +22,7 @@ Decode 2 A-form Inst:                 2044. Opcode: 111111 (63), Xopcode: 11100 
 Decode 2 A-form Inst:                 2045. Opcode: 111111 (63), Xopcode: 11101 (29). Floating Multiply-Add
 Decode 2 A-form Inst:                 2046. Opcode: 111111 (63), Xopcode: 11110 (30). Floating Negative Multiply-Subtract
 Decode 2 A-form Inst:                 2047. Opcode: 111111 (63), Xopcode: 11111 (31). Floating Negative Multiply-Add
+Decode 2 A-form Inst:                   59. Opcode: 111011 (59), Xopcode: 11111 (31). Floating Negative Multiply-Add Single
+Decode 2 A-form Inst:                   63. Opcode: 111111 (63), Xopcode: 11111 (31). Floating Negative Multiply-Add
+Decode 2 A-form Inst:                   59. Opcode: 111011 (59), Xopcode: 11111 (31). Floating Negative Multiply-Add Single
+Decode 2 A-form Inst:                   63. Opcode: 111111 (63), Xopcode: 11111 (31). Floating Negative Multiply-Add

@@ -30,3 +30,5 @@ Decode 2 B-form Inst:                  540. Opcode: 010000 (16). Branch Conditio
 Decode 2 B-form Inst:                  541. Opcode: 010000 (16). Branch Conditional
 Decode 2 B-form Inst:                  542. Opcode: 010000 (16). Branch Conditional
 Decode 2 B-form Inst:                  543. Opcode: 010000 (16). Branch Conditional
+Decode 2 B-form Inst:                   16. Opcode: 010000 (16). Branch Conditional
+Decode 2 B-form Inst:                   16. Opcode: 010000 (16). Branch Conditional

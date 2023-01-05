@@ -1854,3 +1854,119 @@ FormatScan Inst:                 2044: Instruction A | X | XFL | Z22 | Z23 Forma
 FormatScan Inst:                 2045: Instruction A | X | XFL | Z22 | Z23 Format
 FormatScan Inst:                 2046: Instruction A | X | XFL | Z22 | Z23 Format
 FormatScan Inst:                 2047: Instruction A | X | XFL | Z22 | Z23 Format
+FormatScan Inst:                    2: Instruction D Format
+FormatScan Inst:                    3: Instruction D Format
+FormatScan Inst:                    4: Instruction VA | VX | VC Format
+FormatScan Inst:                    7: Instruction D Format
+FormatScan Inst:                    8: Instruction D Format
+FormatScan Inst:                   10: Instruction D Format
+FormatScan Inst:                   11: Instruction D Format
+FormatScan Inst:                   12: Instruction D Format
+FormatScan Inst:                   13: Instruction D Format
+FormatScan Inst:                   14: Instruction D Format
+FormatScan Inst:                   15: Instruction D Format
+FormatScan Inst:                   16: Instruction B Format
+FormatScan Inst:                   17: Instruction SC Format
+FormatScan Inst:                   18: Instruction I Format
+FormatScan Inst:                   19: Instruction XL | DX Format
+FormatScan Inst:                   20: Instruction M Format
+FormatScan Inst:                   21: Instruction M Format
+FormatScan Inst:                   23: Instruction M Format
+FormatScan Inst:                   24: Instruction D Format
+FormatScan Inst:                   25: Instruction D Format
+FormatScan Inst:                   26: Instruction D Format
+FormatScan Inst:                   27: Instruction D Format
+FormatScan Inst:                   28: Instruction D Format
+FormatScan Inst:                   29: Instruction D Format
+FormatScan Inst:                   30: Instruction MD Format
+FormatScan Inst:                   31: Instruction X | XO | Z23 | A | XS | XFX Format
+FormatScan Inst:                   32: Instruction D Format
+FormatScan Inst:                   33: Instruction D Format
+FormatScan Inst:                   34: Instruction F Format
+FormatScan Inst:                   35: Instruction F Format
+FormatScan Inst:                   36: Instruction D Format
+FormatScan Inst:                   37: Instruction D Format
+FormatScan Inst:                   38: Instruction D Format
+FormatScan Inst:                   39: Instruction D Format
+FormatScan Inst:                   40: Instruction D Format
+FormatScan Inst:                   41: Instruction D Format
+FormatScan Inst:                   42: Instruction D Format
+FormatScan Inst:                   43: Instruction D Format
+FormatScan Inst:                   44: Instruction D Format
+FormatScan Inst:                   45: Instruction D Format
+FormatScan Inst:                   46: Instruction D Format
+FormatScan Inst:                   47: Instruction D Format
+FormatScan Inst:                   48: Instruction D Format
+FormatScan Inst:                   49: Instruction D Format
+FormatScan Inst:                   50: Instruction D Format
+FormatScan Inst:                   51: Instruction D Format
+FormatScan Inst:                   52: Instruction D Format
+FormatScan Inst:                   53: Instruction D Format
+FormatScan Inst:                   54: Instruction D Format
+FormatScan Inst:                   55: Instruction D Format
+FormatScan Inst:                   56: Instruction DQ Format
+FormatScan Inst:                   57: Instruction DS Format
+FormatScan Inst:                   58: Instruction DS Format
+FormatScan Inst:                   59: Instruction A | X | Z22 | Z23 Format
+FormatScan Inst:                   60: Instruction XX2 | XX3 Format
+FormatScan Inst:                   61: Instruction DS Format
+FormatScan Inst:                   62: Instruction DS Format
+FormatScan Inst:                   63: Instruction A | X | XFL | Z22 | Z23 Format
+FormatScan Inst:                    2: Instruction D Format
+FormatScan Inst:                    3: Instruction D Format
+FormatScan Inst:                    4: Instruction VA | VX | VC Format
+FormatScan Inst:                    7: Instruction D Format
+FormatScan Inst:                    8: Instruction D Format
+FormatScan Inst:                   10: Instruction D Format
+FormatScan Inst:                   11: Instruction D Format
+FormatScan Inst:                   12: Instruction D Format
+FormatScan Inst:                   13: Instruction D Format
+FormatScan Inst:                   14: Instruction D Format
+FormatScan Inst:                   15: Instruction D Format
+FormatScan Inst:                   16: Instruction B Format
+FormatScan Inst:                   17: Instruction SC Format
+FormatScan Inst:                   18: Instruction I Format
+FormatScan Inst:                   19: Instruction XL | DX Format
+FormatScan Inst:                   20: Instruction M Format
+FormatScan Inst:                   21: Instruction M Format
+FormatScan Inst:                   23: Instruction M Format
+FormatScan Inst:                   24: Instruction D Format
+FormatScan Inst:                   25: Instruction D Format
+FormatScan Inst:                   26: Instruction D Format
+FormatScan Inst:                   27: Instruction D Format
+FormatScan Inst:                   28: Instruction D Format
+FormatScan Inst:                   29: Instruction D Format
+FormatScan Inst:                   30: Instruction MD Format
+FormatScan Inst:                   31: Instruction X | XO | Z23 | A | XS | XFX Format
+FormatScan Inst:                   32: Instruction D Format
+FormatScan Inst:                   33: Instruction D Format
+FormatScan Inst:                   34: Instruction F Format
+FormatScan Inst:                   35: Instruction F Format
+FormatScan Inst:                   36: Instruction D Format
+FormatScan Inst:                   37: Instruction D Format
+FormatScan Inst:                   38: Instruction D Format
+FormatScan Inst:                   39: Instruction D Format
+FormatScan Inst:                   40: Instruction D Format
+FormatScan Inst:                   41: Instruction D Format
+FormatScan Inst:                   42: Instruction D Format
+FormatScan Inst:                   43: Instruction D Format
+FormatScan Inst:                   44: Instruction D Format
+FormatScan Inst:                   45: Instruction D Format
+FormatScan Inst:                   46: Instruction D Format
+FormatScan Inst:                   47: Instruction D Format
+FormatScan Inst:                   48: Instruction D Format
+FormatScan Inst:                   49: Instruction D Format
+FormatScan Inst:                   50: Instruction D Format
+FormatScan Inst:                   51: Instruction D Format
+FormatScan Inst:                   52: Instruction D Format
+FormatScan Inst:                   53: Instruction D Format
+FormatScan Inst:                   54: Instruction D Format
+FormatScan Inst:                   55: Instruction D Format
+FormatScan Inst:                   56: Instruction DQ Format
+FormatScan Inst:                   57: Instruction DS Format
+FormatScan Inst:                   58: Instruction DS Format
+FormatScan Inst:                   59: Instruction A | X | Z22 | Z23 Format
+FormatScan Inst:                   60: Instruction XX2 | XX3 Format
+FormatScan Inst:                   61: Instruction DS Format
+FormatScan Inst:                   62: Instruction DS Format
+FormatScan Inst:                   63: Instruction A | X | XFL | Z22 | Z23 Format
