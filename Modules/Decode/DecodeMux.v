@@ -153,7 +153,8 @@ begin
         op1rw_o <= Aop1rw_o;        op2rw_o <= Aop2rw_o;        op3rw_o <= Aop3rw_o;        op4rw_o <= Aop4rw_o;
         op1IsReg_o <= Aop1IsReg_o;  op2IsReg_o <= Aop2IsReg_o;  op3IsReg_o <= Aop3IsReg_o;  op4IsReg_o <= Aop4IsReg_o;
         //operand data
-        body_o <= ABody_i;
+        body_o[0:20] <= ABody_i;
+        body_o[21:84-1] <= 0;//zero out top of buffer
     end
     else if(Benable_i)
     begin
@@ -169,7 +170,8 @@ begin
         //Operand reg flags - none used
         op1rw_o <= 0;       op2rw_o <= 0;       op3rw_o <= 0;   op4rw_o <= 0;
         op1IsReg_o <= 0;    op2IsReg_o <= 0;    op3IsReg_o <= 0;    op4IsReg_o <= 0;
-        body_o <= BBody_i;
+        body_o[0:27] <= BBody_i;
+        body_o[27:84-1] <= 0;//zero out top of buffer
     end
     else if(Denable_i)
     begin
@@ -198,6 +200,7 @@ begin
         begin
             body_o[10+:64] <= $signed({DBody_i[10+:16], 16'b00000000_00000000});//shift, extend and copy the imm
         end
+        body_o[65:84-1] <= 0;//zero out top of buffer
     end
     else
     begin

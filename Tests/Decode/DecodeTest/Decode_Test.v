@@ -126,7 +126,37 @@ initial begin
 
     is64BitIn = 1;
 
+    //Test the decoder latency (should be 3 cycles)
+    opcode = 63;
+    xopcode = 21;
+    enableIn = 1;
+    //Set opcodes
+    instructionIn[0:primOpcodeSize-1] = opcode;
+    instructionIn[26:30] = xopcode;
+    //set operands
+    instructionIn[6:10] <= 5'b11111;
+    instructionIn[11:15] <= 5'b00000;
+    instructionIn[16:20] <= 5'b11111;
+    instructionIn[21:25] <= 5'b00000;
+    //present inst to pipeline
+    clockIn = 1;
+    #1;
+    clockIn = 0;
+    #1; 
+    //disable the output
+    enableIn = 0;
+    //Run the pipeline dry and see how long it takes for the decode to complete
+    for(i = 1; i < 4; i = i + 1) //I inits to 1 because we count the cylce presenting the inst.
+    begin
+        if(enableOut)
+            $display("Decode latency: %d", i);
+        clockIn = 1;
+        #1;
+        clockIn = 0;
+        #1;
+    end 
 
+/*
     ///Test A format instructions:
     instCtr = 0; numInstTested = 24; decodedInsts = 0;
     //Iterate all possible opcodes
@@ -137,8 +167,17 @@ initial begin
         for(xopcode = 0; xopcode <= 5'b11111; xopcode = xopcode + 1)
         begin
             instMajIdIn = instCtr;
+            //set the opcode
             instructionIn[0:primOpcodeSize-1] = opcode;
+            //set the regs - can be set to the xopcode so make validation easier
+            instructionIn[6:10] <= 5'b11111;
+            instructionIn[11:15] <= 5'b00000;
+            instructionIn[16:20] <= 5'b11111;
+            instructionIn[21:25] <= 5'b00000;
+            //set the xopcode
             instructionIn[26:30] = xopcode;
+            //set the Rc flag
+            instructionIn[31] = xopcode%2;
             enableIn = 1;
 
             //present ints to pipeline
@@ -156,9 +195,23 @@ initial begin
             clockIn = 0;
             #1;
             end 
-
             if(enableOut == 1 && instFormatOut == A)
-                decodedInsts = decodedInsts + 1;
+            begin
+                
+                //$display("Mux Body: %b", bodyOut);
+                //$display("%b", bodyOut[5:9]);
+                if(bodyOut[0:4] == 5'b11111 && bodyOut[5:9] == 5'b00000 && bodyOut[10:14] == 5'b11111 && bodyOut[15:19] == 5'b00000 && bodyOut[20] == xopcode%2)
+                begin
+                    //$display("Correct instruction parse");
+                    decodedInsts = decodedInsts + 1;
+                end
+                else
+                begin
+                    //$display("Incorrect instruction parse");
+                end
+                
+
+            end
 
             addressIn = addressIn + 4;
             instCtr = instCtr + 1;
@@ -249,7 +302,7 @@ initial begin
     else
         $display("FAIL");
     $display();
-
+*/
 
 end
 

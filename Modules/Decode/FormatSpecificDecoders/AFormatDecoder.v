@@ -162,7 +162,7 @@ begin
         instPid_o <= instructionPid_i; instTid_o <= instructionTid_i;
         is64Bit_o <= is64Bit_i;
         //parse the instruction
-        instructionBody_o[0+:4 * regSize-1] <= instruction_i[6:25];//Copy the reg sized fields
+        instructionBody_o[0+:4 * regSize] <= instruction_i[6:25];//Copy the reg sized fields
         instructionBody_o[4*regSize] <= instruction_i[31];//copy the RC flag
 
         if(instructionOpcode_i == 31)
