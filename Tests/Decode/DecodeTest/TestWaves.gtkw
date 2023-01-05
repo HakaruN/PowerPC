@@ -1,0 +1,42 @@
+[*]
+[*] GTKWave Analyzer v3.3.106 (w)1999-2020 BSI
+[*] Thu Jan  5 16:14:42 2023
+[*]
+[dumpfile] "/home/hakaru/Projects/Verilog/PowerPC/Tests/Decode/DecodeTest/DecodeTest.vcd"
+[dumpfile_mtime] "Thu Jan  5 16:12:50 2023"
+[dumpfile_size] 59270
+[savefile] "/home/hakaru/Projects/Verilog/PowerPC/Tests/Decode/DecodeTest/TestWaves.gtkw"
+[timestart] 20570
+[size] 1920 1012
+[pos] -1 -1
+*-14.000000 4790 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] DecodeTest.
+[sst_width] 335
+[signals_width] 190
+[sst_expanded] 1
+[sst_vpaned_height] 293
+@28
+DecodeTest.decodeUnit.enableOut
+@22
+DecodeTest.decodeUnit.opcodeOut[0:11]
+DecodeTest.decodeUnit.addressOut[0:63]
+@28
+DecodeTest.decodeUnit.funcUnitTypeOut[0:2]
+@22
+DecodeTest.decodeUnit.majIDOut[0:63]
+DecodeTest.decodeUnit.minIDOut[0:6]
+DecodeTest.decodeUnit.pidOut[0:19]
+DecodeTest.decodeUnit.tidOut[0:15]
+@28
+DecodeTest.decodeUnit.op1rwOut[0:1]
+DecodeTest.decodeUnit.op2rwOut[0:1]
+DecodeTest.decodeUnit.op3rwOut[0:1]
+DecodeTest.decodeUnit.op4rwOut[0:1]
+DecodeTest.decodeUnit.op1IsRegOut
+DecodeTest.decodeUnit.op2IsRegOut
+DecodeTest.decodeUnit.op3IsRegOut
+DecodeTest.decodeUnit.op4IsRegOut
+@22
+DecodeTest.decodeUnit.bodyOut[0:83]
+[pattern_trace] 1
+[pattern_trace] 0

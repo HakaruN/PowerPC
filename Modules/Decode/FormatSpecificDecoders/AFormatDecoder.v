@@ -171,8 +171,8 @@ begin
             case(instruction_i[26+:XOSize])
             15: begin//Integer select
                 opcode_o <= 1;
-                `ifdef DEBUG $display("Decode 2 A-form (Inst: %h): Integer Seclect instruction", instructionMajId_i); `endif
-                `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 A-form (Inst: %h): Integer Seclect instruction", instructionMajId_i); `endif
+                `ifdef DEBUG $display("Decode 2 A-form Inst: %d: Integer Seclect instruction", instructionMajId_i); `endif
+                `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 A-form Inst: %d: Integer Seclect instruction", instructionMajId_i); `endif
                 //Special Regs: Na
                 instMinId_o <= 0;
                 functionalUnitType_o <= CRUnitId;
@@ -198,8 +198,8 @@ begin
             end
             default: begin
                 `ifndef QUIET_INVALID//invalid instructions are not reported to clean up output
-                `ifdef DEBUG $display("Decode 2 A-form: (Inst: %h) Invalid instrution revieved", instructionMajId_i); `endif
-                `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 A-form: (Inst: %h) Invalid instrution revieved", instructionMajId_i); `endif
+                `ifdef DEBUG $display("Decode 2 A-form Inst:: %d Invalid instrution revieved", instructionMajId_i); `endif
+                `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 A-form Inst:: %d Invalid instrution revieved", instructionMajId_i); `endif
                 `endif
                 enable_o <= 0; 
             end
@@ -209,8 +209,8 @@ begin
         begin
             case(instruction_i[26+:XOSize])
             21: begin//Floating Add
-                `ifdef DEBUG $display("Decode 2 A-form (Inst: %h): Floating Add", instructionMajId_i); `endif
-                `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 A-form (Inst: %h): Floating Add", instructionMajId_i); `endif
+                `ifdef DEBUG $display("Decode 2 A-form Inst: %d: Floating Add", instructionMajId_i); `endif
+                `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 A-form Inst: %d: Floating Add", instructionMajId_i); `endif
                 //Special regs: FPRF FR FI FX OX UX XX VXSNAN VXISI CR1
                 opcode_o <= 2;
                 instMinId_o <= 0;
@@ -223,8 +223,8 @@ begin
                 enable_o <= 1;      
             end
             20: begin//Floating Subtract
-                `ifdef DEBUG $display("Decode 2 A-form (Inst: %h): Floating Subtract", instructionMajId_i); `endif
-                `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 A-form (Inst: %h): Floating Subtract", instructionMajId_i); `endif
+                `ifdef DEBUG $display("Decode 2 A-form Inst: %d: Floating Subtract", instructionMajId_i); `endif
+                `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 A-form Inst: %d: Floating Subtract", instructionMajId_i); `endif
                 //Special regs: FPRF FR FI FX OX UX XX VXSNAN VXISI CR1
                 opcode_o <= 3;
                 instMinId_o <= 0;
@@ -237,8 +237,8 @@ begin
                 enable_o <= 1;        
             end
             25: begin//Floating Multiply
-                `ifdef DEBUG $display("Decode 2 A-form (Inst: %h): Floating multiply", instructionMajId_i); `endif
-                `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 A-form (Inst: %h): Floating multiply", instructionMajId_i); `endif
+                `ifdef DEBUG $display("Decode 2 A-form Inst: %d: Floating multiply", instructionMajId_i); `endif
+                `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 A-form Inst: %d: Floating multiply", instructionMajId_i); `endif
                 //Special regs: FPRF FR FI FX OX UX XX VXSNAN VXIMZ CR1
                 opcode_o <= 4;
                 instMinId_o <= 0;
@@ -252,8 +252,8 @@ begin
                 enable_o <= 1;        
             end
             18: begin//Floating Divide
-                `ifdef DEBUG $display("Decode 2 A-form (Inst: %h): Floating divide", instructionMajId_i); `endif
-                `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 A-form (Inst: %h): Floating divide", instructionMajId_i); `endif
+                `ifdef DEBUG $display("Decode 2 A-form Inst: %d: Floating divide", instructionMajId_i); `endif
+                `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 A-form Inst: %d: Floating divide", instructionMajId_i); `endif
                 //Special regs: FPRF FR FI FX OX UX XX VXSNAN VXIDI VXZDZ CR1
                 opcode_o <= 5;
                 instMinId_o <= 0;
@@ -266,8 +266,8 @@ begin
                 enable_o <= 1;        
             end
             22: begin//Floating Square Root
-                `ifdef DEBUG $display("Decode 2 A-form (Inst: %h): Floating square root", instructionMajId_i); `endif
-                `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 A-form (Inst: %h): Floating square root", instructionMajId_i); `endif
+                `ifdef DEBUG $display("Decode 2 A-form Inst: %d: Floating square root", instructionMajId_i); `endif
+                `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 A-form Inst: %d: Floating square root", instructionMajId_i); `endif
                 //Special regs: FPRF FR FI FX OX UX XX VXSNAN VXSQRT CR1
                 opcode_o <= 6;
                 instMinId_o <= 0;
@@ -280,8 +280,8 @@ begin
                 enable_o <= 1;           
             end
             24: begin//Floating Reciprocal Estimate
-                `ifdef DEBUG $display("Decode 2 A-form (Inst: %h): Floating Reciprocal Estimate", instructionMajId_i); `endif
-                `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 A-form (Inst: %h): Floating Reciprocal Estimate", instructionMajId_i); `endif
+                `ifdef DEBUG $display("Decode 2 A-form Inst: %d: Floating Reciprocal Estimate", instructionMajId_i); `endif
+                `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 A-form Inst: %d: Floating Reciprocal Estimate", instructionMajId_i); `endif
                 //Special regs: FPRF FR (undefined) FI (undefined) FX OX UX XX (undefined) VXSNAN CR1
                 opcode_o <= 7;
                 instMinId_o <= 0;
@@ -293,8 +293,8 @@ begin
                 enable_o <= 1;         
             end
             26: begin//Floating Reciprocal Square Root Estimate
-                `ifdef DEBUG $display("Decode 2 A-form (Inst: %h): Floating reciprocal Square Root Estimate", instructionMajId_i); `endif
-                `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 A-form (Inst: %h): Floating reciprocal Square Root Estimate", instructionMajId_i); `endif
+                `ifdef DEBUG $display("Decode 2 A-form Inst: %d: Floating reciprocal Square Root Estimate", instructionMajId_i); `endif
+                `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 A-form Inst: %d: Floating reciprocal Square Root Estimate", instructionMajId_i); `endif
                 //Special regs: FPRF FR (undefined) FI (undefined) FX OX UX ZX XX (undefined) VXSNAN VXSQRT CR1
                 opcode_o <= 8;
                 instMinId_o <= 0;
@@ -306,8 +306,8 @@ begin
                 enable_o <= 1;          
             end
             29: begin//Floating Multiply-Add
-                `ifdef DEBUG $display("Decode 2 A-form (Inst: %h): Floating Multiply-Add", instructionMajId_i); `endif
-                `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 A-form (Inst: %h): Floating Multiply-Add", instructionMajId_i); `endif
+                `ifdef DEBUG $display("Decode 2 A-form Inst: %d: Floating Multiply-Add", instructionMajId_i); `endif
+                `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 A-form Inst: %d: Floating Multiply-Add", instructionMajId_i); `endif
                 //Special regs: FPRF FR FI FX OX UX XX VXSNAN VXISI VXIMZ CR1
                 opcode_o <= 9;
                 instMinId_o <= 0;
@@ -319,8 +319,8 @@ begin
                 enable_o <= 1;      
             end
             28: begin//Floating Multiply-Subtract
-                `ifdef DEBUG $display("Decode 2 A-form (Inst: %h): Floating Multiply-Subtract", instructionMajId_i); `endif
-                `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 A-form (Inst: %h): Floating Multiply-Subtract", instructionMajId_i); `endif
+                `ifdef DEBUG $display("Decode 2 A-form Inst: %d: Floating Multiply-Subtract", instructionMajId_i); `endif
+                `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 A-form Inst: %d: Floating Multiply-Subtract", instructionMajId_i); `endif
                 //Special regs: FPRF FR FI FX OX UX XX VXSNAN VXISI VXIMZ CR1
                 opcode_o <= 10;
                 instMinId_o <= 0;
@@ -332,8 +332,8 @@ begin
                 enable_o <= 1;      
             end
             31: begin//Floating Negative Multiply-Add
-                `ifdef DEBUG $display("Decode 2 A-form (Inst: %h): Floating Negative Multiply-Add", instructionMajId_i); `endif
-                `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 A-form (Inst: %h): Floating Negative Multiply-Add", instructionMajId_i); `endif
+                `ifdef DEBUG $display("Decode 2 A-form Inst: %d: Floating Negative Multiply-Add", instructionMajId_i); `endif
+                `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 A-form Inst: %d: Floating Negative Multiply-Add", instructionMajId_i); `endif
                 //Special regs: FPRF FR FI FX OX UX XX VXSNAN VXISI VXIMZ CR1
                 opcode_o <= 11;
                 instMinId_o <= 0;
@@ -345,9 +345,9 @@ begin
                 enable_o <= 1;    
             end
             30: begin//Floating Negative Multiply-Subtract
-                `ifdef DEBUG $display("Decode 2 A-form (Inst: %h): Floating Negative Multiply-Subtract", instructionMajId_i); `endif
+                `ifdef DEBUG $display("Decode 2 A-form Inst: %d: Floating Negative Multiply-Subtract", instructionMajId_i); `endif
                 `ifdef DEBUG_PRINT $fdisplay(debugFID,
-                 "Decode 2 A-form (Inst: %h): Floating Negative Multiply-Subtract", instructionMajId_i); `endif
+                 "Decode 2 A-form Inst: %d: Floating Negative Multiply-Subtract", instructionMajId_i); `endif
                  //Special regs: FPRF FR FI FX OX UX XX VXSNAN VXISI VXIMZ CR1
                 opcode_o <= 12;
                 instMinId_o <= 0;
@@ -359,8 +359,8 @@ begin
                 enable_o <= 1;     
             end
             23: begin//Floating Select
-                `ifdef DEBUG $display("Decode 2 A-form (Inst: %h): Floating Select", instructionMajId_i); `endif
-                `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 A-form (Inst: %h): Floating Select", instructionMajId_i); `endif
+                `ifdef DEBUG $display("Decode 2 A-form Inst: %d: Floating Select", instructionMajId_i); `endif
+                `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 A-form Inst: %d: Floating Select", instructionMajId_i); `endif
                 //Special regs: CR1
                 opcode_o <= 13;
                 instMinId_o <= 0;
@@ -373,8 +373,8 @@ begin
             end
             default: begin
                 `ifndef QUIET_INVALID//invalid instructions are not reported to clean up output
-                `ifdef DEBUG $display("Decode 2 A-form: (Inst: %h) Invalid instrution revieved", instructionMajId_i); `endif
-                `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 A-form: (Inst: %h) Invalid instrution revieved", instructionMajId_i); `endif
+                `ifdef DEBUG $display("Decode 2 A-form Inst:: %d Invalid instrution revieved", instructionMajId_i); `endif
+                `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 A-form Inst:: %d Invalid instrution revieved", instructionMajId_i); `endif
                 `endif
                 enable_o <= 0;
             end
@@ -384,8 +384,8 @@ begin
         begin
             case(instruction_i[26+:XOSize])
             21: begin//Floating Add Single
-                `ifdef DEBUG $display("Decode 2 A-form (Inst: %h): Floating Add Single", instructionMajId_i); `endif
-                `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 A-form (Inst: %h): Floating Add Single", instructionMajId_i); `endif
+                `ifdef DEBUG $display("Decode 2 A-form Inst: %d: Floating Add Single", instructionMajId_i); `endif
+                `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 A-form Inst: %d: Floating Add Single", instructionMajId_i); `endif
                 //Special regs: FPRF FR FI FX OX UX XX VXSNAN VXISI CR1
                 opcode_o <= 14;
                 instMinId_o <= 0;
@@ -397,8 +397,8 @@ begin
                 enable_o <= 1;          
             end
             20: begin//Floating Subtract Single
-                `ifdef DEBUG $display("Decode 2 A-form (Inst: %h): Floating Subtract Single", instructionMajId_i); `endif
-                `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 A-form (Inst: %h): Floating Subtract Single", instructionMajId_i); `endif
+                `ifdef DEBUG $display("Decode 2 A-form Inst: %d: Floating Subtract Single", instructionMajId_i); `endif
+                `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 A-form Inst: %d: Floating Subtract Single", instructionMajId_i); `endif
                 //Special regs: FPRF FR FI FX OX UX XX VXSNAN VXISI CR1
                 opcode_o <= 15;
                 instMinId_o <= 0;
@@ -410,8 +410,8 @@ begin
                 enable_o <= 1; 
             end
             25: begin//Floating Multiply Single
-                `ifdef DEBUG $display("Decode 2 A-form (Inst: %h): Floating Multiply Single", instructionMajId_i); `endif
-                `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 A-form (Inst: %h): Floating Multiply Single", instructionMajId_i); `endif
+                `ifdef DEBUG $display("Decode 2 A-form Inst: %d: Floating Multiply Single", instructionMajId_i); `endif
+                `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 A-form Inst: %d: Floating Multiply Single", instructionMajId_i); `endif
                 //Special regs: FPRF FR FI FX OX UX XX VXSNAN VXIMZ CR1
                 opcode_o <= 15;
                 instMinId_o <= 0;
@@ -423,8 +423,8 @@ begin
                 enable_o <= 1;      
             end
             18: begin//Floating Divide Single
-                `ifdef DEBUG $display("Decode 2 A-form (Inst: %h): Floating Divide Single", instructionMajId_i); `endif
-                `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 A-form (Inst: %h): Floating Divide Single", instructionMajId_i); `endif
+                `ifdef DEBUG $display("Decode 2 A-form Inst: %d: Floating Divide Single", instructionMajId_i); `endif
+                `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 A-form Inst: %d: Floating Divide Single", instructionMajId_i); `endif
                 //Special regs: FPRF FR FI FX OX UX XX VXSNAN VXIDI VXZDZ CR1
                 opcode_o <= 16;
                 instMinId_o <= 0;
@@ -436,8 +436,8 @@ begin
                 enable_o <= 1;      
             end
             22: begin//Floating Square Root Single
-                `ifdef DEBUG $display("Decode 2 A-form (Inst: %h): Floating Square Root Single", instructionMajId_i); `endif
-                `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 A-form (Inst: %h): Floating Square Root Single", instructionMajId_i); `endif
+                `ifdef DEBUG $display("Decode 2 A-form Inst: %d: Floating Square Root Single", instructionMajId_i); `endif
+                `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 A-form Inst: %d: Floating Square Root Single", instructionMajId_i); `endif
                 //Special regs: FPRF FR FI FX OX UX XX VXSNAN VXSQRT CR1
                 opcode_o <= 17;
                 instMinId_o <= 0;
@@ -449,8 +449,8 @@ begin
                 enable_o <= 1;       
             end
             24: begin//Floating Reciprocal Estimate Single
-                `ifdef DEBUG $display("Decode 2 A-form (Inst: %h): Floating Reciprocal Estimate Single", instructionMajId_i); `endif
-                `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 A-form (Inst: %h): Floating Reciprocal Estimate Single", instructionMajId_i); `endif
+                `ifdef DEBUG $display("Decode 2 A-form Inst: %d: Floating Reciprocal Estimate Single", instructionMajId_i); `endif
+                `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 A-form Inst: %d: Floating Reciprocal Estimate Single", instructionMajId_i); `endif
                 //Special regs: FPRF FR (undefined) FI (undefined) FX OX UX XX (undefined) VXSNAN CR1
                 opcode_o <= 18;
                 instMinId_o <= 0;
@@ -462,8 +462,8 @@ begin
                 enable_o <= 1;       
             end
             26: begin//Floating Reciprocal Square Root Estimate Single
-                `ifdef DEBUG $display("Decode 2 A-form (Inst: %h): Floating Reciprocal Square Root Estimate Single", instructionMajId_i); `endif
-                `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 A-form (Inst: %h): Floating Reciprocal Square Root Estimate Single", instructionMajId_i); `endif                
+                `ifdef DEBUG $display("Decode 2 A-form Inst: %d: Floating Reciprocal Square Root Estimate Single", instructionMajId_i); `endif
+                `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 A-form Inst: %d: Floating Reciprocal Square Root Estimate Single", instructionMajId_i); `endif                
                 //Special regs: FPRF FR (undefined) FI (undefined) FX OX UX ZX XX (undefined) VXSNAN VXSQRT CR1
                 opcode_o <= 19;
                 instMinId_o <= 0;
@@ -475,8 +475,8 @@ begin
                 enable_o <= 1;  
             end
             29: begin//Floating Multiply-Add Single
-                `ifdef DEBUG $display("Decode 2 A-form (Inst: %h): Floating Multiply-Add Single", instructionMajId_i); `endif
-                `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 A-form (Inst: %h): Floating Multiply-Add Single", instructionMajId_i); `endif                
+                `ifdef DEBUG $display("Decode 2 A-form Inst: %d: Floating Multiply-Add Single", instructionMajId_i); `endif
+                `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 A-form Inst: %d: Floating Multiply-Add Single", instructionMajId_i); `endif                
                 //Special regs: FPRF FR FI FX OX UX XX VXSNAN VXISI VXIMZ CR1
                 opcode_o <= 20;
                 instMinId_o <= 0;
@@ -488,8 +488,8 @@ begin
                 enable_o <= 1;   
             end
             28: begin//Floating Multiply-Subtract Single
-                `ifdef DEBUG $display("Decode 2 A-form (Inst: %h): Floating Multiply-Subtract Single", instructionMajId_i); `endif
-                `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 A-form (Inst: %h): Floating Multiply-Subtract Single", instructionMajId_i); `endif    
+                `ifdef DEBUG $display("Decode 2 A-form Inst: %d: Floating Multiply-Subtract Single", instructionMajId_i); `endif
+                `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 A-form Inst: %d: Floating Multiply-Subtract Single", instructionMajId_i); `endif    
                 //Special regs: FPRF FR FI FX OX UX XX VXSNAN VXISI VXIMZ CR1
                 opcode_o <= 21;
                 instMinId_o <= 0;
@@ -501,8 +501,8 @@ begin
                 enable_o <= 1;
             end
             31: begin//Floating Negative Multiply-Add Single - not Hit
-                `ifdef DEBUG $display("Decode 2 A-form (Inst: %h): Floating Negative Multiply-Add Single", instructionMajId_i); `endif
-                `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 A-form (Inst: %h): Floating Negative Multiply-Add Single", instructionMajId_i); `endif    
+                `ifdef DEBUG $display("Decode 2 A-form Inst: %d: Floating Negative Multiply-Add Single", instructionMajId_i); `endif
+                `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 A-form Inst: %d: Floating Negative Multiply-Add Single", instructionMajId_i); `endif    
                 //Special regs: FPRF FR FI FX OX UX XX VXSNAN VXISI VXIMZ CR1
                 opcode_o <= 22;
                 instMinId_o <= 0;
@@ -514,8 +514,8 @@ begin
                 enable_o <= 1;     
             end
             30: begin//Floating Negative Multiply-Subtract Single
-                `ifdef DEBUG $display("Decode 2 A-form (Inst: %h): Floating Negative Multiply-Subtract Single", instructionMajId_i); `endif
-                `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 A-form (Inst: %h): Floating Negative Multiply-Subtract Single", instructionMajId_i); `endif    
+                `ifdef DEBUG $display("Decode 2 A-form Inst: %d: Floating Negative Multiply-Subtract Single", instructionMajId_i); `endif
+                `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 A-form Inst: %d: Floating Negative Multiply-Subtract Single", instructionMajId_i); `endif    
                 //Special regs: FPRF FR FI FX OX UX XX VXSNAN VXISI VXIMZ CR1
                 opcode_o <= 23;
                 instMinId_o <= 0;
@@ -528,8 +528,8 @@ begin
             end
             default: begin
                 `ifndef QUIET_INVALID//invalid instructions are not reported to clean up output
-                `ifdef DEBUG $display("Decode 2 A-form: (Inst: %h) Invalid instrution revieved", instructionMajId_i); `endif
-                `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 A-form: (Inst: %h) Invalid instrution revieved", instructionMajId_i); `endif
+                `ifdef DEBUG $display("Decode 2 A-form Inst:: %d Invalid instrution revieved", instructionMajId_i); `endif
+                `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 A-form Inst:: %d Invalid instrution revieved", instructionMajId_i); `endif
                 `endif
                 enable_o <= 0; 
             end

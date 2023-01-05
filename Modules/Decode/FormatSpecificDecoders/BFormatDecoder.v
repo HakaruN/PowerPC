@@ -141,8 +141,8 @@ begin
 
         case(instructionOpcode_i)
         16: begin //Branch Conditional - BO, BI, BD, AA, LK
-            `ifdef DEBUG $display("Decode 2 B-form (Inst: %h): Branch Conditional", instructionMajId_i); `endif
-            `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 B-form (Inst: %h): Branch Conditional", instructionMajId_i); `endif
+            `ifdef DEBUG $display("Decode 2 B-form Inst: %d: Branch Conditional", instructionMajId_i); `endif
+            `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 B-form Inst: %d: Branch Conditional", instructionMajId_i); `endif
             opcode_o <= 24;//set the decocde opcode
             //Special Regs: CTR if BO[2] == 0, LR if LK  == 1
             enable_o <= 1;
@@ -151,8 +151,8 @@ begin
             end
             default: begin
                 `ifndef QUIET_INVALID
-                `ifdef DEBUG $display("Decode 2 B-form: Invalid instruction recieved");`endif
-                `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 B-form (Inst: %h): D-form: Invalid instruction recieved", instructionMajId_i); `endif
+                `ifdef DEBUG $display("Decode 2 B-form Inst: Invalid instruction recieved");`endif
+                `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 B-form Inst: %d: D-form Inst: Invalid instruction recieved", instructionMajId_i); `endif
                 `endif
                 enable_o <= 0; 
             end

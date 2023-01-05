@@ -1,11 +1,12 @@
 `timescale 1ns / 1ps
 `define DEBUG
 `define DEBUG_PRINT
-`include "DecodeFormatScan.v"
-`include "FormatSpecificDecoders/AFormatDecoder.v"
-`include "FormatSpecificDecoders/BFormatDecoder.v"
-`include "FormatSpecificDecoders/DFormatDecoder.v"
-`include "DecodeMux.v"
+//`include "DecodeFormatScan.v"
+`include "../../../Modules/Decode/DecodeFormatScan.v"
+`include "../../../Modules/Decode/FormatSpecificDecoders/AFormatDecoder.v"
+`include "../../../Modules/Decode/FormatSpecificDecoders/BFormatDecoder.v"
+`include "../../../Modules/Decode/FormatSpecificDecoders/DFormatDecoder.v"
+`include "../../../Modules/Decode/DecodeMux.v"
 /*/////////Decode Unit/////////////
 Writen by Josh "Hakaru" Cantwell - 19.12.2022
 
@@ -64,6 +65,7 @@ module DecodeUnit
 
     //output
     output wire enableOut,
+    output wire [0:25-1] instFormat_o,
     output wire [0:opcodeSize-1] opcodeOut,
     output wire [0:addressWidth-1] addressOut,
     output wire [0:funcUnitCodeSize-1] funcUnitTypeOut,
@@ -106,7 +108,8 @@ formatScanner
 (
     ///Input
     //command
-    .clock_i(clock_i),
+    .clock_i(clock_i), 
+    `ifdef DEBUG_PRINT .reset_i(reset_i), `endif
     .enable_i(enable_i), .stall_i(stall_i),
     //data
     .instruction_i(instruction_i),
@@ -145,9 +148,9 @@ formatScanner
     AFormatDecoder #()
     aFormatDecoder
     (
-        .clock_i(clockIn),
-        `ifdef DEBUG_PRINT .reset_i(resetIn), `endif
-        .enable_i(stage1EnableOut), .stall_i(stallIn),
+        .clock_i(clock_i),
+        `ifdef DEBUG_PRINT .reset_i(reset_i), `endif
+        .enable_i(stage1EnableOut), .stall_i(!stage1EnableOut),
         .instFormat_i(stage1instFormatOut),
         .instructionOpcode_i(stage1OpcodeOut),
         .instruction_i(stage1instructionOut),
@@ -157,7 +160,7 @@ formatScanner
         .instructionTid_i(stage1instructionTidOut),
         .instructionMajId_i(stage1instructionMajIdOut),
 
-        .enable_o(enableOAenableInut),
+        .enable_o(AenableIn),
         .opcode_o(AOpcodeIn),
         .instructionAddress_o(AAddressIn),
         .functionalUnitType_o(AUnitTypeIn),
@@ -186,9 +189,9 @@ formatScanner
     BFormatDecoder #()
     bFormatDecoder
     (
-        .clock_i(clockIn),
-        `ifdef DEBUG_PRINT .reset_i(resetIn), `endif
-        .enable_i(stage1EnableOut), .stall_i(stallIn),
+        .clock_i(clock_i),
+        `ifdef DEBUG_PRINT .reset_i(reset_i), `endif
+        .enable_i(stage1EnableOut), .stall_i(!stage1EnableOut),
         .instFormat_i(stage1instFormatOut),
         .instructionOpcode_i(stage1OpcodeOut),
         .instruction_i(stage1instructionOut),
@@ -227,9 +230,9 @@ formatScanner
     DFormatDecoder #()
     dFormatDecoder
     (
-        .clock_i(clockIn),
-        `ifdef DEBUG_PRINT .reset_i(resetIn), `endif
-        .enable_i(stage1EnableOut), .stall_i(stallIn),
+        .clock_i(clock_i),
+        `ifdef DEBUG_PRINT .reset_i(reset_i), `endif
+        .enable_i(stage1EnableOut), .stall_i(!stage1EnableOut),
         .instFormat_i(stage1instFormatOut),
         .instructionOpcode_i(stage1OpcodeOut),
         .instruction_i(stage1instructionOut),
@@ -261,9 +264,9 @@ formatScanner
     (
         ////Inputs
         ///Command
-        .clock_i(clockIn),    
+        .clock_i(clock_i),    
     `ifdef DEBUG_PRINT 
-        .reset_i(resetIn),
+        .reset_i(reset_i),
     `endif
         ///A format
         .Aenable_i(AenableIn),
@@ -307,6 +310,7 @@ formatScanner
 
         ///output
         .enable_o(enableOut),
+        .instFormat_o(instFormat_o),
         .opcode_o(opcodeOut),
         .address_o(addressOut),
         .funcUnitType_o(funcUnitTypeOut),
@@ -320,5 +324,10 @@ formatScanner
         .body_o(bodyOut)
     );
 
+    always @(posedge clock_i)
+    begin
+        if(reset_i)
+            $display("Resetting decode unit");
+    end
 
 endmodule

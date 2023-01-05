@@ -1,0 +1,1240 @@
+Decode 2 D-form Inst:                   62: D-form Inst: Trap doubleword immediate
+Decode 2 D-form Inst:                   63: D-form Inst: Trap doubleword immediate
+Decode 2 D-form Inst:                   64: D-form Inst: Trap doubleword immediate
+Decode 2 D-form Inst:                   65: D-form Inst: Trap doubleword immediate
+Decode 2 D-form Inst:                   66: D-form Inst: Trap doubleword immediate
+Decode 2 D-form Inst:                   67: D-form Inst: Trap doubleword immediate
+Decode 2 D-form Inst:                   68: D-form Inst: Trap doubleword immediate
+Decode 2 D-form Inst:                   69: D-form Inst: Trap doubleword immediate
+Decode 2 D-form Inst:                   70: D-form Inst: Trap doubleword immediate
+Decode 2 D-form Inst:                   71: D-form Inst: Trap doubleword immediate
+Decode 2 D-form Inst:                   72: D-form Inst: Trap doubleword immediate
+Decode 2 D-form Inst:                   73: D-form Inst: Trap doubleword immediate
+Decode 2 D-form Inst:                   74: D-form Inst: Trap doubleword immediate
+Decode 2 D-form Inst:                   75: D-form Inst: Trap doubleword immediate
+Decode 2 D-form Inst:                   76: D-form Inst: Trap doubleword immediate
+Decode 2 D-form Inst:                   77: D-form Inst: Trap doubleword immediate
+Decode 2 D-form Inst:                   78: D-form Inst: Trap doubleword immediate
+Decode 2 D-form Inst:                   79: D-form Inst: Trap doubleword immediate
+Decode 2 D-form Inst:                   80: D-form Inst: Trap doubleword immediate
+Decode 2 D-form Inst:                   81: D-form Inst: Trap doubleword immediate
+Decode 2 D-form Inst:                   82: D-form Inst: Trap doubleword immediate
+Decode 2 D-form Inst:                   83: D-form Inst: Trap doubleword immediate
+Decode 2 D-form Inst:                   84: D-form Inst: Trap doubleword immediate
+Decode 2 D-form Inst:                   85: D-form Inst: Trap doubleword immediate
+Decode 2 D-form Inst:                   86: D-form Inst: Trap doubleword immediate
+Decode 2 D-form Inst:                   87: D-form Inst: Trap doubleword immediate
+Decode 2 D-form Inst:                   88: D-form Inst: Trap doubleword immediate
+Decode 2 D-form Inst:                   89: D-form Inst: Trap doubleword immediate
+Decode 2 D-form Inst:                   90: D-form Inst: Trap doubleword immediate
+Decode 2 D-form Inst:                   91: D-form Inst: Trap doubleword immediate
+Decode 2 D-form Inst:                   92: D-form Inst: Trap doubleword immediate
+Decode 2 D-form Inst:                   93: D-form Inst: Trap word immediate
+Decode 2 D-form Inst:                   94: D-form Inst: Trap word immediate
+Decode 2 D-form Inst:                   95: D-form Inst: Trap word immediate
+Decode 2 D-form Inst:                   96: D-form Inst: Trap word immediate
+Decode 2 D-form Inst:                   97: D-form Inst: Trap word immediate
+Decode 2 D-form Inst:                   98: D-form Inst: Trap word immediate
+Decode 2 D-form Inst:                   99: D-form Inst: Trap word immediate
+Decode 2 D-form Inst:                  100: D-form Inst: Trap word immediate
+Decode 2 D-form Inst:                  101: D-form Inst: Trap word immediate
+Decode 2 D-form Inst:                  102: D-form Inst: Trap word immediate
+Decode 2 D-form Inst:                  103: D-form Inst: Trap word immediate
+Decode 2 D-form Inst:                  104: D-form Inst: Trap word immediate
+Decode 2 D-form Inst:                  105: D-form Inst: Trap word immediate
+Decode 2 D-form Inst:                  106: D-form Inst: Trap word immediate
+Decode 2 D-form Inst:                  107: D-form Inst: Trap word immediate
+Decode 2 D-form Inst:                  108: D-form Inst: Trap word immediate
+Decode 2 D-form Inst:                  109: D-form Inst: Trap word immediate
+Decode 2 D-form Inst:                  110: D-form Inst: Trap word immediate
+Decode 2 D-form Inst:                  111: D-form Inst: Trap word immediate
+Decode 2 D-form Inst:                  112: D-form Inst: Trap word immediate
+Decode 2 D-form Inst:                  113: D-form Inst: Trap word immediate
+Decode 2 D-form Inst:                  114: D-form Inst: Trap word immediate
+Decode 2 D-form Inst:                  115: D-form Inst: Trap word immediate
+Decode 2 D-form Inst:                  116: D-form Inst: Trap word immediate
+Decode 2 D-form Inst:                  117: D-form Inst: Trap word immediate
+Decode 2 D-form Inst:                  118: D-form Inst: Trap word immediate
+Decode 2 D-form Inst:                  119: D-form Inst: Trap word immediate
+Decode 2 D-form Inst:                  120: D-form Inst: Trap word immediate
+Decode 2 D-form Inst:                  121: D-form Inst: Trap word immediate
+Decode 2 D-form Inst:                  122: D-form Inst: Trap word immediate
+Decode 2 D-form Inst:                  123: D-form Inst: Trap word immediate
+Decode 2 D-form Inst:                  217: D-form Inst: Multiply low immediate
+Decode 2 D-form Inst:                  218: D-form Inst: Multiply low immediate
+Decode 2 D-form Inst:                  219: D-form Inst: Multiply low immediate
+Decode 2 D-form Inst:                  220: D-form Inst: Multiply low immediate
+Decode 2 D-form Inst:                  221: D-form Inst: Multiply low immediate
+Decode 2 D-form Inst:                  222: D-form Inst: Multiply low immediate
+Decode 2 D-form Inst:                  223: D-form Inst: Multiply low immediate
+Decode 2 D-form Inst:                  224: D-form Inst: Multiply low immediate
+Decode 2 D-form Inst:                  225: D-form Inst: Multiply low immediate
+Decode 2 D-form Inst:                  226: D-form Inst: Multiply low immediate
+Decode 2 D-form Inst:                  227: D-form Inst: Multiply low immediate
+Decode 2 D-form Inst:                  228: D-form Inst: Multiply low immediate
+Decode 2 D-form Inst:                  229: D-form Inst: Multiply low immediate
+Decode 2 D-form Inst:                  230: D-form Inst: Multiply low immediate
+Decode 2 D-form Inst:                  231: D-form Inst: Multiply low immediate
+Decode 2 D-form Inst:                  232: D-form Inst: Multiply low immediate
+Decode 2 D-form Inst:                  233: D-form Inst: Multiply low immediate
+Decode 2 D-form Inst:                  234: D-form Inst: Multiply low immediate
+Decode 2 D-form Inst:                  235: D-form Inst: Multiply low immediate
+Decode 2 D-form Inst:                  236: D-form Inst: Multiply low immediate
+Decode 2 D-form Inst:                  237: D-form Inst: Multiply low immediate
+Decode 2 D-form Inst:                  238: D-form Inst: Multiply low immediate
+Decode 2 D-form Inst:                  239: D-form Inst: Multiply low immediate
+Decode 2 D-form Inst:                  240: D-form Inst: Multiply low immediate
+Decode 2 D-form Inst:                  241: D-form Inst: Multiply low immediate
+Decode 2 D-form Inst:                  242: D-form Inst: Multiply low immediate
+Decode 2 D-form Inst:                  243: D-form Inst: Multiply low immediate
+Decode 2 D-form Inst:                  244: D-form Inst: Multiply low immediate
+Decode 2 D-form Inst:                  245: D-form Inst: Multiply low immediate
+Decode 2 D-form Inst:                  246: D-form Inst: Multiply low immediate
+Decode 2 D-form Inst:                  247: D-form Inst: Multiply low immediate
+Decode 2 D-form Inst:                  248: D-form Inst: Subtract from immediate carrying
+Decode 2 D-form Inst:                  249: D-form Inst: Subtract from immediate carrying
+Decode 2 D-form Inst:                  250: D-form Inst: Subtract from immediate carrying
+Decode 2 D-form Inst:                  251: D-form Inst: Subtract from immediate carrying
+Decode 2 D-form Inst:                  252: D-form Inst: Subtract from immediate carrying
+Decode 2 D-form Inst:                  253: D-form Inst: Subtract from immediate carrying
+Decode 2 D-form Inst:                  254: D-form Inst: Subtract from immediate carrying
+Decode 2 D-form Inst:                  255: D-form Inst: Subtract from immediate carrying
+Decode 2 D-form Inst:                  256: D-form Inst: Subtract from immediate carrying
+Decode 2 D-form Inst:                  257: D-form Inst: Subtract from immediate carrying
+Decode 2 D-form Inst:                  258: D-form Inst: Subtract from immediate carrying
+Decode 2 D-form Inst:                  259: D-form Inst: Subtract from immediate carrying
+Decode 2 D-form Inst:                  260: D-form Inst: Subtract from immediate carrying
+Decode 2 D-form Inst:                  261: D-form Inst: Subtract from immediate carrying
+Decode 2 D-form Inst:                  262: D-form Inst: Subtract from immediate carrying
+Decode 2 D-form Inst:                  263: D-form Inst: Subtract from immediate carrying
+Decode 2 D-form Inst:                  264: D-form Inst: Subtract from immediate carrying
+Decode 2 D-form Inst:                  265: D-form Inst: Subtract from immediate carrying
+Decode 2 D-form Inst:                  266: D-form Inst: Subtract from immediate carrying
+Decode 2 D-form Inst:                  267: D-form Inst: Subtract from immediate carrying
+Decode 2 D-form Inst:                  268: D-form Inst: Subtract from immediate carrying
+Decode 2 D-form Inst:                  269: D-form Inst: Subtract from immediate carrying
+Decode 2 D-form Inst:                  270: D-form Inst: Subtract from immediate carrying
+Decode 2 D-form Inst:                  271: D-form Inst: Subtract from immediate carrying
+Decode 2 D-form Inst:                  272: D-form Inst: Subtract from immediate carrying
+Decode 2 D-form Inst:                  273: D-form Inst: Subtract from immediate carrying
+Decode 2 D-form Inst:                  274: D-form Inst: Subtract from immediate carrying
+Decode 2 D-form Inst:                  275: D-form Inst: Subtract from immediate carrying
+Decode 2 D-form Inst:                  276: D-form Inst: Subtract from immediate carrying
+Decode 2 D-form Inst:                  277: D-form Inst: Subtract from immediate carrying
+Decode 2 D-form Inst:                  278: D-form Inst: Subtract from immediate carrying
+Decode 2 D-form Inst:                  310: D-form Inst: Compare logical immediate
+Decode 2 D-form Inst:                  311: D-form Inst: Compare logical immediate
+Decode 2 D-form Inst:                  312: D-form Inst: Compare logical immediate
+Decode 2 D-form Inst:                  313: D-form Inst: Compare logical immediate
+Decode 2 D-form Inst:                  314: D-form Inst: Compare logical immediate
+Decode 2 D-form Inst:                  315: D-form Inst: Compare logical immediate
+Decode 2 D-form Inst:                  316: D-form Inst: Compare logical immediate
+Decode 2 D-form Inst:                  317: D-form Inst: Compare logical immediate
+Decode 2 D-form Inst:                  318: D-form Inst: Compare logical immediate
+Decode 2 D-form Inst:                  319: D-form Inst: Compare logical immediate
+Decode 2 D-form Inst:                  320: D-form Inst: Compare logical immediate
+Decode 2 D-form Inst:                  321: D-form Inst: Compare logical immediate
+Decode 2 D-form Inst:                  322: D-form Inst: Compare logical immediate
+Decode 2 D-form Inst:                  323: D-form Inst: Compare logical immediate
+Decode 2 D-form Inst:                  324: D-form Inst: Compare logical immediate
+Decode 2 D-form Inst:                  325: D-form Inst: Compare logical immediate
+Decode 2 D-form Inst:                  326: D-form Inst: Compare logical immediate
+Decode 2 D-form Inst:                  327: D-form Inst: Compare logical immediate
+Decode 2 D-form Inst:                  328: D-form Inst: Compare logical immediate
+Decode 2 D-form Inst:                  329: D-form Inst: Compare logical immediate
+Decode 2 D-form Inst:                  330: D-form Inst: Compare logical immediate
+Decode 2 D-form Inst:                  331: D-form Inst: Compare logical immediate
+Decode 2 D-form Inst:                  332: D-form Inst: Compare logical immediate
+Decode 2 D-form Inst:                  333: D-form Inst: Compare logical immediate
+Decode 2 D-form Inst:                  334: D-form Inst: Compare logical immediate
+Decode 2 D-form Inst:                  335: D-form Inst: Compare logical immediate
+Decode 2 D-form Inst:                  336: D-form Inst: Compare logical immediate
+Decode 2 D-form Inst:                  337: D-form Inst: Compare logical immediate
+Decode 2 D-form Inst:                  338: D-form Inst: Compare logical immediate
+Decode 2 D-form Inst:                  339: D-form Inst: Compare logical immediate
+Decode 2 D-form Inst:                  340: D-form Inst: Compare logical immediate
+Decode 2 D-form Inst:                  341: D-form Inst: Compare immediate
+Decode 2 D-form Inst:                  342: D-form Inst: Compare immediate
+Decode 2 D-form Inst:                  343: D-form Inst: Compare immediate
+Decode 2 D-form Inst:                  344: D-form Inst: Compare immediate
+Decode 2 D-form Inst:                  345: D-form Inst: Compare immediate
+Decode 2 D-form Inst:                  346: D-form Inst: Compare immediate
+Decode 2 D-form Inst:                  347: D-form Inst: Compare immediate
+Decode 2 D-form Inst:                  348: D-form Inst: Compare immediate
+Decode 2 D-form Inst:                  349: D-form Inst: Compare immediate
+Decode 2 D-form Inst:                  350: D-form Inst: Compare immediate
+Decode 2 D-form Inst:                  351: D-form Inst: Compare immediate
+Decode 2 D-form Inst:                  352: D-form Inst: Compare immediate
+Decode 2 D-form Inst:                  353: D-form Inst: Compare immediate
+Decode 2 D-form Inst:                  354: D-form Inst: Compare immediate
+Decode 2 D-form Inst:                  355: D-form Inst: Compare immediate
+Decode 2 D-form Inst:                  356: D-form Inst: Compare immediate
+Decode 2 D-form Inst:                  357: D-form Inst: Compare immediate
+Decode 2 D-form Inst:                  358: D-form Inst: Compare immediate
+Decode 2 D-form Inst:                  359: D-form Inst: Compare immediate
+Decode 2 D-form Inst:                  360: D-form Inst: Compare immediate
+Decode 2 D-form Inst:                  361: D-form Inst: Compare immediate
+Decode 2 D-form Inst:                  362: D-form Inst: Compare immediate
+Decode 2 D-form Inst:                  363: D-form Inst: Compare immediate
+Decode 2 D-form Inst:                  364: D-form Inst: Compare immediate
+Decode 2 D-form Inst:                  365: D-form Inst: Compare immediate
+Decode 2 D-form Inst:                  366: D-form Inst: Compare immediate
+Decode 2 D-form Inst:                  367: D-form Inst: Compare immediate
+Decode 2 D-form Inst:                  368: D-form Inst: Compare immediate
+Decode 2 D-form Inst:                  369: D-form Inst: Compare immediate
+Decode 2 D-form Inst:                  370: D-form Inst: Compare immediate
+Decode 2 D-form Inst:                  371: D-form Inst: Compare immediate
+Decode 2 D-form Inst:                  372: D-form Inst: Add immediate carrying
+Decode 2 D-form Inst:                  373: D-form Inst: Add immediate carrying
+Decode 2 D-form Inst:                  374: D-form Inst: Add immediate carrying
+Decode 2 D-form Inst:                  375: D-form Inst: Add immediate carrying
+Decode 2 D-form Inst:                  376: D-form Inst: Add immediate carrying
+Decode 2 D-form Inst:                  377: D-form Inst: Add immediate carrying
+Decode 2 D-form Inst:                  378: D-form Inst: Add immediate carrying
+Decode 2 D-form Inst:                  379: D-form Inst: Add immediate carrying
+Decode 2 D-form Inst:                  380: D-form Inst: Add immediate carrying
+Decode 2 D-form Inst:                  381: D-form Inst: Add immediate carrying
+Decode 2 D-form Inst:                  382: D-form Inst: Add immediate carrying
+Decode 2 D-form Inst:                  383: D-form Inst: Add immediate carrying
+Decode 2 D-form Inst:                  384: D-form Inst: Add immediate carrying
+Decode 2 D-form Inst:                  385: D-form Inst: Add immediate carrying
+Decode 2 D-form Inst:                  386: D-form Inst: Add immediate carrying
+Decode 2 D-form Inst:                  387: D-form Inst: Add immediate carrying
+Decode 2 D-form Inst:                  388: D-form Inst: Add immediate carrying
+Decode 2 D-form Inst:                  389: D-form Inst: Add immediate carrying
+Decode 2 D-form Inst:                  390: D-form Inst: Add immediate carrying
+Decode 2 D-form Inst:                  391: D-form Inst: Add immediate carrying
+Decode 2 D-form Inst:                  392: D-form Inst: Add immediate carrying
+Decode 2 D-form Inst:                  393: D-form Inst: Add immediate carrying
+Decode 2 D-form Inst:                  394: D-form Inst: Add immediate carrying
+Decode 2 D-form Inst:                  395: D-form Inst: Add immediate carrying
+Decode 2 D-form Inst:                  396: D-form Inst: Add immediate carrying
+Decode 2 D-form Inst:                  397: D-form Inst: Add immediate carrying
+Decode 2 D-form Inst:                  398: D-form Inst: Add immediate carrying
+Decode 2 D-form Inst:                  399: D-form Inst: Add immediate carrying
+Decode 2 D-form Inst:                  400: D-form Inst: Add immediate carrying
+Decode 2 D-form Inst:                  401: D-form Inst: Add immediate carrying
+Decode 2 D-form Inst:                  402: D-form Inst: Add immediate carrying
+Decode 2 D-form Inst:                  403: D-form Inst: Add immediate carrying and record
+Decode 2 D-form Inst:                  404: D-form Inst: Add immediate carrying and record
+Decode 2 D-form Inst:                  405: D-form Inst: Add immediate carrying and record
+Decode 2 D-form Inst:                  406: D-form Inst: Add immediate carrying and record
+Decode 2 D-form Inst:                  407: D-form Inst: Add immediate carrying and record
+Decode 2 D-form Inst:                  408: D-form Inst: Add immediate carrying and record
+Decode 2 D-form Inst:                  409: D-form Inst: Add immediate carrying and record
+Decode 2 D-form Inst:                  410: D-form Inst: Add immediate carrying and record
+Decode 2 D-form Inst:                  411: D-form Inst: Add immediate carrying and record
+Decode 2 D-form Inst:                  412: D-form Inst: Add immediate carrying and record
+Decode 2 D-form Inst:                  413: D-form Inst: Add immediate carrying and record
+Decode 2 D-form Inst:                  414: D-form Inst: Add immediate carrying and record
+Decode 2 D-form Inst:                  415: D-form Inst: Add immediate carrying and record
+Decode 2 D-form Inst:                  416: D-form Inst: Add immediate carrying and record
+Decode 2 D-form Inst:                  417: D-form Inst: Add immediate carrying and record
+Decode 2 D-form Inst:                  418: D-form Inst: Add immediate carrying and record
+Decode 2 D-form Inst:                  419: D-form Inst: Add immediate carrying and record
+Decode 2 D-form Inst:                  420: D-form Inst: Add immediate carrying and record
+Decode 2 D-form Inst:                  421: D-form Inst: Add immediate carrying and record
+Decode 2 D-form Inst:                  422: D-form Inst: Add immediate carrying and record
+Decode 2 D-form Inst:                  423: D-form Inst: Add immediate carrying and record
+Decode 2 D-form Inst:                  424: D-form Inst: Add immediate carrying and record
+Decode 2 D-form Inst:                  425: D-form Inst: Add immediate carrying and record
+Decode 2 D-form Inst:                  426: D-form Inst: Add immediate carrying and record
+Decode 2 D-form Inst:                  427: D-form Inst: Add immediate carrying and record
+Decode 2 D-form Inst:                  428: D-form Inst: Add immediate carrying and record
+Decode 2 D-form Inst:                  429: D-form Inst: Add immediate carrying and record
+Decode 2 D-form Inst:                  430: D-form Inst: Add immediate carrying and record
+Decode 2 D-form Inst:                  431: D-form Inst: Add immediate carrying and record
+Decode 2 D-form Inst:                  432: D-form Inst: Add immediate carrying and record
+Decode 2 D-form Inst:                  433: D-form Inst: Add immediate carrying and record
+Decode 2 D-form Inst:                  434: D-form Inst: Add immediate
+Decode 2 D-form Inst:                  435: D-form Inst: Add immediate
+Decode 2 D-form Inst:                  436: D-form Inst: Add immediate
+Decode 2 D-form Inst:                  437: D-form Inst: Add immediate
+Decode 2 D-form Inst:                  438: D-form Inst: Add immediate
+Decode 2 D-form Inst:                  439: D-form Inst: Add immediate
+Decode 2 D-form Inst:                  440: D-form Inst: Add immediate
+Decode 2 D-form Inst:                  441: D-form Inst: Add immediate
+Decode 2 D-form Inst:                  442: D-form Inst: Add immediate
+Decode 2 D-form Inst:                  443: D-form Inst: Add immediate
+Decode 2 D-form Inst:                  444: D-form Inst: Add immediate
+Decode 2 D-form Inst:                  445: D-form Inst: Add immediate
+Decode 2 D-form Inst:                  446: D-form Inst: Add immediate
+Decode 2 D-form Inst:                  447: D-form Inst: Add immediate
+Decode 2 D-form Inst:                  448: D-form Inst: Add immediate
+Decode 2 D-form Inst:                  449: D-form Inst: Add immediate
+Decode 2 D-form Inst:                  450: D-form Inst: Add immediate
+Decode 2 D-form Inst:                  451: D-form Inst: Add immediate
+Decode 2 D-form Inst:                  452: D-form Inst: Add immediate
+Decode 2 D-form Inst:                  453: D-form Inst: Add immediate
+Decode 2 D-form Inst:                  454: D-form Inst: Add immediate
+Decode 2 D-form Inst:                  455: D-form Inst: Add immediate
+Decode 2 D-form Inst:                  456: D-form Inst: Add immediate
+Decode 2 D-form Inst:                  457: D-form Inst: Add immediate
+Decode 2 D-form Inst:                  458: D-form Inst: Add immediate
+Decode 2 D-form Inst:                  459: D-form Inst: Add immediate
+Decode 2 D-form Inst:                  460: D-form Inst: Add immediate
+Decode 2 D-form Inst:                  461: D-form Inst: Add immediate
+Decode 2 D-form Inst:                  462: D-form Inst: Add immediate
+Decode 2 D-form Inst:                  463: D-form Inst: Add immediate
+Decode 2 D-form Inst:                  464: D-form Inst: Add immediate
+Decode 2 D-form Inst:                  465: D-form Inst: Add immediate shifted
+Decode 2 D-form Inst:                  466: D-form Inst: Add immediate shifted
+Decode 2 D-form Inst:                  467: D-form Inst: Add immediate shifted
+Decode 2 D-form Inst:                  468: D-form Inst: Add immediate shifted
+Decode 2 D-form Inst:                  469: D-form Inst: Add immediate shifted
+Decode 2 D-form Inst:                  470: D-form Inst: Add immediate shifted
+Decode 2 D-form Inst:                  471: D-form Inst: Add immediate shifted
+Decode 2 D-form Inst:                  472: D-form Inst: Add immediate shifted
+Decode 2 D-form Inst:                  473: D-form Inst: Add immediate shifted
+Decode 2 D-form Inst:                  474: D-form Inst: Add immediate shifted
+Decode 2 D-form Inst:                  475: D-form Inst: Add immediate shifted
+Decode 2 D-form Inst:                  476: D-form Inst: Add immediate shifted
+Decode 2 D-form Inst:                  477: D-form Inst: Add immediate shifted
+Decode 2 D-form Inst:                  478: D-form Inst: Add immediate shifted
+Decode 2 D-form Inst:                  479: D-form Inst: Add immediate shifted
+Decode 2 D-form Inst:                  480: D-form Inst: Add immediate shifted
+Decode 2 D-form Inst:                  481: D-form Inst: Add immediate shifted
+Decode 2 D-form Inst:                  482: D-form Inst: Add immediate shifted
+Decode 2 D-form Inst:                  483: D-form Inst: Add immediate shifted
+Decode 2 D-form Inst:                  484: D-form Inst: Add immediate shifted
+Decode 2 D-form Inst:                  485: D-form Inst: Add immediate shifted
+Decode 2 D-form Inst:                  486: D-form Inst: Add immediate shifted
+Decode 2 D-form Inst:                  487: D-form Inst: Add immediate shifted
+Decode 2 D-form Inst:                  488: D-form Inst: Add immediate shifted
+Decode 2 D-form Inst:                  489: D-form Inst: Add immediate shifted
+Decode 2 D-form Inst:                  490: D-form Inst: Add immediate shifted
+Decode 2 D-form Inst:                  491: D-form Inst: Add immediate shifted
+Decode 2 D-form Inst:                  492: D-form Inst: Add immediate shifted
+Decode 2 D-form Inst:                  493: D-form Inst: Add immediate shifted
+Decode 2 D-form Inst:                  494: D-form Inst: Add immediate shifted
+Decode 2 D-form Inst:                  495: D-form Inst: Add immediate shifted
+Decode 2 D-form Inst:                  744: D-form Inst: OR immediate
+Decode 2 D-form Inst:                  745: D-form Inst: OR immediate
+Decode 2 D-form Inst:                  746: D-form Inst: OR immediate
+Decode 2 D-form Inst:                  747: D-form Inst: OR immediate
+Decode 2 D-form Inst:                  748: D-form Inst: OR immediate
+Decode 2 D-form Inst:                  749: D-form Inst: OR immediate
+Decode 2 D-form Inst:                  750: D-form Inst: OR immediate
+Decode 2 D-form Inst:                  751: D-form Inst: OR immediate
+Decode 2 D-form Inst:                  752: D-form Inst: OR immediate
+Decode 2 D-form Inst:                  753: D-form Inst: OR immediate
+Decode 2 D-form Inst:                  754: D-form Inst: OR immediate
+Decode 2 D-form Inst:                  755: D-form Inst: OR immediate
+Decode 2 D-form Inst:                  756: D-form Inst: OR immediate
+Decode 2 D-form Inst:                  757: D-form Inst: OR immediate
+Decode 2 D-form Inst:                  758: D-form Inst: OR immediate
+Decode 2 D-form Inst:                  759: D-form Inst: OR immediate
+Decode 2 D-form Inst:                  760: D-form Inst: OR immediate
+Decode 2 D-form Inst:                  761: D-form Inst: OR immediate
+Decode 2 D-form Inst:                  762: D-form Inst: OR immediate
+Decode 2 D-form Inst:                  763: D-form Inst: OR immediate
+Decode 2 D-form Inst:                  764: D-form Inst: OR immediate
+Decode 2 D-form Inst:                  765: D-form Inst: OR immediate
+Decode 2 D-form Inst:                  766: D-form Inst: OR immediate
+Decode 2 D-form Inst:                  767: D-form Inst: OR immediate
+Decode 2 D-form Inst:                  768: D-form Inst: OR immediate
+Decode 2 D-form Inst:                  769: D-form Inst: OR immediate
+Decode 2 D-form Inst:                  770: D-form Inst: OR immediate
+Decode 2 D-form Inst:                  771: D-form Inst: OR immediate
+Decode 2 D-form Inst:                  772: D-form Inst: OR immediate
+Decode 2 D-form Inst:                  773: D-form Inst: OR immediate
+Decode 2 D-form Inst:                  774: D-form Inst: OR immediate
+Decode 2 D-form Inst:                  775: D-form Inst: OR immediate shifted
+Decode 2 D-form Inst:                  776: D-form Inst: OR immediate shifted
+Decode 2 D-form Inst:                  777: D-form Inst: OR immediate shifted
+Decode 2 D-form Inst:                  778: D-form Inst: OR immediate shifted
+Decode 2 D-form Inst:                  779: D-form Inst: OR immediate shifted
+Decode 2 D-form Inst:                  780: D-form Inst: OR immediate shifted
+Decode 2 D-form Inst:                  781: D-form Inst: OR immediate shifted
+Decode 2 D-form Inst:                  782: D-form Inst: OR immediate shifted
+Decode 2 D-form Inst:                  783: D-form Inst: OR immediate shifted
+Decode 2 D-form Inst:                  784: D-form Inst: OR immediate shifted
+Decode 2 D-form Inst:                  785: D-form Inst: OR immediate shifted
+Decode 2 D-form Inst:                  786: D-form Inst: OR immediate shifted
+Decode 2 D-form Inst:                  787: D-form Inst: OR immediate shifted
+Decode 2 D-form Inst:                  788: D-form Inst: OR immediate shifted
+Decode 2 D-form Inst:                  789: D-form Inst: OR immediate shifted
+Decode 2 D-form Inst:                  790: D-form Inst: OR immediate shifted
+Decode 2 D-form Inst:                  791: D-form Inst: OR immediate shifted
+Decode 2 D-form Inst:                  792: D-form Inst: OR immediate shifted
+Decode 2 D-form Inst:                  793: D-form Inst: OR immediate shifted
+Decode 2 D-form Inst:                  794: D-form Inst: OR immediate shifted
+Decode 2 D-form Inst:                  795: D-form Inst: OR immediate shifted
+Decode 2 D-form Inst:                  796: D-form Inst: OR immediate shifted
+Decode 2 D-form Inst:                  797: D-form Inst: OR immediate shifted
+Decode 2 D-form Inst:                  798: D-form Inst: OR immediate shifted
+Decode 2 D-form Inst:                  799: D-form Inst: OR immediate shifted
+Decode 2 D-form Inst:                  800: D-form Inst: OR immediate shifted
+Decode 2 D-form Inst:                  801: D-form Inst: OR immediate shifted
+Decode 2 D-form Inst:                  802: D-form Inst: OR immediate shifted
+Decode 2 D-form Inst:                  803: D-form Inst: OR immediate shifted
+Decode 2 D-form Inst:                  804: D-form Inst: OR immediate shifted
+Decode 2 D-form Inst:                  805: D-form Inst: OR immediate shifted
+Decode 2 D-form Inst:                  806: XD-form Inst: OR immediate
+Decode 2 D-form Inst:                  807: XD-form Inst: OR immediate
+Decode 2 D-form Inst:                  808: XD-form Inst: OR immediate
+Decode 2 D-form Inst:                  809: XD-form Inst: OR immediate
+Decode 2 D-form Inst:                  810: XD-form Inst: OR immediate
+Decode 2 D-form Inst:                  811: XD-form Inst: OR immediate
+Decode 2 D-form Inst:                  812: XD-form Inst: OR immediate
+Decode 2 D-form Inst:                  813: XD-form Inst: OR immediate
+Decode 2 D-form Inst:                  814: XD-form Inst: OR immediate
+Decode 2 D-form Inst:                  815: XD-form Inst: OR immediate
+Decode 2 D-form Inst:                  816: XD-form Inst: OR immediate
+Decode 2 D-form Inst:                  817: XD-form Inst: OR immediate
+Decode 2 D-form Inst:                  818: XD-form Inst: OR immediate
+Decode 2 D-form Inst:                  819: XD-form Inst: OR immediate
+Decode 2 D-form Inst:                  820: XD-form Inst: OR immediate
+Decode 2 D-form Inst:                  821: XD-form Inst: OR immediate
+Decode 2 D-form Inst:                  822: XD-form Inst: OR immediate
+Decode 2 D-form Inst:                  823: XD-form Inst: OR immediate
+Decode 2 D-form Inst:                  824: XD-form Inst: OR immediate
+Decode 2 D-form Inst:                  825: XD-form Inst: OR immediate
+Decode 2 D-form Inst:                  826: XD-form Inst: OR immediate
+Decode 2 D-form Inst:                  827: XD-form Inst: OR immediate
+Decode 2 D-form Inst:                  828: XD-form Inst: OR immediate
+Decode 2 D-form Inst:                  829: XD-form Inst: OR immediate
+Decode 2 D-form Inst:                  830: XD-form Inst: OR immediate
+Decode 2 D-form Inst:                  831: XD-form Inst: OR immediate
+Decode 2 D-form Inst:                  832: XD-form Inst: OR immediate
+Decode 2 D-form Inst:                  833: XD-form Inst: OR immediate
+Decode 2 D-form Inst:                  834: XD-form Inst: OR immediate
+Decode 2 D-form Inst:                  835: XD-form Inst: OR immediate
+Decode 2 D-form Inst:                  836: XD-form Inst: OR immediate
+Decode 2 D-form Inst:                  837: D-form Inst: XOR immediate shifted
+Decode 2 D-form Inst:                  838: D-form Inst: XOR immediate shifted
+Decode 2 D-form Inst:                  839: D-form Inst: XOR immediate shifted
+Decode 2 D-form Inst:                  840: D-form Inst: XOR immediate shifted
+Decode 2 D-form Inst:                  841: D-form Inst: XOR immediate shifted
+Decode 2 D-form Inst:                  842: D-form Inst: XOR immediate shifted
+Decode 2 D-form Inst:                  843: D-form Inst: XOR immediate shifted
+Decode 2 D-form Inst:                  844: D-form Inst: XOR immediate shifted
+Decode 2 D-form Inst:                  845: D-form Inst: XOR immediate shifted
+Decode 2 D-form Inst:                  846: D-form Inst: XOR immediate shifted
+Decode 2 D-form Inst:                  847: D-form Inst: XOR immediate shifted
+Decode 2 D-form Inst:                  848: D-form Inst: XOR immediate shifted
+Decode 2 D-form Inst:                  849: D-form Inst: XOR immediate shifted
+Decode 2 D-form Inst:                  850: D-form Inst: XOR immediate shifted
+Decode 2 D-form Inst:                  851: D-form Inst: XOR immediate shifted
+Decode 2 D-form Inst:                  852: D-form Inst: XOR immediate shifted
+Decode 2 D-form Inst:                  853: D-form Inst: XOR immediate shifted
+Decode 2 D-form Inst:                  854: D-form Inst: XOR immediate shifted
+Decode 2 D-form Inst:                  855: D-form Inst: XOR immediate shifted
+Decode 2 D-form Inst:                  856: D-form Inst: XOR immediate shifted
+Decode 2 D-form Inst:                  857: D-form Inst: XOR immediate shifted
+Decode 2 D-form Inst:                  858: D-form Inst: XOR immediate shifted
+Decode 2 D-form Inst:                  859: D-form Inst: XOR immediate shifted
+Decode 2 D-form Inst:                  860: D-form Inst: XOR immediate shifted
+Decode 2 D-form Inst:                  861: D-form Inst: XOR immediate shifted
+Decode 2 D-form Inst:                  862: D-form Inst: XOR immediate shifted
+Decode 2 D-form Inst:                  863: D-form Inst: XOR immediate shifted
+Decode 2 D-form Inst:                  864: D-form Inst: XOR immediate shifted
+Decode 2 D-form Inst:                  865: D-form Inst: XOR immediate shifted
+Decode 2 D-form Inst:                  866: D-form Inst: XOR immediate shifted
+Decode 2 D-form Inst:                  867: D-form Inst: XOR immediate shifted
+Decode 2 D-form Inst:                  868: D-form Inst: AND immediate
+Decode 2 D-form Inst:                  869: D-form Inst: AND immediate
+Decode 2 D-form Inst:                  870: D-form Inst: AND immediate
+Decode 2 D-form Inst:                  871: D-form Inst: AND immediate
+Decode 2 D-form Inst:                  872: D-form Inst: AND immediate
+Decode 2 D-form Inst:                  873: D-form Inst: AND immediate
+Decode 2 D-form Inst:                  874: D-form Inst: AND immediate
+Decode 2 D-form Inst:                  875: D-form Inst: AND immediate
+Decode 2 D-form Inst:                  876: D-form Inst: AND immediate
+Decode 2 D-form Inst:                  877: D-form Inst: AND immediate
+Decode 2 D-form Inst:                  878: D-form Inst: AND immediate
+Decode 2 D-form Inst:                  879: D-form Inst: AND immediate
+Decode 2 D-form Inst:                  880: D-form Inst: AND immediate
+Decode 2 D-form Inst:                  881: D-form Inst: AND immediate
+Decode 2 D-form Inst:                  882: D-form Inst: AND immediate
+Decode 2 D-form Inst:                  883: D-form Inst: AND immediate
+Decode 2 D-form Inst:                  884: D-form Inst: AND immediate
+Decode 2 D-form Inst:                  885: D-form Inst: AND immediate
+Decode 2 D-form Inst:                  886: D-form Inst: AND immediate
+Decode 2 D-form Inst:                  887: D-form Inst: AND immediate
+Decode 2 D-form Inst:                  888: D-form Inst: AND immediate
+Decode 2 D-form Inst:                  889: D-form Inst: AND immediate
+Decode 2 D-form Inst:                  890: D-form Inst: AND immediate
+Decode 2 D-form Inst:                  891: D-form Inst: AND immediate
+Decode 2 D-form Inst:                  892: D-form Inst: AND immediate
+Decode 2 D-form Inst:                  893: D-form Inst: AND immediate
+Decode 2 D-form Inst:                  894: D-form Inst: AND immediate
+Decode 2 D-form Inst:                  895: D-form Inst: AND immediate
+Decode 2 D-form Inst:                  896: D-form Inst: AND immediate
+Decode 2 D-form Inst:                  897: D-form Inst: AND immediate
+Decode 2 D-form Inst:                  898: D-form Inst: AND immediate
+Decode 2 D-form Inst:                  899: D-form Inst: AND immediate shifted
+Decode 2 D-form Inst:                  900: D-form Inst: AND immediate shifted
+Decode 2 D-form Inst:                  901: D-form Inst: AND immediate shifted
+Decode 2 D-form Inst:                  902: D-form Inst: AND immediate shifted
+Decode 2 D-form Inst:                  903: D-form Inst: AND immediate shifted
+Decode 2 D-form Inst:                  904: D-form Inst: AND immediate shifted
+Decode 2 D-form Inst:                  905: D-form Inst: AND immediate shifted
+Decode 2 D-form Inst:                  906: D-form Inst: AND immediate shifted
+Decode 2 D-form Inst:                  907: D-form Inst: AND immediate shifted
+Decode 2 D-form Inst:                  908: D-form Inst: AND immediate shifted
+Decode 2 D-form Inst:                  909: D-form Inst: AND immediate shifted
+Decode 2 D-form Inst:                  910: D-form Inst: AND immediate shifted
+Decode 2 D-form Inst:                  911: D-form Inst: AND immediate shifted
+Decode 2 D-form Inst:                  912: D-form Inst: AND immediate shifted
+Decode 2 D-form Inst:                  913: D-form Inst: AND immediate shifted
+Decode 2 D-form Inst:                  914: D-form Inst: AND immediate shifted
+Decode 2 D-form Inst:                  915: D-form Inst: AND immediate shifted
+Decode 2 D-form Inst:                  916: D-form Inst: AND immediate shifted
+Decode 2 D-form Inst:                  917: D-form Inst: AND immediate shifted
+Decode 2 D-form Inst:                  918: D-form Inst: AND immediate shifted
+Decode 2 D-form Inst:                  919: D-form Inst: AND immediate shifted
+Decode 2 D-form Inst:                  920: D-form Inst: AND immediate shifted
+Decode 2 D-form Inst:                  921: D-form Inst: AND immediate shifted
+Decode 2 D-form Inst:                  922: D-form Inst: AND immediate shifted
+Decode 2 D-form Inst:                  923: D-form Inst: AND immediate shifted
+Decode 2 D-form Inst:                  924: D-form Inst: AND immediate shifted
+Decode 2 D-form Inst:                  925: D-form Inst: AND immediate shifted
+Decode 2 D-form Inst:                  926: D-form Inst: AND immediate shifted
+Decode 2 D-form Inst:                  927: D-form Inst: AND immediate shifted
+Decode 2 D-form Inst:                  928: D-form Inst: AND immediate shifted
+Decode 2 D-form Inst:                  929: D-form Inst: AND immediate shifted
+Decode 2 D-form Inst:                  992: D-form Inst: Load word and zero
+Decode 2 D-form Inst:                  993: D-form Inst: Load word and zero
+Decode 2 D-form Inst:                  994: D-form Inst: Load word and zero
+Decode 2 D-form Inst:                  995: D-form Inst: Load word and zero
+Decode 2 D-form Inst:                  996: D-form Inst: Load word and zero
+Decode 2 D-form Inst:                  997: D-form Inst: Load word and zero
+Decode 2 D-form Inst:                  998: D-form Inst: Load word and zero
+Decode 2 D-form Inst:                  999: D-form Inst: Load word and zero
+Decode 2 D-form Inst:                 1000: D-form Inst: Load word and zero
+Decode 2 D-form Inst:                 1001: D-form Inst: Load word and zero
+Decode 2 D-form Inst:                 1002: D-form Inst: Load word and zero
+Decode 2 D-form Inst:                 1003: D-form Inst: Load word and zero
+Decode 2 D-form Inst:                 1004: D-form Inst: Load word and zero
+Decode 2 D-form Inst:                 1005: D-form Inst: Load word and zero
+Decode 2 D-form Inst:                 1006: D-form Inst: Load word and zero
+Decode 2 D-form Inst:                 1007: D-form Inst: Load word and zero
+Decode 2 D-form Inst:                 1008: D-form Inst: Load word and zero
+Decode 2 D-form Inst:                 1009: D-form Inst: Load word and zero
+Decode 2 D-form Inst:                 1010: D-form Inst: Load word and zero
+Decode 2 D-form Inst:                 1011: D-form Inst: Load word and zero
+Decode 2 D-form Inst:                 1012: D-form Inst: Load word and zero
+Decode 2 D-form Inst:                 1013: D-form Inst: Load word and zero
+Decode 2 D-form Inst:                 1014: D-form Inst: Load word and zero
+Decode 2 D-form Inst:                 1015: D-form Inst: Load word and zero
+Decode 2 D-form Inst:                 1016: D-form Inst: Load word and zero
+Decode 2 D-form Inst:                 1017: D-form Inst: Load word and zero
+Decode 2 D-form Inst:                 1018: D-form Inst: Load word and zero
+Decode 2 D-form Inst:                 1019: D-form Inst: Load word and zero
+Decode 2 D-form Inst:                 1020: D-form Inst: Load word and zero
+Decode 2 D-form Inst:                 1021: D-form Inst: Load word and zero
+Decode 2 D-form Inst:                 1022: D-form Inst: Load word and zero
+Decode 2 D-form Inst:                 1023: D-form Inst: Load word and zero with update
+Decode 2 D-form Inst:                 1024: D-form Inst: Load word and zero with update
+Decode 2 D-form Inst:                 1025: D-form Inst: Load word and zero with update
+Decode 2 D-form Inst:                 1026: D-form Inst: Load word and zero with update
+Decode 2 D-form Inst:                 1027: D-form Inst: Load word and zero with update
+Decode 2 D-form Inst:                 1028: D-form Inst: Load word and zero with update
+Decode 2 D-form Inst:                 1029: D-form Inst: Load word and zero with update
+Decode 2 D-form Inst:                 1030: D-form Inst: Load word and zero with update
+Decode 2 D-form Inst:                 1031: D-form Inst: Load word and zero with update
+Decode 2 D-form Inst:                 1032: D-form Inst: Load word and zero with update
+Decode 2 D-form Inst:                 1033: D-form Inst: Load word and zero with update
+Decode 2 D-form Inst:                 1034: D-form Inst: Load word and zero with update
+Decode 2 D-form Inst:                 1035: D-form Inst: Load word and zero with update
+Decode 2 D-form Inst:                 1036: D-form Inst: Load word and zero with update
+Decode 2 D-form Inst:                 1037: D-form Inst: Load word and zero with update
+Decode 2 D-form Inst:                 1038: D-form Inst: Load word and zero with update
+Decode 2 D-form Inst:                 1039: D-form Inst: Load word and zero with update
+Decode 2 D-form Inst:                 1040: D-form Inst: Load word and zero with update
+Decode 2 D-form Inst:                 1041: D-form Inst: Load word and zero with update
+Decode 2 D-form Inst:                 1042: D-form Inst: Load word and zero with update
+Decode 2 D-form Inst:                 1043: D-form Inst: Load word and zero with update
+Decode 2 D-form Inst:                 1044: D-form Inst: Load word and zero with update
+Decode 2 D-form Inst:                 1045: D-form Inst: Load word and zero with update
+Decode 2 D-form Inst:                 1046: D-form Inst: Load word and zero with update
+Decode 2 D-form Inst:                 1047: D-form Inst: Load word and zero with update
+Decode 2 D-form Inst:                 1048: D-form Inst: Load word and zero with update
+Decode 2 D-form Inst:                 1049: D-form Inst: Load word and zero with update
+Decode 2 D-form Inst:                 1050: D-form Inst: Load word and zero with update
+Decode 2 D-form Inst:                 1051: D-form Inst: Load word and zero with update
+Decode 2 D-form Inst:                 1052: D-form Inst: Load word and zero with update
+Decode 2 D-form Inst:                 1053: D-form Inst: Load word and zero with update
+Decode 2 D-form Inst:                 1054: Load Byte and Zero
+Decode 2 D-form Inst:                 1055: Load Byte and Zero
+Decode 2 D-form Inst:                 1056: Load Byte and Zero
+Decode 2 D-form Inst:                 1057: Load Byte and Zero
+Decode 2 D-form Inst:                 1058: Load Byte and Zero
+Decode 2 D-form Inst:                 1059: Load Byte and Zero
+Decode 2 D-form Inst:                 1060: Load Byte and Zero
+Decode 2 D-form Inst:                 1061: Load Byte and Zero
+Decode 2 D-form Inst:                 1062: Load Byte and Zero
+Decode 2 D-form Inst:                 1063: Load Byte and Zero
+Decode 2 D-form Inst:                 1064: Load Byte and Zero
+Decode 2 D-form Inst:                 1065: Load Byte and Zero
+Decode 2 D-form Inst:                 1066: Load Byte and Zero
+Decode 2 D-form Inst:                 1067: Load Byte and Zero
+Decode 2 D-form Inst:                 1068: Load Byte and Zero
+Decode 2 D-form Inst:                 1069: Load Byte and Zero
+Decode 2 D-form Inst:                 1070: Load Byte and Zero
+Decode 2 D-form Inst:                 1071: Load Byte and Zero
+Decode 2 D-form Inst:                 1072: Load Byte and Zero
+Decode 2 D-form Inst:                 1073: Load Byte and Zero
+Decode 2 D-form Inst:                 1074: Load Byte and Zero
+Decode 2 D-form Inst:                 1075: Load Byte and Zero
+Decode 2 D-form Inst:                 1076: Load Byte and Zero
+Decode 2 D-form Inst:                 1077: Load Byte and Zero
+Decode 2 D-form Inst:                 1078: Load Byte and Zero
+Decode 2 D-form Inst:                 1079: Load Byte and Zero
+Decode 2 D-form Inst:                 1080: Load Byte and Zero
+Decode 2 D-form Inst:                 1081: Load Byte and Zero
+Decode 2 D-form Inst:                 1082: Load Byte and Zero
+Decode 2 D-form Inst:                 1083: Load Byte and Zero
+Decode 2 D-form Inst:                 1084: Load Byte and Zero
+Decode 2 D-form Inst:                 1085: Load Byte and Zero with update
+Decode 2 D-form Inst:                 1086: Load Byte and Zero with update
+Decode 2 D-form Inst:                 1087: Load Byte and Zero with update
+Decode 2 D-form Inst:                 1088: Load Byte and Zero with update
+Decode 2 D-form Inst:                 1089: Load Byte and Zero with update
+Decode 2 D-form Inst:                 1090: Load Byte and Zero with update
+Decode 2 D-form Inst:                 1091: Load Byte and Zero with update
+Decode 2 D-form Inst:                 1092: Load Byte and Zero with update
+Decode 2 D-form Inst:                 1093: Load Byte and Zero with update
+Decode 2 D-form Inst:                 1094: Load Byte and Zero with update
+Decode 2 D-form Inst:                 1095: Load Byte and Zero with update
+Decode 2 D-form Inst:                 1096: Load Byte and Zero with update
+Decode 2 D-form Inst:                 1097: Load Byte and Zero with update
+Decode 2 D-form Inst:                 1098: Load Byte and Zero with update
+Decode 2 D-form Inst:                 1099: Load Byte and Zero with update
+Decode 2 D-form Inst:                 1100: Load Byte and Zero with update
+Decode 2 D-form Inst:                 1101: Load Byte and Zero with update
+Decode 2 D-form Inst:                 1102: Load Byte and Zero with update
+Decode 2 D-form Inst:                 1103: Load Byte and Zero with update
+Decode 2 D-form Inst:                 1104: Load Byte and Zero with update
+Decode 2 D-form Inst:                 1105: Load Byte and Zero with update
+Decode 2 D-form Inst:                 1106: Load Byte and Zero with update
+Decode 2 D-form Inst:                 1107: Load Byte and Zero with update
+Decode 2 D-form Inst:                 1108: Load Byte and Zero with update
+Decode 2 D-form Inst:                 1109: Load Byte and Zero with update
+Decode 2 D-form Inst:                 1110: Load Byte and Zero with update
+Decode 2 D-form Inst:                 1111: Load Byte and Zero with update
+Decode 2 D-form Inst:                 1112: Load Byte and Zero with update
+Decode 2 D-form Inst:                 1113: Load Byte and Zero with update
+Decode 2 D-form Inst:                 1114: Load Byte and Zero with update
+Decode 2 D-form Inst:                 1115: Load Byte and Zero with update
+Decode 2 D-form Inst:                 1116: D-form Inst: Store word
+Decode 2 D-form Inst:                 1117: D-form Inst: Store word
+Decode 2 D-form Inst:                 1118: D-form Inst: Store word
+Decode 2 D-form Inst:                 1119: D-form Inst: Store word
+Decode 2 D-form Inst:                 1120: D-form Inst: Store word
+Decode 2 D-form Inst:                 1121: D-form Inst: Store word
+Decode 2 D-form Inst:                 1122: D-form Inst: Store word
+Decode 2 D-form Inst:                 1123: D-form Inst: Store word
+Decode 2 D-form Inst:                 1124: D-form Inst: Store word
+Decode 2 D-form Inst:                 1125: D-form Inst: Store word
+Decode 2 D-form Inst:                 1126: D-form Inst: Store word
+Decode 2 D-form Inst:                 1127: D-form Inst: Store word
+Decode 2 D-form Inst:                 1128: D-form Inst: Store word
+Decode 2 D-form Inst:                 1129: D-form Inst: Store word
+Decode 2 D-form Inst:                 1130: D-form Inst: Store word
+Decode 2 D-form Inst:                 1131: D-form Inst: Store word
+Decode 2 D-form Inst:                 1132: D-form Inst: Store word
+Decode 2 D-form Inst:                 1133: D-form Inst: Store word
+Decode 2 D-form Inst:                 1134: D-form Inst: Store word
+Decode 2 D-form Inst:                 1135: D-form Inst: Store word
+Decode 2 D-form Inst:                 1136: D-form Inst: Store word
+Decode 2 D-form Inst:                 1137: D-form Inst: Store word
+Decode 2 D-form Inst:                 1138: D-form Inst: Store word
+Decode 2 D-form Inst:                 1139: D-form Inst: Store word
+Decode 2 D-form Inst:                 1140: D-form Inst: Store word
+Decode 2 D-form Inst:                 1141: D-form Inst: Store word
+Decode 2 D-form Inst:                 1142: D-form Inst: Store word
+Decode 2 D-form Inst:                 1143: D-form Inst: Store word
+Decode 2 D-form Inst:                 1144: D-form Inst: Store word
+Decode 2 D-form Inst:                 1145: D-form Inst: Store word
+Decode 2 D-form Inst:                 1146: D-form Inst: Store word
+Decode 2 D-form Inst:                 1147: D-form Inst: Store word with update
+Decode 2 D-form Inst:                 1148: D-form Inst: Store word with update
+Decode 2 D-form Inst:                 1149: D-form Inst: Store word with update
+Decode 2 D-form Inst:                 1150: D-form Inst: Store word with update
+Decode 2 D-form Inst:                 1151: D-form Inst: Store word with update
+Decode 2 D-form Inst:                 1152: D-form Inst: Store word with update
+Decode 2 D-form Inst:                 1153: D-form Inst: Store word with update
+Decode 2 D-form Inst:                 1154: D-form Inst: Store word with update
+Decode 2 D-form Inst:                 1155: D-form Inst: Store word with update
+Decode 2 D-form Inst:                 1156: D-form Inst: Store word with update
+Decode 2 D-form Inst:                 1157: D-form Inst: Store word with update
+Decode 2 D-form Inst:                 1158: D-form Inst: Store word with update
+Decode 2 D-form Inst:                 1159: D-form Inst: Store word with update
+Decode 2 D-form Inst:                 1160: D-form Inst: Store word with update
+Decode 2 D-form Inst:                 1161: D-form Inst: Store word with update
+Decode 2 D-form Inst:                 1162: D-form Inst: Store word with update
+Decode 2 D-form Inst:                 1163: D-form Inst: Store word with update
+Decode 2 D-form Inst:                 1164: D-form Inst: Store word with update
+Decode 2 D-form Inst:                 1165: D-form Inst: Store word with update
+Decode 2 D-form Inst:                 1166: D-form Inst: Store word with update
+Decode 2 D-form Inst:                 1167: D-form Inst: Store word with update
+Decode 2 D-form Inst:                 1168: D-form Inst: Store word with update
+Decode 2 D-form Inst:                 1169: D-form Inst: Store word with update
+Decode 2 D-form Inst:                 1170: D-form Inst: Store word with update
+Decode 2 D-form Inst:                 1171: D-form Inst: Store word with update
+Decode 2 D-form Inst:                 1172: D-form Inst: Store word with update
+Decode 2 D-form Inst:                 1173: D-form Inst: Store word with update
+Decode 2 D-form Inst:                 1174: D-form Inst: Store word with update
+Decode 2 D-form Inst:                 1175: D-form Inst: Store word with update
+Decode 2 D-form Inst:                 1176: D-form Inst: Store word with update
+Decode 2 D-form Inst:                 1177: D-form Inst: Store word with update
+Decode 2 D-form Inst:                 1178: D-form Inst: Store byte
+Decode 2 D-form Inst:                 1179: D-form Inst: Store byte
+Decode 2 D-form Inst:                 1180: D-form Inst: Store byte
+Decode 2 D-form Inst:                 1181: D-form Inst: Store byte
+Decode 2 D-form Inst:                 1182: D-form Inst: Store byte
+Decode 2 D-form Inst:                 1183: D-form Inst: Store byte
+Decode 2 D-form Inst:                 1184: D-form Inst: Store byte
+Decode 2 D-form Inst:                 1185: D-form Inst: Store byte
+Decode 2 D-form Inst:                 1186: D-form Inst: Store byte
+Decode 2 D-form Inst:                 1187: D-form Inst: Store byte
+Decode 2 D-form Inst:                 1188: D-form Inst: Store byte
+Decode 2 D-form Inst:                 1189: D-form Inst: Store byte
+Decode 2 D-form Inst:                 1190: D-form Inst: Store byte
+Decode 2 D-form Inst:                 1191: D-form Inst: Store byte
+Decode 2 D-form Inst:                 1192: D-form Inst: Store byte
+Decode 2 D-form Inst:                 1193: D-form Inst: Store byte
+Decode 2 D-form Inst:                 1194: D-form Inst: Store byte
+Decode 2 D-form Inst:                 1195: D-form Inst: Store byte
+Decode 2 D-form Inst:                 1196: D-form Inst: Store byte
+Decode 2 D-form Inst:                 1197: D-form Inst: Store byte
+Decode 2 D-form Inst:                 1198: D-form Inst: Store byte
+Decode 2 D-form Inst:                 1199: D-form Inst: Store byte
+Decode 2 D-form Inst:                 1200: D-form Inst: Store byte
+Decode 2 D-form Inst:                 1201: D-form Inst: Store byte
+Decode 2 D-form Inst:                 1202: D-form Inst: Store byte
+Decode 2 D-form Inst:                 1203: D-form Inst: Store byte
+Decode 2 D-form Inst:                 1204: D-form Inst: Store byte
+Decode 2 D-form Inst:                 1205: D-form Inst: Store byte
+Decode 2 D-form Inst:                 1206: D-form Inst: Store byte
+Decode 2 D-form Inst:                 1207: D-form Inst: Store byte
+Decode 2 D-form Inst:                 1208: D-form Inst: Store byte
+Decode 2 D-form Inst:                 1209: D-form Inst: Store byte with update
+Decode 2 D-form Inst:                 1210: D-form Inst: Store byte with update
+Decode 2 D-form Inst:                 1211: D-form Inst: Store byte with update
+Decode 2 D-form Inst:                 1212: D-form Inst: Store byte with update
+Decode 2 D-form Inst:                 1213: D-form Inst: Store byte with update
+Decode 2 D-form Inst:                 1214: D-form Inst: Store byte with update
+Decode 2 D-form Inst:                 1215: D-form Inst: Store byte with update
+Decode 2 D-form Inst:                 1216: D-form Inst: Store byte with update
+Decode 2 D-form Inst:                 1217: D-form Inst: Store byte with update
+Decode 2 D-form Inst:                 1218: D-form Inst: Store byte with update
+Decode 2 D-form Inst:                 1219: D-form Inst: Store byte with update
+Decode 2 D-form Inst:                 1220: D-form Inst: Store byte with update
+Decode 2 D-form Inst:                 1221: D-form Inst: Store byte with update
+Decode 2 D-form Inst:                 1222: D-form Inst: Store byte with update
+Decode 2 D-form Inst:                 1223: D-form Inst: Store byte with update
+Decode 2 D-form Inst:                 1224: D-form Inst: Store byte with update
+Decode 2 D-form Inst:                 1225: D-form Inst: Store byte with update
+Decode 2 D-form Inst:                 1226: D-form Inst: Store byte with update
+Decode 2 D-form Inst:                 1227: D-form Inst: Store byte with update
+Decode 2 D-form Inst:                 1228: D-form Inst: Store byte with update
+Decode 2 D-form Inst:                 1229: D-form Inst: Store byte with update
+Decode 2 D-form Inst:                 1230: D-form Inst: Store byte with update
+Decode 2 D-form Inst:                 1231: D-form Inst: Store byte with update
+Decode 2 D-form Inst:                 1232: D-form Inst: Store byte with update
+Decode 2 D-form Inst:                 1233: D-form Inst: Store byte with update
+Decode 2 D-form Inst:                 1234: D-form Inst: Store byte with update
+Decode 2 D-form Inst:                 1235: D-form Inst: Store byte with update
+Decode 2 D-form Inst:                 1236: D-form Inst: Store byte with update
+Decode 2 D-form Inst:                 1237: D-form Inst: Store byte with update
+Decode 2 D-form Inst:                 1238: D-form Inst: Store byte with update
+Decode 2 D-form Inst:                 1239: D-form Inst: Store byte with update
+Decode 2 D-form Inst:                 1240: Load Half word and Zero
+Decode 2 D-form Inst:                 1241: Load Half word and Zero
+Decode 2 D-form Inst:                 1242: Load Half word and Zero
+Decode 2 D-form Inst:                 1243: Load Half word and Zero
+Decode 2 D-form Inst:                 1244: Load Half word and Zero
+Decode 2 D-form Inst:                 1245: Load Half word and Zero
+Decode 2 D-form Inst:                 1246: Load Half word and Zero
+Decode 2 D-form Inst:                 1247: Load Half word and Zero
+Decode 2 D-form Inst:                 1248: Load Half word and Zero
+Decode 2 D-form Inst:                 1249: Load Half word and Zero
+Decode 2 D-form Inst:                 1250: Load Half word and Zero
+Decode 2 D-form Inst:                 1251: Load Half word and Zero
+Decode 2 D-form Inst:                 1252: Load Half word and Zero
+Decode 2 D-form Inst:                 1253: Load Half word and Zero
+Decode 2 D-form Inst:                 1254: Load Half word and Zero
+Decode 2 D-form Inst:                 1255: Load Half word and Zero
+Decode 2 D-form Inst:                 1256: Load Half word and Zero
+Decode 2 D-form Inst:                 1257: Load Half word and Zero
+Decode 2 D-form Inst:                 1258: Load Half word and Zero
+Decode 2 D-form Inst:                 1259: Load Half word and Zero
+Decode 2 D-form Inst:                 1260: Load Half word and Zero
+Decode 2 D-form Inst:                 1261: Load Half word and Zero
+Decode 2 D-form Inst:                 1262: Load Half word and Zero
+Decode 2 D-form Inst:                 1263: Load Half word and Zero
+Decode 2 D-form Inst:                 1264: Load Half word and Zero
+Decode 2 D-form Inst:                 1265: Load Half word and Zero
+Decode 2 D-form Inst:                 1266: Load Half word and Zero
+Decode 2 D-form Inst:                 1267: Load Half word and Zero
+Decode 2 D-form Inst:                 1268: Load Half word and Zero
+Decode 2 D-form Inst:                 1269: Load Half word and Zero
+Decode 2 D-form Inst:                 1270: Load Half word and Zero
+Decode 2 D-form Inst:                 1271: Load Half word and Zero with update
+Decode 2 D-form Inst:                 1272: Load Half word and Zero with update
+Decode 2 D-form Inst:                 1273: Load Half word and Zero with update
+Decode 2 D-form Inst:                 1274: Load Half word and Zero with update
+Decode 2 D-form Inst:                 1275: Load Half word and Zero with update
+Decode 2 D-form Inst:                 1276: Load Half word and Zero with update
+Decode 2 D-form Inst:                 1277: Load Half word and Zero with update
+Decode 2 D-form Inst:                 1278: Load Half word and Zero with update
+Decode 2 D-form Inst:                 1279: Load Half word and Zero with update
+Decode 2 D-form Inst:                 1280: Load Half word and Zero with update
+Decode 2 D-form Inst:                 1281: Load Half word and Zero with update
+Decode 2 D-form Inst:                 1282: Load Half word and Zero with update
+Decode 2 D-form Inst:                 1283: Load Half word and Zero with update
+Decode 2 D-form Inst:                 1284: Load Half word and Zero with update
+Decode 2 D-form Inst:                 1285: Load Half word and Zero with update
+Decode 2 D-form Inst:                 1286: Load Half word and Zero with update
+Decode 2 D-form Inst:                 1287: Load Half word and Zero with update
+Decode 2 D-form Inst:                 1288: Load Half word and Zero with update
+Decode 2 D-form Inst:                 1289: Load Half word and Zero with update
+Decode 2 D-form Inst:                 1290: Load Half word and Zero with update
+Decode 2 D-form Inst:                 1291: Load Half word and Zero with update
+Decode 2 D-form Inst:                 1292: Load Half word and Zero with update
+Decode 2 D-form Inst:                 1293: Load Half word and Zero with update
+Decode 2 D-form Inst:                 1294: Load Half word and Zero with update
+Decode 2 D-form Inst:                 1295: Load Half word and Zero with update
+Decode 2 D-form Inst:                 1296: Load Half word and Zero with update
+Decode 2 D-form Inst:                 1297: Load Half word and Zero with update
+Decode 2 D-form Inst:                 1298: Load Half word and Zero with update
+Decode 2 D-form Inst:                 1299: Load Half word and Zero with update
+Decode 2 D-form Inst:                 1300: Load Half word and Zero with update
+Decode 2 D-form Inst:                 1301: Load Half word and Zero with update
+Decode 2 D-form Inst:                 1302: Load Half word algebraic
+Decode 2 D-form Inst:                 1303: Load Half word algebraic
+Decode 2 D-form Inst:                 1304: Load Half word algebraic
+Decode 2 D-form Inst:                 1305: Load Half word algebraic
+Decode 2 D-form Inst:                 1306: Load Half word algebraic
+Decode 2 D-form Inst:                 1307: Load Half word algebraic
+Decode 2 D-form Inst:                 1308: Load Half word algebraic
+Decode 2 D-form Inst:                 1309: Load Half word algebraic
+Decode 2 D-form Inst:                 1310: Load Half word algebraic
+Decode 2 D-form Inst:                 1311: Load Half word algebraic
+Decode 2 D-form Inst:                 1312: Load Half word algebraic
+Decode 2 D-form Inst:                 1313: Load Half word algebraic
+Decode 2 D-form Inst:                 1314: Load Half word algebraic
+Decode 2 D-form Inst:                 1315: Load Half word algebraic
+Decode 2 D-form Inst:                 1316: Load Half word algebraic
+Decode 2 D-form Inst:                 1317: Load Half word algebraic
+Decode 2 D-form Inst:                 1318: Load Half word algebraic
+Decode 2 D-form Inst:                 1319: Load Half word algebraic
+Decode 2 D-form Inst:                 1320: Load Half word algebraic
+Decode 2 D-form Inst:                 1321: Load Half word algebraic
+Decode 2 D-form Inst:                 1322: Load Half word algebraic
+Decode 2 D-form Inst:                 1323: Load Half word algebraic
+Decode 2 D-form Inst:                 1324: Load Half word algebraic
+Decode 2 D-form Inst:                 1325: Load Half word algebraic
+Decode 2 D-form Inst:                 1326: Load Half word algebraic
+Decode 2 D-form Inst:                 1327: Load Half word algebraic
+Decode 2 D-form Inst:                 1328: Load Half word algebraic
+Decode 2 D-form Inst:                 1329: Load Half word algebraic
+Decode 2 D-form Inst:                 1330: Load Half word algebraic
+Decode 2 D-form Inst:                 1331: Load Half word algebraic
+Decode 2 D-form Inst:                 1332: Load Half word algebraic
+Decode 2 D-form Inst:                 1333: Load Half word algebraic with update
+Decode 2 D-form Inst:                 1334: Load Half word algebraic with update
+Decode 2 D-form Inst:                 1335: Load Half word algebraic with update
+Decode 2 D-form Inst:                 1336: Load Half word algebraic with update
+Decode 2 D-form Inst:                 1337: Load Half word algebraic with update
+Decode 2 D-form Inst:                 1338: Load Half word algebraic with update
+Decode 2 D-form Inst:                 1339: Load Half word algebraic with update
+Decode 2 D-form Inst:                 1340: Load Half word algebraic with update
+Decode 2 D-form Inst:                 1341: Load Half word algebraic with update
+Decode 2 D-form Inst:                 1342: Load Half word algebraic with update
+Decode 2 D-form Inst:                 1343: Load Half word algebraic with update
+Decode 2 D-form Inst:                 1344: Load Half word algebraic with update
+Decode 2 D-form Inst:                 1345: Load Half word algebraic with update
+Decode 2 D-form Inst:                 1346: Load Half word algebraic with update
+Decode 2 D-form Inst:                 1347: Load Half word algebraic with update
+Decode 2 D-form Inst:                 1348: Load Half word algebraic with update
+Decode 2 D-form Inst:                 1349: Load Half word algebraic with update
+Decode 2 D-form Inst:                 1350: Load Half word algebraic with update
+Decode 2 D-form Inst:                 1351: Load Half word algebraic with update
+Decode 2 D-form Inst:                 1352: Load Half word algebraic with update
+Decode 2 D-form Inst:                 1353: Load Half word algebraic with update
+Decode 2 D-form Inst:                 1354: Load Half word algebraic with update
+Decode 2 D-form Inst:                 1355: Load Half word algebraic with update
+Decode 2 D-form Inst:                 1356: Load Half word algebraic with update
+Decode 2 D-form Inst:                 1357: Load Half word algebraic with update
+Decode 2 D-form Inst:                 1358: Load Half word algebraic with update
+Decode 2 D-form Inst:                 1359: Load Half word algebraic with update
+Decode 2 D-form Inst:                 1360: Load Half word algebraic with update
+Decode 2 D-form Inst:                 1361: Load Half word algebraic with update
+Decode 2 D-form Inst:                 1362: Load Half word algebraic with update
+Decode 2 D-form Inst:                 1363: Load Half word algebraic with update
+Decode 2 D-form Inst:                 1364: D-form Inst: Store halfword
+Decode 2 D-form Inst:                 1365: D-form Inst: Store halfword
+Decode 2 D-form Inst:                 1366: D-form Inst: Store halfword
+Decode 2 D-form Inst:                 1367: D-form Inst: Store halfword
+Decode 2 D-form Inst:                 1368: D-form Inst: Store halfword
+Decode 2 D-form Inst:                 1369: D-form Inst: Store halfword
+Decode 2 D-form Inst:                 1370: D-form Inst: Store halfword
+Decode 2 D-form Inst:                 1371: D-form Inst: Store halfword
+Decode 2 D-form Inst:                 1372: D-form Inst: Store halfword
+Decode 2 D-form Inst:                 1373: D-form Inst: Store halfword
+Decode 2 D-form Inst:                 1374: D-form Inst: Store halfword
+Decode 2 D-form Inst:                 1375: D-form Inst: Store halfword
+Decode 2 D-form Inst:                 1376: D-form Inst: Store halfword
+Decode 2 D-form Inst:                 1377: D-form Inst: Store halfword
+Decode 2 D-form Inst:                 1378: D-form Inst: Store halfword
+Decode 2 D-form Inst:                 1379: D-form Inst: Store halfword
+Decode 2 D-form Inst:                 1380: D-form Inst: Store halfword
+Decode 2 D-form Inst:                 1381: D-form Inst: Store halfword
+Decode 2 D-form Inst:                 1382: D-form Inst: Store halfword
+Decode 2 D-form Inst:                 1383: D-form Inst: Store halfword
+Decode 2 D-form Inst:                 1384: D-form Inst: Store halfword
+Decode 2 D-form Inst:                 1385: D-form Inst: Store halfword
+Decode 2 D-form Inst:                 1386: D-form Inst: Store halfword
+Decode 2 D-form Inst:                 1387: D-form Inst: Store halfword
+Decode 2 D-form Inst:                 1388: D-form Inst: Store halfword
+Decode 2 D-form Inst:                 1389: D-form Inst: Store halfword
+Decode 2 D-form Inst:                 1390: D-form Inst: Store halfword
+Decode 2 D-form Inst:                 1391: D-form Inst: Store halfword
+Decode 2 D-form Inst:                 1392: D-form Inst: Store halfword
+Decode 2 D-form Inst:                 1393: D-form Inst: Store halfword
+Decode 2 D-form Inst:                 1394: D-form Inst: Store halfword
+Decode 2 D-form Inst:                 1395: D-form Inst: store halfword with update
+Decode 2 D-form Inst:                 1396: D-form Inst: store halfword with update
+Decode 2 D-form Inst:                 1397: D-form Inst: store halfword with update
+Decode 2 D-form Inst:                 1398: D-form Inst: store halfword with update
+Decode 2 D-form Inst:                 1399: D-form Inst: store halfword with update
+Decode 2 D-form Inst:                 1400: D-form Inst: store halfword with update
+Decode 2 D-form Inst:                 1401: D-form Inst: store halfword with update
+Decode 2 D-form Inst:                 1402: D-form Inst: store halfword with update
+Decode 2 D-form Inst:                 1403: D-form Inst: store halfword with update
+Decode 2 D-form Inst:                 1404: D-form Inst: store halfword with update
+Decode 2 D-form Inst:                 1405: D-form Inst: store halfword with update
+Decode 2 D-form Inst:                 1406: D-form Inst: store halfword with update
+Decode 2 D-form Inst:                 1407: D-form Inst: store halfword with update
+Decode 2 D-form Inst:                 1408: D-form Inst: store halfword with update
+Decode 2 D-form Inst:                 1409: D-form Inst: store halfword with update
+Decode 2 D-form Inst:                 1410: D-form Inst: store halfword with update
+Decode 2 D-form Inst:                 1411: D-form Inst: store halfword with update
+Decode 2 D-form Inst:                 1412: D-form Inst: store halfword with update
+Decode 2 D-form Inst:                 1413: D-form Inst: store halfword with update
+Decode 2 D-form Inst:                 1414: D-form Inst: store halfword with update
+Decode 2 D-form Inst:                 1415: D-form Inst: store halfword with update
+Decode 2 D-form Inst:                 1416: D-form Inst: store halfword with update
+Decode 2 D-form Inst:                 1417: D-form Inst: store halfword with update
+Decode 2 D-form Inst:                 1418: D-form Inst: store halfword with update
+Decode 2 D-form Inst:                 1419: D-form Inst: store halfword with update
+Decode 2 D-form Inst:                 1420: D-form Inst: store halfword with update
+Decode 2 D-form Inst:                 1421: D-form Inst: store halfword with update
+Decode 2 D-form Inst:                 1422: D-form Inst: store halfword with update
+Decode 2 D-form Inst:                 1423: D-form Inst: store halfword with update
+Decode 2 D-form Inst:                 1424: D-form Inst: store halfword with update
+Decode 2 D-form Inst:                 1425: D-form Inst: store halfword with update
+Decode 2 D-form Inst:                 1426: D-form Inst: Load multiple word
+Decode 2 D-form Inst:                 1427: D-form Inst: Load multiple word
+Decode 2 D-form Inst:                 1428: D-form Inst: Load multiple word
+Decode 2 D-form Inst:                 1429: D-form Inst: Load multiple word
+Decode 2 D-form Inst:                 1430: D-form Inst: Load multiple word
+Decode 2 D-form Inst:                 1431: D-form Inst: Load multiple word
+Decode 2 D-form Inst:                 1432: D-form Inst: Load multiple word
+Decode 2 D-form Inst:                 1433: D-form Inst: Load multiple word
+Decode 2 D-form Inst:                 1434: D-form Inst: Load multiple word
+Decode 2 D-form Inst:                 1435: D-form Inst: Load multiple word
+Decode 2 D-form Inst:                 1436: D-form Inst: Load multiple word
+Decode 2 D-form Inst:                 1437: D-form Inst: Load multiple word
+Decode 2 D-form Inst:                 1438: D-form Inst: Load multiple word
+Decode 2 D-form Inst:                 1439: D-form Inst: Load multiple word
+Decode 2 D-form Inst:                 1440: D-form Inst: Load multiple word
+Decode 2 D-form Inst:                 1441: D-form Inst: Load multiple word
+Decode 2 D-form Inst:                 1442: D-form Inst: Load multiple word
+Decode 2 D-form Inst:                 1443: D-form Inst: Load multiple word
+Decode 2 D-form Inst:                 1444: D-form Inst: Load multiple word
+Decode 2 D-form Inst:                 1445: D-form Inst: Load multiple word
+Decode 2 D-form Inst:                 1446: D-form Inst: Load multiple word
+Decode 2 D-form Inst:                 1447: D-form Inst: Load multiple word
+Decode 2 D-form Inst:                 1448: D-form Inst: Load multiple word
+Decode 2 D-form Inst:                 1449: D-form Inst: Load multiple word
+Decode 2 D-form Inst:                 1450: D-form Inst: Load multiple word
+Decode 2 D-form Inst:                 1451: D-form Inst: Load multiple word
+Decode 2 D-form Inst:                 1452: D-form Inst: Load multiple word
+Decode 2 D-form Inst:                 1453: D-form Inst: Load multiple word
+Decode 2 D-form Inst:                 1454: D-form Inst: Load multiple word
+Decode 2 D-form Inst:                 1455: D-form Inst: Load multiple word
+Decode 2 D-form Inst:                 1456: D-form Inst: Load multiple word
+Decode 2 D-form Inst:                 1457: D-form Inst: Store multiple word
+Decode 2 D-form Inst:                 1458: D-form Inst: Store multiple word
+Decode 2 D-form Inst:                 1459: D-form Inst: Store multiple word
+Decode 2 D-form Inst:                 1460: D-form Inst: Store multiple word
+Decode 2 D-form Inst:                 1461: D-form Inst: Store multiple word
+Decode 2 D-form Inst:                 1462: D-form Inst: Store multiple word
+Decode 2 D-form Inst:                 1463: D-form Inst: Store multiple word
+Decode 2 D-form Inst:                 1464: D-form Inst: Store multiple word
+Decode 2 D-form Inst:                 1465: D-form Inst: Store multiple word
+Decode 2 D-form Inst:                 1466: D-form Inst: Store multiple word
+Decode 2 D-form Inst:                 1467: D-form Inst: Store multiple word
+Decode 2 D-form Inst:                 1468: D-form Inst: Store multiple word
+Decode 2 D-form Inst:                 1469: D-form Inst: Store multiple word
+Decode 2 D-form Inst:                 1470: D-form Inst: Store multiple word
+Decode 2 D-form Inst:                 1471: D-form Inst: Store multiple word
+Decode 2 D-form Inst:                 1472: D-form Inst: Store multiple word
+Decode 2 D-form Inst:                 1473: D-form Inst: Store multiple word
+Decode 2 D-form Inst:                 1474: D-form Inst: Store multiple word
+Decode 2 D-form Inst:                 1475: D-form Inst: Store multiple word
+Decode 2 D-form Inst:                 1476: D-form Inst: Store multiple word
+Decode 2 D-form Inst:                 1477: D-form Inst: Store multiple word
+Decode 2 D-form Inst:                 1478: D-form Inst: Store multiple word
+Decode 2 D-form Inst:                 1479: D-form Inst: Store multiple word
+Decode 2 D-form Inst:                 1480: D-form Inst: Store multiple word
+Decode 2 D-form Inst:                 1481: D-form Inst: Store multiple word
+Decode 2 D-form Inst:                 1482: D-form Inst: Store multiple word
+Decode 2 D-form Inst:                 1483: D-form Inst: Store multiple word
+Decode 2 D-form Inst:                 1484: D-form Inst: Store multiple word
+Decode 2 D-form Inst:                 1485: D-form Inst: Store multiple word
+Decode 2 D-form Inst:                 1486: D-form Inst: Store multiple word
+Decode 2 D-form Inst:                 1487: D-form Inst: Store multiple word
+Decode 2 D-form Inst:                 1488: D-form Inst: Load floating point single
+Decode 2 D-form Inst:                 1489: D-form Inst: Load floating point single
+Decode 2 D-form Inst:                 1490: D-form Inst: Load floating point single
+Decode 2 D-form Inst:                 1491: D-form Inst: Load floating point single
+Decode 2 D-form Inst:                 1492: D-form Inst: Load floating point single
+Decode 2 D-form Inst:                 1493: D-form Inst: Load floating point single
+Decode 2 D-form Inst:                 1494: D-form Inst: Load floating point single
+Decode 2 D-form Inst:                 1495: D-form Inst: Load floating point single
+Decode 2 D-form Inst:                 1496: D-form Inst: Load floating point single
+Decode 2 D-form Inst:                 1497: D-form Inst: Load floating point single
+Decode 2 D-form Inst:                 1498: D-form Inst: Load floating point single
+Decode 2 D-form Inst:                 1499: D-form Inst: Load floating point single
+Decode 2 D-form Inst:                 1500: D-form Inst: Load floating point single
+Decode 2 D-form Inst:                 1501: D-form Inst: Load floating point single
+Decode 2 D-form Inst:                 1502: D-form Inst: Load floating point single
+Decode 2 D-form Inst:                 1503: D-form Inst: Load floating point single
+Decode 2 D-form Inst:                 1504: D-form Inst: Load floating point single
+Decode 2 D-form Inst:                 1505: D-form Inst: Load floating point single
+Decode 2 D-form Inst:                 1506: D-form Inst: Load floating point single
+Decode 2 D-form Inst:                 1507: D-form Inst: Load floating point single
+Decode 2 D-form Inst:                 1508: D-form Inst: Load floating point single
+Decode 2 D-form Inst:                 1509: D-form Inst: Load floating point single
+Decode 2 D-form Inst:                 1510: D-form Inst: Load floating point single
+Decode 2 D-form Inst:                 1511: D-form Inst: Load floating point single
+Decode 2 D-form Inst:                 1512: D-form Inst: Load floating point single
+Decode 2 D-form Inst:                 1513: D-form Inst: Load floating point single
+Decode 2 D-form Inst:                 1514: D-form Inst: Load floating point single
+Decode 2 D-form Inst:                 1515: D-form Inst: Load floating point single
+Decode 2 D-form Inst:                 1516: D-form Inst: Load floating point single
+Decode 2 D-form Inst:                 1517: D-form Inst: Load floating point single
+Decode 2 D-form Inst:                 1518: D-form Inst: Load floating point single
+Decode 2 D-form Inst:                 1519: D-form Inst: Load floating point single with update
+Decode 2 D-form Inst:                 1520: D-form Inst: Load floating point single with update
+Decode 2 D-form Inst:                 1521: D-form Inst: Load floating point single with update
+Decode 2 D-form Inst:                 1522: D-form Inst: Load floating point single with update
+Decode 2 D-form Inst:                 1523: D-form Inst: Load floating point single with update
+Decode 2 D-form Inst:                 1524: D-form Inst: Load floating point single with update
+Decode 2 D-form Inst:                 1525: D-form Inst: Load floating point single with update
+Decode 2 D-form Inst:                 1526: D-form Inst: Load floating point single with update
+Decode 2 D-form Inst:                 1527: D-form Inst: Load floating point single with update
+Decode 2 D-form Inst:                 1528: D-form Inst: Load floating point single with update
+Decode 2 D-form Inst:                 1529: D-form Inst: Load floating point single with update
+Decode 2 D-form Inst:                 1530: D-form Inst: Load floating point single with update
+Decode 2 D-form Inst:                 1531: D-form Inst: Load floating point single with update
+Decode 2 D-form Inst:                 1532: D-form Inst: Load floating point single with update
+Decode 2 D-form Inst:                 1533: D-form Inst: Load floating point single with update
+Decode 2 D-form Inst:                 1534: D-form Inst: Load floating point single with update
+Decode 2 D-form Inst:                 1535: D-form Inst: Load floating point single with update
+Decode 2 D-form Inst:                 1536: D-form Inst: Load floating point single with update
+Decode 2 D-form Inst:                 1537: D-form Inst: Load floating point single with update
+Decode 2 D-form Inst:                 1538: D-form Inst: Load floating point single with update
+Decode 2 D-form Inst:                 1539: D-form Inst: Load floating point single with update
+Decode 2 D-form Inst:                 1540: D-form Inst: Load floating point single with update
+Decode 2 D-form Inst:                 1541: D-form Inst: Load floating point single with update
+Decode 2 D-form Inst:                 1542: D-form Inst: Load floating point single with update
+Decode 2 D-form Inst:                 1543: D-form Inst: Load floating point single with update
+Decode 2 D-form Inst:                 1544: D-form Inst: Load floating point single with update
+Decode 2 D-form Inst:                 1545: D-form Inst: Load floating point single with update
+Decode 2 D-form Inst:                 1546: D-form Inst: Load floating point single with update
+Decode 2 D-form Inst:                 1547: D-form Inst: Load floating point single with update
+Decode 2 D-form Inst:                 1548: D-form Inst: Load floating point single with update
+Decode 2 D-form Inst:                 1549: D-form Inst: Load floating point single with update
+Decode 2 D-form Inst:                 1550: D-form Inst: Load floating point double
+Decode 2 D-form Inst:                 1551: D-form Inst: Load floating point double
+Decode 2 D-form Inst:                 1552: D-form Inst: Load floating point double
+Decode 2 D-form Inst:                 1553: D-form Inst: Load floating point double
+Decode 2 D-form Inst:                 1554: D-form Inst: Load floating point double
+Decode 2 D-form Inst:                 1555: D-form Inst: Load floating point double
+Decode 2 D-form Inst:                 1556: D-form Inst: Load floating point double
+Decode 2 D-form Inst:                 1557: D-form Inst: Load floating point double
+Decode 2 D-form Inst:                 1558: D-form Inst: Load floating point double
+Decode 2 D-form Inst:                 1559: D-form Inst: Load floating point double
+Decode 2 D-form Inst:                 1560: D-form Inst: Load floating point double
+Decode 2 D-form Inst:                 1561: D-form Inst: Load floating point double
+Decode 2 D-form Inst:                 1562: D-form Inst: Load floating point double
+Decode 2 D-form Inst:                 1563: D-form Inst: Load floating point double
+Decode 2 D-form Inst:                 1564: D-form Inst: Load floating point double
+Decode 2 D-form Inst:                 1565: D-form Inst: Load floating point double
+Decode 2 D-form Inst:                 1566: D-form Inst: Load floating point double
+Decode 2 D-form Inst:                 1567: D-form Inst: Load floating point double
+Decode 2 D-form Inst:                 1568: D-form Inst: Load floating point double
+Decode 2 D-form Inst:                 1569: D-form Inst: Load floating point double
+Decode 2 D-form Inst:                 1570: D-form Inst: Load floating point double
+Decode 2 D-form Inst:                 1571: D-form Inst: Load floating point double
+Decode 2 D-form Inst:                 1572: D-form Inst: Load floating point double
+Decode 2 D-form Inst:                 1573: D-form Inst: Load floating point double
+Decode 2 D-form Inst:                 1574: D-form Inst: Load floating point double
+Decode 2 D-form Inst:                 1575: D-form Inst: Load floating point double
+Decode 2 D-form Inst:                 1576: D-form Inst: Load floating point double
+Decode 2 D-form Inst:                 1577: D-form Inst: Load floating point double
+Decode 2 D-form Inst:                 1578: D-form Inst: Load floating point double
+Decode 2 D-form Inst:                 1579: D-form Inst: Load floating point double
+Decode 2 D-form Inst:                 1580: D-form Inst: Load floating point double
+Decode 2 D-form Inst:                 1581: D-form Inst: Load floating point double with update
+Decode 2 D-form Inst:                 1582: D-form Inst: Load floating point double with update
+Decode 2 D-form Inst:                 1583: D-form Inst: Load floating point double with update
+Decode 2 D-form Inst:                 1584: D-form Inst: Load floating point double with update
+Decode 2 D-form Inst:                 1585: D-form Inst: Load floating point double with update
+Decode 2 D-form Inst:                 1586: D-form Inst: Load floating point double with update
+Decode 2 D-form Inst:                 1587: D-form Inst: Load floating point double with update
+Decode 2 D-form Inst:                 1588: D-form Inst: Load floating point double with update
+Decode 2 D-form Inst:                 1589: D-form Inst: Load floating point double with update
+Decode 2 D-form Inst:                 1590: D-form Inst: Load floating point double with update
+Decode 2 D-form Inst:                 1591: D-form Inst: Load floating point double with update
+Decode 2 D-form Inst:                 1592: D-form Inst: Load floating point double with update
+Decode 2 D-form Inst:                 1593: D-form Inst: Load floating point double with update
+Decode 2 D-form Inst:                 1594: D-form Inst: Load floating point double with update
+Decode 2 D-form Inst:                 1595: D-form Inst: Load floating point double with update
+Decode 2 D-form Inst:                 1596: D-form Inst: Load floating point double with update
+Decode 2 D-form Inst:                 1597: D-form Inst: Load floating point double with update
+Decode 2 D-form Inst:                 1598: D-form Inst: Load floating point double with update
+Decode 2 D-form Inst:                 1599: D-form Inst: Load floating point double with update
+Decode 2 D-form Inst:                 1600: D-form Inst: Load floating point double with update
+Decode 2 D-form Inst:                 1601: D-form Inst: Load floating point double with update
+Decode 2 D-form Inst:                 1602: D-form Inst: Load floating point double with update
+Decode 2 D-form Inst:                 1603: D-form Inst: Load floating point double with update
+Decode 2 D-form Inst:                 1604: D-form Inst: Load floating point double with update
+Decode 2 D-form Inst:                 1605: D-form Inst: Load floating point double with update
+Decode 2 D-form Inst:                 1606: D-form Inst: Load floating point double with update
+Decode 2 D-form Inst:                 1607: D-form Inst: Load floating point double with update
+Decode 2 D-form Inst:                 1608: D-form Inst: Load floating point double with update
+Decode 2 D-form Inst:                 1609: D-form Inst: Load floating point double with update
+Decode 2 D-form Inst:                 1610: D-form Inst: Load floating point double with update
+Decode 2 D-form Inst:                 1611: D-form Inst: Load floating point double with update
+Decode 2 D-form Inst:                 1612: D-form Inst: LStore floating point single
+Decode 2 D-form Inst:                 1613: D-form Inst: LStore floating point single
+Decode 2 D-form Inst:                 1614: D-form Inst: LStore floating point single
+Decode 2 D-form Inst:                 1615: D-form Inst: LStore floating point single
+Decode 2 D-form Inst:                 1616: D-form Inst: LStore floating point single
+Decode 2 D-form Inst:                 1617: D-form Inst: LStore floating point single
+Decode 2 D-form Inst:                 1618: D-form Inst: LStore floating point single
+Decode 2 D-form Inst:                 1619: D-form Inst: LStore floating point single
+Decode 2 D-form Inst:                 1620: D-form Inst: LStore floating point single
+Decode 2 D-form Inst:                 1621: D-form Inst: LStore floating point single
+Decode 2 D-form Inst:                 1622: D-form Inst: LStore floating point single
+Decode 2 D-form Inst:                 1623: D-form Inst: LStore floating point single
+Decode 2 D-form Inst:                 1624: D-form Inst: LStore floating point single
+Decode 2 D-form Inst:                 1625: D-form Inst: LStore floating point single
+Decode 2 D-form Inst:                 1626: D-form Inst: LStore floating point single
+Decode 2 D-form Inst:                 1627: D-form Inst: LStore floating point single
+Decode 2 D-form Inst:                 1628: D-form Inst: LStore floating point single
+Decode 2 D-form Inst:                 1629: D-form Inst: LStore floating point single
+Decode 2 D-form Inst:                 1630: D-form Inst: LStore floating point single
+Decode 2 D-form Inst:                 1631: D-form Inst: LStore floating point single
+Decode 2 D-form Inst:                 1632: D-form Inst: LStore floating point single
+Decode 2 D-form Inst:                 1633: D-form Inst: LStore floating point single
+Decode 2 D-form Inst:                 1634: D-form Inst: LStore floating point single
+Decode 2 D-form Inst:                 1635: D-form Inst: LStore floating point single
+Decode 2 D-form Inst:                 1636: D-form Inst: LStore floating point single
+Decode 2 D-form Inst:                 1637: D-form Inst: LStore floating point single
+Decode 2 D-form Inst:                 1638: D-form Inst: LStore floating point single
+Decode 2 D-form Inst:                 1639: D-form Inst: LStore floating point single
+Decode 2 D-form Inst:                 1640: D-form Inst: LStore floating point single
+Decode 2 D-form Inst:                 1641: D-form Inst: LStore floating point single
+Decode 2 D-form Inst:                 1642: D-form Inst: LStore floating point single
+Decode 2 D-form Inst:                 1643: D-form Inst: Store floating point single with update
+Decode 2 D-form Inst:                 1644: D-form Inst: Store floating point single with update
+Decode 2 D-form Inst:                 1645: D-form Inst: Store floating point single with update
+Decode 2 D-form Inst:                 1646: D-form Inst: Store floating point single with update
+Decode 2 D-form Inst:                 1647: D-form Inst: Store floating point single with update
+Decode 2 D-form Inst:                 1648: D-form Inst: Store floating point single with update
+Decode 2 D-form Inst:                 1649: D-form Inst: Store floating point single with update
+Decode 2 D-form Inst:                 1650: D-form Inst: Store floating point single with update
+Decode 2 D-form Inst:                 1651: D-form Inst: Store floating point single with update
+Decode 2 D-form Inst:                 1652: D-form Inst: Store floating point single with update
+Decode 2 D-form Inst:                 1653: D-form Inst: Store floating point single with update
+Decode 2 D-form Inst:                 1654: D-form Inst: Store floating point single with update
+Decode 2 D-form Inst:                 1655: D-form Inst: Store floating point single with update
+Decode 2 D-form Inst:                 1656: D-form Inst: Store floating point single with update
+Decode 2 D-form Inst:                 1657: D-form Inst: Store floating point single with update
+Decode 2 D-form Inst:                 1658: D-form Inst: Store floating point single with update
+Decode 2 D-form Inst:                 1659: D-form Inst: Store floating point single with update
+Decode 2 D-form Inst:                 1660: D-form Inst: Store floating point single with update
+Decode 2 D-form Inst:                 1661: D-form Inst: Store floating point single with update
+Decode 2 D-form Inst:                 1662: D-form Inst: Store floating point single with update
+Decode 2 D-form Inst:                 1663: D-form Inst: Store floating point single with update
+Decode 2 D-form Inst:                 1664: D-form Inst: Store floating point single with update
+Decode 2 D-form Inst:                 1665: D-form Inst: Store floating point single with update
+Decode 2 D-form Inst:                 1666: D-form Inst: Store floating point single with update
+Decode 2 D-form Inst:                 1667: D-form Inst: Store floating point single with update
+Decode 2 D-form Inst:                 1668: D-form Inst: Store floating point single with update
+Decode 2 D-form Inst:                 1669: D-form Inst: Store floating point single with update
+Decode 2 D-form Inst:                 1670: D-form Inst: Store floating point single with update
+Decode 2 D-form Inst:                 1671: D-form Inst: Store floating point single with update
+Decode 2 D-form Inst:                 1672: D-form Inst: Store floating point single with update
+Decode 2 D-form Inst:                 1673: D-form Inst: Store floating point single with update
+Decode 2 D-form Inst:                 1674: D-form Inst: LStore floating point double
+Decode 2 D-form Inst:                 1675: D-form Inst: LStore floating point double
+Decode 2 D-form Inst:                 1676: D-form Inst: LStore floating point double
+Decode 2 D-form Inst:                 1677: D-form Inst: LStore floating point double
+Decode 2 D-form Inst:                 1678: D-form Inst: LStore floating point double
+Decode 2 D-form Inst:                 1679: D-form Inst: LStore floating point double
+Decode 2 D-form Inst:                 1680: D-form Inst: LStore floating point double
+Decode 2 D-form Inst:                 1681: D-form Inst: LStore floating point double
+Decode 2 D-form Inst:                 1682: D-form Inst: LStore floating point double
+Decode 2 D-form Inst:                 1683: D-form Inst: LStore floating point double
+Decode 2 D-form Inst:                 1684: D-form Inst: LStore floating point double
+Decode 2 D-form Inst:                 1685: D-form Inst: LStore floating point double
+Decode 2 D-form Inst:                 1686: D-form Inst: LStore floating point double
+Decode 2 D-form Inst:                 1687: D-form Inst: LStore floating point double
+Decode 2 D-form Inst:                 1688: D-form Inst: LStore floating point double
+Decode 2 D-form Inst:                 1689: D-form Inst: LStore floating point double
+Decode 2 D-form Inst:                 1690: D-form Inst: LStore floating point double
+Decode 2 D-form Inst:                 1691: D-form Inst: LStore floating point double
+Decode 2 D-form Inst:                 1692: D-form Inst: LStore floating point double
+Decode 2 D-form Inst:                 1693: D-form Inst: LStore floating point double
+Decode 2 D-form Inst:                 1694: D-form Inst: LStore floating point double
+Decode 2 D-form Inst:                 1695: D-form Inst: LStore floating point double
+Decode 2 D-form Inst:                 1696: D-form Inst: LStore floating point double
+Decode 2 D-form Inst:                 1697: D-form Inst: LStore floating point double
+Decode 2 D-form Inst:                 1698: D-form Inst: LStore floating point double
+Decode 2 D-form Inst:                 1699: D-form Inst: LStore floating point double
+Decode 2 D-form Inst:                 1700: D-form Inst: LStore floating point double
+Decode 2 D-form Inst:                 1701: D-form Inst: LStore floating point double
+Decode 2 D-form Inst:                 1702: D-form Inst: LStore floating point double
+Decode 2 D-form Inst:                 1703: D-form Inst: LStore floating point double
+Decode 2 D-form Inst:                 1704: D-form Inst: LStore floating point double
+Decode 2 D-form Inst:                 1705: D-form Inst: Store floating point double with update
+Decode 2 D-form Inst:                 1706: D-form Inst: Store floating point double with update
+Decode 2 D-form Inst:                 1707: D-form Inst: Store floating point double with update
+Decode 2 D-form Inst:                 1708: D-form Inst: Store floating point double with update
+Decode 2 D-form Inst:                 1709: D-form Inst: Store floating point double with update
+Decode 2 D-form Inst:                 1710: D-form Inst: Store floating point double with update
+Decode 2 D-form Inst:                 1711: D-form Inst: Store floating point double with update
+Decode 2 D-form Inst:                 1712: D-form Inst: Store floating point double with update
+Decode 2 D-form Inst:                 1713: D-form Inst: Store floating point double with update
+Decode 2 D-form Inst:                 1714: D-form Inst: Store floating point double with update
+Decode 2 D-form Inst:                 1715: D-form Inst: Store floating point double with update
+Decode 2 D-form Inst:                 1716: D-form Inst: Store floating point double with update
+Decode 2 D-form Inst:                 1717: D-form Inst: Store floating point double with update
+Decode 2 D-form Inst:                 1718: D-form Inst: Store floating point double with update
+Decode 2 D-form Inst:                 1719: D-form Inst: Store floating point double with update
+Decode 2 D-form Inst:                 1720: D-form Inst: Store floating point double with update
+Decode 2 D-form Inst:                 1721: D-form Inst: Store floating point double with update
+Decode 2 D-form Inst:                 1722: D-form Inst: Store floating point double with update
+Decode 2 D-form Inst:                 1723: D-form Inst: Store floating point double with update
+Decode 2 D-form Inst:                 1724: D-form Inst: Store floating point double with update
+Decode 2 D-form Inst:                 1725: D-form Inst: Store floating point double with update
+Decode 2 D-form Inst:                 1726: D-form Inst: Store floating point double with update
+Decode 2 D-form Inst:                 1727: D-form Inst: Store floating point double with update
+Decode 2 D-form Inst:                 1728: D-form Inst: Store floating point double with update
+Decode 2 D-form Inst:                 1729: D-form Inst: Store floating point double with update
+Decode 2 D-form Inst:                 1730: D-form Inst: Store floating point double with update
+Decode 2 D-form Inst:                 1731: D-form Inst: Store floating point double with update
+Decode 2 D-form Inst:                 1732: D-form Inst: Store floating point double with update
+Decode 2 D-form Inst:                 1733: D-form Inst: Store floating point double with update
+Decode 2 D-form Inst:                 1734: D-form Inst: Store floating point double with update
+Decode 2 D-form Inst:                 1735: D-form Inst: Store floating point double with update

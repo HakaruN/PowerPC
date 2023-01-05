@@ -41,23 +41,23 @@ module DecodeTest #(
     reg [0:instructionCounterWidth-1] instMajIdIn;
 
     ///outputs
-    wire enableOut,
-    wire [0:opcodeSize-1] opcodeOut,
-    wire [0:addressWidth-1] addressOut,
-    wire [0:funcUnitCodeSize-1] funcUnitTypeOut,
-    wire [0:instructionCounterWidth-1] majIDOut,
-    wire [0:instMinIdWidth-1] minIDOut,
-    wire is64BitOut,
-    wire [0:PidSize-1] pidOut,
-    wire [0:TidSize-1] tidOut,
-    wire [0:regAccessPatternSize-1] op1rwOut, op2rwOut, op3rwOut, op4rwOut,
-    wire op1IsRegOut, op2IsRegOut, op3IsRegOut, op4IsRegOut,
-    wire [0:84-1] bodyOut//contains all operands. Large enough for 4 reg operands and a 64bit imm
+    wire enableOut;
+    wire [0:opcodeSize-1] opcodeOut;
+    wire [0:addressWidth-1] addressOut;
+    wire [0:funcUnitCodeSize-1] funcUnitTypeOut;
+    wire [0:instructionCounterWidth-1] majIDOut;
+    wire [0:instMinIdWidth-1] minIDOut;
+    wire is64BitOut;
+    wire [0:PidSize-1] pidOut;
+    wire [0:TidSize-1] tidOut;
+    wire [0:regAccessPatternSize-1] op1rwOut, op2rwOut, op3rwOut, op4rwOut;
+    wire op1IsRegOut, op2IsRegOut, op3IsRegOut, op4IsRegOut;
+    wire [0:84-1] bodyOut;//contains all operands. Large enough for 4 reg operands and a 64bit imm
 
     DecodeUnit
-    #(
+    #()
     decodeUnit
-    )(
+    (
     //////Inputs:
     .clock_i(clockIn),    
     //command
@@ -84,7 +84,9 @@ module DecodeTest #(
     .bodyOut(bodyOut)
     );
 
-integer loopCtr;
+integer instCtr;
+integer opcode;
+integer xopcode;
 
 initial begin
     $dumpfile("DecodeTest.vcd");
@@ -111,17 +113,32 @@ initial begin
     #1; 
 
     is64BitIn = 1;
+    enableIn = 1;
     //Put some instructions through
-    for(loopCtr = 0; loopCtr < 64; loopCtr = loopCtr + 1)
+    //for(loopCtr = 0; loopCtr < 32'b11111111_11111111_11111111_11111111; loopCtr = loopCtr + 1)
+
+    ///Test A format instructions:
+    //Iterate all possible opcodes
+    instCtr = 0;
+    for(opcode = 0; opcode < 6'b111111; opcode = opcode + 1)
     begin
-        //inc addr and id
-        addressIn = addressIn + 4; instMajIdIn = loopCtr;
-        instructionIn[0:primOpcodeSize-1] = loopCtr;
-        clockIn = 1;
-        #1;
-        clockIn = 0;
-        #1; 
+        //Iterate all possible xopcodes
+        for(xopcode = 0; xopcode < 5'b11111; xopcode = xopcode + 1)
+        begin
+            instMajIdIn = instCtr;
+            instructionIn[0:primOpcodeSize-1] = opcode;
+            instructionIn[26:30] = xopcode;
+            clockIn = 1;
+            #1;
+            clockIn = 0;
+            #1; 
+            $display();
+
+            addressIn = addressIn + 4;
+            instCtr = instCtr + 1;
+        end
     end
+
 
 end
 

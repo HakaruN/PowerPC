@@ -37,7 +37,7 @@ wire [0:PidSize-1] stage1instructionPidOut;
 wire [0:TidSize-1] stage1instructionTidOut;
 wire [0:instructionCounterWidth-1] stage1instructionMajIdOut;
 
-FormatDecoder #(
+FormatScanner #(
     //Sizes
     .addressWidth(addressWidth),
     .instructionWidth(instructionWidth),
@@ -94,11 +94,12 @@ initial begin
     for(i = 0; i < 2**6; i = i + 1)
     begin
         instructionIn[0:5] = i;//Just running through all opcodes
+        instructionMajIdIn = i;
         clockIn = 1;
         #1;
         clockIn = 0;
-        $display("Instruction opcode: %d", stage1OpcodeOut);
-        $display("      Instruction format bitfield: %b\n", stage1instFormatOut);
+        //$display("Instruction opcode: %d", stage1OpcodeOut);
+        //$display("      Instruction format bitfield: %b\n", stage1instFormatOut);
         #1;    
     end
     enableIn = 0;

@@ -193,8 +193,8 @@ begin
 
         case(instructionOpcode_i)
         34: begin //Load Byte and Zero - RT,RA,D
-            `ifdef DEBUG $display("Decode 2 D-form: Load Byte and Zero"); `endif
-            `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 D-form (Inst: %h): Load Byte and Zero", instructionMajId_i); `endif
+            `ifdef DEBUG $display("Decode 2 D-form Inst: Load Byte and Zero"); `endif
+            `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 D-form Inst: %d: Load Byte and Zero", instructionMajId_i); `endif
             opcode_o <= 25;
             //Special Regs: Na
             enable_o <= 1;
@@ -211,8 +211,8 @@ begin
             op2rw_o <= regRead;
         end
         35: begin //Load Byte and Zero with update - RT,RA,D
-            `ifdef DEBUG $display("Decode 2 D-form: Load Byte and Zero with update"); `endif
-            `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 D-form (Inst: %h): Load Byte and Zero with update", instructionMajId_i); `endif
+            `ifdef DEBUG $display("Decode 2 D-form Inst: Load Byte and Zero with update"); `endif
+            `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 D-form Inst: %d: Load Byte and Zero with update", instructionMajId_i); `endif
             opcode_o <= 26;
             //Special Regs: Na
             enable_o <= 1;
@@ -224,8 +224,8 @@ begin
             op2rw_o <= regRead | regWrite;
         end
         40: begin //Load Half word and Zero - RT,RA,D
-            `ifdef DEBUG $display("Decode 2 D-form: Load Half word and Zero"); `endif
-            `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 D-form (Inst: %h): Load Half word and Zero", instructionMajId_i); `endif
+            `ifdef DEBUG $display("Decode 2 D-form Inst: Load Half word and Zero"); `endif
+            `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 D-form Inst: %d: Load Half word and Zero", instructionMajId_i); `endif
             opcode_o <= 27;
             //Special Regs: Na
             enable_o <= 1;
@@ -242,8 +242,8 @@ begin
             op2rw_o <= regRead;
         end
         41: begin //Load Half word and Zero with update - RT,RA,D
-            `ifdef DEBUG $display("Decode 2 D-form: Load Half word and Zero with update"); `endif
-            `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 D-form (Inst: %h): Load Half word and Zero with update", instructionMajId_i); `endif
+            `ifdef DEBUG $display("Decode 2 D-form Inst: Load Half word and Zero with update"); `endif
+            `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 D-form Inst: %d: Load Half word and Zero with update", instructionMajId_i); `endif
             opcode_o <= 28;
             //Special Regs: Na
             enable_o <= 1;
@@ -255,8 +255,8 @@ begin
             op2rw_o <= regRead | regWrite;
         end
         42: begin //Load Half word algebraic - RT,RA,D - load contents sign extended to fill the reg
-            `ifdef DEBUG $display("Decode 2 D-form: Load Half word algebraic"); `endif
-            `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 D-form (Inst: %h): Load Half word algebraic", instructionMajId_i); `endif
+            `ifdef DEBUG $display("Decode 2 D-form Inst: Load Half word algebraic"); `endif
+            `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 D-form Inst: %d: Load Half word algebraic", instructionMajId_i); `endif
             opcode_o <= 29;
             //Special Regs: Na
             enable_o <= 1;
@@ -273,8 +273,8 @@ begin
             op2rw_o <= regRead;
         end
         43: begin //Load Half word algebraic with update - RT,RA,D
-            `ifdef DEBUG $display("Decode 2 D-form: Load Half word algebraic with update"); `endif
-            `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 D-form (Inst: %h): Load Half word algebraic with update", instructionMajId_i); `endif
+            `ifdef DEBUG $display("Decode 2 D-form Inst: Load Half word algebraic with update"); `endif
+            `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 D-form Inst: %d: Load Half word algebraic with update", instructionMajId_i); `endif
             opcode_o <= 30;
             //Special Regs: Na
             enable_o <= 1;
@@ -286,8 +286,8 @@ begin
             op2rw_o <= regRead | regWrite;
         end
         32: begin //Load word and zero - RT,RA,D
-            `ifdef DEBUG $display("Decode 2 D-form (Inst: %h): D-form: Load word and zero", instructionMajId_i); `endif
-            `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 D-form (Inst: %h): D-form: Load word and zero", instructionMajId_i); `endif
+            `ifdef DEBUG $display("Decode 2 D-form Inst: %d: D-form Inst: Load word and zero", instructionMajId_i); `endif
+            `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 D-form Inst: %d: D-form Inst: Load word and zero", instructionMajId_i); `endif
             opcode_o <= 31;
             //Special Regs: Na
             enable_o <= 1;
@@ -304,8 +304,8 @@ begin
             op2rw_o <= regRead;
         end
         33: begin //Load word and zero with update - RT,RA,D
-            `ifdef DEBUG $display("Decode 2 D-form (Inst: %h): D-form: Load word and zero with update", instructionMajId_i); `endif
-            `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 D-form (Inst: %h): D-form: Load word and zero with update", instructionMajId_i); `endif
+            `ifdef DEBUG $display("Decode 2 D-form Inst: %d: D-form Inst: Load word and zero with update", instructionMajId_i); `endif
+            `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 D-form Inst: %d: D-form Inst: Load word and zero with update", instructionMajId_i); `endif
             opcode_o <= 32;
             //Special Regs: Na
             enable_o <= 1;
@@ -317,8 +317,8 @@ begin
             op2rw_o <= regRead | regWrite;
         end
         38: begin //Store byte - RS,RA,D
-            `ifdef DEBUG $display("Decode 2 D-form (Inst: %h): D-form: Store byte", instructionMajId_i); `endif
-            `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 D-form (Inst: %h): D-form: Store byte", instructionMajId_i); `endif
+            `ifdef DEBUG $display("Decode 2 D-form Inst: %d: D-form Inst: Store byte", instructionMajId_i); `endif
+            `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 D-form Inst: %d: D-form Inst: Store byte", instructionMajId_i); `endif
             opcode_o <= 33;
             //Special Regs: Na
             enable_o <= 1;
@@ -335,8 +335,8 @@ begin
             op2rw_o <= regRead;
         end
         39: begin //Store byte with update - RS,RA,D
-            `ifdef DEBUG $display("Decode 2 D-form (Inst: %h): D-form: Store byte with update", instructionMajId_i); `endif
-            `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 D-form (Inst: %h): D-form: Store byte with update", instructionMajId_i); `endif
+            `ifdef DEBUG $display("Decode 2 D-form Inst: %d: D-form Inst: Store byte with update", instructionMajId_i); `endif
+            `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 D-form Inst: %d: D-form Inst: Store byte with update", instructionMajId_i); `endif
             opcode_o <= 34;
             //Special Regs: Na
             enable_o <= 1;
@@ -348,8 +348,8 @@ begin
             op2rw_o <= regRead | regWrite;
         end
         44: begin //Store halfword - RS,RA,D
-            `ifdef DEBUG $display("Decode 2 D-form (Inst: %h): D-form: Store halfword", instructionMajId_i); `endif
-            `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 D-form (Inst: %h): D-form: Store halfword", instructionMajId_i); `endif
+            `ifdef DEBUG $display("Decode 2 D-form Inst: %d: D-form Inst: Store halfword", instructionMajId_i); `endif
+            `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 D-form Inst: %d: D-form Inst: Store halfword", instructionMajId_i); `endif
             opcode_o <= 35;
             //Special Regs: Na
             enable_o <= 1;
@@ -366,8 +366,8 @@ begin
             op2rw_o <= regRead;
         end
         45: begin //Store halfword with update - RS,RA,D
-            `ifdef DEBUG $display("Decode 2 D-form (Inst: %h): D-form: store halfword with update", instructionMajId_i); `endif
-            `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 D-form (Inst: %h): D-form: store halfword with update", instructionMajId_i); `endif
+            `ifdef DEBUG $display("Decode 2 D-form Inst: %d: D-form Inst: store halfword with update", instructionMajId_i); `endif
+            `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 D-form Inst: %d: D-form Inst: store halfword with update", instructionMajId_i); `endif
             opcode_o <= 36;
             //Special Regs: Na
             enable_o <= 1;
@@ -379,8 +379,8 @@ begin
             op2rw_o <= regRead | regWrite;
         end
         36: begin //Store word - RS,RA,D
-            `ifdef DEBUG $display("Decode 2 D-form (Inst: %h): D-form: Store word", instructionMajId_i); `endif
-            `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 D-form (Inst: %h): D-form: Store word", instructionMajId_i); `endif
+            `ifdef DEBUG $display("Decode 2 D-form Inst: %d: D-form Inst: Store word", instructionMajId_i); `endif
+            `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 D-form Inst: %d: D-form Inst: Store word", instructionMajId_i); `endif
             opcode_o <= 37;
             //Special Regs: Na
             enable_o <= 1;
@@ -397,8 +397,8 @@ begin
             op2rw_o <= regRead;
         end
         37: begin //Store word with update - RS,RA,D
-            `ifdef DEBUG $display("Decode 2 D-form (Inst: %h): D-form: Store word with update", instructionMajId_i); `endif
-            `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 D-form (Inst: %h): D-form: Store word with update", instructionMajId_i); `endif
+            `ifdef DEBUG $display("Decode 2 D-form Inst: %d: D-form Inst: Store word with update", instructionMajId_i); `endif
+            `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 D-form Inst: %d: D-form Inst: Store word with update", instructionMajId_i); `endif
             opcode_o <= 38;
             //Special Regs: Na
             enable_o <= 1;
@@ -410,8 +410,8 @@ begin
             op2rw_o <= regRead | regWrite;
         end
         46: begin //Load multiple word - RT,RA,D
-            `ifdef DEBUG $display("Decode 2 D-form (Inst: %h): D-form: Load multiple word", instructionMajId_i); `endif
-            `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 D-form (Inst: %h): D-form: Load multiple word", instructionMajId_i); `endif
+            `ifdef DEBUG $display("Decode 2 D-form Inst: %d: D-form Inst: Load multiple word", instructionMajId_i); `endif
+            `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 D-form Inst: %d: D-form Inst: Load multiple word", instructionMajId_i); `endif
             opcode_o <= 39;
             //Special Regs: Na
             enable_o <= 1;
@@ -430,8 +430,8 @@ begin
             //If little endian, error. Also if RA == 0 || RA is in the range of register to be loaded. Error.
         end
         47: begin //Store multiple word - RS,RA,D
-            `ifdef DEBUG $display("Decode 2 D-form (Inst: %h): D-form: Store multiple word", instructionMajId_i); `endif
-            `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 D-form (Inst: %h): D-form: Store multiple word", instructionMajId_i); `endif
+            `ifdef DEBUG $display("Decode 2 D-form Inst: %d: D-form Inst: Store multiple word", instructionMajId_i); `endif
+            `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 D-form Inst: %d: D-form Inst: Store multiple word", instructionMajId_i); `endif
             opcode_o <= 40;
             //Special Regs: Na
             enable_o <= 1;
@@ -450,8 +450,8 @@ begin
             //If little endian, error. Also if RA == 0 || RA is in the range of register to be loaded. Error.
         end
         14: begin //Add immediate - RT,RA,SI
-            `ifdef DEBUG $display("Decode 2 D-form (Inst: %h): D-form: Add immediate", instructionMajId_i); `endif
-            `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 D-form (Inst: %h): D-form: Add immediate", instructionMajId_i); `endif
+            `ifdef DEBUG $display("Decode 2 D-form Inst: %d: D-form Inst: Add immediate", instructionMajId_i); `endif
+            `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 D-form Inst: %d: D-form Inst: Add immediate", instructionMajId_i); `endif
             opcode_o <= 41;
             //Special Regs: Na
             enable_o <= 1;
@@ -468,8 +468,8 @@ begin
             op2rw_o <= regRead;
         end
         15: begin //Add immediate shifted - RT,RA,SI
-            `ifdef DEBUG $display("Decode 2 D-form (Inst: %h): D-form: Add immediate shifted", instructionMajId_i); `endif
-            `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 D-form (Inst: %h): D-form: Add immediate shifted", instructionMajId_i); `endif
+            `ifdef DEBUG $display("Decode 2 D-form Inst: %d: D-form Inst: Add immediate shifted", instructionMajId_i); `endif
+            `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 D-form Inst: %d: D-form Inst: Add immediate shifted", instructionMajId_i); `endif
             opcode_o <= 42;
             //Special Regs: Na
             enable_o <= 1;
@@ -486,8 +486,8 @@ begin
             op2rw_o <= regRead;
         end
         12: begin //Add immediate carrying - RT,RA,SI
-            `ifdef DEBUG $display("Decode 2 D-form (Inst: %h): D-form: Add immediate carrying", instructionMajId_i); `endif
-            `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 D-form (Inst: %h): D-form: Add immediate carrying", instructionMajId_i); `endif
+            `ifdef DEBUG $display("Decode 2 D-form Inst: %d: D-form Inst: Add immediate carrying", instructionMajId_i); `endif
+            `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 D-form Inst: %d: D-form Inst: Add immediate carrying", instructionMajId_i); `endif
             opcode_o <= 43;
             //Special Regs: CA CA32
             enable_o <= 1;
@@ -500,8 +500,8 @@ begin
             op2rw_o <= regRead;
         end
         13: begin //Add immediate carrying and record - RT,RA,SI
-            `ifdef DEBUG $display("Decode 2 D-form (Inst: %h): D-form: Add immediate carrying and record", instructionMajId_i); `endif
-            `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 D-form (Inst: %h): D-form: Add immediate carrying and record", instructionMajId_i); `endif
+            `ifdef DEBUG $display("Decode 2 D-form Inst: %d: D-form Inst: Add immediate carrying and record", instructionMajId_i); `endif
+            `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 D-form Inst: %d: D-form Inst: Add immediate carrying and record", instructionMajId_i); `endif
             opcode_o <= 44;
             //Special Regs: CR0 CA CA32
             enable_o <= 1;
@@ -514,8 +514,8 @@ begin
             op2rw_o <= regRead;
         end
         8: begin //Subtract from immediate carrying - RT,RA,SI  
-            `ifdef DEBUG $display("Decode 2 D-form (Inst: %h): D-form: Subtract from immediate carrying", instructionMajId_i); `endif
-            `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 D-form (Inst: %h): D-form: Subtract from immediate carrying", instructionMajId_i); `endif
+            `ifdef DEBUG $display("Decode 2 D-form Inst: %d: D-form Inst: Subtract from immediate carrying", instructionMajId_i); `endif
+            `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 D-form Inst: %d: D-form Inst: Subtract from immediate carrying", instructionMajId_i); `endif
             opcode_o <= 45;
             //Special Regs: CA CA32
             enable_o <= 1;
@@ -528,8 +528,8 @@ begin
             op2rw_o <= regRead;
         end
         7: begin //Multiply low immediate - RT,RA,SI
-            `ifdef DEBUG $display("Decode 2 D-form (Inst: %h): D-form: Multiply low immediate", instructionMajId_i); `endif
-            `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 D-form (Inst: %h): D-form: Multiply low immediate", instructionMajId_i); `endif
+            `ifdef DEBUG $display("Decode 2 D-form Inst: %d: D-form Inst: Multiply low immediate", instructionMajId_i); `endif
+            `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 D-form Inst: %d: D-form Inst: Multiply low immediate", instructionMajId_i); `endif
             opcode_o <= 46;
             //Special Regs: Na
             enable_o <= 1;
@@ -542,8 +542,8 @@ begin
             op2rw_o <= regRead;
         end
         11: begin //Compare immediate - BF+L, RA, SI
-            `ifdef DEBUG $display("Decode 2 D-form (Inst: %h): D-form: Compare immediate", instructionMajId_i); `endif
-            `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 D-form (Inst: %h): D-form: Compare immediate", instructionMajId_i); `endif
+            `ifdef DEBUG $display("Decode 2 D-form Inst: %d: D-form Inst: Compare immediate", instructionMajId_i); `endif
+            `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 D-form Inst: %d: D-form Inst: Compare immediate", instructionMajId_i); `endif
             opcode_o <= 47;
             //Special Regs: CR, BF
             enable_o <= 1;
@@ -556,8 +556,8 @@ begin
             op2rw_o <= regRead;
         end
         10: begin //Compare logical immediate - BF+L, RA, SI
-            `ifdef DEBUG $display("Decode 2 D-form (Inst: %h): D-form: Compare logical immediate", instructionMajId_i); `endif
-            `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 D-form (Inst: %h): D-form: Compare logical immediate", instructionMajId_i); `endif
+            `ifdef DEBUG $display("Decode 2 D-form Inst: %d: D-form Inst: Compare logical immediate", instructionMajId_i); `endif
+            `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 D-form Inst: %d: D-form Inst: Compare logical immediate", instructionMajId_i); `endif
             opcode_o <= 48;
             //Special Regs: CR, BF
             enable_o <= 1;
@@ -570,8 +570,8 @@ begin
             op2rw_o <= regRead;
         end
         3: begin //Trap word immediate - TO, RA, SI
-            `ifdef DEBUG $display("Decode 2 D-form (Inst: %h): D-form: Trap word immediate", instructionMajId_i); `endif
-            `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 D-form (Inst: %h): D-form: Trap word immediate", instructionMajId_i); `endif
+            `ifdef DEBUG $display("Decode 2 D-form Inst: %d: D-form Inst: Trap word immediate", instructionMajId_i); `endif
+            `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 D-form Inst: %d: D-form Inst: Trap word immediate", instructionMajId_i); `endif
             opcode_o <= 49;
             //Special Regs: Na
             enable_o <= 1;
@@ -584,8 +584,8 @@ begin
             op2rw_o <= regRead;
         end
         2: begin //Trap doubleword immediate - TO, RA, SI
-            `ifdef DEBUG $display("Decode 2 D-form (Inst: %h): D-form: Trap doubleword immediate", instructionMajId_i); `endif
-            `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 D-form (Inst: %h): D-form: Trap doubleword immediate", instructionMajId_i); `endif
+            `ifdef DEBUG $display("Decode 2 D-form Inst: %d: D-form Inst: Trap doubleword immediate", instructionMajId_i); `endif
+            `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 D-form Inst: %d: D-form Inst: Trap doubleword immediate", instructionMajId_i); `endif
             opcode_o <= 50;
             //Special Regs: Na
             enable_o <= 1;
@@ -597,8 +597,8 @@ begin
             op2rw_o <= regRead;
         end
         28: begin //AND immediate - RA, RS, UI
-            `ifdef DEBUG $display("Decode 2 D-form (Inst: %h): D-form: AND immediate", instructionMajId_i); `endif
-            `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 D-form (Inst: %h): D-form: AND immediate", instructionMajId_i); `endif
+            `ifdef DEBUG $display("Decode 2 D-form Inst: %d: D-form Inst: AND immediate", instructionMajId_i); `endif
+            `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 D-form Inst: %d: D-form Inst: AND immediate", instructionMajId_i); `endif
             opcode_o <= 51;
             //Special Regs: CR0
             enable_o <= 1;
@@ -611,8 +611,8 @@ begin
             op2rw_o <= regWrite;
         end
         29: begin //AND immediate shifted - RA, RS, UI
-            `ifdef DEBUG $display("Decode 2 D-form (Inst: %h): D-form: AND immediate shifted", instructionMajId_i); `endif
-            `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 D-form (Inst: %h): D-form: AND immediate shifted", instructionMajId_i); `endif
+            `ifdef DEBUG $display("Decode 2 D-form Inst: %d: D-form Inst: AND immediate shifted", instructionMajId_i); `endif
+            `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 D-form Inst: %d: D-form Inst: AND immediate shifted", instructionMajId_i); `endif
             opcode_o <= 52;
             //Special Regs: CR0
             enable_o <= 1;
@@ -625,8 +625,8 @@ begin
             op2rw_o <= regWrite;
         end
         24: begin //OR immediate - RA, RS, UI
-            `ifdef DEBUG $display("Decode 2 D-form (Inst: %h): D-form: OR immediate", instructionMajId_i); `endif
-            `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 D-form (Inst: %h): D-form: OR immediate", instructionMajId_i); `endif
+            `ifdef DEBUG $display("Decode 2 D-form Inst: %d: D-form Inst: OR immediate", instructionMajId_i); `endif
+            `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 D-form Inst: %d: D-form Inst: OR immediate", instructionMajId_i); `endif
             opcode_o <= 53;
             //Special Regs: CR0
             enable_o <= 1;
@@ -639,8 +639,8 @@ begin
             op2rw_o <= regWrite;
         end
         25: begin //OR immediate shifted - RA, RS, UI
-            `ifdef DEBUG $display("Decode 2 D-form (Inst: %h): D-form: OR immediate shifted", instructionMajId_i); `endif
-            `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 D-form (Inst: %h): D-form: OR immediate shifted", instructionMajId_i); `endif
+            `ifdef DEBUG $display("Decode 2 D-form Inst: %d: D-form Inst: OR immediate shifted", instructionMajId_i); `endif
+            `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 D-form Inst: %d: D-form Inst: OR immediate shifted", instructionMajId_i); `endif
             opcode_o <= 54;
             //Special Regs: CR0
             enable_o <= 1;
@@ -652,8 +652,8 @@ begin
             op2rw_o <= regWrite;
         end
         26: begin //XOR immediate - RA, RS, UI
-            `ifdef DEBUG $display("Decode 2 D-form (Inst: %h): D-form: XOR immediate", instructionMajId_i); `endif
-            `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 D-form (Inst: %h): XD-form: OR immediate", instructionMajId_i); `endif
+            `ifdef DEBUG $display("Decode 2 D-form Inst: %d: D-form Inst: XOR immediate", instructionMajId_i); `endif
+            `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 D-form Inst: %d: XD-form Inst: OR immediate", instructionMajId_i); `endif
             opcode_o <= 55;
             //Special Regs: CR0
             enable_o <= 1;
@@ -665,8 +665,8 @@ begin
             op2rw_o <= regWrite;
         end
         27: begin //XOR immediate shifted - RA, RS, UI
-            `ifdef DEBUG $display("Decode 2 D-form (Inst: %h): D-form: XOR immediate shifted", instructionMajId_i); `endif
-            `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 D-form (Inst: %h): D-form: XOR immediate shifted", instructionMajId_i); `endif
+            `ifdef DEBUG $display("Decode 2 D-form Inst: %d: D-form Inst: XOR immediate shifted", instructionMajId_i); `endif
+            `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 D-form Inst: %d: D-form Inst: XOR immediate shifted", instructionMajId_i); `endif
             opcode_o <= 56;
             //Special Regs: CR0
             enable_o <= 1;
@@ -678,8 +678,8 @@ begin
             op2rw_o <= regWrite;
         end
         48: begin //Load floating point single - FRT, RA, D
-            `ifdef DEBUG $display("Decode 2 D-form (Inst: %h): D-form: Load floating point single", instructionMajId_i); `endif
-            `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 D-form (Inst: %h): D-form: Load floating point single", instructionMajId_i); `endif
+            `ifdef DEBUG $display("Decode 2 D-form Inst: %d: D-form Inst: Load floating point single", instructionMajId_i); `endif
+            `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 D-form Inst: %d: D-form Inst: Load floating point single", instructionMajId_i); `endif
             opcode_o <= 57;
             //Special Regs: Na
             enable_o <= 1;
@@ -696,8 +696,8 @@ begin
             op2rw_o <= regRead;
         end
         49: begin //Load floating point single with update - FRT, RA, D
-            `ifdef DEBUG $display("Decode 2 D-form (Inst: %h): D-form: Load floating point single with update", instructionMajId_i); `endif
-            `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 D-form (Inst: %h): D-form: Load floating point single with update", instructionMajId_i); `endif
+            `ifdef DEBUG $display("Decode 2 D-form Inst: %d: D-form Inst: Load floating point single with update", instructionMajId_i); `endif
+            `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 D-form Inst: %d: D-form Inst: Load floating point single with update", instructionMajId_i); `endif
             opcode_o <= 58;
             //Special Regs: Na
             enable_o <= 1;
@@ -712,8 +712,8 @@ begin
             //If operand 2 is 0, instruction invalid
         end
         50: begin //Load floating point double - FRT, RA, D
-            `ifdef DEBUG $display("Decode 2 D-form (Inst: %h): D-form: Load floating point double", instructionMajId_i); `endif
-            `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 D-form (Inst: %h): D-form: Load floating point double", instructionMajId_i); `endif
+            `ifdef DEBUG $display("Decode 2 D-form Inst: %d: D-form Inst: Load floating point double", instructionMajId_i); `endif
+            `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 D-form Inst: %d: D-form Inst: Load floating point double", instructionMajId_i); `endif
             opcode_o <= 59;
             //Special Regs: Na
             enable_o <= 1;
@@ -730,8 +730,8 @@ begin
             op2rw_o <= regRead;
         end
         51: begin //Load floating point double with update - FRT, RA, D
-            `ifdef DEBUG $display("Decode 2 D-form (Inst: %h): D-form: Load floating point double with update", instructionMajId_i); `endif
-            `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 D-form (Inst: %h): D-form: Load floating point double with update", instructionMajId_i); `endif
+            `ifdef DEBUG $display("Decode 2 D-form Inst: %d: D-form Inst: Load floating point double with update", instructionMajId_i); `endif
+            `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 D-form Inst: %d: D-form Inst: Load floating point double with update", instructionMajId_i); `endif
             opcode_o <= 60;
             //Special Regs: Na
             enable_o <= 1;
@@ -746,8 +746,8 @@ begin
         end
 
         52: begin //Store floating point single - FRS, RA, D
-            `ifdef DEBUG $display("Decode 2 D-form (Inst: %h): D-form: Store floating point single", instructionMajId_i); `endif
-            `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 D-form (Inst: %h): D-form: LStore floating point single", instructionMajId_i); `endif
+            `ifdef DEBUG $display("Decode 2 D-form Inst: %d: D-form Inst: Store floating point single", instructionMajId_i); `endif
+            `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 D-form Inst: %d: D-form Inst: LStore floating point single", instructionMajId_i); `endif
             opcode_o <= 61;
             //Special Regs: Na
             enable_o <= 1;
@@ -763,8 +763,8 @@ begin
             op2rw_o <= regRead;
         end
         53: begin //Store floating point single with update - FRS, RA, D
-            `ifdef DEBUG $display("Decode 2 D-form (Inst: %h): D-form: Store floating point single with update", instructionMajId_i); `endif
-            `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 D-form (Inst: %h): D-form: Store floating point single with update", instructionMajId_i); `endif
+            `ifdef DEBUG $display("Decode 2 D-form Inst: %d: D-form Inst: Store floating point single with update", instructionMajId_i); `endif
+            `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 D-form Inst: %d: D-form Inst: Store floating point single with update", instructionMajId_i); `endif
             opcode_o <= 62;
             //Special Regs: Na
             enable_o <= 1;
@@ -778,8 +778,8 @@ begin
             //If operand 2 is 0, instruction invalid
         end
         54: begin //Store floating point double - FRS, RA, D
-            `ifdef DEBUG $display("Decode 2 D-form (Inst: %h): D-form: Store floating point double", instructionMajId_i); `endif
-            `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 D-form (Inst: %h): D-form: LStore floating point double", instructionMajId_i); `endif
+            `ifdef DEBUG $display("Decode 2 D-form Inst: %d: D-form Inst: Store floating point double", instructionMajId_i); `endif
+            `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 D-form Inst: %d: D-form Inst: LStore floating point double", instructionMajId_i); `endif
             opcode_o <= 63;
             //Special Regs: Na
             enable_o <= 1;
@@ -795,8 +795,8 @@ begin
             op2rw_o <= regRead;
         end
         55: begin //Store floating point double with update - FRS, RA, D
-            `ifdef DEBUG $display("Decode 2 D-form (Inst: %h): D-form: Store floating point double with update", instructionMajId_i); `endif
-            `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 D-form (Inst: %h): D-form: Store floating point double with update", instructionMajId_i); `endif
+            `ifdef DEBUG $display("Decode 2 D-form Inst: %d: D-form Inst: Store floating point double with update", instructionMajId_i); `endif
+            `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 D-form Inst: %d: D-form Inst: Store floating point double with update", instructionMajId_i); `endif
             opcode_o <= 64;
             //Special Regs: Na
             enable_o <= 1;
@@ -811,8 +811,8 @@ begin
         end
         default: begin
             `ifndef QUIET_INVALID
-                `ifdef DEBUG $display("Decode 2 D-form: Invalid instruction recieved");`endif
-                `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 D-form (Inst: %h): D-form: Invalid instruction recieved", instructionMajId_i); `endif
+                `ifdef DEBUG $display("Decode 2 D-form Inst: Invalid instruction recieved");`endif
+                `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 D-form Inst: %d: D-form Inst: Invalid instruction recieved", instructionMajId_i); `endif
             `endif
             enable_o <= 0; 
         end

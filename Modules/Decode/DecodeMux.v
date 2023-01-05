@@ -87,6 +87,7 @@ module DecodeMux
 
     ///output
     output reg enable_o,
+    output reg [0:25-1] instFormat_o,
     output reg [0:opcodeSize-1] opcode_o,
     output reg [0:addressWidth-1] address_o,
     output reg [0:funcUnitCodeSize-1] funcUnitType_o,
@@ -139,9 +140,9 @@ begin
     end
     else if(Aenable_i)
     begin
-        `ifdef DEBUG $display("Decode Mux: A format instruction (Inst: %h)", AMajId_i); `endif
-        `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode Mux: A format instruction (Inst: %h)", AMajId_i); `endif
-        enable_o <= 1;
+        `ifdef DEBUG $display("Decode Mux Inst: %d: A format instruction", AMajId_i); `endif
+        `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode Mux Inst: %d: A format instruction", AMajId_i); `endif
+        enable_o <= 1; instFormat_o <= A;
         opcode_o <= AOpcode_i;
         address_o <= AAddress_i;
         funcUnitType_o <= A;
@@ -156,9 +157,9 @@ begin
     end
     else if(Benable_i)
     begin
-        `ifdef DEBUG $display("Decode Mux: B format instruction (Inst: %h)", BMajId_i); `endif
-        `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode Mux: B format instruction (Inst: %h)", BMajId_i); `endif
-        enable_o <= 1;
+        `ifdef DEBUG $display("Decode Mux Inst: %d: B format instruction", BMajId_i); `endif
+        `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode Mux Inst: %d: B format instruction", BMajId_i); `endif
+        enable_o <= 1;instFormat_o <= B;
         opcode_o <= BOpcode_i;
         address_o <= BAddress_i;
         funcUnitType_o <= B;
@@ -172,9 +173,9 @@ begin
     end
     else if(Denable_i)
     begin
-        `ifdef DEBUG $display("Decode Mux: D format instruction (Inst: %h)", DMajId_i); `endif
-        `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode Mux: D format instruction (Inst: %h)", DMajId_i); `endif
-        enable_o <= 1;
+        `ifdef DEBUG $display("Decode Mux Inst: %d: D format instruction", DMajId_i); `endif
+        `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode Mux Inst: %d: D format instruction", DMajId_i); `endif
+        enable_o <= 1;instFormat_o <= D;
         opcode_o <= DOpcode_i;
         address_o <= DAddress_i;
         funcUnitType_o <= D;
