@@ -15,6 +15,8 @@ current features:
 
 TODO:
  - Implement all instructions of POWER ISA 3.0B
+ - Data cache
+ - Memory interface
  - Out of Order backend (multi instruction wide)
     - Reservation station
     - RAT

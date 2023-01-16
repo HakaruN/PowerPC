@@ -20,7 +20,21 @@ module ReservationStation
     input wire enable_i, stall_i,
     //Data
     //Inst in
-
+    input wire enable_i,
+    input wire [0:25-1] instFormat_i,
+    input wire [0:opcodeSize-1] opcode_i,
+    input wire [0:addressWidth-1] address_i,
+    input wire [0:funcUnitCodeSize-1] funcUnitType_i,
+    input wire [0:instructionCounterWidth-1] majID_i,
+    input wire [0:instMinIdWidth-1] minID_i,
+    input wire is64Bit_i,
+    input wire [0:PidSize-1] pid_i,
+    input wire [0:TidSize-1] tid_i,
+    input wire [0:regAccessPatternSize-1] op1rw_i, op2rw_i, op3rw_i, op4rw_i,
+    input wire op1IsReg_i, op2IsReg_i, op3IsReg_i, op4IsReg_i,
+    input wire [0:84-1] body_i//contains all operands. Large enough for 4 reg operands and a 64bit imm
+    //read request in
+    
     ///Output
     output reg enable_o,
     output reg isFull_o
@@ -112,18 +126,18 @@ begin
                 assign entryFound = 1;
                 //allocate the instruction
                 assign RSIsFree[i] = 0;
-                assign RSinstFormats[i] = ;
-                assign RSOpcodes[i] = ;
-                assign RSOAddrs[i] = ;
-                assign RSFuncUnitTypes[i] = ;
-                assign RSMajIDs[i] = ;
-                assign RSminIDs[i] = ;
-                assign RSis64Bits[i] = ;
-                assign RSOPids[i] = ;
-                assign RSOTids[i] = ;
-                assign RSOregAccessPatterns[i] = ;
-                assign RSisRegs[i] = ;
-                assign RSBody[i] = ;
+                assign RSinstFormats[i] = instFormat_i;
+                assign RSOpcodes[i] = opcode_i;
+                assign RSOAddrs[i] = address_i;
+                assign RSFuncUnitTypes[i] = funcUnitType_i;
+                assign RSMajIDs[i] = majID_i;
+                assign RSminIDs[i] = minID_i;
+                assign RSis64Bits[i] = is64Bit_i;
+                assign RSOPids[i] = pid_i;
+                assign RSOTids[i] = tid_i;
+                assign RSOregAccessPatterns[i] = {op1rw_i, op2rw_i, op3rw_i, op4rw_i};
+                assign RSisRegs[i] = {op1IsReg_i, op2IsReg_i, op3IsReg_i, op4IsReg_i};
+                assign RSBody[i] = body_i;
                 //enable the output
                 assign enable_o = 1;
             end
@@ -131,16 +145,16 @@ begin
             begin//found a second open entry
                 assign notFull == 1;
             end
-            else
         end
 
-        //if we are full, output a stall
+        //if we are full for next cycle, output a stall
         if(notFull == 0)
             assign isFull_o = 1;
         else
             assign isFull_o = 0;
 
-            
+        //now were written, we can read
+
 
     end
     else
