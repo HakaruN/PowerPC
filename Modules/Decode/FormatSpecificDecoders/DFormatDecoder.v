@@ -10,7 +10,7 @@ This decoder implements all D format instruction specified in the POWER ISA vers
 This decoder implements the opcodes 26-65.
 
 TODO:
-Implement outputs for special registers access
+Implement outputs for special registers access and unified register space
 Implement error cases.
 
 D format instructions are for the most part composed of 2 register operands and a single immediate operand. There is 1 exception to this however. The formats for these operands are
