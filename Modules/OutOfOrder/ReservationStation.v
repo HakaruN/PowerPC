@@ -10,7 +10,16 @@ This file implements the reservation station module for the power core.
 
 module ReservationStation
 #(
-    parameter queueWidth = 302, parameter RStationInstance = 0, parameter RSIdxBits = 6
+    parameter RStationInstance = 0, parameter RSIdxBits = 6,
+    parameter addressWidth = 64, //addresses are 64 bits wide
+    parameter instructionWidth = 4 * 8, // POWER instructions are 4 byte fixed sized
+    parameter PidSize = 20, parameter TidSize = 16, //1048K processes uniquly identifiable and 64K threads per process.
+    parameter instructionCounterWidth = 64,// 64 bit counter to uniquly identify instructions, this is known as the major ID as instructions may be broken into micro instructions which will have the same major ID yet unique minor IDs
+    parameter instMinIdWidth = 7,
+    parameter opcodeSize = 12, parameter regSize = 5,
+    parameter regAccessPatternSize = 2,//2 bit field, [0] == is read, [1] == is writen. Both can be true EG: (A = A + B)
+    parameter regRead = 2'b10, parameter regWrite = 2'b01, 
+    parameter immWidth = 64,
 )
 (
     ///Input
@@ -34,7 +43,7 @@ module ReservationStation
     input wire op1IsReg_i, op2IsReg_i, op3IsReg_i, op4IsReg_i,
     input wire [0:84-1] body_i//contains all operands. Large enough for 4 reg operands and a 64bit imm
     //read request in
-    
+    input wire 
     ///Output
     output reg enable_o,
     output reg isFull_o
