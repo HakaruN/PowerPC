@@ -1,0 +1,4 @@
+#!/bin/bash
+iverilog -o InOrderQueueTest.bin InOrderQueue_Test.v
+./InOrderQueueTest.bin
+rm InOrderQueueTest.bin

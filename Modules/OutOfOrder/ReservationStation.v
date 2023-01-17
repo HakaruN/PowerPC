@@ -19,7 +19,7 @@ module ReservationStation
     parameter opcodeSize = 12, parameter regSize = 5,
     parameter regAccessPatternSize = 2,//2 bit field, [0] == is read, [1] == is writen. Both can be true EG: (A = A + B)
     parameter regRead = 2'b10, parameter regWrite = 2'b01, 
-    parameter immWidth = 64,
+    parameter immWidth = 64
 )
 (
     ///Input
