@@ -1,5 +1,5 @@
 `timescale 1ns / 1ps
-`include "../../Fetch/FetchUnit.v"
+`include "../../Modules/Fetch/FetchUnit.v"
 
 module L1ICacheTest #(
     parameter fetchingAddressWidth = 64, //addresses are 64 bits wide
@@ -8,6 +8,7 @@ module L1ICacheTest #(
     parameter offsetWidth = 6, //allows all 16 instructions in the cache to be addresses (for a 64 byte wide cache)
     parameter indexWidth = 8, //256 cachelines
     parameter tagWidth = fetchingAddressWidth - indexWidth - offsetWidth, //the tag is composed of the remaining parts of the address
+    parameter bundleSize = 4 * instructionWidth, //A bundle is the collection of instructions fetched per cycle.
     //Processes ID and thread ID size
     parameter PidSize = 20, parameter TidSize = 16, //1048K processes uniquly identifiable and 64K threads per process.
     parameter instructionCounterWidth = 64// 64 bit counter to uniquly identify instructions
@@ -28,16 +29,18 @@ reg [0:cacheLineWith-1] cacheUpdateLineIn1, cacheUpdateLineIn2;
 reg [0:PidSize-1] cacheUpdatePidIn;
 reg [0:TidSize-1] cacheUpdateTidIn;
 //Fetch out
-wire enableOut1, enableOut2;
-wire [0:instructionWidth-1] fetchedInstructionOut1, fetchedInstructionOut2;
-wire [0:fetchingAddressWidth-1] fetchedAddressOut1, fetchedAddressOut2;
-wire [0:PidSize-1] fetchedPid1, fetchedPid2;
-wire [0:TidSize-1] fetchedTid1, fetchedTid2;
-wire [0:instructionCounterWidth-1] fetchedInstMajorId1, fetchedInstMajorId2;
+wire outputEnableOut;
+//Bundle output
+wire [0:bundleSize-1] outputBundleOut;
+wire [0:fetchingAddressWidth-1] bundleAddressOut;
+wire [0:cacheLineWith-1] bundleLenOut;
+wire [0:PidSize-1] bundlePidOut;
+wire [0:TidSize-1] bundleTidOut;
+wire [0:instructionCounterWidth-1] bundleStartMajIdOut;
 //Update out
 wire cacheMissOut;
 wire [0:fetchingAddressWidth-1] missedAddressOut;
-wire [0:instructionCounterWidth-1] missedInstMajorId;
+wire [0:instructionCounterWidth-1] missedInstMajorIdOut;
 wire [0:PidSize-1] missedPidOut;
 wire [0:TidSize-1] missedTidOut;
 
@@ -59,14 +62,13 @@ l1ICache
     .cacheUpdatePid_i(cacheUpdatePidIn), .cacheUpdateTid_i(cacheUpdateTidIn),
     .cacheUpdateLine1_i(cacheUpdateLineIn1), .cacheUpdateLine2_i(cacheUpdateLineIn2),
     //Fetch out
-    .fetchEnable1_o(enableOut1),.fetchEnable2_o(enableOut2),
-    .fetchedInstruction1_o(fetchedInstructionOut1), .fetchedInstruction2_o(fetchedInstructionOut2), 
-    .fetchedAddress1_o(fetchedAddressOut1),.fetchedAddress2_o(fetchedAddressOut2),
-    .fetchedPid1_o(fetchedPid1), .fetchedTid1_o(fetchedTid1), .fetchedPid2_o(fetchedPid2), .fetchedTid2_o(fetchedTid2),
-    .fetchedInstMajorId1_o(fetchedInstMajorId1), .fetchedInstMajorId2_o(fetchedInstMajorId2),
+    .outputEnable_o(outputEnableOut), .outputBundle_o(outputBundleOut),
+    .bundleAddress_o(bundleAddressOut),.bundleLen_o(bundleLenOut),
+    .bundlePid_o(bundlePidOut),.bundleTid_o(bundleTidOut),
+    .bundleStartMajId_o(bundleStartMajIdOut),
     //Update out
     .cacheMiss_o(cacheMissOut), .missedAddress_o(missedAddressOut),
-    .missedInstMajorId_o(missedInstMajorId),
+    .missedInstMajorId_o(missedInstMajorIdOut),
     .missedPid_o(missedPidOut), .missedTid_o(missedTidOut)
 );
 
