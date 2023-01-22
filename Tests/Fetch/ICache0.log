@@ -1,17 +1,13 @@
 ICache:           0: Resetting
-ICache:           0: Fetching instruction ID:                   0 at address                    4.
-ICache:           0: Cycle 1 fetch alignment error
-ICache:           0: Cycle 3 cache miss. Requesting reload 0000000000000004.
+ICache:           0: Fetching instruction ID:                   0 at address                    0.
+ICache:           0: Cycle 3 cache miss. Requesting reload 0000000000000000.
 ICache:           0: Cycle 3 stalled due to cache miss
 ICache:           0: Cycle 3 Cache miss resolution alignment error
-ICache:           0: Fetching instruction ID:                   3 at address                    8.
-ICache:           0: Cycle 1 fetch alignment error
-ICache:           0: Fetching instruction ID:                   5 at address                   16.
-ICache:           0: Cycle 1 fetch alignment error
-ICache:           0: Fetching instruction ID:                   9 at address                   24.
-ICache:           0: Cycle 1 fetch alignment error
-ICache:           0: Cycle 3 cache hit. Fetching          2 instruction(s).
-ICache:           0: Fetching instruction ID:                  11 at address                   32.
-ICache:           0: Cycle 3 cache hit. Fetching          4 instruction(s).
-ICache:           0: Cycle 3 cache hit. Fetching          2 instruction(s).
-ICache:           0: Cycle 3 cache hit. Fetching          4 instruction(s).
+ICache:           0: Fetching instruction ID:                   4 at address                    4.
+ICache:           0: Fetching instruction ID:                   7 at address                   12.
+ICache:           0: Fetching instruction ID:                   8 at address                   20.
+ICache:           0: Cycle 3 cache hit. Fetching          3 instruction(s).
+ICache:           0: Fetching instruction ID:                  11 at address                   28.
+ICache:           0: Cycle 3 cache hit. Fetching          1 instruction(s).
+ICache:           0: Cycle 3 cache hit. Fetching          3 instruction(s).
+ICache:           0: Cycle 3 cache hit. Fetching          1 instruction(s).

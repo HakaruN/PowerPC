@@ -95,7 +95,7 @@ initial begin
 
     //Start fetching
     clockIn = 1; fetchEnableIn = 1;
-    TagIn = 0; IndexIn = 0; OffsetIn = 4;//Start fetching at addr 0
+    TagIn = 0; IndexIn = 0; OffsetIn = 0;//Start fetching at addr 0
     #1;
     clockIn = 0; fetchEnableIn = 0;
     #1;
