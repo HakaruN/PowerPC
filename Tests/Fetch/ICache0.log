@@ -10,20 +10,29 @@ ICache:           0: Natural write at address 00000000000001c0
 ICache:           0: Natural write at address 0000000000000200
 ICache:           0: Natural write at address 0000000000000240
 ICache:           0: Cycle 1 fetching instruction ID:                   0 at address                    0. Fetching 4 instructions
+ICache:           0: Cycle 1 fetching instruction ID:                   4 at address                    4. Fetching 3 instructions
 ICache:           0: Cycle 2 Instruction not on previously fetched line. Refetching
-ICache:           0: Cycle 3 cache hit. Fetching          4 instruction(s).
-ICache:           0: Cycle 1 fetching instruction ID:                   4 at address                    0. Fetching 4 instructions
+ICache:           0: Cycle 1 fetching instruction ID:                   7 at address                    8. Fetching 2 instructions
 ICache:           0: Cycle 2 Instruction on previously fetched line. Not refetching
 ICache:           0: Cycle 3 cache hit. Fetching          4 instruction(s).
-ICache:           0: Cycle 1 fetching instruction ID:                   8 at address                    4. Fetching 3 instructions
-ICache:           0: Cycle 1 fetching instruction ID:                  11 at address                   12. Fetching 1 instruction
-ICache:           0: Cycle 2 Instruction on previously fetched line. Not refetching
-ICache:           0: Cycle 1 fetching instruction ID:                  12 at address                   20. Fetching 3 instructions
+ICache:           0: Cycle 1 fetching instruction ID:                   9 at address                   12. Fetching 1 instruction
 ICache:           0: Cycle 2 Instruction on previously fetched line. Not refetching
 ICache:           0: Cycle 3 cache hit. Fetching          3 instruction(s).
-ICache:           0: Cycle 1 fetching instruction ID:                  15 at address                   28. Fetching 41 instruction
+ICache:           0: Cycle 1 fetching instruction ID:                  10 at address                   16. Fetching 4 instructions
+ICache:           0: Cycle 2 Instruction on previously fetched line. Not refetching
+ICache:           0: Cycle 3 cache hit. Fetching          2 instruction(s).
+ICache:           0: Cycle 1 fetching instruction ID:                  14 at address                   20. Fetching 3 instructions
 ICache:           0: Cycle 2 Instruction on previously fetched line. Not refetching
 ICache:           0: Cycle 3 cache hit. Fetching          1 instruction(s).
+ICache:           0: Cycle 1 fetching instruction ID:                  17 at address                   24. Fetching 2 instructions
+ICache:           0: Cycle 2 Instruction on previously fetched line. Not refetching
+ICache:           0: Cycle 3 cache hit. Fetching          4 instruction(s).
+ICache:           0: Cycle 1 fetching instruction ID:                  19 at address                   28. Fetching 41 instruction
 ICache:           0: Cycle 2 Instruction on previously fetched line. Not refetching
 ICache:           0: Cycle 3 cache hit. Fetching          3 instruction(s).
+ICache:           0: Cycle 1 fetching instruction ID:                  20 at address                   32. Fetching 4 instructions
+ICache:           0: Cycle 2 Instruction on previously fetched line. Not refetching
+ICache:           0: Cycle 3 cache hit. Fetching          2 instruction(s).
+ICache:           0: Cycle 1 fetching instruction ID:                  24 at address                   36. Fetching 3 instructions
+ICache:           0: Cycle 2 Instruction on previously fetched line. Not refetching
 ICache:           0: Cycle 3 cache hit. Fetching          1 instruction(s).

@@ -19,9 +19,7 @@ module L1ICacheTest #(
 //Fetch in
 reg clockIn, fetchEnableIn, resetIn, fetchStallIn;
 reg [0:PidSize-1] PidIn; reg [0:TidSize-1] TidIn;
-reg [0:offsetWidth-1] OffsetIn; 
-reg [0:indexWidth-1] IndexIn;
-reg [0:tagWidth-1] TagIn;
+reg [0:fetchingAddressWidth-1] fetchAddressIn;
 //Update in
 reg cacheUpdateIn;
 reg [0:fetchingAddressWidth-1] updateAddressIn;
@@ -62,7 +60,7 @@ l1ICache
     .clock_i(clockIn),
     //Fetch in 
     .fetchEnable_i(fetchEnableIn), .cacheReset_i(resetIn), .fetchStall_i(fetchStallIn), 
-    .Pid_i(PidIn), .Tid_i(TidIn), .offset_i(OffsetIn), .index_i(IndexIn), .tag_i(TagIn), 
+    .Pid_i(PidIn), .Tid_i(TidIn), .fetchAddress_i(fetchAddressIn), 
     //Update in
     .cacheUpdate_i(cacheUpdateIn), .cacheUpdateAddress_i(updateAddressIn), 
     .cacheUpdatePid_i(cacheUpdatePidIn), .cacheUpdateTid_i(cacheUpdateTidIn),
@@ -93,8 +91,7 @@ initial begin
     clockIn = 0; fetchEnableIn = 0;
     resetIn = 0; fetchStallIn = 0;
     PidIn = 0; TidIn = 0;
-    OffsetIn = 0; IndexIn = 0;
-    TagIn = 0;
+    fetchAddressIn = 0;
     //update/resolve miss
     cacheUpdateIn = 0; updateAddressIn = 0; 
     cacheUpdateLineIn1 = 0;
@@ -123,14 +120,11 @@ initial begin
     end
     naturalWriteEnIn = 0;
 
-    //Start fetching
-    TagIn = 0; IndexIn = 0; OffsetIn = 0;//Start fetching at addr 0
-    
-
+    //Start fetching  
     fetchEnableIn = 1;
     for(loopCtr = 0; loopCtr < 10; loopCtr = loopCtr + 1)
     begin
-        
+        fetchAddressIn = (loopCtr * 4);
         clockIn = 1;
         #1;
         clockIn = 0; 
