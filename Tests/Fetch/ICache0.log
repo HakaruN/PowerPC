@@ -1,13 +1,29 @@
 ICache:           0: Resetting
-ICache:           0: Fetching instruction ID:                   0 at address                    0.
-ICache:           0: Cycle 3 cache miss. Requesting reload 0000000000000000.
-ICache:           0: Cycle 3 stalled due to cache miss
-ICache:           0: Cycle 3 Cache miss resolution alignment error
-ICache:           0: Fetching instruction ID:                   4 at address                    4.
-ICache:           0: Fetching instruction ID:                   7 at address                   12.
-ICache:           0: Fetching instruction ID:                   8 at address                   20.
+ICache:           0: Natural write at address 0000000000000000
+ICache:           0: Natural write at address 0000000000000040
+ICache:           0: Natural write at address 0000000000000080
+ICache:           0: Natural write at address 00000000000000c0
+ICache:           0: Natural write at address 0000000000000100
+ICache:           0: Natural write at address 0000000000000140
+ICache:           0: Natural write at address 0000000000000180
+ICache:           0: Natural write at address 00000000000001c0
+ICache:           0: Natural write at address 0000000000000200
+ICache:           0: Natural write at address 0000000000000240
+ICache:           0: Cycle 1 fetching instruction ID:                   0 at address                    0. Fetching 4 instructions
+ICache:           0: Cycle 2 Instruction not on previously fetched line. Refetching
+ICache:           0: Cycle 3 cache hit. Fetching          4 instruction(s).
+ICache:           0: Cycle 1 fetching instruction ID:                   4 at address                    0. Fetching 4 instructions
+ICache:           0: Cycle 2 Instruction on previously fetched line. Not refetching
+ICache:           0: Cycle 3 cache hit. Fetching          4 instruction(s).
+ICache:           0: Cycle 1 fetching instruction ID:                   8 at address                    4. Fetching 3 instructions
+ICache:           0: Cycle 1 fetching instruction ID:                  11 at address                   12. Fetching 1 instruction
+ICache:           0: Cycle 2 Instruction on previously fetched line. Not refetching
+ICache:           0: Cycle 1 fetching instruction ID:                  12 at address                   20. Fetching 3 instructions
+ICache:           0: Cycle 2 Instruction on previously fetched line. Not refetching
 ICache:           0: Cycle 3 cache hit. Fetching          3 instruction(s).
-ICache:           0: Fetching instruction ID:                  11 at address                   28.
+ICache:           0: Cycle 1 fetching instruction ID:                  15 at address                   28. Fetching 41 instruction
+ICache:           0: Cycle 2 Instruction on previously fetched line. Not refetching
 ICache:           0: Cycle 3 cache hit. Fetching          1 instruction(s).
+ICache:           0: Cycle 2 Instruction on previously fetched line. Not refetching
 ICache:           0: Cycle 3 cache hit. Fetching          3 instruction(s).
 ICache:           0: Cycle 3 cache hit. Fetching          1 instruction(s).

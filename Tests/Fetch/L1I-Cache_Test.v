@@ -25,9 +25,15 @@ reg [0:tagWidth-1] TagIn;
 //Update in
 reg cacheUpdateIn;
 reg [0:fetchingAddressWidth-1] updateAddressIn;
-reg [0:cacheLineWith-1] cacheUpdateLineIn1, cacheUpdateLineIn2;
 reg [0:PidSize-1] cacheUpdatePidIn;
 reg [0:TidSize-1] cacheUpdateTidIn;
+reg [0:cacheLineWith-1] cacheUpdateLineIn1;
+//Natural writes in - used to write data to the cache during non cache-miss situations
+reg naturalWriteEnIn;
+reg [0:fetchingAddressWidth-1] naturalWriteAddressIn;
+reg [0:cacheLineWith-1] naturalWriteLineIn;
+reg [0:PidSize-1] naturalPidIn;
+reg [0:TidSize-1] naturalTidIn;
 //Fetch out
 wire outputEnableOut;
 //Bundle output
@@ -60,7 +66,13 @@ l1ICache
     //Update in
     .cacheUpdate_i(cacheUpdateIn), .cacheUpdateAddress_i(updateAddressIn), 
     .cacheUpdatePid_i(cacheUpdatePidIn), .cacheUpdateTid_i(cacheUpdateTidIn),
-    .cacheUpdateLine1_i(cacheUpdateLineIn1), .cacheUpdateLine2_i(cacheUpdateLineIn2),
+    .cacheUpdateLine1_i(cacheUpdateLineIn1),
+    //Natural writes in - used to write data to the cache during non cache-miss situations
+    .naturalWriteEn_i(naturalWriteEnIn),
+    .naturalWriteAddress_i(naturalWriteAddressIn),
+    .naturalWriteLine_i(naturalWriteLineIn),
+    .naturalPid_i(naturalPidIn),
+    .naturalTid_i(naturalTidIn),
     //Fetch out
     .outputEnable_o(outputEnableOut), .outputBundle_o(outputBundleOut),
     .bundleAddress_o(bundleAddressOut),.bundleLen_o(bundleLenOut),
@@ -71,6 +83,8 @@ l1ICache
     .missedInstMajorId_o(missedInstMajorIdOut),
     .missedPid_o(missedPidOut), .missedTid_o(missedTidOut)
 );
+
+reg [0:7] loopCtr;
 
 initial begin
     $dumpfile("fetchTest.vcd");
@@ -83,7 +97,7 @@ initial begin
     TagIn = 0;
     //update/resolve miss
     cacheUpdateIn = 0; updateAddressIn = 0; 
-    cacheUpdateLineIn1 = 0; cacheUpdateLineIn2 = 0;
+    cacheUpdateLineIn1 = 0;
     cacheUpdatePidIn = 0; cacheUpdateTidIn = 0;
     #2;
 
@@ -93,13 +107,38 @@ initial begin
     resetIn = 0; clockIn = 0;
     #1;
 
-    //Start fetching
-    clockIn = 1; fetchEnableIn = 1;
-    TagIn = 0; IndexIn = 0; OffsetIn = 0;//Start fetching at addr 0
-    #1;
-    clockIn = 0; fetchEnableIn = 0;
-    #1;
+    //Start writing data to the cahe
+    naturalWriteEnIn = 1;
+    naturalWriteAddressIn = 0;
+    naturalPidIn = 0; naturalTidIn = 0;
+    for(loopCtr = 0; loopCtr < 10; loopCtr = loopCtr + 1)//write 10 cache lines
+    begin
+        $display("asd");
+        naturalWriteLineIn = 512'hAAAA_BBBB_CCCC_DDDD_EEEE_FFFF_AAAA_BBBB;
+        naturalWriteAddressIn = loopCtr * 64;
+        clockIn = 1;
+        #1;
+        clockIn = 0;
+        #1;
+    end
+    naturalWriteEnIn = 0;
 
+    //Start fetching
+    TagIn = 0; IndexIn = 0; OffsetIn = 0;//Start fetching at addr 0
+    
+
+    fetchEnableIn = 1;
+    for(loopCtr = 0; loopCtr < 10; loopCtr = loopCtr + 1)
+    begin
+        
+        clockIn = 1;
+        #1;
+        clockIn = 0; 
+        #1; 
+    end
+    fetchEnableIn = 0;
+
+/*
     //read from memories and check if inst already exists in buffer
     clockIn = 1;
     #1;
@@ -135,7 +174,6 @@ initial begin
     cacheUpdateIn = 1;
     updateAddressIn = {TagIn, IndexIn, OffsetIn}; 
     cacheUpdateLineIn1 = 512'hAAAAAAAA_BBBBBBBB_CCCCCCCC_DDDDDDDD__EEEEEEEE_FFFFFFFF_AAAAAAAA_BBBBBBBB__CCCCCCCC_DDDDDDDD_EEEEEEEE_FFFFFFFF__AAAAAAAA_BBBBBBBB_CCCCCCCC_DDDDDDDD;
-    cacheUpdateLineIn2 = 512'hEEEEEEEE_FFFFFFFF_AAAAAAAA_BBBBBBBB__CCCCCCCC_DDDDDDDD_EEEEEEEE_FFFFFFFF__AAAAAAAA_BBBBBBBB_CCCCCCCC_DDDDDDDD__EEEEEEEE_FFFFFFFF_AAAAAAAA_BBBBBBBB;
     cacheUpdatePidIn = 0; cacheUpdateTidIn = 0;
     clockIn = 1;
     #1;
@@ -173,6 +211,7 @@ initial begin
     #1;
     clockIn = 0;
     #1;
+    */
 end
 
 endmodule
