@@ -23,6 +23,29 @@ and performs the full decode on the instruction, then outputs it to the third st
 The third and final stage of the decode unit multiplexes the instructions from the previous stage to the single output signal group
 of the decode unit.
 
+The decode unit regenerates register addresses to point to a unified register space wherein all registers are in the same physical register file 
+using a single address space. This means register addresses within the instruction must take into account what type of instruction is being processed
+before generating the instruction.
+This implements:
+    Branch:
+        Program counter
+        CR register
+        Target address register    
+        Link register
+
+    FX:
+        32 FX registers
+        fx XER register
+        VR save register
+
+    FP:
+    32 FP registers
+    FPSCR register
+
+    VX:
+    32 VX registers
+    
+
 
 TODO:
 Replace POWER opcodes & Xopcodes with unified optype-specific opcodes and implement unified register space.
@@ -65,6 +88,7 @@ module DecodeUnit
 
     //output
     output wire enableOut,
+    ///Total output size is 302 bits (37.75B)
     output wire [0:25-1] instFormat_o,
     output wire [0:opcodeSize-1] opcodeOut,
     output wire [0:addressWidth-1] addressOut,

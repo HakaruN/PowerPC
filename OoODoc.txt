@@ -1,0 +1,13 @@
+OoO execution:
+Issue:
+If RS and RoB are free then issue instruction to the RS and RoB and then point the RAT entry for the instructions result to the ROB entry for the instruction. If the RS and or RoB don't have free entries then stall the front end until both have free entries.
+When an instruction issues it's operands are checked in the RAT and if the RAT entry points at the Reg file then the instruction may collect the value from the reg file, if the operand is aliased to a RoB entry then the RoB entry is taken into the RS entry to wait for in broadcast time.
+
+Dispatch:
+Select one or more instructions to be sent to the execution units, when an instruction is sent to execute then clear the RS file.
+
+Broadcast:
+When an instruction completes, the RS captures the result and tests it against waiting instruction's operands in order to resolve them. The RoB also captures result for the instruction and writes the value in that entry as well as marking that entry as complete/executed.
+
+Commit:
+The entries have their value's written to the Register file in program order only when the entry is marked as completed.
