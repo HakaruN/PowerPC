@@ -14,7 +14,7 @@ current features:
  - Reservation station (partialy implemented)
 
 TODO:
- - Implement all instructions of POWER ISA 3.0B
+ - Implement all instructions of POWER ISA 3.0B (equating to POWER 9 processors from IBM)
  - Data cache
  - Memory interface
  - Out of Order backend (multi instruction wide)

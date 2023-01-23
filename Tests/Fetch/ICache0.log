@@ -1,0 +1,250 @@
+ICache:           0: Resetting
+
+
+ICache:           0: Natural write at address                    0 (0000000000000000)
+
+
+ICache:           0: Natural write at address                   64 (0000000000000040)
+
+
+ICache:           0: Natural write at address                  128 (0000000000000080)
+
+
+ICache:           0: Natural write at address                  192 (00000000000000c0)
+
+
+ICache:           0: Natural write at address                  256 (0000000000000100)
+
+
+ICache:           0: Natural write at address                  320 (0000000000000140)
+
+
+ICache:           0: Natural write at address                  384 (0000000000000180)
+
+
+ICache:           0: Natural write at address                  448 (00000000000001c0)
+
+
+ICache:           0: Natural write at address                  512 (0000000000000200)
+
+
+ICache:           0: Natural write at address                  576 (0000000000000240)
+
+
+ICache:           0: Cycle 1 fetching instruction ID:                   0 at address                    0. Fetching 4 instructions
+
+
+ICache:           0: Cycle 1 fetching instruction ID:                   4 at address                   16. Fetching 4 instructions
+ICache:           0: Cycle 2 Instruction not on previously fetched line. Refetching
+
+
+ICache:           0: Cycle 1 fetching instruction ID:                   8 at address                   32. Fetching 4 instructions
+ICache:           0: Cycle 2 Instruction on previously fetched line. Not refetching
+ICache:           0: Cycle 3 cache hit. Fetching          4 instruction(s). Outputting aaaaaaaabbbbbbbbccccccccdddddddd
+
+
+ICache:           0: Cycle 1 fetching instruction ID:                  12 at address                   48.           Fetching 4 instructions
+ICache:           0: Cycle 2 Instruction on previously fetched line. Not refetching
+ICache:           0: Cycle 3 cache hit. Fetching          4 instruction(s). Outputting eeeeeeeeffffffffaaaaaaaabbbbbbbb
+
+
+ICache:           0: Cycle 1 fetching instruction ID:                  16 at address                   64. Fetching 4 instructions
+ICache:           0: Cycle 2 Instruction on previously fetched line. Not refetching
+ICache:           0: Cycle 3 cache hit. Fetching          4 instruction(s). Outputting ccccccccddddddddeeeeeeeeffffffff
+
+
+ICache:           0: Cycle 1 fetching instruction ID:                  20 at address                   80. Fetching 4 instructions
+ICache:           0: Cycle 2 Instruction not on previously fetched line. Refetching
+ICache:           0: Cycle 3 cache hit. Fetching          4 instruction(s). Outputting aaaaaaaabbbbbbbbccccccccdddddddd
+
+
+ICache:           0: Cycle 1 fetching instruction ID:                  24 at address                   96. Fetching 4 instructions
+ICache:           0: Cycle 2 Instruction on previously fetched line. Not refetching
+ICache:           0: Cycle 3 cache hit. Fetching          4 instruction(s). Outputting aaaaaaaabbbbbbbbccccccccdddddddd
+
+
+ICache:           0: Cycle 1 fetching instruction ID:                  28 at address                  112.           Fetching 4 instructions
+ICache:           0: Cycle 2 Instruction on previously fetched line. Not refetching
+ICache:           0: Cycle 3 cache hit. Fetching          4 instruction(s). Outputting eeeeeeeeffffffffaaaaaaaabbbbbbbb
+
+
+ICache:           0: Cycle 1 fetching instruction ID:                  32 at address                  128. Fetching 4 instructions
+ICache:           0: Cycle 2 Instruction on previously fetched line. Not refetching
+ICache:           0: Cycle 3 cache hit. Fetching          4 instruction(s). Outputting ccccccccddddddddeeeeeeeeffffffff
+
+
+ICache:           0: Cycle 1 fetching instruction ID:                  36 at address                  144. Fetching 4 instructions
+ICache:           0: Cycle 2 Instruction not on previously fetched line. Refetching
+ICache:           0: Cycle 3 cache hit. Fetching          4 instruction(s). Outputting aaaaaaaabbbbbbbbccccccccdddddddd
+
+
+ICache:           0: Cycle 1 fetching instruction ID:                  40 at address                  160. Fetching 4 instructions
+ICache:           0: Cycle 2 Instruction on previously fetched line. Not refetching
+ICache:           0: Cycle 3 cache hit. Fetching          4 instruction(s). Outputting aaaaaaaabbbbbbbbccccccccdddddddd
+
+
+ICache:           0: Cycle 1 fetching instruction ID:                  44 at address                  176.           Fetching 4 instructions
+ICache:           0: Cycle 2 Instruction on previously fetched line. Not refetching
+ICache:           0: Cycle 3 cache hit. Fetching          4 instruction(s). Outputting eeeeeeeeffffffffaaaaaaaabbbbbbbb
+
+
+ICache:           0: Cycle 1 fetching instruction ID:                  48 at address                  192. Fetching 4 instructions
+ICache:           0: Cycle 2 Instruction on previously fetched line. Not refetching
+ICache:           0: Cycle 3 cache hit. Fetching          4 instruction(s). Outputting ccccccccddddddddeeeeeeeeffffffff
+
+
+ICache:           0: Cycle 1 fetching instruction ID:                  52 at address                  208. Fetching 4 instructions
+ICache:           0: Cycle 2 Instruction not on previously fetched line. Refetching
+ICache:           0: Cycle 3 cache hit. Fetching          4 instruction(s). Outputting aaaaaaaabbbbbbbbccccccccdddddddd
+
+
+ICache:           0: Cycle 1 fetching instruction ID:                  56 at address                  224. Fetching 4 instructions
+ICache:           0: Cycle 2 Instruction on previously fetched line. Not refetching
+ICache:           0: Cycle 3 cache hit. Fetching          4 instruction(s). Outputting aaaaaaaabbbbbbbbccccccccdddddddd
+
+
+ICache:           0: Cycle 1 fetching instruction ID:                  60 at address                  240.           Fetching 4 instructions
+ICache:           0: Cycle 2 Instruction on previously fetched line. Not refetching
+ICache:           0: Cycle 3 cache hit. Fetching          4 instruction(s). Outputting eeeeeeeeffffffffaaaaaaaabbbbbbbb
+
+
+ICache:           0: Cycle 1 fetching instruction ID:                  64 at address                  256. Fetching 4 instructions
+ICache:           0: Cycle 2 Instruction on previously fetched line. Not refetching
+ICache:           0: Cycle 3 cache hit. Fetching          4 instruction(s). Outputting ccccccccddddddddeeeeeeeeffffffff
+
+
+ICache:           0: Cycle 1 fetching instruction ID:                  68 at address                  272. Fetching 4 instructions
+ICache:           0: Cycle 2 Instruction not on previously fetched line. Refetching
+ICache:           0: Cycle 3 cache hit. Fetching          4 instruction(s). Outputting aaaaaaaabbbbbbbbccccccccdddddddd
+
+
+ICache:           0: Cycle 1 fetching instruction ID:                  72 at address                  288. Fetching 4 instructions
+ICache:           0: Cycle 2 Instruction on previously fetched line. Not refetching
+ICache:           0: Cycle 3 cache hit. Fetching          4 instruction(s). Outputting aaaaaaaabbbbbbbbccccccccdddddddd
+
+
+ICache:           0: Cycle 1 fetching instruction ID:                  76 at address                  304.           Fetching 4 instructions
+ICache:           0: Cycle 2 Instruction on previously fetched line. Not refetching
+ICache:           0: Cycle 3 cache hit. Fetching          4 instruction(s). Outputting eeeeeeeeffffffffaaaaaaaabbbbbbbb
+
+
+ICache:           0: Cycle 1 fetching instruction ID:                  80 at address                  320. Fetching 4 instructions
+ICache:           0: Cycle 2 Instruction on previously fetched line. Not refetching
+ICache:           0: Cycle 3 cache hit. Fetching          4 instruction(s). Outputting ccccccccddddddddeeeeeeeeffffffff
+
+
+ICache:           0: Cycle 1 fetching instruction ID:                  84 at address                  336. Fetching 4 instructions
+ICache:           0: Cycle 2 Instruction not on previously fetched line. Refetching
+ICache:           0: Cycle 3 cache hit. Fetching          4 instruction(s). Outputting aaaaaaaabbbbbbbbccccccccdddddddd
+
+
+ICache:           0: Cycle 1 fetching instruction ID:                  88 at address                  352. Fetching 4 instructions
+ICache:           0: Cycle 2 Instruction on previously fetched line. Not refetching
+ICache:           0: Cycle 3 cache hit. Fetching          4 instruction(s). Outputting aaaaaaaabbbbbbbbccccccccdddddddd
+
+
+ICache:           0: Cycle 1 fetching instruction ID:                  92 at address                  368.           Fetching 4 instructions
+ICache:           0: Cycle 2 Instruction on previously fetched line. Not refetching
+ICache:           0: Cycle 3 cache hit. Fetching          4 instruction(s). Outputting eeeeeeeeffffffffaaaaaaaabbbbbbbb
+
+
+ICache:           0: Cycle 1 fetching instruction ID:                  96 at address                  384. Fetching 4 instructions
+ICache:           0: Cycle 2 Instruction on previously fetched line. Not refetching
+ICache:           0: Cycle 3 cache hit. Fetching          4 instruction(s). Outputting ccccccccddddddddeeeeeeeeffffffff
+
+
+ICache:           0: Cycle 1 fetching instruction ID:                 100 at address                  400. Fetching 4 instructions
+ICache:           0: Cycle 2 Instruction not on previously fetched line. Refetching
+ICache:           0: Cycle 3 cache hit. Fetching          4 instruction(s). Outputting aaaaaaaabbbbbbbbccccccccdddddddd
+
+
+ICache:           0: Cycle 1 fetching instruction ID:                 104 at address                  416. Fetching 4 instructions
+ICache:           0: Cycle 2 Instruction on previously fetched line. Not refetching
+ICache:           0: Cycle 3 cache hit. Fetching          4 instruction(s). Outputting aaaaaaaabbbbbbbbccccccccdddddddd
+
+
+ICache:           0: Cycle 1 fetching instruction ID:                 108 at address                  432.           Fetching 4 instructions
+ICache:           0: Cycle 2 Instruction on previously fetched line. Not refetching
+ICache:           0: Cycle 3 cache hit. Fetching          4 instruction(s). Outputting eeeeeeeeffffffffaaaaaaaabbbbbbbb
+
+
+ICache:           0: Cycle 1 fetching instruction ID:                 112 at address                  448. Fetching 4 instructions
+ICache:           0: Cycle 2 Instruction on previously fetched line. Not refetching
+ICache:           0: Cycle 3 cache hit. Fetching          4 instruction(s). Outputting ccccccccddddddddeeeeeeeeffffffff
+
+
+ICache:           0: Cycle 1 fetching instruction ID:                 116 at address                  464. Fetching 4 instructions
+ICache:           0: Cycle 2 Instruction not on previously fetched line. Refetching
+ICache:           0: Cycle 3 cache hit. Fetching          4 instruction(s). Outputting aaaaaaaabbbbbbbbccccccccdddddddd
+
+
+ICache:           0: Cycle 1 fetching instruction ID:                 120 at address                  480. Fetching 4 instructions
+ICache:           0: Cycle 2 Instruction on previously fetched line. Not refetching
+ICache:           0: Cycle 3 cache hit. Fetching          4 instruction(s). Outputting aaaaaaaabbbbbbbbccccccccdddddddd
+
+
+ICache:           0: Cycle 1 fetching instruction ID:                 124 at address                  496.           Fetching 4 instructions
+ICache:           0: Cycle 2 Instruction on previously fetched line. Not refetching
+ICache:           0: Cycle 3 cache hit. Fetching          4 instruction(s). Outputting eeeeeeeeffffffffaaaaaaaabbbbbbbb
+
+
+ICache:           0: Cycle 1 fetching instruction ID:                 128 at address                  512. Fetching 4 instructions
+ICache:           0: Cycle 2 Instruction on previously fetched line. Not refetching
+ICache:           0: Cycle 3 cache hit. Fetching          4 instruction(s). Outputting ccccccccddddddddeeeeeeeeffffffff
+
+
+ICache:           0: Cycle 1 fetching instruction ID:                 132 at address                  528. Fetching 4 instructions
+ICache:           0: Cycle 2 Instruction not on previously fetched line. Refetching
+ICache:           0: Cycle 3 cache hit. Fetching          4 instruction(s). Outputting aaaaaaaabbbbbbbbccccccccdddddddd
+
+
+ICache:           0: Cycle 1 fetching instruction ID:                 136 at address                  544. Fetching 4 instructions
+ICache:           0: Cycle 2 Instruction on previously fetched line. Not refetching
+ICache:           0: Cycle 3 cache hit. Fetching          4 instruction(s). Outputting aaaaaaaabbbbbbbbccccccccdddddddd
+
+
+ICache:           0: Cycle 1 fetching instruction ID:                 140 at address                  560.           Fetching 4 instructions
+ICache:           0: Cycle 2 Instruction on previously fetched line. Not refetching
+ICache:           0: Cycle 3 cache hit. Fetching          4 instruction(s). Outputting eeeeeeeeffffffffaaaaaaaabbbbbbbb
+
+
+ICache:           0: Cycle 1 fetching instruction ID:                 144 at address                  576. Fetching 4 instructions
+ICache:           0: Cycle 2 Instruction on previously fetched line. Not refetching
+ICache:           0: Cycle 3 cache hit. Fetching          4 instruction(s). Outputting ccccccccddddddddeeeeeeeeffffffff
+
+
+ICache:           0: Cycle 1 fetching instruction ID:                 148 at address                  592. Fetching 4 instructions
+ICache:           0: Cycle 2 Instruction not on previously fetched line. Refetching
+ICache:           0: Cycle 3 cache hit. Fetching          4 instruction(s). Outputting aaaaaaaabbbbbbbbccccccccdddddddd
+
+
+ICache:           0: Cycle 1 fetching instruction ID:                 152 at address                  608. Fetching 4 instructions
+ICache:           0: Cycle 2 Instruction on previously fetched line. Not refetching
+ICache:           0: Cycle 3 cache hit. Fetching          4 instruction(s). Outputting aaaaaaaabbbbbbbbccccccccdddddddd
+
+
+ICache:           0: Cycle 1 fetching instruction ID:                 156 at address                  624.           Fetching 4 instructions
+ICache:           0: Cycle 2 Instruction on previously fetched line. Not refetching
+ICache:           0: Cycle 3 cache hit. Fetching          4 instruction(s). Outputting eeeeeeeeffffffffaaaaaaaabbbbbbbb
+
+
+ICache:           0: Cycle 1 fetching instruction ID:                 160 at address                  640. Fetching 4 instructions
+ICache:           0: Cycle 2 Instruction on previously fetched line. Not refetching
+ICache:           0: Cycle 3 cache hit. Fetching          4 instruction(s). Outputting ccccccccddddddddeeeeeeeeffffffff
+
+
+ICache:           0: Cycle 1 fetching instruction ID:                 164 at address                  656. Fetching 4 instructions
+ICache:           0: Cycle 2 Instruction not on previously fetched line. Refetching
+ICache:           0: Cycle 3 cache hit. Fetching          4 instruction(s). Outputting aaaaaaaabbbbbbbbccccccccdddddddd
+
+
+ICache:           0: Cycle 1 fetching instruction ID:                 168 at address                  672. Fetching 4 instructions
+ICache:           0: Cycle 2 Instruction on previously fetched line. Not refetching
+ICache:           0: Cycle 3 cache miss. Requesting reload                  640 (0000000000000280).
+
+
+ICache:           0: Cycle 1 stalled due to cache miss
+ICache:           0: Cycle 2 stalled due to cache miss
+ICache:           0: Cycle 3 stalled due to cache miss
+
+

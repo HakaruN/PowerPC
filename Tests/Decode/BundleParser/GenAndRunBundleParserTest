@@ -1,0 +1,4 @@
+#!/bin/bash
+iverilog -o BundleParserTest.bin BundleParser_Test.v
+./BundleParserTest.bin
+rm BundleParserTest.bin
