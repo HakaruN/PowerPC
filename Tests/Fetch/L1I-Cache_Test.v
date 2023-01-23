@@ -37,7 +37,7 @@ wire outputEnableOut;
 //Bundle output
 wire [0:bundleSize-1] outputBundleOut;
 wire [0:fetchingAddressWidth-1] bundleAddressOut;
-wire [0:cacheLineWith-1] bundleLenOut;
+wire [0:1] bundleLenOut;
 wire [0:PidSize-1] bundlePidOut;
 wire [0:TidSize-1] bundleTidOut;
 wire [0:instructionCounterWidth-1] bundleStartMajIdOut;
@@ -108,9 +108,8 @@ initial begin
     naturalWriteEnIn = 1;
     naturalWriteAddressIn = 0;
     naturalPidIn = 0; naturalTidIn = 0;
-    for(loopCtr = 0; loopCtr < 10; loopCtr = loopCtr + 1)//write 10 cache lines
+    for(loopCtr = 0; loopCtr < 12; loopCtr = loopCtr + 1)//write 10 cache lines
     begin
-        $display("asd");
         naturalWriteLineIn = 512'hAAAA_BBBB_CCCC_DDDD_EEEE_FFFF_AAAA_BBBB;
         naturalWriteAddressIn = loopCtr * 64;
         clockIn = 1;
@@ -122,9 +121,9 @@ initial begin
 
     //Start fetching  
     fetchEnableIn = 1;
-    for(loopCtr = 0; loopCtr < 10; loopCtr = loopCtr + 1)
+    for(loopCtr = 0; loopCtr < 48; loopCtr = loopCtr + 1)//fetch 48 isnt groups (192 isnts)
     begin
-        fetchAddressIn = (loopCtr * 4);
+        fetchAddressIn = loopCtr * 16;
         clockIn = 1;
         #1;
         clockIn = 0; 
