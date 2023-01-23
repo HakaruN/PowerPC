@@ -1,5 +1,5 @@
 `timescale 1ns / 1ps
-`include "../../Modules/Fetch/FetchUnit.v"
+`include "../../Modules/Fetch/ICacheUnit.v"
 
 module L1ICacheTest #(
     parameter fetchingAddressWidth = 64, //addresses are 64 bits wide
@@ -87,7 +87,7 @@ reg [0:7] loopCtr;
 integer numLinesWriten = 10;
 
 initial begin
-    $dumpfile("fetchTest.vcd");
+    $dumpfile("ICacheTest.vcd");
     $dumpvars(0,l1ICache);
     //init vars
     clockIn = 0; fetchEnableIn = 0;
