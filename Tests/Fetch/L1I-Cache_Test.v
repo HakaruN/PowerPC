@@ -9,6 +9,7 @@ module L1ICacheTest #(
     parameter indexWidth = 8, //256 cachelines
     parameter tagWidth = fetchingAddressWidth - indexWidth - offsetWidth, //the tag is composed of the remaining parts of the address
     parameter bundleSize = 4 * instructionWidth, //A bundle is the collection of instructions fetched per cycle.
+    parameter bundlesPerLine = 4,//64 byte lines, 4 insts per bundle, 4 bytes per inst .... bundle = 16 bytes, 4 bundles per line
     //Processes ID and thread ID size
     parameter PidSize = 20, parameter TidSize = 16, //1048K processes uniquly identifiable and 64K threads per process.
     parameter instructionCounterWidth = 64// 64 bit counter to uniquly identify instructions
@@ -83,6 +84,7 @@ l1ICache
 );
 
 reg [0:7] loopCtr;
+integer numLinesWriten = 10;
 
 initial begin
     $dumpfile("fetchTest.vcd");
@@ -108,9 +110,9 @@ initial begin
     naturalWriteEnIn = 1;
     naturalWriteAddressIn = 0;
     naturalPidIn = 0; naturalTidIn = 0;
-    for(loopCtr = 0; loopCtr < 12; loopCtr = loopCtr + 1)//write 10 cache lines
+    for(loopCtr = 0; loopCtr < numLinesWriten; loopCtr = loopCtr + 1)//write 10 cache lines
     begin
-        naturalWriteLineIn = 512'hAAAA_BBBB_CCCC_DDDD_EEEE_FFFF_AAAA_BBBB;
+        naturalWriteLineIn = 512'hAAAAAAAA_BBBBBBBB_CCCCCCCC_DDDDDDDD_EEEEEEEE_FFFFFFFF_AAAAAAAA_BBBBBBBB_CCCCCCCC_DDDDDDDD_EEEEEEEE_FFFFFFFF_AAAAAAAA_BBBBBBBB_CCCCCCCC_DDDDDDDD;
         naturalWriteAddressIn = loopCtr * 64;
         clockIn = 1;
         #1;
@@ -121,7 +123,24 @@ initial begin
 
     //Start fetching  
     fetchEnableIn = 1;
-    for(loopCtr = 0; loopCtr < 48; loopCtr = loopCtr + 1)//fetch 48 isnt groups (192 isnts)
+    for(loopCtr = 0; loopCtr < numLinesWriten * bundlesPerLine; loopCtr = loopCtr + 1)
+    begin
+        fetchAddressIn = loopCtr * 16;
+        clockIn = 1;
+        #1;
+        clockIn = 0; 
+        #1; 
+    end
+    fetchEnableIn = 0;
+
+    if(outputEnableOut && ! cacheMissOut)
+        $display("Test pass: All data writen, read back");
+    else
+        $display("Test fail");
+
+    //Start fetching againt, this should cause a cache miss
+    fetchEnableIn = 1;
+    for(loopCtr = numLinesWriten * bundlesPerLine; loopCtr < numLinesWriten * bundlesPerLine + 4; loopCtr = loopCtr + 1)
     begin
         fetchAddressIn = loopCtr * 16;
         clockIn = 1;
