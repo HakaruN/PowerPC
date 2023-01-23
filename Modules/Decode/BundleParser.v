@@ -19,7 +19,6 @@ module BundleParser
     parameter addressWidth = 64, //addresses are 64 bits wide
     parameter instructionWidth = 4 * 8, // POWER instructions are 4 byte fixed sized
     parameter bundleSize = 4 * instructionWidth, //A bundle is the collection of instructions fetched per cycle.
-    //Processes ID and thread ID size
     parameter PidSize = 20, parameter TidSize = 16, //1048K processes uniquly identifiable and 64K threads per process.
     parameter instructionCounterWidth = 64,// 64 bit counter to uniquly identify instructions, this is known as the major ID as instructions may be broken into micro instructions which will have the same major ID yet unique minor IDs
     parameter BundlParserInstance = 0
@@ -28,12 +27,12 @@ module BundleParser
     ///inputs
     //command
     input wire clock_i,
-    `ifdef DEBUG_PRINT 
+`ifdef DEBUG_PRINT 
     input wire reset_i,
 `endif
     input wire enable_i,
     //Bundle output
-    input wire [0:bundleSize-1] Bundle_i,
+    input wire [0:bundleSize-1] bundle_i,
     input wire [0:addressWidth-1] bundleAddress_i,
     input wire [0:1] bundleLen_i,
     input wire [0:PidSize-1] bundlePid_i,
@@ -49,7 +48,7 @@ module BundleParser
     output reg [0:PidSize-1] pid1_o, pid2_o, pid3_o, pid4_o, 
     output reg [0:TidSize-1] tid1_o, tid2_o, tid3_o, tid4_o, 
     output reg [0:instructionCounterWidth-1] majID1_o, majID2_o, majID3_o, majID4_o
-)
+);
 
 
 `ifdef DEBUG_PRINT
@@ -85,12 +84,12 @@ begin
     end
     else `endif if(enable_i)
     begin
-        `ifdef DEBUG $display("Bundle Parser %d recieved %d instruction", BundlParserInstance, bundleLen_i+1); `endif
-        `ifdef DEBUG_PRINT $fdisplay(debugFID, "Bundle Parser %d recieved %d instruction", BundlParserInstance, bundleLen_i+1); `endif
+        `ifdef DEBUG $display("Bundle Parser %d recieved %d instruction(s)", BundlParserInstance, bundleLen_i+1); `endif
+        `ifdef DEBUG_PRINT $fdisplay(debugFID, "Bundle Parser %d recieved %d instruction(s)", BundlParserInstance, bundleLen_i+1); `endif
         case(bundleLen_i)
         2'b00: begin //Bundle has 1 instruction
             enable1_o <= 1; enable2_o <= 0; enable3_o <= 0; enable4_o <= 0;
-            instr1_o <= Bundle_i[(0*instructionWidth)+:instructionWidth];
+            instr1_o <= bundle_i[(0*instructionWidth)+:instructionWidth];
             addr1_o <= bundleAddress_i + 0;
             is64b1_o <= 1;
             pid1_o <= bundlePid_i;
@@ -99,8 +98,8 @@ begin
         end
         2'b01: begin //Bundle has 2 instructions
             enable1_o <= 1; enable2_o <= 1; enable3_o <= 0; enable4_o <= 0;
-            instr1_o <= Bundle_i[(0*instructionWidth)+:instructionWidth];
-            instr2_o <= Bundle_i[(1*instructionWidth)+:instructionWidth];
+            instr1_o <= bundle_i[(0*instructionWidth)+:instructionWidth];
+            instr2_o <= bundle_i[(1*instructionWidth)+:instructionWidth];
             addr1_o <= bundleAddress_i + 0; addr2_o <= bundleAddress_i + 4;
             is64b1_o <= 1; is64b2_o <= 1;
             pid1_o <= bundlePid_i; pid2_o <= bundlePid_i;
@@ -109,9 +108,9 @@ begin
         end
         2'b10: begin //Bundle has 3 instructions
             enable1_o <= 1; enable2_o <= 1; enable3_o <= 1; enable4_o <= 0;
-            instr1_o <= Bundle_i[(0*instructionWidth)+:instructionWidth];
-            instr2_o <= Bundle_i[(1*instructionWidth)+:instructionWidth];
-            instr3_o <= Bundle_i[(2*instructionWidth)+:instructionWidth];
+            instr1_o <= bundle_i[(0*instructionWidth)+:instructionWidth];
+            instr2_o <= bundle_i[(1*instructionWidth)+:instructionWidth];
+            instr3_o <= bundle_i[(2*instructionWidth)+:instructionWidth];
             addr1_o <= bundleAddress_i + 0; addr2_o <= bundleAddress_i + 4; addr3_o <= bundleAddress_i + 8;
             is64b1_o <= 1; is64b2_o <= 1; is64b3_o <= 1;
             pid1_o <= bundlePid_i; pid2_o <= bundlePid_i; pid3_o <= bundlePid_i;
@@ -120,10 +119,10 @@ begin
         end
         2'b11: begin //Bundle has 4 instructions
             enable1_o <= 1; enable2_o <= 1; enable3_o <= 1; enable4_o <= 1;
-            instr1_o <= Bundle_i[(0*instructionWidth)+:instructionWidth];
-            instr2_o <= Bundle_i[(1*instructionWidth)+:instructionWidth];
-            instr3_o <= Bundle_i[(2*instructionWidth)+:instructionWidth];
-            instr4_o <= Bundle_i[(3*instructionWidth)+:instructionWidth];
+            instr1_o <= bundle_i[(0*instructionWidth)+:instructionWidth];
+            instr2_o <= bundle_i[(1*instructionWidth)+:instructionWidth];
+            instr3_o <= bundle_i[(2*instructionWidth)+:instructionWidth];
+            instr4_o <= bundle_i[(3*instructionWidth)+:instructionWidth];
             addr1_o <= bundleAddress_i + 0; addr2_o <= bundleAddress_i + 4;
             addr3_o <= bundleAddress_i + 8; addr4_o <= bundleAddress_i + 12;
             is64b1_o <= 1; is64b2_o <= 1; is64b3_o <= 1; is64b4_o <= 1;
