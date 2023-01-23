@@ -47,8 +47,7 @@ This implements:
     
 
 
-TODO:
-Replace POWER opcodes & Xopcodes with unified optype-specific opcodes and implement unified register space.
+TODO: Implement unified register space.
 */
 module DecodeUnit
 #(
