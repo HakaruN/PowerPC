@@ -26,7 +26,8 @@ reg cacheUpdateIn;
 reg [0:fetchingAddressWidth-1] updateAddressIn;
 reg [0:PidSize-1] cacheUpdatePidIn;
 reg [0:TidSize-1] cacheUpdateTidIn;
-reg [0:cacheLineWith-1] cacheUpdateLineIn1;
+reg [0:instructionCounterWidth-1] missedInstMajorIdIn,
+reg [0:cacheLineWith-1] cacheUpdateLineIn;
 //Natural writes in - used to write data to the cache during non cache-miss situations
 reg naturalWriteEnIn;
 reg [0:fetchingAddressWidth-1] naturalWriteAddressIn;
@@ -65,7 +66,7 @@ l1ICache
     //Update in
     .cacheUpdate_i(cacheUpdateIn), .cacheUpdateAddress_i(updateAddressIn), 
     .cacheUpdatePid_i(cacheUpdatePidIn), .cacheUpdateTid_i(cacheUpdateTidIn),
-    .cacheUpdateLine1_i(cacheUpdateLineIn1),
+    .missedInstMajorId_i(missedInstMajorIdIn), .cacheUpdateLine_i(cacheUpdateLineIn),
     //Natural writes in - used to write data to the cache during non cache-miss situations
     .naturalWriteEn_i(naturalWriteEnIn),
     .naturalWriteAddress_i(naturalWriteAddressIn),
@@ -94,9 +95,10 @@ initial begin
     resetIn = 0; fetchStallIn = 0;
     PidIn = 0; TidIn = 0;
     fetchAddressIn = 0;
+    missedInstMajorIdIn = 0;
     //update/resolve miss
     cacheUpdateIn = 0; updateAddressIn = 0; 
-    cacheUpdateLineIn1 = 0;
+    cacheUpdateLineIn = 0;
     cacheUpdatePidIn = 0; cacheUpdateTidIn = 0;
     #2;
 
@@ -185,7 +187,7 @@ initial begin
     //clear the stall/miss
     cacheUpdateIn = 1;
     updateAddressIn = {TagIn, IndexIn, OffsetIn}; 
-    cacheUpdateLineIn1 = 512'hAAAAAAAA_BBBBBBBB_CCCCCCCC_DDDDDDDD__EEEEEEEE_FFFFFFFF_AAAAAAAA_BBBBBBBB__CCCCCCCC_DDDDDDDD_EEEEEEEE_FFFFFFFF__AAAAAAAA_BBBBBBBB_CCCCCCCC_DDDDDDDD;
+    cacheUpdateLineIn = 512'hAAAAAAAA_BBBBBBBB_CCCCCCCC_DDDDDDDD__EEEEEEEE_FFFFFFFF_AAAAAAAA_BBBBBBBB__CCCCCCCC_DDDDDDDD_EEEEEEEE_FFFFFFFF__AAAAAAAA_BBBBBBBB_CCCCCCCC_DDDDDDDD;
     cacheUpdatePidIn = 0; cacheUpdateTidIn = 0;
     clockIn = 1;
     #1;

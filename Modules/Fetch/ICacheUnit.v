@@ -115,7 +115,7 @@ module L1I_Cache
     input wire [0:PidSize-1] cacheUpdatePid_i,
     input wire [0:TidSize-1] cacheUpdateTid_i,
     input wire [0:instructionCounterWidth-1] missedInstMajorId_i,
-    input wire [0:cacheLineWith-1] cacheUpdateLine1_i,
+    input wire [0:cacheLineWith-1] cacheUpdateLine_i,
 
     /////Cache update (natural writes):
     //command
@@ -127,6 +127,9 @@ module L1I_Cache
     input wire [0:TidSize-1] naturalTid_i,
 
     //////Outputs:    
+    ////PC update
+    output reg icachePCIncEnable_o,//Do we increment the PC in the FU
+    output reg [0:2] iCachePCIncVal_o,//if so how much we increment by
     ////Fetch:
     //command
     output reg outputEnable_o,
@@ -242,24 +245,28 @@ begin
             case(fetchAddress_i[tagWidth+indexWidth+:offsetWidth])
             0: begin 
                 instCtr <= instCtr + 4;//Increment the instruction ctr by 4
+                icachePCIncEnable_o <= 1; iCachePCIncVal_o <= (4 * instructionWidth);
                 numInstsFetcheds[0] <= 2'b11;
                 `ifdef DEBUG $display("Fetching 4 instructions"); `endif
                 `ifdef DEBUG_PRINT $fdisplay(debugFID,"Fetching 4 instructions"); `endif
             end//At the begining of the bundle group, fetch the whole group
             4: begin 
                 instCtr <= instCtr + 3;//Increment the instruction ctr by 3
+                icachePCIncEnable_o <= 1; iCachePCIncVal_o <= (3 * instructionWidth);
                 numInstsFetcheds[0] <= 2'b10;
                 `ifdef DEBUG $display("Fetching 3 instructions"); `endif
                 `ifdef DEBUG_PRINT $fdisplay(debugFID,"Fetching 3 instructions"); `endif
             end//Past the first instruction of the bundle group, fetch the last 3 instructions in the group
             8: begin 
                 instCtr <= instCtr + 2;//Increment the instruction ctr by 2
+                icachePCIncEnable_o <= 1; iCachePCIncVal_o <= (2 * instructionWidth);
                 numInstsFetcheds[0] <= 2'b01;
                 `ifdef DEBUG $display("Fetching 2 instructions"); `endif
                 `ifdef DEBUG_PRINT $fdisplay(debugFID,"Fetching 2 instructions"); `endif
             end//Past the second instruction of the bundle group, fetch the last 2 instructions in the group
             12: begin 
                 instCtr <= instCtr + 1;//Increment the instruction ctr by 1
+                icachePCIncEnable_o <= 1; iCachePCIncVal_o <= (1 * instructionWidth);
                 numInstsFetcheds[0] <= 2'b00;
                 `ifdef DEBUG $display("Fetching 1 instruction"); `endif
                 `ifdef DEBUG_PRINT $fdisplay(debugFID,"Fetching 1 instruction"); `endif
@@ -276,24 +283,28 @@ begin
             case(fetchAddress_i[tagWidth+indexWidth+:offsetWidth])
             16: begin 
                 instCtr <= instCtr + 4;//Increment the instruction ctr by 4
+                icachePCIncEnable_o <= 1; iCachePCIncVal_o <= (4 * instructionWidth);
                 numInstsFetcheds[0] <= 2'b11;
                 `ifdef DEBUG $display("Fetching 4 instructions"); `endif
                 `ifdef DEBUG_PRINT $fdisplay(debugFID,"Fetching 4 instructions"); `endif
             end//At the begining of the bundle group, fetch the whole group
             20: begin 
                 instCtr <= instCtr + 3;//Increment the instruction ctr by 3
+                icachePCIncEnable_o <= 1; iCachePCIncVal_o <= (3 * instructionWidth);
                 numInstsFetcheds[0] <= 2'b10;
                 `ifdef DEBUG $display("Fetching 3 instructions"); `endif
                 `ifdef DEBUG_PRINT $fdisplay(debugFID,"Fetching 3 instructions"); `endif
             end//Past the first instruction of the bundle group, fetch the last 3 instructions in the group
             24: begin 
                 instCtr <= instCtr + 2;//Increment the instruction ctr by 2
+                icachePCIncEnable_o <= 1; iCachePCIncVal_o <= (2 * instructionWidth);
                 numInstsFetcheds[0] <= 2'b01;
                 `ifdef DEBUG $display("Fetching 2 instructions"); `endif
                 `ifdef DEBUG_PRINT $fdisplay(debugFID,"Fetching 2 instructions"); `endif
             end//Past the second instruction of the bundle group, fetch the last 2 instructions in the group
             28: begin 
                 instCtr <= instCtr + 1;//Increment the instruction ctr by 1
+                icachePCIncEnable_o <= 1; iCachePCIncVal_o <= (1 * instructionWidth);
                 numInstsFetcheds[0] <= 2'b00;
                 `ifdef DEBUG $display("Fetching 1 instruction"); `endif
                 `ifdef DEBUG_PRINT $fdisplay(debugFID,"Fetching 41 instruction"); `endif
@@ -310,24 +321,28 @@ begin
             case(fetchAddress_i[tagWidth+indexWidth+:offsetWidth])
             32: begin 
                 instCtr <= instCtr + 4;//Increment the instruction ctr by 4
+                icachePCIncEnable_o <= 1; iCachePCIncVal_o <= (4 * instructionWidth);
                 numInstsFetcheds[0] <= 2'b11;
                 `ifdef DEBUG $display("Fetching 4 instructions"); `endif
                 `ifdef DEBUG_PRINT $fdisplay(debugFID,"Fetching 4 instructions"); `endif
             end//At the begining of the bundle group, fetch the whole group
             36: begin 
                 instCtr <= instCtr + 3;//Increment the instruction ctr by 3
+                icachePCIncEnable_o <= 1; iCachePCIncVal_o <= (3 * instructionWidth);
                 numInstsFetcheds[0] <= 2'b10;
                 `ifdef DEBUG $display("Fetching 3 instructions"); `endif
                 `ifdef DEBUG_PRINT $fdisplay(debugFID,"Fetching 3 instructions"); `endif
             end//Past the first instruction of the bundle group, fetch the last 3 instructions in the group
             40: begin 
                 instCtr <= instCtr + 2;//Increment the instruction ctr by 2
+                icachePCIncEnable_o <= 1; iCachePCIncVal_o <= (2 * instructionWidth);
                 numInstsFetcheds[0] <= 2'b01;
                 `ifdef DEBUG $display("Fetching 2 instructions"); `endif
                 `ifdef DEBUG_PRINT $fdisplay(debugFID,"Fetching 2 instructions"); `endif
             end//Past the second instruction of the bundle group, fetch the last 2 instructions in the group
             44: begin 
                 instCtr <= instCtr + 1;//Increment the instruction ctr by 1
+                icachePCIncEnable_o <= 1; iCachePCIncVal_o <= (1 * instructionWidth);
                 numInstsFetcheds[0] <= 2'b00;
                 `ifdef DEBUG $display("Fetching 1 instruction"); `endif
                 `ifdef DEBUG_PRINT $fdisplay(debugFID,"Fetching 1 instruction"); `endif
@@ -344,24 +359,28 @@ begin
             case(fetchAddress_i[tagWidth+indexWidth+:offsetWidth])
             48: begin 
                 instCtr <= instCtr + 4;//Increment the instruction ctr by 4
+                icachePCIncEnable_o <= 1; iCachePCIncVal_o <= (4 * instructionWidth);
                 numInstsFetcheds[0] <= 2'b11;
                 `ifdef DEBUG $display("          Fetching 4 instructions"); `endif
                 `ifdef DEBUG_PRINT $fdisplay(debugFID,"          Fetching 4 instructions"); `endif
             end//At the begining of the bundle group, fetch the whole group
             52: begin 
                 instCtr <= instCtr + 3;//Increment the instruction ctr by 3
+                icachePCIncEnable_o <= 1; iCachePCIncVal_o <= (3 * instructionWidth);
                 numInstsFetcheds[0] <= 2'b10;
                 `ifdef DEBUG $display("          Fetching 3 instructions"); `endif
                 `ifdef DEBUG_PRINT $fdisplay(debugFID,"          Fetching 3 instructions"); `endif
             end//Past the first instruction of the bundle group, fetch the last 3 instructions in the group
             56: begin 
                 instCtr <= instCtr + 2;//Increment the instruction ctr by 2
+                icachePCIncEnable_o <= 1; iCachePCIncVal_o <= (2 * instructionWidth);
                 numInstsFetcheds[0] <= 2'b01;
                 `ifdef DEBUG $display("          Fetching 2 instructions"); `endif
                 `ifdef DEBUG_PRINT $fdisplay(debugFID,"          Fetching 2 instructions"); `endif
             end//Past the second instruction of the bundle group, fetch the last 2 instructions in the group
             60: begin 
                 instCtr <= instCtr + 1;//Increment the instruction ctr by 1
+                icachePCIncEnable_o <= 1; iCachePCIncVal_o <= (1 * instructionWidth);
                 numInstsFetcheds[0] <= 2'b00;
                 `ifdef DEBUG $display("          Fetching 1 instruction"); `endif
                 `ifdef DEBUG_PRINT $fdisplay(debugFID,"          Fetching 1 instruction"); `endif
@@ -513,7 +532,7 @@ begin
             end
             //NOTE: cacheUpdateAddress_i[tagWidth+:indexWidth] == index
             //update the memory
-            ICache[cacheUpdateAddress_i[tagWidth+:indexWidth]] <= cacheUpdateLine1_i;//write the new line1
+            ICache[cacheUpdateAddress_i[tagWidth+:indexWidth]] <= cacheUpdateLine_i;//write the new line1
             tagTable[cacheUpdateAddress_i[tagWidth+:indexWidth]] <= cacheUpdateAddress_i[0+:tagWidth];
             tagIsValidTable[cacheUpdateAddress_i[tagWidth+:indexWidth]] <= 1;
             processIdTable[cacheUpdateAddress_i[tagWidth+:indexWidth]] <= cacheUpdatePid_i;
