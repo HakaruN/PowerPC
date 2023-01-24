@@ -212,13 +212,10 @@ begin
         readLineIsValid <= 0;
         fetchEnables[0] <= 0; fetchEnables[1] <= 0;
         outputEnable_o <= 0; cacheMiss_o <= 0;
+        icachePCIncEnable_o <= 0;
         for(i = 0; i < 256; i = i + 1)
         begin
-            //`ifdef DEBUG ICache[i] <= 512'hAAAA_BBBB_CCCC_DDDD_EEEE_FFFF_AAAA_BBBB; `endif
-            //tagTable[i] <= 0;
             tagIsValidTable[i] <= 0;
-            //processIdTable[i] <= 0;
-            //threadIdTable[i] <= 0;
         end
     end
     //Fetch in (cylce 1)

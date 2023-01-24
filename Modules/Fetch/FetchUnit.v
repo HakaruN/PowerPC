@@ -19,7 +19,8 @@ module FetchUnit
     //Processes ID and thread ID size
     parameter PidSize = 20, parameter TidSize = 16, //1048K processes uniquly identifiable and 64K threads per process.
     parameter instructionCounterWidth = 64,// 64 bit counter to uniquly identify instructions, this is known as the major ID as instructions may be broken into micro instructions which will have the same major ID yet unique minor IDs
-    parameter ICacheInstance = 0
+    parameter fetchUnitInstance = 0,
+    parameter resetVector = 0
 )
 (
     //////Inputs:
@@ -29,9 +30,8 @@ module FetchUnit
     //command
     input wire fetchEnable_i, cacheReset_i, fetchStall_i,
     //data
-    input wire [0:PidSize-1] Pid_i,
-    input wire [0:TidSize-1] Tid_i,
     input wire [0:fetchingAddressWidth-1] fetchAddress_i,
+
     /////Cache update (cache miss resolution):
     //command
     input wire cacheUpdate_i,
@@ -41,6 +41,7 @@ module FetchUnit
     input wire [0:TidSize-1] cacheUpdateTid_i,
     input wire [0:instructionCounterWidth-1] missedInstMajorId_i,
     input wire [0:cacheLineWith-1] cacheUpdateLine_i,
+
     /////Cache update (natural writes):
     //command
     input wire naturalWriteEn_i,
@@ -49,6 +50,11 @@ module FetchUnit
     input wire [0:cacheLineWith-1] naturalWriteLine_i,
     input wire [0:PidSize-1] naturalPid_i,
     input wire [0:TidSize-1] naturalTid_i,
+    //////PID and TID updates
+    input wire pidWriteEn_i, tidWriteEn_i,
+    input wire [0:PidSize-1] pid_i,
+    input wire [0:TidSize-1] tid_i,
+
     //////Outputs:    
     ////Fetch:
     //command
@@ -71,6 +77,7 @@ module FetchUnit
 );
 
 reg [0:addressWidth-1] PC;//Program counter
+reg [0:PidSize-1] PID; reg [0:TidSize-1] TID;//The pid and tid of the program
 wire icachePCIncEnableOut;
 wire [0:2] iCachePCIncValOut;
 
@@ -87,7 +94,7 @@ l1ICache
     .clock_i(clock_i), .reset_i(reset_i),
     //Fetch in 
     .fetchEnable_i(fetchEnable_i), .cacheReset_i(cacheReset_i), .fetchStall_i(fetchStall_i), 
-    .Pid_i(Pid_i), .Tid_i(Tid_i), .fetchAddress_i(PC), 
+    .Pid_i(PID), .Tid_i(TID), .fetchAddress_i(PC), 
     //Update in
     .cacheUpdate_i(cacheUpdate_i), .cacheUpdateAddress_i(cacheUpdateAddress_i), 
     .cacheUpdatePid_i(cacheUpdatePid_i), .cacheUpdateTid_i(cacheUpdateTid_i),
@@ -103,6 +110,8 @@ l1ICache
     //PC updates
     .icachePCIncEnable_o(icachePCIncEnableOut),
     .iCachePCIncVal_o(iCachePCIncValOut),
+    //Pid and Tid updates
+
     //Fetch out
     .outputEnable_o(outputEnable_o), .outputBundle_o(outputBundle_o),
     .bundleAddress_o(bundleAddress_o),.bundleLen_o(bundleLen_o),
@@ -114,18 +123,74 @@ l1ICache
     .missedPid_o(missedPid_o), .missedTid_o(missedTid_o)
 );
 
+//File handle to the debug output
+`ifdef DEBUG_PRINT
+integer debugFID;
+`endif
+
 always @(posedge clock_i)
 begin
 
+    if(reset_i)//Reset
+    begin
+        `ifdef DEBUG_PRINT
+        case(fetchUnitInstance)//If we have multiple decoders, they each get different files. The second number indicates the decoder# log file.
+        0: begin 
+            debugFID = $fopen("FetchUnit0.log", "w");
+        end
+        1: begin 
+            debugFID = $fopen("FetchUnit1.log", "w");
+        end
+        2: begin 
+            debugFID = $fopen("FetchUnit2.log", "w");
+        end
+        3: begin 
+            debugFID = $fopen("FetchUnit3.log", "w");
+        end
+        4: begin 
+            debugFID = $fopen("FetchUnit4.log", "w");
+        end
+        5: begin 
+            debugFID = $fopen("FetchUnit5.log", "w");
+        end
+        6: begin 
+            debugFID = $fopen("FetchUnit6.log", "w");
+        end
+        7: begin 
+            debugFID = $fopen("FetchUnit7.log", "w");
+        end
+        endcase
+        `endif
+        `ifdef DEBUG $display("FetchUnit: %d: Resetting", fetchUnitInstance); `endif  
+        `ifdef DEBUG_PRINT $fdisplay(debugFID, "FetchUnit: %d: Resetting", fetchUnitInstance); `endif  
 
+        //Reset the PC and ids
+        PC <= resetVector;
+        PID <= 0; TID <= 0;
 
-    if(icachePCIncEnableOut)
-    begin//When the I cache can't do a full bundle/group it will tell us how many to increment by
-        PC <= PC + iCachePCIncValOut;
     end
-    else
-    begin//otherwise increment the PC by an entire bundle
-        PC <= PC + bundleSize;
+    else//Not resetting
+    begin        
+        if(icachePCIncEnableOut)
+        begin//When the I cache can't do a full bundle/group it will tell us how many to increment by
+            PC <= PC + iCachePCIncValOut;
+        end
+        else
+        begin//otherwise increment the PC by an entire bundle
+            PC <= PC + bundleSize;
+        end
+
+        //Allow the pid and tid to be updates
+        if(pidWriteEn_i)
+        begin
+            `ifdef DEBUG $display(); `endif
+            `ifdef DEBUG_PRINT $fdisplay(, ); `endif
+            PID <= pid_i;
+        end
+        if(tidWriteEn_i)
+        begin
+            TID <= tid_i;
+        end
     end
 
 end
