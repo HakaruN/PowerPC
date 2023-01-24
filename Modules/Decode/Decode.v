@@ -248,6 +248,7 @@ formatScanner
     wire [0:TidSize-1] DTidIn;
     wire [0:regAccessPatternSize-1] Dop1rwIn, Dop2rwIn;
     wire Dop1isRegIn, Dop2isRegIn, immIsExtendedIn, immIsShiftedIn;
+    wire [0:2] shiftedByIn;
     wire [0:(2 * regSize) + DimmediateSize - 1] DBodyIn;
 
     DFormatDecoder #()
@@ -276,6 +277,7 @@ formatScanner
         .instTid_o(DTidIn),
         .op1rw_o(Dop1rwIn), .op2rw_o(Dop2rwIn),
         .op1isReg_o(Dop1isRegIn), .op2isReg_o(Dop2isRegIn), .immIsExtended_o(immIsExtendedIn), .immIsShifted_o(immIsShiftedIn),
+        .shiftedBy_o(shiftedByIn),
         .instructionBody_o(DBodyIn)
     );
 
@@ -329,6 +331,7 @@ formatScanner
         .DTid_i(DTidIn),
         .Dop1rw_i(Dop1rwIn), .Dop2rw_i(Dop2rwIn),
         .Dop1isReg_i(Dop1isRegIn), .Dop2isReg_i(Dop2isRegIn), .immIsExtended_i(immIsExtendedIn), .immIsShifted_i(immIsShiftedIn),
+        .shiftedBy_i(shiftedByIn),
         .DBody_i(DBodyIn),
 
         ///output

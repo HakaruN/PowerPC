@@ -99,7 +99,7 @@ module DFormatDecoder
     parameter regRead = 2'b10, parameter regWrite = 2'b01, 
     parameter immediateSize = 16,
     parameter funcUnitCodeSize = 3, //can have up to 8 types of func unit.
-    parameter Op1Pos = 6,
+    parameter Op1Pos = 6, parameter shiftedBySize = 3,
     //FX = int, FP = float, VX = vector, CR = condition, LS = load/store
     parameter FXUnitId = 0, parameter FPUnitId = 1, parameter VXUnitId = 2, parameter CRUnitId = 3, parameter LSUnitId = 4,  parameter BranchUnitID = 6,   
     parameter D = (2**05),
@@ -136,6 +136,7 @@ module DFormatDecoder
     output reg [0:TidSize-1] instTid_o,//Thread ID
     output reg [0:regAccessPatternSize-1] op1rw_o, op2rw_o,//how are the operands accessed, are they writen to and/or read from [0] read flag, [1] write flag.
     output reg op1isReg_o, op2isReg_o, immIsExtended_o, immIsShifted_o,//if imm is shifted, its shifted up 2 bytes
+    output reg [0:shiftedBySize-1] shiftedBy_o,//How many bytes the imm is shifted up by
     //Instruction body - data contents are 26 bits wide. There are also flags to include
     output reg [0:(2 * regSize) + immediateSize - 1] instructionBody_o
 );
@@ -475,6 +476,7 @@ begin
             enable_o <= 1;
             immIsExtended_o <= 0; immIsShifted_o <= 1;
             functionalUnitType_o <= FXUnitId; instMinId_o <= 0;
+            shiftedBy_o <= 2;
             //is val or zero - if RA is zero, we treat it like an imm with zero val. Realistically we can just not use it at all.
             if(instruction_i[11:15] == 0)
                 op1isReg_o <= 0;
@@ -617,6 +619,7 @@ begin
             //Special Regs: CR0
             enable_o <= 1;
             immIsExtended_o <= 0; immIsShifted_o <= 1;
+            shiftedBy_o <= 2;//Shifted up 2 bytes
             functionalUnitType_o <= FXUnitId; instMinId_o <= 0;
             op1isReg_o <= 1;
             op2isReg_o <= 1;
@@ -645,6 +648,7 @@ begin
             //Special Regs: CR0
             enable_o <= 1;
             immIsExtended_o <= 0; immIsShifted_o <= 1;
+            shiftedBy_o <= 2;//Shifted up 2 bytes
             functionalUnitType_o <= FXUnitId; instMinId_o <= 0;
             op1isReg_o <= 1;
             op2isReg_o <= 1;
@@ -671,6 +675,7 @@ begin
             //Special Regs: CR0
             enable_o <= 1;
             immIsExtended_o <= 0; immIsShifted_o <= 1;
+            shiftedBy_o <= 2;//Shifted up 2 bytes
             functionalUnitType_o <= FXUnitId; instMinId_o <= 0;
             op1isReg_o <= 1;
             op2isReg_o <= 1;

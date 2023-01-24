@@ -83,6 +83,7 @@ module DecodeMux
     input wire [0:TidSize-1] DTid_i,
     input wire [0:regAccessPatternSize-1] Dop1rw_i, Dop2rw_i,
     input wire Dop1isReg_i, Dop2isReg_i, immIsExtended_i, immIsShifted_i,
+    input wire [0:2] shiftedBy_i,
     input wire [0:(2 * regSize) + DimmediateSize - 1] DBody_i,
 
     ///output
@@ -98,7 +99,7 @@ module DecodeMux
     output reg [0:TidSize-1] tid_o,
     output reg [0:regAccessPatternSize-1] op1rw_o, op2rw_o, op3rw_o, op4rw_o,
     output reg op1IsReg_o, op2IsReg_o, op3IsReg_o, op4IsReg_o,
-    output reg [0:84-1] body_o//contains all operands. Large enough for 4 reg operands and a 64bit imm
+    output reg [0:64-1] body_o//contains all operands. Large enough for 4 reg operands and a 32bit imm assuming the unified reg space has reg addresses of 8 bits
 );
 
 `ifdef DEBUG_PRINT
@@ -154,7 +155,7 @@ begin
         op1IsReg_o <= Aop1IsReg_o;  op2IsReg_o <= Aop2IsReg_o;  op3IsReg_o <= Aop3IsReg_o;  op4IsReg_o <= Aop4IsReg_o;
         //operand data
         body_o[0:20] <= ABody_i;
-        body_o[21:84-1] <= 0;//zero out top of buffer
+        body_o[21:64-1] <= 0;//zero out top of buffer
     end
     else if(Benable_i)
     begin
@@ -171,7 +172,7 @@ begin
         op1rw_o <= 0;       op2rw_o <= 0;       op3rw_o <= 0;   op4rw_o <= 0;
         op1IsReg_o <= 0;    op2IsReg_o <= 0;    op3IsReg_o <= 0;    op4IsReg_o <= 0;
         body_o[0:27] <= BBody_i;
-        body_o[28:84-1] <= 0;//zero out top of buffer
+        body_o[28:64-1] <= 0;//zero out top of buffer
     end
     else if(Denable_i)
     begin
@@ -190,18 +191,25 @@ begin
 
         //Copy the registers across to buffer
         body_o[0+:10] <= DBody_i[0+:10];//copy regs
-
+        /TODO: Imeplement shiftedBy_i
         //If the immediate is to be shifted, perform the shift here then sign extend to 64 bits and copy to buffer
         //$display("%b", DBody_i[10+:16]);
         if(immIsShifted_i)
         begin
-            body_o[10+:64] <= {48'h0000_0000_0000_0000_0000_0000, DBody_i[10+:16]};//copy and extend the imm
+            case(shiftedBy_i)
+                1: begin 
+                    body_o[10+:32] <= {8'h00, DBody_i[10+:16], 8'h00,};//copy and extend the imm
+                end
+                2: begin 
+                    body_o[10+:32] <= {DBody_i[10+:16], 16'b0000};//copy and extend the imm
+                end
+            endcase
         end
         else
         begin
-            body_o[10+:64] <= $signed({DBody_i[10+:16], 16'b00000000_00000000});//shift, extend and copy the imm
+            body_o[10+:32] <= {16'h0000, DBody_i[10+:16]};//copy and extend the imm
         end
-        body_o[74:84-1] <= 0;//zero out top of buffer
+        body_o[42:64-1] <= 0;//zero out top of buffer
     end
     else
     begin
