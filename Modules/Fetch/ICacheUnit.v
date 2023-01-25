@@ -7,13 +7,21 @@ Writen by Josh "Hakaru" Cantwell - 16.12.2022
 TODO: Implement an error condition for fetch alignment errors since they are being detected but nothing is done.
 
 //////Signal groups
-The cache has a 3 cycle latency and has 4 groups of signals, one pair of sinal groups are inputs and the other pair are outputs.
+The cache has a 3 cycle latency and has 6 groups of signals, one pair of sinal groups are inputs and the other pair are outputs.
 The signal groups perform one of two tasks: Fetching and cache miss resolution. These are described below:
+
 1) Fetch input
 This group of signals is used as the input to the cache/fetch unit for the purpose of fetching an instruction. These consist of control signals
 and an address to fetch among other things.
 
-2) Fetch output
+2) PC value update
+This group of signals tells the begining of the fetch unit how many bytes/instructions to advance by. During fetch a variable number of instructions may be fetched
+therefore the fetch unit must know how many instructions were fetched in order to advance the PC by that number of instructions.
+
+2) Natural write
+This group of signals is responsible for recieving new instructions into the cache. This is used by the prefetched to populate the cache.
+
+3) Fetch output
 This signal group is used for outputting the fetched instruction to the decode unit. It includes control signals, address, instruction ID,
 fetched instruction(s) and more.
 
