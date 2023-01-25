@@ -1,10 +1,14 @@
 `timescale 1ns / 1ps
 `define DEBUG
 `define DEBUG_PRINT
-
+`include "ICacheUnit.v"
 /*///////////////Fetch Unit////////////////////////////
 Writen by Josh "Hakaru" Cantwell - 23.01.2023
-TODO: implement an address input from the branch unit and the branch prediction
+This is the first stage in the fetch unit, it holds the program counter, the process ID reg and the program ID reg.
+This stage recieves the inputs from branches if they are supplied and modifies the program counter to begin fetching at the new address
+It also is responsible for updating the program counter during normal operation.
+
+TODO: Add the is64bit reg
 *//////////////////////////////////////////////////////
 
 module FetchUnit
@@ -14,7 +18,7 @@ module FetchUnit
     parameter instructionWidth = 4 * 8, // POWER instructions are 4 byte fixed sized
     parameter offsetWidth = 6, //allows all 16 instructions in the cache to be addresses (for a 64 byte wide cache)
     parameter indexWidth = 8, //256 cachelines
-    parameter tagWidth = fetchingAddressWidth - (indexWidth - offsetWidth), //the tag is composed of the remaining parts of the address
+    parameter tagWidth = addressWidth - (indexWidth - offsetWidth), //the tag is composed of the remaining parts of the address
     parameter bundleSize = 4 * instructionWidth, //A bundle is the collection of instructions fetched per cycle.
     //Processes ID and thread ID size
     parameter PidSize = 20, parameter TidSize = 16, //1048K processes uniquly identifiable and 64K threads per process.
@@ -30,13 +34,13 @@ module FetchUnit
     //command
     input wire fetchEnable_i, cacheReset_i, fetchStall_i,
     //data
-    input wire [0:fetchingAddressWidth-1] fetchAddress_i,
+    input wire [0:addressWidth-1] fetchAddress_i,
 
     /////Cache update (cache miss resolution):
     //command
     input wire cacheUpdate_i,
     //data
-    input wire [0:fetchingAddressWidth-1] cacheUpdateAddress_i,
+    input wire [0:addressWidth-1] cacheUpdateAddress_i,
     input wire [0:PidSize-1] cacheUpdatePid_i,
     input wire [0:TidSize-1] cacheUpdateTid_i,
     input wire [0:instructionCounterWidth-1] missedInstMajorId_i,
@@ -46,7 +50,7 @@ module FetchUnit
     //command
     input wire naturalWriteEn_i,
     //data
-    input wire [0:fetchingAddressWidth-1] naturalWriteAddress_i,
+    input wire [0:addressWidth-1] naturalWriteAddress_i,
     input wire [0:cacheLineWith-1] naturalWriteLine_i,
     input wire [0:PidSize-1] naturalPid_i,
     input wire [0:TidSize-1] naturalTid_i,
@@ -61,7 +65,7 @@ module FetchUnit
     output wire outputEnable_o,
     //Bundle output
     output wire [0:bundleSize-1] outputBundle_o,
-    output wire [0:fetchingAddressWidth-1] bundleAddress_o,
+    output wire [0:addressWidth-1] bundleAddress_o,
     output wire [0:1] bundleLen_o,
     output wire [0:PidSize-1] bundlePid_o,
     output wire [0:TidSize-1] bundleTid_o,
@@ -70,7 +74,7 @@ module FetchUnit
     //command
     output wire cacheMiss_o,
     //data
-    output wire [0:fetchingAddressWidth-1] missedAddress_o,
+    output wire [0:addressWidth-1] missedAddress_o,
     output wire [0:instructionCounterWidth-1] missedInstMajorId_o,
     output wire [0:PidSize-1] missedPid_o,
     output wire [0:TidSize-1] missedTid_o 
@@ -83,7 +87,7 @@ wire [0:2] iCachePCIncValOut;
 
 //L1i Cache
 L1I_Cache #(
-    .fetchingAddressWidth(fetchingAddressWidth), .cacheLineWith(cacheLineWith), 
+    .addressWidth(addressWidth), .cacheLineWith(cacheLineWith), 
     .instructionWidth(instructionWidth), .offsetWidth(offsetWidth), 
     .indexWidth(indexWidth), .tagWidth(tagWidth), 
     .PidSize(PidSize), .TidSize(TidSize), 
@@ -91,7 +95,7 @@ L1I_Cache #(
 )
 l1ICache
 (
-    .clock_i(clock_i), .reset_i(reset_i),
+    .clock_i(clock_i),
     //Fetch in 
     .fetchEnable_i(fetchEnable_i), .cacheReset_i(cacheReset_i), .fetchStall_i(fetchStall_i), 
     .Pid_i(PID), .Tid_i(TID), .fetchAddress_i(PC), 

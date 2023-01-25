@@ -3,6 +3,14 @@
 `define DEBUG
 `define DEBUG_PRINT
 
+//`define TEST_A
+//`define TEST_B
+`define TEST_D
+
+////////////////
+//TODO: Update tests for new decoder IO
+////////////////
+
 module DecodeTest #(
     parameter addressWidth = 64, //addresses are 64 bits wide
     parameter instructionWidth = 4 * 8, // POWER instructions are 4 byte fixed sized
@@ -48,13 +56,13 @@ module DecodeTest #(
     wire [0:addressWidth-1] addressOut;
     wire [0:funcUnitCodeSize-1] funcUnitTypeOut;
     wire [0:instructionCounterWidth-1] majIDOut;
-    wire [0:instMinIdWidth-1] minIDOut;
+    wire [0:instMinIdWidth-1] minIDOut, numMicroOpsOut;
     wire is64BitOut;
     wire [0:PidSize-1] pidOut;
     wire [0:TidSize-1] tidOut;
     wire [0:regAccessPatternSize-1] op1rwOut, op2rwOut, op3rwOut, op4rwOut;
     wire op1IsRegOut, op2IsRegOut, op3IsRegOut, op4IsRegOut;
-    wire [0:84-1] bodyOut;//contains all operands. Large enough for 4 reg operands and a 64bit imm
+    wire [0:64-1] bodyOut;//contains all operands. Large enough for 4 reg operands and a 64bit imm
 
     DecodeUnit
     #()
@@ -78,7 +86,7 @@ module DecodeTest #(
     .addressOut(addressOut),
     .funcUnitTypeOut(funcUnitTypeOut),
     .majIDOut(majIDOut),
-    .minIDOut(minIDOut),
+    .minIDOut(minIDOut), .numMicroOpsOut(numMicroOpsOut),
     .is64BitOut(is64BitOut),
     .pidOut(pidOut),
     .tidOut(tidOut),
@@ -157,6 +165,7 @@ initial begin
     end 
     $display();
 
+`ifdef TEST_A
     ///Test A format instructions:
     instCtr = 0; numInstTested = 24; decodedInsts = 0;
     //Iterate all possible opcodes
@@ -215,7 +224,9 @@ initial begin
         $display("FAIL");
     $display();
 
+`endif
 
+`ifdef TEST_B
     ///Test B format instructions:
     instCtr = 0; numInstTested = 1; decodedInsts = 0;
     //Iterate all possible opcodes
@@ -267,6 +278,9 @@ initial begin
         $display("FAIL");
     $display();
 
+`endif 
+
+`ifdef TEST_D
     ///Test D format instructions:
     instCtr = 0; numInstTested = 40; decodedInsts = 0;
     //Iterate all possible opcodes
@@ -302,8 +316,8 @@ initial begin
             if(enableOut == 1 && instFormatOut == D)
             begin
                 $display("Opcode %d, %b", opcode,bodyOut); 
-                if(bodyOut[0:4] == 5'b11111 && bodyOut[5:9] == 5'b00000 && 
-                (bodyOut[10:41] == 32'h0000_0000_0000_0000 || bodyOut[10:41] == 32'hFFFF_FFFF_FFFF_FFFF)
+                if(bodyOut[0:4] == 5'b11111 && bodyOut[5:9] == 5'b00000 &&
+                (bodyOut[10+:32] == 32'h0000_F00F || bodyOut[10+:32] == 32'h00F0_0F00|| bodyOut[10+:32] == 32'hF00F_0000)
                 )
                     decodedInsts = decodedInsts + 1;
             end
@@ -318,6 +332,7 @@ initial begin
         $display("FAIL");
     $display();
 
+`endif
 
 end
 

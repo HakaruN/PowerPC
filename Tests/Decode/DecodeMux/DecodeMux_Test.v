@@ -44,7 +44,7 @@ module DecodeMuxTest #(
     reg [0:addressWidth-1] AAddressIn;
     reg [0:funcUnitCodeSize-1] AUnitTypeIn;
     reg [0:instructionCounterWidth] AMajIdIn;
-    reg [0:instMinIdWidth-1] AMinIdIn;
+    reg [0:instMinIdWidth-1] AMinIdIn, AnumMicroOpsIn;
     reg Ais64BitIn;
     reg [0:PidSize-1] APidIn;
     reg [0:TidSize-1] ATidIn;
@@ -58,7 +58,7 @@ module DecodeMuxTest #(
     reg [0:addressWidth-1] BAddressIn;
     reg [0:funcUnitCodeSize-1] BUnitTypeIn;
     reg [0:instructionCounterWidth] BMajIdIn;
-    reg [0:instMinIdWidth-1] BMinIdIn;
+    reg [0:instMinIdWidth-1] BMinIdIn, BnumMicroOpsIn;
     reg Bis64BitIn;
     reg [0:PidSize-1] BPidIn;
     reg [0:TidSize-1] BTidIn;
@@ -70,12 +70,13 @@ module DecodeMuxTest #(
     reg [0:addressWidth-1] DAddressIn;
     reg [0:funcUnitCodeSize-1] DUnitTypeIn;
     reg [0:instructionCounterWidth] DMajIdIn;
-    reg [0:instMinIdWidth-1] DMinIdIn;
+    reg [0:instMinIdWidth-1] DMinIdIn, DnumMicroOpsIn;
     reg Dis64BitIn;
     reg [0:PidSize-1] DPidIn;
     reg [0:TidSize-1] DTidIn;
     reg [0:regAccessPatternSize-1] Dop1rwIn, Dop2rwIn;
     reg Dop1isRegIn, Dop2isRegIn, immIsExtendedIn, immIsShiftedIn;
+    reg [0:2] shiftedByIn;
     reg [0:(2 * regSize) + DimmediateSize - 1] DBodyIn;
 
     ///output
@@ -84,13 +85,13 @@ module DecodeMuxTest #(
     wire [0:addressWidth-1] addressOut;
     wire [0:funcUnitCodeSize-1] funcUnitTypeOut;
     wire [0:instructionCounterWidth-1] majIDOut;
-    wire [0:instMinIdWidth-1] minIDOut;
+    wire [0:instMinIdWidth-1] minIDOut, numMicroOpsOut;
     wire is64BitOut;
     wire [0:PidSize-1] pidOut;
     wire [0:TidSize-1] tidOut;
     wire [0:regAccessPatternSize-1] op1rwOut, op2rwOut, op3rwOut, op4rwOut;
     wire op1IsRegOut, op2IsRegOut, op3IsRegOut, op4IsRegOut;
-    wire [0:84-1] bodyOut;//contains all operands. Large enough for 4 reg operands and a 64bit imm
+    wire [0:64-1] bodyOut;//contains all operands. Large enough for 4 reg operands and a 64bit imm
 
 
 DecodeMux #(
@@ -109,7 +110,7 @@ decodeMux
     .AAddress_i(AAddressIn),
     .AUnitType_i(AUnitTypeIn),
     .AMajId_i(AMajIdIn),
-    .AMinId_i(AMinIdIn),
+    .AMinId_i(AMinIdIn), .AnumMicroOps_i(AnumMicroOpsIn),
     .Ais64Bit_i(Ais64BitIn),
     .APid_i(APidIn),
     .ATid_i(ATidIn),
@@ -123,7 +124,7 @@ decodeMux
     .BAddress_i(BAddressIn),
     .BUnitType_i(BUnitTypeIn),
     .BMajId_i(BMajIdIn),
-    .BMinId_i(BMinIdIn),
+    .BMinId_i(BMinIdIn), .BnumMicroOps_i(BnumMicroOpsIn),
     .Bis64Bit_i(Bis64BitIn),
     .BPid_i(BPidIn),
     .BTid_i(BTidIn),
@@ -135,12 +136,13 @@ decodeMux
     .DAddress_i(DAddressIn),
     .DUnitType_i(DUnitTypeIn),
     .DMajId_i(DMajIdIn),
-    .DMinId_i(DMinIdIn),
+    .DMinId_i(DMinIdIn), .DnumMicroOps_i(DnumMicroOpsIn),
     .Dis64Bit_i(Dis64BitIn),
     .DPid_i(DPidIn),
     .DTid_i(DTidIn),
     .Dop1rw_i(Dop1rwIn), .Dop2rw_i(Dop2rwIn),
     .Dop1isReg_i(Dop1isRegIn), .Dop2isReg_i(Dop2isRegIn), .immIsExtended_i(immIsExtendedIn), .immIsShifted_i(immIsShiftedIn),
+    .shiftedBy_i(shiftedByIn),
     .DBody_i(DBodyIn),
 
     ///output
@@ -149,7 +151,7 @@ decodeMux
     .address_o(addressOut),
     .funcUnitType_o(funcUnitTypeOut),
     .majID_o(majIDOut),
-    .minID_o(minIDOut),
+    .minID_o(minIDOut), .numMicroOps_o(numMicroOpsOut),
     .is64Bit_o(is64BitOut),
     .pid_o(pidOut),
     .tid_o(tidOut),
@@ -170,7 +172,7 @@ initial begin
     AAddressIn = 0;
     AUnitTypeIn = 0;
     AMajIdIn = 0;
-    AMinIdIn = 0;
+    AMinIdIn = 0; AnumMicroOpsIn = 0;
     Ais64BitIn = 0;
     APidIn = 0;
     ATidIn = 0;
@@ -183,7 +185,7 @@ initial begin
     BAddressIn = 0;
     BUnitTypeIn = 0;
     BMajIdIn = 0;
-    BMinIdIn = 0;
+    BMinIdIn = 0; BnumMicroOpsIn = 0;
     Bis64BitIn = 0;
     BPidIn = 0;
     BTidIn = 0;
@@ -194,12 +196,13 @@ initial begin
     DAddressIn = 0;
     DUnitTypeIn = 0;
     DMajIdIn = 0;
-    DMinIdIn = 0;
+    DMinIdIn = 0; DnumMicroOpsIn = 0;
     Dis64BitIn = 0;
     DPidIn = 0;
     DTidIn = 0;
     Dop1rwIn = 0; Dop2rwIn = 0;
     Dop1isRegIn = 0; Dop2isRegIn = 0; immIsExtendedIn = 0; immIsShiftedIn = 0;
+    shiftedByIn = 0;
     DBodyIn = 0;
 
     //Reset

@@ -84,12 +84,12 @@ match then the cache is hit, otherwise it's a miss.
 //////////////////////////////////////////*/
 module L1I_Cache
 #(
-    parameter fetchingAddressWidth = 64, //addresses are 64 bits wide
+    parameter addressWidth = 64, //addresses are 64 bits wide
     parameter cacheLineWith = 64 * 8, //cachelines are 64 bytes wide
     parameter instructionWidth = 4 * 8, // POWER instructions are 4 byte fixed sized
     parameter offsetWidth = 6, //allows all 16 instructions in the cache to be addresses (for a 64 byte wide cache)
     parameter indexWidth = 8, //256 cachelines
-    parameter tagWidth = fetchingAddressWidth - (indexWidth - offsetWidth), //the tag is composed of the remaining parts of the address
+    parameter tagWidth = addressWidth - (indexWidth - offsetWidth), //the tag is composed of the remaining parts of the address
     parameter bundleSize = 4 * instructionWidth, //A bundle is the collection of instructions fetched per cycle.
     //Processes ID and thread ID size
     parameter PidSize = 20, parameter TidSize = 16, //1048K processes uniquly identifiable and 64K threads per process.
@@ -105,13 +105,13 @@ module L1I_Cache
     //data
     input wire [0:PidSize-1] Pid_i,
     input wire [0:TidSize-1] Tid_i,
-    input wire [0:fetchingAddressWidth-1] fetchAddress_i,
+    input wire [0:addressWidth-1] fetchAddress_i,
 
     /////Cache update (cache miss resolution):
     //command
     input wire cacheUpdate_i,
     //data
-    input wire [0:fetchingAddressWidth-1] cacheUpdateAddress_i,
+    input wire [0:addressWidth-1] cacheUpdateAddress_i,
     input wire [0:PidSize-1] cacheUpdatePid_i,
     input wire [0:TidSize-1] cacheUpdateTid_i,
     input wire [0:instructionCounterWidth-1] missedInstMajorId_i,
@@ -121,7 +121,7 @@ module L1I_Cache
     //command
     input wire naturalWriteEn_i,
     //data
-    input wire [0:fetchingAddressWidth-1] naturalWriteAddress_i,
+    input wire [0:addressWidth-1] naturalWriteAddress_i,
     input wire [0:cacheLineWith-1] naturalWriteLine_i,
     input wire [0:PidSize-1] naturalPid_i,
     input wire [0:TidSize-1] naturalTid_i,
@@ -135,7 +135,7 @@ module L1I_Cache
     output reg outputEnable_o,
     //Bundle output
     output reg [0:bundleSize-1] outputBundle_o,
-    output reg [0:fetchingAddressWidth-1] bundleAddress_o,
+    output reg [0:addressWidth-1] bundleAddress_o,
     output reg [0:1] bundleLen_o,
     output reg [0:PidSize-1] bundlePid_o,
     output reg [0:TidSize-1] bundleTid_o,
@@ -145,7 +145,7 @@ module L1I_Cache
     //command
     output reg cacheMiss_o,
     //data
-    output reg [0:fetchingAddressWidth-1] missedAddress_o,
+    output reg [0:addressWidth-1] missedAddress_o,
     output reg [0:instructionCounterWidth-1] missedInstMajorId_o,
     output reg [0:PidSize-1] missedPid_o,
     output reg [0:TidSize-1] missedTid_o
@@ -541,37 +541,37 @@ begin
             bundleAddress_o <= cacheUpdateAddress_i;
             bundlePid_o <= cacheUpdatePid_i; bundleTid_o <= cacheUpdateTid_i;
             bundleStartMajId_o <= missedInstMajorId_i;
-            if(cacheUpdateAddress_i[fetchingAddressWidth-:offsetWidth] < 16)//Check the offset to find if it's in bundle group 1
+            if(cacheUpdateAddress_i[addressWidth-:offsetWidth] < 16)//Check the offset to find if it's in bundle group 1
             begin
                 //Figure out where in bundle group 1 we are
-                case(cacheUpdateAddress_i[fetchingAddressWidth-:offsetWidth])
+                case(cacheUpdateAddress_i[addressWidth-:offsetWidth])
                 0: begin 
                     outputEnable_o <= 1;
                     bundleLen_o <= 2'b00;            
-                    outputBundle_o <= fetchedBuffer[((cacheUpdateAddress_i[fetchingAddressWidth-:offsetWidth])*8)+:(1 * instructionWidth)];
-                    `ifdef DEBUG $display("ICache: %d: Cycle 3 Outputting 1 instruction in group 1: %h", ICacheInstance, fetchedBuffer[((cacheUpdateAddress_i[fetchingAddressWidth-:offsetWidth])*8)+:(1 * instructionWidth)]); `endif
-                    `ifdef DEBUG_PRINT $fdisplay(debugFID, "ICache: %d: Cycle 3 Outputting 1 instruction in group 1: %h", ICacheInstance, fetchedBuffer[((cacheUpdateAddress_i[fetchingAddressWidth-:offsetWidth])*8)+:(1 * instructionWidth)]); `endif  
+                    outputBundle_o <= fetchedBuffer[((cacheUpdateAddress_i[addressWidth-:offsetWidth])*8)+:(1 * instructionWidth)];
+                    `ifdef DEBUG $display("ICache: %d: Cycle 3 Outputting 1 instruction in group 1: %h", ICacheInstance, fetchedBuffer[((cacheUpdateAddress_i[addressWidth-:offsetWidth])*8)+:(1 * instructionWidth)]); `endif
+                    `ifdef DEBUG_PRINT $fdisplay(debugFID, "ICache: %d: Cycle 3 Outputting 1 instruction in group 1: %h", ICacheInstance, fetchedBuffer[((cacheUpdateAddress_i[addressWidth-:offsetWidth])*8)+:(1 * instructionWidth)]); `endif  
                 end//At the begining of the bundle group, fetch the whole group
                 4: begin 
                     outputEnable_o <= 1;
                     bundleLen_o <= 2'b01;
-                    outputBundle_o <= fetchedBuffer[((cacheUpdateAddress_i[fetchingAddressWidth-:offsetWidth])*8)+:(2 * instructionWidth)];
-                    `ifdef DEBUG $display("ICache: %d: Cycle 3 Outputting 2 instructions in group 1: %h", ICacheInstance, fetchedBuffer[((cacheUpdateAddress_i[fetchingAddressWidth-:offsetWidth])*8)+:(2 * instructionWidth)]); `endif
-                    `ifdef DEBUG_PRINT $fdisplay(debugFID, "ICache: %d: Cycle 3 Outputting 2 instructions in group 1: %h", ICacheInstance, fetchedBuffer[((cacheUpdateAddress_i[fetchingAddressWidth-:offsetWidth])*8)+:(2 * instructionWidth)]); `endif  
+                    outputBundle_o <= fetchedBuffer[((cacheUpdateAddress_i[addressWidth-:offsetWidth])*8)+:(2 * instructionWidth)];
+                    `ifdef DEBUG $display("ICache: %d: Cycle 3 Outputting 2 instructions in group 1: %h", ICacheInstance, fetchedBuffer[((cacheUpdateAddress_i[addressWidth-:offsetWidth])*8)+:(2 * instructionWidth)]); `endif
+                    `ifdef DEBUG_PRINT $fdisplay(debugFID, "ICache: %d: Cycle 3 Outputting 2 instructions in group 1: %h", ICacheInstance, fetchedBuffer[((cacheUpdateAddress_i[addressWidth-:offsetWidth])*8)+:(2 * instructionWidth)]); `endif  
                 end//Past the first instruction of the bundle group, fetch the last 3 instructions in the group
                 8: begin 
                     outputEnable_o <= 1;
                     bundleLen_o <= 2'b10;
-                    outputBundle_o <= fetchedBuffer[((cacheUpdateAddress_i[fetchingAddressWidth-:offsetWidth])*8)+:(3 * instructionWidth)];
-                    `ifdef DEBUG $display("ICache: %d: Cycle 3 Outputting 3 instructions in group 1: %h", ICacheInstance, fetchedBuffer[((cacheUpdateAddress_i[fetchingAddressWidth-:offsetWidth])*8)+:(3 * instructionWidth)]); `endif
-                    `ifdef DEBUG_PRINT $fdisplay(debugFID, "ICache: %d: Cycle 3 Outputting 3 instructions in group 1: %h", ICacheInstance, fetchedBuffer[((cacheUpdateAddress_i[fetchingAddressWidth-:offsetWidth])*8)+:(3 * instructionWidth)]); `endif  
+                    outputBundle_o <= fetchedBuffer[((cacheUpdateAddress_i[addressWidth-:offsetWidth])*8)+:(3 * instructionWidth)];
+                    `ifdef DEBUG $display("ICache: %d: Cycle 3 Outputting 3 instructions in group 1: %h", ICacheInstance, fetchedBuffer[((cacheUpdateAddress_i[addressWidth-:offsetWidth])*8)+:(3 * instructionWidth)]); `endif
+                    `ifdef DEBUG_PRINT $fdisplay(debugFID, "ICache: %d: Cycle 3 Outputting 3 instructions in group 1: %h", ICacheInstance, fetchedBuffer[((cacheUpdateAddress_i[addressWidth-:offsetWidth])*8)+:(3 * instructionWidth)]); `endif  
                 end//Past the second instruction of the bundle group, fetch the last 2 instructions in the group
                 12: begin 
                     outputEnable_o <= 1;
                     bundleLen_o <= 2'b11;
-                    outputBundle_o <= fetchedBuffer[((cacheUpdateAddress_i[fetchingAddressWidth-:offsetWidth])*8)+:(4 * instructionWidth)];
-                    `ifdef DEBUG $display("ICache: %d: Cycle 3 Outputting 4 instructions in group 1: %h", ICacheInstance, fetchedBuffer[((cacheUpdateAddress_i[fetchingAddressWidth-:offsetWidth])*8)+:(4 * instructionWidth)]); `endif
-                    `ifdef DEBUG_PRINT $fdisplay(debugFID, "ICache: %d: Cycle 3 Outputting 4 instructions in group 1: %h", ICacheInstance, fetchedBuffer[((cacheUpdateAddress_i[fetchingAddressWidth-:offsetWidth])*8)+:(4 * instructionWidth)]); `endif  
+                    outputBundle_o <= fetchedBuffer[((cacheUpdateAddress_i[addressWidth-:offsetWidth])*8)+:(4 * instructionWidth)];
+                    `ifdef DEBUG $display("ICache: %d: Cycle 3 Outputting 4 instructions in group 1: %h", ICacheInstance, fetchedBuffer[((cacheUpdateAddress_i[addressWidth-:offsetWidth])*8)+:(4 * instructionWidth)]); `endif
+                    `ifdef DEBUG_PRINT $fdisplay(debugFID, "ICache: %d: Cycle 3 Outputting 4 instructions in group 1: %h", ICacheInstance, fetchedBuffer[((cacheUpdateAddress_i[addressWidth-:offsetWidth])*8)+:(4 * instructionWidth)]); `endif  
                 end//At the last instruction in the bundle group, fetch the last instruction in the group
                 default: begin 
                     `ifdef DEBUG $display("ICache: %d: Cycle 3 Cache miss resolution alignment error", ICacheInstance); `endif
@@ -579,37 +579,37 @@ begin
                 end//Alignment error
                 endcase
             end
-            else if(cacheUpdateAddress_i[fetchingAddressWidth-:offsetWidth] < 32)//Check the offset to find if it's in bundle group 2
+            else if(cacheUpdateAddress_i[addressWidth-:offsetWidth] < 32)//Check the offset to find if it's in bundle group 2
             begin
                 //Figure out where in bundle group 2 we are
-                case(cacheUpdateAddress_i[fetchingAddressWidth-:offsetWidth])
+                case(cacheUpdateAddress_i[addressWidth-:offsetWidth])
                 16: begin 
                     outputEnable_o <= 1;
                     bundleLen_o <= 2'b00;
-                    outputBundle_o <= fetchedBuffer[((cacheUpdateAddress_i[fetchingAddressWidth-:offsetWidth])*8)+:(1 * instructionWidth)];
-                    `ifdef DEBUG $display("ICache: %d: Cycle 3 Outputting 1 instruction in group 2: %h", ICacheInstance, fetchedBuffer[((cacheUpdateAddress_i[fetchingAddressWidth-:offsetWidth])*8)+:(1 * instructionWidth)]); `endif
-                    `ifdef DEBUG_PRINT $fdisplay(debugFID, "ICache: %d: Cycle 3 Outputting 1 instruction in group 2: %h", ICacheInstance, fetchedBuffer[((cacheUpdateAddress_i[fetchingAddressWidth-:offsetWidth])*8)+:(1 * instructionWidth)]); `endif  
+                    outputBundle_o <= fetchedBuffer[((cacheUpdateAddress_i[addressWidth-:offsetWidth])*8)+:(1 * instructionWidth)];
+                    `ifdef DEBUG $display("ICache: %d: Cycle 3 Outputting 1 instruction in group 2: %h", ICacheInstance, fetchedBuffer[((cacheUpdateAddress_i[addressWidth-:offsetWidth])*8)+:(1 * instructionWidth)]); `endif
+                    `ifdef DEBUG_PRINT $fdisplay(debugFID, "ICache: %d: Cycle 3 Outputting 1 instruction in group 2: %h", ICacheInstance, fetchedBuffer[((cacheUpdateAddress_i[addressWidth-:offsetWidth])*8)+:(1 * instructionWidth)]); `endif  
                 end//At the begining of the bundle group, fetch the whole group
                 20: begin 
                     outputEnable_o <= 1;
                     bundleLen_o <= 2'b01;
-                    outputBundle_o <= fetchedBuffer[((cacheUpdateAddress_i[fetchingAddressWidth-:offsetWidth])*8)+:(2 * instructionWidth)];
-                    `ifdef DEBUG $display("ICache: %d: Cycle 3 Outputting 2 instructions in group 2: %h", ICacheInstance, fetchedBuffer[((cacheUpdateAddress_i[fetchingAddressWidth-:offsetWidth])*8)+:(2 * instructionWidth)]); `endif
-                    `ifdef DEBUG_PRINT $fdisplay(debugFID, "ICache: %d: Cycle 3 Outputting 2 instructions in group 2: %h", ICacheInstance, fetchedBuffer[((cacheUpdateAddress_i[fetchingAddressWidth-:offsetWidth])*8)+:(2 * instructionWidth)]); `endif  
+                    outputBundle_o <= fetchedBuffer[((cacheUpdateAddress_i[addressWidth-:offsetWidth])*8)+:(2 * instructionWidth)];
+                    `ifdef DEBUG $display("ICache: %d: Cycle 3 Outputting 2 instructions in group 2: %h", ICacheInstance, fetchedBuffer[((cacheUpdateAddress_i[addressWidth-:offsetWidth])*8)+:(2 * instructionWidth)]); `endif
+                    `ifdef DEBUG_PRINT $fdisplay(debugFID, "ICache: %d: Cycle 3 Outputting 2 instructions in group 2: %h", ICacheInstance, fetchedBuffer[((cacheUpdateAddress_i[addressWidth-:offsetWidth])*8)+:(2 * instructionWidth)]); `endif  
                 end//Past the first instruction of the bundle group, fetch the last 3 instructions in the group
                 24: begin 
                     outputEnable_o <= 1;
                     bundleLen_o <= 2'b10;
-                    outputBundle_o <= fetchedBuffer[((cacheUpdateAddress_i[fetchingAddressWidth-:offsetWidth])*8)+:(3 * instructionWidth)];
-                    `ifdef DEBUG $display("ICache: %d: Cycle 3 Outputting 3 instructions in group 2: %h", ICacheInstance, fetchedBuffer[((cacheUpdateAddress_i[fetchingAddressWidth-:offsetWidth])*8)+:(3 * instructionWidth)]); `endif
-                    `ifdef DEBUG_PRINT $fdisplay(debugFID, "ICache: %d: Cycle 3 Outputting 3 instructions in group 2: %h", ICacheInstance, fetchedBuffer[((cacheUpdateAddress_i[fetchingAddressWidth-:offsetWidth])*8)+:(3 * instructionWidth)]); `endif  
+                    outputBundle_o <= fetchedBuffer[((cacheUpdateAddress_i[addressWidth-:offsetWidth])*8)+:(3 * instructionWidth)];
+                    `ifdef DEBUG $display("ICache: %d: Cycle 3 Outputting 3 instructions in group 2: %h", ICacheInstance, fetchedBuffer[((cacheUpdateAddress_i[addressWidth-:offsetWidth])*8)+:(3 * instructionWidth)]); `endif
+                    `ifdef DEBUG_PRINT $fdisplay(debugFID, "ICache: %d: Cycle 3 Outputting 3 instructions in group 2: %h", ICacheInstance, fetchedBuffer[((cacheUpdateAddress_i[addressWidth-:offsetWidth])*8)+:(3 * instructionWidth)]); `endif  
                 end//Past the second instruction of the bundle group, fetch the last 2 instructions in the group
                 28: begin 
                     outputEnable_o <= 1;
                     bundleLen_o <= 2'b11;
-                    outputBundle_o <= fetchedBuffer[((cacheUpdateAddress_i[fetchingAddressWidth-:offsetWidth])*8)+:(4 * instructionWidth)];
-                    `ifdef DEBUG $display("ICache: %d: Cycle 3 Outputting 4 instructions in group 2: %h", ICacheInstance, fetchedBuffer[((cacheUpdateAddress_i[fetchingAddressWidth-:offsetWidth])*8)+:(4 * instructionWidth)]); `endif
-                    `ifdef DEBUG_PRINT $fdisplay(debugFID, "ICache: %d: Cycle 3 Outputting 4 instructions in group 2: %h", ICacheInstance, fetchedBuffer[((cacheUpdateAddress_i[fetchingAddressWidth-:offsetWidth])*8)+:(4 * instructionWidth)]); `endif  
+                    outputBundle_o <= fetchedBuffer[((cacheUpdateAddress_i[addressWidth-:offsetWidth])*8)+:(4 * instructionWidth)];
+                    `ifdef DEBUG $display("ICache: %d: Cycle 3 Outputting 4 instructions in group 2: %h", ICacheInstance, fetchedBuffer[((cacheUpdateAddress_i[addressWidth-:offsetWidth])*8)+:(4 * instructionWidth)]); `endif
+                    `ifdef DEBUG_PRINT $fdisplay(debugFID, "ICache: %d: Cycle 3 Outputting 4 instructions in group 2: %h", ICacheInstance, fetchedBuffer[((cacheUpdateAddress_i[addressWidth-:offsetWidth])*8)+:(4 * instructionWidth)]); `endif  
                 end//At the last instruction in the bundle group, fetch the last instruction in the group
                 default: begin 
                     `ifdef DEBUG $display("ICache: %d: Cycle 3 Cache miss resolution alignment error", ICacheInstance); `endif
@@ -617,37 +617,37 @@ begin
                 end//Alignment error
                 endcase
             end
-            else if(cacheUpdateAddress_i[fetchingAddressWidth-:offsetWidth] < 48)//Check the offset to find if it's in bundle group 3
+            else if(cacheUpdateAddress_i[addressWidth-:offsetWidth] < 48)//Check the offset to find if it's in bundle group 3
             begin
                 //Figure out where in bundle group 3 we are
-                case(cacheUpdateAddress_i[fetchingAddressWidth-:offsetWidth])
+                case(cacheUpdateAddress_i[addressWidth-:offsetWidth])
                 32: begin //At the begining of the bundle group, fetch the whole group
                     outputEnable_o <= 1;
                     bundleLen_o <= 2'b00;
-                    outputBundle_o <= fetchedBuffer[((cacheUpdateAddress_i[fetchingAddressWidth-:offsetWidth])*8)+:(1 * instructionWidth)];
-                    `ifdef DEBUG $display("ICache: %d: Cycle 3 Outputting 1 instruction in group 3: %h", ICacheInstance, fetchedBuffer[((cacheUpdateAddress_i[fetchingAddressWidth-:offsetWidth])*8)+:(1 * instructionWidth)]); `endif
-                    `ifdef DEBUG_PRINT $fdisplay(debugFID, "ICache: %d: Cycle 3 Outputting 1 instruction in group 3: %h", ICacheInstance, fetchedBuffer[((cacheUpdateAddress_i[fetchingAddressWidth-:offsetWidth])*8)+:(1 * instructionWidth)]); `endif  
+                    outputBundle_o <= fetchedBuffer[((cacheUpdateAddress_i[addressWidth-:offsetWidth])*8)+:(1 * instructionWidth)];
+                    `ifdef DEBUG $display("ICache: %d: Cycle 3 Outputting 1 instruction in group 3: %h", ICacheInstance, fetchedBuffer[((cacheUpdateAddress_i[addressWidth-:offsetWidth])*8)+:(1 * instructionWidth)]); `endif
+                    `ifdef DEBUG_PRINT $fdisplay(debugFID, "ICache: %d: Cycle 3 Outputting 1 instruction in group 3: %h", ICacheInstance, fetchedBuffer[((cacheUpdateAddress_i[addressWidth-:offsetWidth])*8)+:(1 * instructionWidth)]); `endif  
                 end
                 36: begin //Past the first instruction of the bundle group, fetch the last 3 instructions in the group
                     outputEnable_o <= 1;
                     bundleLen_o <= 2'b01;
-                    outputBundle_o <= fetchedBuffer[((cacheUpdateAddress_i[fetchingAddressWidth-:offsetWidth])*8)+:(2 * instructionWidth)];
-                    `ifdef DEBUG $display("ICache: %d: Cycle 3 Outputting 2 instructions in group 3: %h", ICacheInstance, fetchedBuffer[((cacheUpdateAddress_i[fetchingAddressWidth-:offsetWidth])*8)+:(2 * instructionWidth)]); `endif
-                    `ifdef DEBUG_PRINT $fdisplay(debugFID, "ICache: %d: Cycle 3 Outputting 2 instructions in group 3: %h", ICacheInstance, fetchedBuffer[((cacheUpdateAddress_i[fetchingAddressWidth-:offsetWidth])*8)+:(2 * instructionWidth)]); `endif  
+                    outputBundle_o <= fetchedBuffer[((cacheUpdateAddress_i[addressWidth-:offsetWidth])*8)+:(2 * instructionWidth)];
+                    `ifdef DEBUG $display("ICache: %d: Cycle 3 Outputting 2 instructions in group 3: %h", ICacheInstance, fetchedBuffer[((cacheUpdateAddress_i[addressWidth-:offsetWidth])*8)+:(2 * instructionWidth)]); `endif
+                    `ifdef DEBUG_PRINT $fdisplay(debugFID, "ICache: %d: Cycle 3 Outputting 2 instructions in group 3: %h", ICacheInstance, fetchedBuffer[((cacheUpdateAddress_i[addressWidth-:offsetWidth])*8)+:(2 * instructionWidth)]); `endif  
                 end
                 40: begin //Past the second instruction of the bundle group, fetch the last 2 instructions in the group
                     outputEnable_o <= 1;
                     bundleLen_o <= 2'b10;
-                    outputBundle_o <= fetchedBuffer[((cacheUpdateAddress_i[fetchingAddressWidth-:offsetWidth])*8)+:(3 * instructionWidth)];
-                    `ifdef DEBUG $display("ICache: %d: Cycle 3 Outputting 3 instructions in group 3: %h", ICacheInstance, fetchedBuffer[((cacheUpdateAddress_i[fetchingAddressWidth-:offsetWidth])*8)+:(3 * instructionWidth)]); `endif
-                    `ifdef DEBUG_PRINT $fdisplay(debugFID, "ICache: %d: Cycle 3 Outputting 3 instructions in group 3: %h", ICacheInstance, fetchedBuffer[((cacheUpdateAddress_i[fetchingAddressWidth-:offsetWidth])*8)+:(3 * instructionWidth)]); `endif  
+                    outputBundle_o <= fetchedBuffer[((cacheUpdateAddress_i[addressWidth-:offsetWidth])*8)+:(3 * instructionWidth)];
+                    `ifdef DEBUG $display("ICache: %d: Cycle 3 Outputting 3 instructions in group 3: %h", ICacheInstance, fetchedBuffer[((cacheUpdateAddress_i[addressWidth-:offsetWidth])*8)+:(3 * instructionWidth)]); `endif
+                    `ifdef DEBUG_PRINT $fdisplay(debugFID, "ICache: %d: Cycle 3 Outputting 3 instructions in group 3: %h", ICacheInstance, fetchedBuffer[((cacheUpdateAddress_i[addressWidth-:offsetWidth])*8)+:(3 * instructionWidth)]); `endif  
                 end
                 44: begin //At the last instruction in the bundle group, fetch the last instruction in the group
                     outputEnable_o <= 1;
                     bundleLen_o <= 2'b11;
-                    outputBundle_o <= fetchedBuffer[((cacheUpdateAddress_i[fetchingAddressWidth-:offsetWidth])*8)+:(4 * instructionWidth)];
-                    `ifdef DEBUG $display("ICache: %d: Cycle 3 Outputting 4 instructions in group 3: %h", ICacheInstance, fetchedBuffer[((cacheUpdateAddress_i[fetchingAddressWidth-:offsetWidth])*8)+:(4 * instructionWidth)]); `endif
-                    `ifdef DEBUG_PRINT $fdisplay(debugFID, "ICache: %d: Cycle 3 Outputting 4 instructions in group 3: %h", ICacheInstance, fetchedBuffer[((cacheUpdateAddress_i[fetchingAddressWidth-:offsetWidth])*8)+:(4 * instructionWidth)]); `endif  
+                    outputBundle_o <= fetchedBuffer[((cacheUpdateAddress_i[addressWidth-:offsetWidth])*8)+:(4 * instructionWidth)];
+                    `ifdef DEBUG $display("ICache: %d: Cycle 3 Outputting 4 instructions in group 3: %h", ICacheInstance, fetchedBuffer[((cacheUpdateAddress_i[addressWidth-:offsetWidth])*8)+:(4 * instructionWidth)]); `endif
+                    `ifdef DEBUG_PRINT $fdisplay(debugFID, "ICache: %d: Cycle 3 Outputting 4 instructions in group 3: %h", ICacheInstance, fetchedBuffer[((cacheUpdateAddress_i[addressWidth-:offsetWidth])*8)+:(4 * instructionWidth)]); `endif  
                 end
                 default: begin //Alignment error
                     `ifdef DEBUG $display("ICache: %d: Cycle 3 Cache miss resolution alignment error", ICacheInstance); `endif
@@ -658,34 +658,34 @@ begin
             else//Bundle group 4
             begin
                 //Figure out where in bundle group 4 we are
-                case(cacheUpdateAddress_i[fetchingAddressWidth-:offsetWidth])
+                case(cacheUpdateAddress_i[addressWidth-:offsetWidth])
                 48: begin //At the begining of the bundle group, fetch the whole group
                     outputEnable_o <= 1;
                     bundleLen_o <= 2'b00;
-                    outputBundle_o <= fetchedBuffer[((cacheUpdateAddress_i[fetchingAddressWidth-:offsetWidth])*8)+:(1 * instructionWidth)];
-                    `ifdef DEBUG $display("ICache: %d: Cycle 3 Outputting 1 instruction in group 4: %h", ICacheInstance, fetchedBuffer[((cacheUpdateAddress_i[fetchingAddressWidth-:offsetWidth])*8)+:(1 * instructionWidth)]); `endif
-                    `ifdef DEBUG_PRINT $fdisplay(debugFID, "ICache: %d: Cycle 3 Outputting 1 instruction in group 4: %h", ICacheInstance, fetchedBuffer[((cacheUpdateAddress_i[fetchingAddressWidth-:offsetWidth])*8)+:(1 * instructionWidth)]); `endif  
+                    outputBundle_o <= fetchedBuffer[((cacheUpdateAddress_i[addressWidth-:offsetWidth])*8)+:(1 * instructionWidth)];
+                    `ifdef DEBUG $display("ICache: %d: Cycle 3 Outputting 1 instruction in group 4: %h", ICacheInstance, fetchedBuffer[((cacheUpdateAddress_i[addressWidth-:offsetWidth])*8)+:(1 * instructionWidth)]); `endif
+                    `ifdef DEBUG_PRINT $fdisplay(debugFID, "ICache: %d: Cycle 3 Outputting 1 instruction in group 4: %h", ICacheInstance, fetchedBuffer[((cacheUpdateAddress_i[addressWidth-:offsetWidth])*8)+:(1 * instructionWidth)]); `endif  
                 end
                 52: begin //Past the first instruction of the bundle group, fetch the last 3 instructions in the group
                     outputEnable_o <= 1;
                     bundleLen_o <= 2'b01;
-                    outputBundle_o <= fetchedBuffer[((cacheUpdateAddress_i[fetchingAddressWidth-:offsetWidth])*8)+:(2 * instructionWidth)];
-                    `ifdef DEBUG $display("ICache: %d: Cycle 3 Outputting 2 instructions in group 4: %h", ICacheInstance, fetchedBuffer[((cacheUpdateAddress_i[fetchingAddressWidth-:offsetWidth])*8)+:(2 * instructionWidth)]); `endif
-                    `ifdef DEBUG_PRINT $fdisplay(debugFID, "ICache: %d: Cycle 3 Outputting 2 instructions in group 4: %h", ICacheInstance, fetchedBuffer[((cacheUpdateAddress_i[fetchingAddressWidth-:offsetWidth])*8)+:(2 * instructionWidth)]); `endif  
+                    outputBundle_o <= fetchedBuffer[((cacheUpdateAddress_i[addressWidth-:offsetWidth])*8)+:(2 * instructionWidth)];
+                    `ifdef DEBUG $display("ICache: %d: Cycle 3 Outputting 2 instructions in group 4: %h", ICacheInstance, fetchedBuffer[((cacheUpdateAddress_i[addressWidth-:offsetWidth])*8)+:(2 * instructionWidth)]); `endif
+                    `ifdef DEBUG_PRINT $fdisplay(debugFID, "ICache: %d: Cycle 3 Outputting 2 instructions in group 4: %h", ICacheInstance, fetchedBuffer[((cacheUpdateAddress_i[addressWidth-:offsetWidth])*8)+:(2 * instructionWidth)]); `endif  
                 end
                 56: begin //Past the second instruction of the bundle group, fetch the last 2 instructions in the group
                     outputEnable_o <= 1;
                     bundleLen_o <= 2'b10;
-                    outputBundle_o <= fetchedBuffer[((cacheUpdateAddress_i[fetchingAddressWidth-:offsetWidth])*8)+:(3 * instructionWidth)];
-                    `ifdef DEBUG $display("ICache: %d: Cycle 3 Outputting 3 instructions in group 3: %h", ICacheInstance, fetchedBuffer[((cacheUpdateAddress_i[fetchingAddressWidth-:offsetWidth])*8)+:(3 * instructionWidth)]); `endif
-                    `ifdef DEBUG_PRINT $fdisplay(debugFID, "ICache: %d: Cycle 3 Outputting 3 instructions in group 3: %h", ICacheInstance, fetchedBuffer[((cacheUpdateAddress_i[fetchingAddressWidth-:offsetWidth])*8)+:(3 * instructionWidth)]); `endif  
+                    outputBundle_o <= fetchedBuffer[((cacheUpdateAddress_i[addressWidth-:offsetWidth])*8)+:(3 * instructionWidth)];
+                    `ifdef DEBUG $display("ICache: %d: Cycle 3 Outputting 3 instructions in group 3: %h", ICacheInstance, fetchedBuffer[((cacheUpdateAddress_i[addressWidth-:offsetWidth])*8)+:(3 * instructionWidth)]); `endif
+                    `ifdef DEBUG_PRINT $fdisplay(debugFID, "ICache: %d: Cycle 3 Outputting 3 instructions in group 3: %h", ICacheInstance, fetchedBuffer[((cacheUpdateAddress_i[addressWidth-:offsetWidth])*8)+:(3 * instructionWidth)]); `endif  
                 end
                 60: begin //At the last instruction in the bundle group, fetch the last instruction in the group
                     outputEnable_o <= 1;
                     bundleLen_o <= 2'b11;
-                    outputBundle_o <= fetchedBuffer[((cacheUpdateAddress_i[fetchingAddressWidth-:offsetWidth])*8)+:(4 * instructionWidth)];
-                    `ifdef DEBUG $display("ICache: %d: Cycle 3 Outputting 4 instructions in group 4: %h", ICacheInstance, fetchedBuffer[((cacheUpdateAddress_i[fetchingAddressWidth-:offsetWidth])*8)+:(4 * instructionWidth)]); `endif
-                    `ifdef DEBUG_PRINT $fdisplay(debugFID, "ICache: %d: Cycle 3 Outputting 4 instructions in group 4: %h", ICacheInstance, fetchedBuffer[((cacheUpdateAddress_i[fetchingAddressWidth-:offsetWidth])*8)+:(4 * instructionWidth)]); `endif  
+                    outputBundle_o <= fetchedBuffer[((cacheUpdateAddress_i[addressWidth-:offsetWidth])*8)+:(4 * instructionWidth)];
+                    `ifdef DEBUG $display("ICache: %d: Cycle 3 Outputting 4 instructions in group 4: %h", ICacheInstance, fetchedBuffer[((cacheUpdateAddress_i[addressWidth-:offsetWidth])*8)+:(4 * instructionWidth)]); `endif
+                    `ifdef DEBUG_PRINT $fdisplay(debugFID, "ICache: %d: Cycle 3 Outputting 4 instructions in group 4: %h", ICacheInstance, fetchedBuffer[((cacheUpdateAddress_i[addressWidth-:offsetWidth])*8)+:(4 * instructionWidth)]); `endif  
                 end
                 default: begin //Alignment error
                     `ifdef DEBUG $display("ICache: %d: Cycle 3 Cache miss resolution alignment error", ICacheInstance); `endif

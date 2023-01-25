@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
-//`define DEBUG
-//`define DEBUG_PRINT
+`define DEBUG
+`define DEBUG_PRINT
 `define QUIET_INVALID
 
 /*/////////Format decode/////////////
@@ -130,7 +130,7 @@ module DFormatDecoder
     output reg [0:addressWidth-1] instructionAddress_o,//address of the instruction
     output reg [0:funcUnitCodeSize-1] functionalUnitType_o,//tells the backend what type of func unit to use
     output reg [0:instructionCounterWidth] instMajId_o,//major ID - the IDs are used to determine instruction order for reordering after execution
-    output reg [0:instMinIdWidth-1] instMinId_o,//minor ID - minor ID's are generated in decode if an instruction generated micro ops, these are differentiated by the minor ID, they will have the same major ID
+    output reg [0:instMinIdWidth-1] instMinId_o, numMicroOps_o,//minor ID - minor ID's are generated in decode. If an instruction generates multiple micro ops they are uniquely identified by the instMinId val. numMicroOps tells the OoO hardware how many uops were generated for the instruction so it can allocate space in the reorder buffer ahead of time
     output reg is64Bit_o,
     output reg [0:PidSize-1] instPid_o,//process ID
     output reg [0:TidSize-1] instTid_o,//Thread ID
@@ -200,7 +200,7 @@ begin
             //Special Regs: Na
             enable_o <= 1;
             immIsExtended_o <= 1; immIsShifted_o <= 0;
-            functionalUnitType_o <= FXUnitId; instMinId_o <= 0;
+            functionalUnitType_o <= FXUnitId; instMinId_o <= 0; numMicroOps_o <= 0;
             //is val or zero - if RA is zero, we treat it like an imm with zero val. Realistically we can just not use it at all if zeroed
             if(instruction_i[11:15] == 0)
                 op1isReg_o <= 0;
@@ -218,7 +218,7 @@ begin
             //Special Regs: Na
             enable_o <= 1;
             immIsExtended_o <= 1; immIsShifted_o <= 0;
-            functionalUnitType_o <= FXUnitId; instMinId_o <= 0;
+            functionalUnitType_o <= FXUnitId; instMinId_o <= 0; numMicroOps_o <= 0;
             op1isReg_o <= 1; op2isReg_o <= 1;
 
             op1rw_o <= regWrite;
@@ -231,7 +231,7 @@ begin
             //Special Regs: Na
             enable_o <= 1;
             immIsExtended_o <= 1; immIsShifted_o <= 0;
-            functionalUnitType_o <= FXUnitId; instMinId_o <= 0;
+            functionalUnitType_o <= FXUnitId; instMinId_o <= 0; numMicroOps_o <= 0;
             //is val or zero - if RA is zero, we treat it like an imm with zero val. Realistically we can just not use it at all if zeroed
             if(instruction_i[11:15] == 0)
                 op1isReg_o <= 0;
@@ -249,7 +249,7 @@ begin
             //Special Regs: Na
             enable_o <= 1;
             immIsExtended_o <= 1; immIsShifted_o <= 0;
-            functionalUnitType_o <= FXUnitId; instMinId_o <= 0;
+            functionalUnitType_o <= FXUnitId; instMinId_o <= 0; numMicroOps_o <= 0;
             op1isReg_o <= 1; op2isReg_o <= 1;
 
             op1rw_o <= regWrite;
@@ -262,7 +262,7 @@ begin
             //Special Regs: Na
             enable_o <= 1;
             immIsExtended_o <= 1; immIsShifted_o <= 0;
-            functionalUnitType_o <= FXUnitId; instMinId_o <= 0;
+            functionalUnitType_o <= FXUnitId; instMinId_o <= 0; numMicroOps_o <= 0;
             //is val or zero - if RA is zero, we treat it like an imm with zero val. Realistically we can just not use it at all if zeroed
             if(instruction_i[11:15] == 0)
                 op1isReg_o <= 0;
@@ -280,7 +280,7 @@ begin
             //Special Regs: Na
             enable_o <= 1;
             immIsExtended_o <= 1; immIsShifted_o <= 0;
-            functionalUnitType_o <= FXUnitId; instMinId_o <= 0;
+            functionalUnitType_o <= FXUnitId; instMinId_o <= 0; numMicroOps_o <= 0;
             op1isReg_o <= 1; op2isReg_o <= 1;
 
             op1rw_o <= regWrite;
@@ -293,7 +293,7 @@ begin
             //Special Regs: Na
             enable_o <= 1;
             immIsExtended_o <= 1; immIsShifted_o <= 0;
-            functionalUnitType_o <= FXUnitId; instMinId_o <= 0;
+            functionalUnitType_o <= FXUnitId; instMinId_o <= 0; numMicroOps_o <= 0;
             //is val or zero - if RA is zero, we treat it like an imm with zero val. Realistically we can just not use it at all if zeroed
             if(instruction_i[11:15] == 0)
                 op1isReg_o <= 0;
@@ -311,7 +311,7 @@ begin
             //Special Regs: Na
             enable_o <= 1;
             immIsExtended_o <= 1; immIsShifted_o <= 0;
-            functionalUnitType_o <= FXUnitId; instMinId_o <= 0;
+            functionalUnitType_o <= FXUnitId; instMinId_o <= 0; numMicroOps_o <= 0;
             op1isReg_o <= 1; op2isReg_o <= 1;
 
             op1rw_o <= regWrite;
@@ -324,7 +324,7 @@ begin
             //Special Regs: Na
             enable_o <= 1;
             immIsExtended_o <= 1; immIsShifted_o <= 0;
-            functionalUnitType_o <= FXUnitId; instMinId_o <= 0;
+            functionalUnitType_o <= FXUnitId; instMinId_o <= 0; numMicroOps_o <= 0;
             //is val or zero - if RA is zero, we treat it like an imm with zero val. Realistically we can just not use it at all if zeroed
             if(instruction_i[11:15] == 0)
                 op1isReg_o <= 0;
@@ -342,7 +342,7 @@ begin
             //Special Regs: Na
             enable_o <= 1;
             immIsExtended_o <= 1; immIsShifted_o <= 0;
-            functionalUnitType_o <= FXUnitId; instMinId_o <= 0;
+            functionalUnitType_o <= FXUnitId; instMinId_o <= 0; numMicroOps_o <= 0;
             op1isReg_o <= 1; op2isReg_o <= 1;
 
             op1rw_o <= regWrite;
@@ -355,7 +355,7 @@ begin
             //Special Regs: Na
             enable_o <= 1;
             immIsExtended_o <= 1; immIsShifted_o <= 0;
-            functionalUnitType_o <= FXUnitId; instMinId_o <= 0;
+            functionalUnitType_o <= FXUnitId; instMinId_o <= 0; numMicroOps_o <= 0;
             //is val or zero - if RA is zero, we treat it like an imm with zero val. Realistically we can just not use it at all if zeroed
             if(instruction_i[11:15] == 0)
                 op1isReg_o <= 0;
@@ -373,7 +373,7 @@ begin
             //Special Regs: Na
             enable_o <= 1;
             immIsExtended_o <= 1; immIsShifted_o <= 0;
-            functionalUnitType_o <= FXUnitId; instMinId_o <= 0;
+            functionalUnitType_o <= FXUnitId; instMinId_o <= 0; numMicroOps_o <= 0;
             op1isReg_o <= 1; op2isReg_o <= 1;
 
             op1rw_o <= regRead;
@@ -386,7 +386,7 @@ begin
             //Special Regs: Na
             enable_o <= 1;
             immIsExtended_o <= 1; immIsShifted_o <= 0;
-            functionalUnitType_o <= FXUnitId; instMinId_o <= 0;
+            functionalUnitType_o <= FXUnitId; instMinId_o <= 0; numMicroOps_o <= 0;
             //is val or zero - if RA is zero, we treat it like an imm with zero val. Realistically we can just not use it at all if zeroed
             if(instruction_i[11:15] == 0)
                 op1isReg_o <= 0;
@@ -404,7 +404,7 @@ begin
             //Special Regs: Na
             enable_o <= 1;
             immIsExtended_o <= 1; immIsShifted_o <= 0;
-            functionalUnitType_o <= FXUnitId; instMinId_o <= 0;
+            functionalUnitType_o <= FXUnitId; instMinId_o <= 0; numMicroOps_o <= 0;
             op1isReg_o <= 1; op2isReg_o <= 1;
 
             op1rw_o <= regWrite;
@@ -417,7 +417,7 @@ begin
             //Special Regs: Na
             enable_o <= 1;
             immIsExtended_o <= 1; immIsShifted_o <= 0;
-            functionalUnitType_o <= FXUnitId; instMinId_o <= 0;
+            functionalUnitType_o <= FXUnitId; instMinId_o <= 0; numMicroOps_o <= 0;
             //is val or zero - if RA is zero, we treat it like an imm with zero val. Realistically we can just not use it at all if zeroed
             if(instruction_i[11:15] == 0)
                 op1isReg_o <= 0;
@@ -437,7 +437,7 @@ begin
             //Special Regs: Na
             enable_o <= 1;
             immIsExtended_o <= 1; immIsShifted_o <= 0;
-            functionalUnitType_o <= FXUnitId; instMinId_o <= 0;
+            functionalUnitType_o <= FXUnitId; instMinId_o <= 0; numMicroOps_o <= 0;
             //is val or zero - if RA is zero, we treat it like an imm with zero val. Realistically we can just not use it at all if zeroed
             if(instruction_i[11:15] == 0)
                 op1isReg_o <= 0;
@@ -457,7 +457,7 @@ begin
             //Special Regs: Na
             enable_o <= 1;
             immIsExtended_o <= 0; immIsShifted_o <= 1;
-            functionalUnitType_o <= FXUnitId; instMinId_o <= 0;
+            functionalUnitType_o <= FXUnitId; instMinId_o <= 0; numMicroOps_o <= 0;
             //is val or zero - if RA is zero, we treat it like an imm with zero val. Realistically we can just not use it at all if zeroed
             if(instruction_i[11:15] == 0)
                 op1isReg_o <= 0;
@@ -475,7 +475,7 @@ begin
             //Special Regs: Na
             enable_o <= 1;
             immIsExtended_o <= 0; immIsShifted_o <= 1;
-            functionalUnitType_o <= FXUnitId; instMinId_o <= 0;
+            functionalUnitType_o <= FXUnitId; instMinId_o <= 0; numMicroOps_o <= 0;
             shiftedBy_o <= 2;
             //is val or zero - if RA is zero, we treat it like an imm with zero val. Realistically we can just not use it at all.
             if(instruction_i[11:15] == 0)
@@ -494,7 +494,7 @@ begin
             //Special Regs: CA CA32
             enable_o <= 1;
             immIsExtended_o <= 0; immIsShifted_o <= 0;
-            functionalUnitType_o <= FXUnitId; instMinId_o <= 0;
+            functionalUnitType_o <= FXUnitId; instMinId_o <= 0; numMicroOps_o <= 0;
             op1isReg_o <= 1;
             op2isReg_o <= 1;
 
@@ -508,7 +508,7 @@ begin
             //Special Regs: CR0 CA CA32
             enable_o <= 1;
             immIsExtended_o <= 0; immIsShifted_o <= 0;
-            functionalUnitType_o <= FXUnitId; instMinId_o <= 0;
+            functionalUnitType_o <= FXUnitId; instMinId_o <= 0; numMicroOps_o <= 0;
             op1isReg_o <= 1;
             op2isReg_o <= 1;
 
@@ -522,7 +522,7 @@ begin
             //Special Regs: CA CA32
             enable_o <= 1;
             immIsExtended_o <= 0; immIsShifted_o <= 0;
-            functionalUnitType_o <= FXUnitId; instMinId_o <= 0;
+            functionalUnitType_o <= FXUnitId; instMinId_o <= 0; numMicroOps_o <= 0;
             op1isReg_o <= 1;
             op2isReg_o <= 1;
 
@@ -536,7 +536,7 @@ begin
             //Special Regs: Na
             enable_o <= 1;
             immIsExtended_o <= 0; immIsShifted_o <= 0;
-            functionalUnitType_o <= FXUnitId; instMinId_o <= 0;
+            functionalUnitType_o <= FXUnitId; instMinId_o <= 0; numMicroOps_o <= 0;
             op1isReg_o <= 1;
             op2isReg_o <= 1;
 
@@ -550,7 +550,7 @@ begin
             //Special Regs: CR, BF
             enable_o <= 1;
             immIsExtended_o <= 0; immIsShifted_o <= 0;
-            functionalUnitType_o <= CRUnitId; instMinId_o <= 0;
+            functionalUnitType_o <= CRUnitId; instMinId_o <= 0; numMicroOps_o <= 0;
             op1isReg_o <= 1;
             op2isReg_o <= 1;
 
@@ -564,7 +564,7 @@ begin
             //Special Regs: CR, BF
             enable_o <= 1;
             immIsExtended_o <= 0; immIsShifted_o <= 0;
-            functionalUnitType_o <= CRUnitId; instMinId_o <= 0;
+            functionalUnitType_o <= CRUnitId; instMinId_o <= 0; numMicroOps_o <= 0;
             op1isReg_o <= 1;
             op2isReg_o <= 1;
 
@@ -578,7 +578,7 @@ begin
             //Special Regs: Na
             enable_o <= 1;
             immIsExtended_o <= 0; immIsShifted_o <= 0;
-            functionalUnitType_o <= FXUnitId; instMinId_o <= 0;
+            functionalUnitType_o <= FXUnitId; instMinId_o <= 0; numMicroOps_o <= 0;
             op1isReg_o <= 1;
             op2isReg_o <= 1;
 
@@ -592,7 +592,7 @@ begin
             //Special Regs: Na
             enable_o <= 1;
             immIsExtended_o <= 0; immIsShifted_o <= 0;
-            functionalUnitType_o <= FXUnitId; instMinId_o <= 0;
+            functionalUnitType_o <= FXUnitId; instMinId_o <= 0; numMicroOps_o <= 0;
             op1isReg_o <= 1;
             op2isReg_o <= 1;
             op1rw_o <= 2'b00;
@@ -605,7 +605,7 @@ begin
             //Special Regs: CR0
             enable_o <= 1;
             immIsExtended_o <= 0; immIsShifted_o <= 0;
-            functionalUnitType_o <= FXUnitId; instMinId_o <= 0;
+            functionalUnitType_o <= FXUnitId; instMinId_o <= 0; numMicroOps_o <= 0;
             op1isReg_o <= 1;
             op2isReg_o <= 1;
 
@@ -620,7 +620,7 @@ begin
             enable_o <= 1;
             immIsExtended_o <= 0; immIsShifted_o <= 1;
             shiftedBy_o <= 2;//Shifted up 2 bytes
-            functionalUnitType_o <= FXUnitId; instMinId_o <= 0;
+            functionalUnitType_o <= FXUnitId; instMinId_o <= 0; numMicroOps_o <= 0;
             op1isReg_o <= 1;
             op2isReg_o <= 1;
 
@@ -634,7 +634,7 @@ begin
             //Special Regs: CR0
             enable_o <= 1;
             immIsExtended_o <= 0; immIsShifted_o <= 0;
-            functionalUnitType_o <= FXUnitId; instMinId_o <= 0;
+            functionalUnitType_o <= FXUnitId; instMinId_o <= 0; numMicroOps_o <= 0;
             op1isReg_o <= 1;
             op2isReg_o <= 1;
 
@@ -649,7 +649,7 @@ begin
             enable_o <= 1;
             immIsExtended_o <= 0; immIsShifted_o <= 1;
             shiftedBy_o <= 2;//Shifted up 2 bytes
-            functionalUnitType_o <= FXUnitId; instMinId_o <= 0;
+            functionalUnitType_o <= FXUnitId; instMinId_o <= 0; numMicroOps_o <= 0;
             op1isReg_o <= 1;
             op2isReg_o <= 1;
             op1rw_o <= regRead;
@@ -662,7 +662,7 @@ begin
             //Special Regs: CR0
             enable_o <= 1;
             immIsExtended_o <= 0; immIsShifted_o <= 0;
-            functionalUnitType_o <= FXUnitId; instMinId_o <= 0;
+            functionalUnitType_o <= FXUnitId; instMinId_o <= 0; numMicroOps_o <= 0;
             op1isReg_o <= 1;
             op2isReg_o <= 1;
             op1rw_o <= regRead;
@@ -676,7 +676,7 @@ begin
             enable_o <= 1;
             immIsExtended_o <= 0; immIsShifted_o <= 1;
             shiftedBy_o <= 2;//Shifted up 2 bytes
-            functionalUnitType_o <= FXUnitId; instMinId_o <= 0;
+            functionalUnitType_o <= FXUnitId; instMinId_o <= 0; numMicroOps_o <= 0;
             op1isReg_o <= 1;
             op2isReg_o <= 1;
             op1rw_o <= regRead;
@@ -689,7 +689,7 @@ begin
             //Special Regs: Na
             enable_o <= 1;
             immIsExtended_o <= 1; immIsShifted_o <= 0;
-            functionalUnitType_o <= FPUnitId; instMinId_o <= 0;
+            functionalUnitType_o <= FPUnitId; instMinId_o <= 0; numMicroOps_o <= 0;
             //is val or zero - if RA is zero, we treat it like an imm with zero val. Realistically we can just not use it at all if zeroed
             if(instruction_i[11:15] == 0)
                 op1isReg_o <= 0;
@@ -707,7 +707,7 @@ begin
             //Special Regs: Na
             enable_o <= 1;
             immIsExtended_o <= 1; immIsShifted_o <= 0;
-            functionalUnitType_o <= FPUnitId; instMinId_o <= 0;
+            functionalUnitType_o <= FPUnitId; instMinId_o <= 0; numMicroOps_o <= 0;
             //is val or zero - if RA is zero, we treat it like an imm with zero val. Realistically we can just not use it at all if zeroed
             op1isReg_o <= 1;
             op2isReg_o <= 1;
@@ -723,7 +723,7 @@ begin
             //Special Regs: Na
             enable_o <= 1;
             immIsExtended_o <= 1; immIsShifted_o <= 0;
-            functionalUnitType_o <= FPUnitId; instMinId_o <= 0;
+            functionalUnitType_o <= FPUnitId; instMinId_o <= 0; numMicroOps_o <= 0;
             //is val or zero - if RA is zero, we treat it like an imm with zero val. Realistically we can just not use it at all if zeroed
             if(instruction_i[11:15] == 0)
                 op1isReg_o <= 0;
@@ -741,7 +741,7 @@ begin
             //Special Regs: Na
             enable_o <= 1;
             immIsExtended_o <= 1; immIsShifted_o <= 0;
-            functionalUnitType_o <= FPUnitId; instMinId_o <= 0;
+            functionalUnitType_o <= FPUnitId; instMinId_o <= 0; numMicroOps_o <= 0;
             //is val or zero - if RA is zero, we treat it like an imm with zero val. Realistically we can just not use it at all if zeroed
             op1isReg_o <= 1;
             op2isReg_o <= 1;
@@ -757,7 +757,7 @@ begin
             //Special Regs: Na
             enable_o <= 1;
             immIsExtended_o <= 1; immIsShifted_o <= 0;
-            functionalUnitType_o <= FPUnitId; instMinId_o <= 0;
+            functionalUnitType_o <= FPUnitId; instMinId_o <= 0; numMicroOps_o <= 0;
             //is val or zero - if RA is zero, we treat it like an imm with zero val. Realistically we can just not use it at all if zeroed
             if(instruction_i[11:15] == 0)
                 op1isReg_o <= 0;
@@ -774,7 +774,7 @@ begin
             //Special Regs: Na
             enable_o <= 1;
             immIsExtended_o <= 1; immIsShifted_o <= 0;
-            functionalUnitType_o <= FPUnitId; instMinId_o <= 0;
+            functionalUnitType_o <= FPUnitId; instMinId_o <= 0; numMicroOps_o <= 0;
             //is val or zero - if RA is zero, we treat it like an imm with zero val. Realistically we can just not use it at all if zeroed
             op1isReg_o <= 1;
             op2isReg_o <= 1;
@@ -789,7 +789,7 @@ begin
             //Special Regs: Na
             enable_o <= 1;
             immIsExtended_o <= 1; immIsShifted_o <= 0;
-            functionalUnitType_o <= FPUnitId; instMinId_o <= 0;
+            functionalUnitType_o <= FPUnitId; instMinId_o <= 0; numMicroOps_o <= 0;
             //is val or zero - if RA is zero, we treat it like an imm with zero val. Realistically we can just not use it at all if zeroed
             if(instruction_i[11:15] == 0)
                 op1isReg_o <= 0;
@@ -806,7 +806,7 @@ begin
             //Special Regs: Na
             enable_o <= 1;
             immIsExtended_o <= 1; immIsShifted_o <= 0;
-            functionalUnitType_o <= FPUnitId; instMinId_o <= 0;
+            functionalUnitType_o <= FPUnitId; instMinId_o <= 0; numMicroOps_o <= 0;
             //is val or zero - if RA is zero, we treat it like an imm with zero val. Realistically we can just not use it at all if zeroed
             op1isReg_o <= 1;
             op2isReg_o <= 1;

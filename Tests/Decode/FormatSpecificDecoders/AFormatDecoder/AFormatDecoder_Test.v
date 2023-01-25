@@ -40,7 +40,7 @@ module AFormatDecoderTest #(
     wire [0:addressWidth-1] instructionAddressOut;//address of the instruction
     wire [0:funcUnitCodeSize-1] functionalUnitTypeOut;//tells the backend what type of func unit to use
     wire [0:instructionCounterWidth] instMajIdOut;//major ID - the IDs are used to determine instruction order for reordering after execution
-    wire [0:instMinIdWidth-1] instMinIdOut;//minor ID - minor ID's are generated in decode if an instruction generated micro ops, these are differentiated by the minor ID, they will have the same major ID
+    wire [0:instMinIdWidth-1] instMinIdOut, numMicroOpsOut;//minor ID - minor ID's are generated in decode if an instruction generated micro ops, these are differentiated by the minor ID, they will have the same major ID
     wire is64BitOut;
     wire [0:PidSize-1] instPidOut;//process ID
     wire [0:TidSize-1] instTidOut;//Thread ID
@@ -69,7 +69,7 @@ aFormatDecoder
     .instructionAddress_o(instructionAddressOut),
     .functionalUnitType_o(functionalUnitTypeOut),
     .instMajId_o(instMajIdOut),
-    .instMinId_o(instMinIdOut),
+    .instMinId_o(instMinIdOut), .numMicroOps_o(numMicroOpsOut),
     .is64Bit_o(is64BitOut),
     .instPid_o(instPidOut),
     .instTid_o(instTidOut),

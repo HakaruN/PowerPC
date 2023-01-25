@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
-//`define DEBUG
-//`define DEBUG_PRINT
+`define DEBUG
+`define DEBUG_PRINT
 `define QUIET_INVALID
 /*/////////Format decode/////////////
 Writen by Josh "Hakaru" Cantwell - 02.12.2022
@@ -104,7 +104,7 @@ module AFormatDecoder
     output reg [0:addressWidth-1] instructionAddress_o,//address of the instruction
     output reg [0:funcUnitCodeSize-1] functionalUnitType_o,//tells the backend what type of func unit to use
     output reg [0:instructionCounterWidth] instMajId_o,//major ID - the IDs are used to determine instruction order for reordering after execution
-    output reg [0:instMinIdWidth-1] instMinId_o,//minor ID - minor ID's are generated in decode if an instruction generated micro ops, these are differentiated by the minor ID, they will have the same major ID
+    output reg [0:instMinIdWidth-1] instMinId_o, numMicroOps_o,//minor ID - minor ID's are generated in decode. If an instruction generates multiple micro ops they are uniquely identified by the instMinId val. numMicroOps tells the OoO hardware how many uops were generated for the instruction so it can allocate space in the reorder buffer ahead of time
     output reg is64Bit_o,
     output reg [0:PidSize-1] instPid_o,//process ID
     output reg [0:TidSize-1] instTid_o,//Thread ID
@@ -174,6 +174,7 @@ begin
                 `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 A-form Inst: %d. Opcode: %b (%d), Xopcode: %b (%d). Integer Select instruction", instructionMajId_i, instructionOpcode_i, instructionOpcode_i, instruction_i[26+:XOSize], instruction_i[26+:XOSize]); `endif
                 //Special Regs: Na
                 instMinId_o <= 0;
+                numMicroOps_o <= 0;
                 functionalUnitType_o <= CRUnitId;
 
                 //Operand isReg and read/write:
@@ -209,7 +210,7 @@ begin
                 `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 A-form Inst: %d. Opcode: %b (%d), Xopcode: %b (%d). Floating Add", instructionMajId_i, instructionOpcode_i, instructionOpcode_i, instruction_i[26+:XOSize], instruction_i[26+:XOSize]); `endif
                 //Special regs: FPRF FR FI FX OX UX XX VXSNAN VXISI CR1
                 opcode_o <= 2;
-                instMinId_o <= 0;
+                instMinId_o <= 0; numMicroOps_o <= 0;
 
                 op1IsReg_o <= 1; op1rw_o <= regWrite;
                 op2IsReg_o <= 1; op2rw_o <= regRead;
@@ -223,7 +224,7 @@ begin
                 `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 A-form Inst: %d. Opcode: %b (%d), Xopcode: %b (%d). Floating Subtract", instructionMajId_i, instructionOpcode_i, instructionOpcode_i, instruction_i[26+:XOSize], instruction_i[26+:XOSize]); `endif
                 //Special regs: FPRF FR FI FX OX UX XX VXSNAN VXISI CR1
                 opcode_o <= 3;
-                instMinId_o <= 0;
+                instMinId_o <= 0; numMicroOps_o <= 0;
                 op1IsReg_o <= 1; op1rw_o <= regWrite;
                 op2IsReg_o <= 1; op2rw_o <= regRead;
                 op3IsReg_o <= 1; op3rw_o <= regRead;
@@ -237,7 +238,7 @@ begin
                 `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 A-form Inst: %d. Opcode: %b (%d), Xopcode: %b (%d). Floating multiply", instructionMajId_i, instructionOpcode_i, instructionOpcode_i, instruction_i[26+:XOSize], instruction_i[26+:XOSize]); `endif
                 //Special regs: FPRF FR FI FX OX UX XX VXSNAN VXIMZ CR1
                 opcode_o <= 4;
-                instMinId_o <= 0;
+                instMinId_o <= 0; numMicroOps_o <= 0;
 
                 op1IsReg_o <= 1; op1rw_o <= regWrite;
                 op2IsReg_o <= 1; op2rw_o <= regRead;
@@ -252,7 +253,7 @@ begin
                 `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 A-form Inst: %d. Opcode: %b (%d), Xopcode: %b (%d). Floating divide", instructionMajId_i, instructionOpcode_i, instructionOpcode_i, instruction_i[26+:XOSize], instruction_i[26+:XOSize]); `endif
                 //Special regs: FPRF FR FI FX OX UX XX VXSNAN VXIDI VXZDZ CR1
                 opcode_o <= 5;
-                instMinId_o <= 0;
+                instMinId_o <= 0; numMicroOps_o <= 0;
                 op1IsReg_o <= 1; op1rw_o <= regWrite;
                 op2IsReg_o <= 1; op2rw_o <= regRead;
                 op3IsReg_o <= 1; op3rw_o <= regRead;
@@ -266,7 +267,7 @@ begin
                 `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 A-form Inst: %d. Opcode: %b (%d), Xopcode: %b (%d). Floating square root", instructionMajId_i, instructionOpcode_i, instructionOpcode_i, instruction_i[26+:XOSize], instruction_i[26+:XOSize]); `endif
                 //Special regs: FPRF FR FI FX OX UX XX VXSNAN VXSQRT CR1
                 opcode_o <= 6;
-                instMinId_o <= 0;
+                instMinId_o <= 0; numMicroOps_o <= 0;
                 op1IsReg_o <= 1; op1rw_o <= regWrite;
                 op2IsReg_o <= 0; op2rw_o <= 2'b00;//Not used
                 op3IsReg_o <= 1; op3rw_o <= regRead;
@@ -280,7 +281,7 @@ begin
                 `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 A-form Inst: %d. Opcode: %b (%d), Xopcode: %b (%d). Floating Reciprocal Estimate", instructionMajId_i, instructionOpcode_i, instructionOpcode_i, instruction_i[26+:XOSize], instruction_i[26+:XOSize]); `endif
                 //Special regs: FPRF FR (undefined) FI (undefined) FX OX UX XX (undefined) VXSNAN CR1
                 opcode_o <= 7;
-                instMinId_o <= 0;
+                instMinId_o <= 0; numMicroOps_o <= 0;
                 op1IsReg_o <= 1; op1rw_o <= regWrite;
                 op2IsReg_o <= 0; op2rw_o <= 2'b00;//Not used
                 op3IsReg_o <= 1; op3rw_o <= regRead;
@@ -293,7 +294,7 @@ begin
                 `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 A-form Inst: %d. Opcode: %b (%d), Xopcode: %b (%d). Floating reciprocal Square Root Estimate", instructionMajId_i, instructionOpcode_i, instructionOpcode_i, instruction_i[26+:XOSize], instruction_i[26+:XOSize]); `endif
                 //Special regs: FPRF FR (undefined) FI (undefined) FX OX UX ZX XX (undefined) VXSNAN VXSQRT CR1
                 opcode_o <= 8;
-                instMinId_o <= 0;
+                instMinId_o <= 0; numMicroOps_o <= 0;
                 op1IsReg_o <= 1; op1rw_o <= regWrite;
                 op2IsReg_o <= 0; op2rw_o <= 2'b00;//Not used
                 op3IsReg_o <= 1; op3rw_o <= regRead;
@@ -306,7 +307,7 @@ begin
                 `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 A-form Inst: %d. Opcode: %b (%d), Xopcode: %b (%d). Floating Multiply-Add", instructionMajId_i, instructionOpcode_i, instructionOpcode_i, instruction_i[26+:XOSize], instruction_i[26+:XOSize]); `endif
                 //Special regs: FPRF FR FI FX OX UX XX VXSNAN VXISI VXIMZ CR1
                 opcode_o <= 9;
-                instMinId_o <= 0;
+                instMinId_o <= 0; numMicroOps_o <= 0;
                 op1IsReg_o <= 1; op1rw_o <= regWrite;
                 op2IsReg_o <= 1; op2rw_o <= regRead;
                 op3IsReg_o <= 1; op3rw_o <= regRead;
@@ -319,7 +320,7 @@ begin
                 `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 A-form Inst: %d. Opcode: %b (%d), Xopcode: %b (%d). Floating Multiply-Subtract", instructionMajId_i, instructionOpcode_i, instructionOpcode_i, instruction_i[26+:XOSize], instruction_i[26+:XOSize]); `endif
                 //Special regs: FPRF FR FI FX OX UX XX VXSNAN VXISI VXIMZ CR1
                 opcode_o <= 10;
-                instMinId_o <= 0;
+                instMinId_o <= 0; numMicroOps_o <= 0;
                 op1IsReg_o <= 1; op1rw_o <= regWrite;
                 op2IsReg_o <= 1; op2rw_o <= regRead;
                 op3IsReg_o <= 1; op3rw_o <= regRead;
@@ -332,7 +333,7 @@ begin
                 `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 A-form Inst: %d. Opcode: %b (%d), Xopcode: %b (%d). Floating Negative Multiply-Add", instructionMajId_i, instructionOpcode_i, instructionOpcode_i, instruction_i[26+:XOSize], instruction_i[26+:XOSize]); `endif
                 //Special regs: FPRF FR FI FX OX UX XX VXSNAN VXISI VXIMZ CR1
                 opcode_o <= 11;
-                instMinId_o <= 0;
+                instMinId_o <= 0; numMicroOps_o <= 0;
                 op1IsReg_o <= 1; op1rw_o <= regWrite;
                 op2IsReg_o <= 1; op2rw_o <= regRead;
                 op3IsReg_o <= 1; op3rw_o <= regRead;
@@ -346,7 +347,7 @@ begin
                  "Decode 2 A-form Inst: %d. Opcode: %b (%d), Xopcode: %b (%d). Floating Negative Multiply-Subtract", instructionMajId_i, instructionOpcode_i, instructionOpcode_i, instruction_i[26+:XOSize], instruction_i[26+:XOSize]); `endif
                  //Special regs: FPRF FR FI FX OX UX XX VXSNAN VXISI VXIMZ CR1
                 opcode_o <= 12;
-                instMinId_o <= 0;
+                instMinId_o <= 0; numMicroOps_o <= 0;
                 op1IsReg_o <= 1; op1rw_o <= regWrite;
                 op2IsReg_o <= 1; op2rw_o <= regRead;
                 op3IsReg_o <= 1; op3rw_o <= regRead;
@@ -359,7 +360,7 @@ begin
                 `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 A-form Inst: %d. Opcode: %b (%d), Xopcode: %b (%d). Floating Select", instructionMajId_i, instructionOpcode_i, instructionOpcode_i, instruction_i[26+:XOSize], instruction_i[26+:XOSize]); `endif
                 //Special regs: CR1
                 opcode_o <= 13;
-                instMinId_o <= 0;
+                instMinId_o <= 0; numMicroOps_o <= 0;
                 op1IsReg_o <= 1; op1rw_o <= regWrite;
                 op2IsReg_o <= 1; op2rw_o <= regRead;
                 op3IsReg_o <= 1; op3rw_o <= regRead;
@@ -384,7 +385,7 @@ begin
                 `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 A-form Inst: %d. Opcode: %b (%d), Xopcode: %b (%d). Floating Add Single", instructionMajId_i, instructionOpcode_i, instructionOpcode_i, instruction_i[26+:XOSize], instruction_i[26+:XOSize]); `endif
                 //Special regs: FPRF FR FI FX OX UX XX VXSNAN VXISI CR1
                 opcode_o <= 14;
-                instMinId_o <= 0;
+                instMinId_o <= 0; numMicroOps_o <= 0;
                 op1IsReg_o <= 1; op1rw_o <= regWrite;
                 op2IsReg_o <= 1; op2rw_o <= regRead;
                 op3IsReg_o <= 1; op3rw_o <= regRead;
@@ -397,7 +398,7 @@ begin
                 `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 A-form Inst: %d. Opcode: %b (%d), Xopcode: %b (%d). Floating Subtract Single", instructionMajId_i, instructionOpcode_i, instructionOpcode_i, instruction_i[26+:XOSize], instruction_i[26+:XOSize]); `endif
                 //Special regs: FPRF FR FI FX OX UX XX VXSNAN VXISI CR1
                 opcode_o <= 15;
-                instMinId_o <= 0;
+                instMinId_o <= 0; numMicroOps_o <= 0;
                 op1IsReg_o <= 1; op1rw_o <= regWrite;
                 op2IsReg_o <= 1; op2rw_o <= regRead;
                 op3IsReg_o <= 1; op3rw_o <= regRead;
@@ -410,7 +411,7 @@ begin
                 `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 A-form Inst: %d. Opcode: %b (%d), Xopcode: %b (%d). Floating Multiply Single", instructionMajId_i, instructionOpcode_i, instructionOpcode_i, instruction_i[26+:XOSize], instruction_i[26+:XOSize]); `endif
                 //Special regs: FPRF FR FI FX OX UX XX VXSNAN VXIMZ CR1
                 opcode_o <= 16;
-                instMinId_o <= 0;
+                instMinId_o <= 0; numMicroOps_o <= 0;
                 op1IsReg_o <= 1; op1rw_o <= regWrite;
                 op2IsReg_o <= 1; op2rw_o <= regRead;
                 op3IsReg_o <= 0; op3rw_o <= 2'b00;//Not used
@@ -423,7 +424,7 @@ begin
                 `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 A-form Inst: %d. Opcode: %b (%d), Xopcode: %b (%d). Floating Divide Single", instructionMajId_i, instructionOpcode_i, instructionOpcode_i, instruction_i[26+:XOSize], instruction_i[26+:XOSize]); `endif
                 //Special regs: FPRF FR FI FX OX UX XX VXSNAN VXIDI VXZDZ CR1
                 opcode_o <= 17;
-                instMinId_o <= 0;
+                instMinId_o <= 0; numMicroOps_o <= 0;
                 op1IsReg_o <= 1; op1rw_o <= regWrite;
                 op2IsReg_o <= 1; op2rw_o <= regRead;
                 op3IsReg_o <= 1; op3rw_o <= regRead;
@@ -436,7 +437,7 @@ begin
                 `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 A-form Inst: %d. Opcode: %b (%d), Xopcode: %b (%d). Floating Square Root Single", instructionMajId_i, instructionOpcode_i, instructionOpcode_i, instruction_i[26+:XOSize], instruction_i[26+:XOSize]); `endif
                 //Special regs: FPRF FR FI FX OX UX XX VXSNAN VXSQRT CR1
                 opcode_o <= 18;
-                instMinId_o <= 0;
+                instMinId_o <= 0; numMicroOps_o <= 0;
                 op1IsReg_o <= 1; op1rw_o <= regWrite;
                 op2IsReg_o <= 0; op2rw_o <= 2'b00;//Not used
                 op3IsReg_o <= 1; op3rw_o <= regRead;
@@ -449,7 +450,7 @@ begin
                 `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 A-form Inst: %d. Opcode: %b (%d), Xopcode: %b (%d). Floating Reciprocal Estimate Single", instructionMajId_i, instructionOpcode_i, instructionOpcode_i, instruction_i[26+:XOSize], instruction_i[26+:XOSize]); `endif
                 //Special regs: FPRF FR (undefined) FI (undefined) FX OX UX XX (undefined) VXSNAN CR1
                 opcode_o <= 19;
-                instMinId_o <= 0;
+                instMinId_o <= 0; numMicroOps_o <= 0;
                 op1IsReg_o <= 1; op1rw_o <= regWrite;
                 op2IsReg_o <= 0; op2rw_o <= 2'b00;//Not used
                 op3IsReg_o <= 1; op3rw_o <= regRead;
@@ -462,7 +463,7 @@ begin
                 `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 A-form Inst: %d. Opcode: %b (%d), Xopcode: %b (%d). Floating Reciprocal Square Root Estimate Single", instructionMajId_i, instructionOpcode_i, instructionOpcode_i, instruction_i[26+:XOSize], instruction_i[26+:XOSize]); `endif                
                 //Special regs: FPRF FR (undefined) FI (undefined) FX OX UX ZX XX (undefined) VXSNAN VXSQRT CR1
                 opcode_o <= 20;
-                instMinId_o <= 0;
+                instMinId_o <= 0; numMicroOps_o <= 0;
                 op1IsReg_o <= 1; op1rw_o <= regWrite;
                 op2IsReg_o <= 0; op2rw_o <= 2'b00;//Not used
                 op3IsReg_o <= 1; op3rw_o <= regRead;
@@ -475,7 +476,7 @@ begin
                 `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 A-form Inst: %d. Opcode: %b (%d), Xopcode: %b (%d). Floating Multiply-Add Single", instructionMajId_i, instructionOpcode_i, instructionOpcode_i, instruction_i[26+:XOSize], instruction_i[26+:XOSize]); `endif                
                 //Special regs: FPRF FR FI FX OX UX XX VXSNAN VXISI VXIMZ CR1
                 opcode_o <= 21;
-                instMinId_o <= 0;
+                instMinId_o <= 0; numMicroOps_o <= 0;
                 op1IsReg_o <= 1; op1rw_o <= regWrite;
                 op2IsReg_o <= 1; op2rw_o <= regRead;
                 op3IsReg_o <= 1; op3rw_o <= regRead;
@@ -488,7 +489,7 @@ begin
                 `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 A-form Inst: %d. Opcode: %b (%d), Xopcode: %b (%d). Floating Multiply-Subtract Single", instructionMajId_i, instructionOpcode_i, instructionOpcode_i, instruction_i[26+:XOSize], instruction_i[26+:XOSize]); `endif    
                 //Special regs: FPRF FR FI FX OX UX XX VXSNAN VXISI VXIMZ CR1
                 opcode_o <= 22;
-                instMinId_o <= 0;
+                instMinId_o <= 0; numMicroOps_o <= 0;
                 op1IsReg_o <= 1; op1rw_o <= regWrite;
                 op2IsReg_o <= 1; op2rw_o <= regRead;
                 op3IsReg_o <= 1; op3rw_o <= regRead;
@@ -501,7 +502,7 @@ begin
                 `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 A-form Inst: %d. Opcode: %b (%d), Xopcode: %b (%d). Floating Negative Multiply-Add Single", instructionMajId_i, instructionOpcode_i, instructionOpcode_i, instruction_i[26+:XOSize], instruction_i[26+:XOSize]); `endif    
                 //Special regs: FPRF FR FI FX OX UX XX VXSNAN VXISI VXIMZ CR1
                 opcode_o <= 23;
-                instMinId_o <= 0;
+                instMinId_o <= 0; numMicroOps_o <= 0;
                 op1IsReg_o <= 1; op1rw_o <= regWrite;
                 op2IsReg_o <= 1; op2rw_o <= regRead;
                 op3IsReg_o <= 1; op3rw_o <= regRead;
@@ -514,7 +515,7 @@ begin
                 `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 A-form Inst: %d. Opcode: %b (%d), Xopcode: %b (%d). Floating Negative Multiply-Subtract Single", instructionMajId_i, instructionOpcode_i, instructionOpcode_i, instruction_i[26+:XOSize], instruction_i[26+:XOSize]); `endif    
                 //Special regs: FPRF FR FI FX OX UX XX VXSNAN VXISI VXIMZ CR1
                 opcode_o <= 24;
-                instMinId_o <= 0;
+                instMinId_o <= 0; numMicroOps_o <= 0;
                 op1IsReg_o <= 1; op1rw_o <= regWrite;
                 op2IsReg_o <= 1; op2rw_o <= regRead;
                 op3IsReg_o <= 1; op3rw_o <= regRead;

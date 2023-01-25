@@ -1,24 +1,24 @@
-Decode 2 A-form (Inst: 000000000000001f): Integer Seclect instruction
-Decode 2 A-form (Inst: 000000000000003b): Floating Divide Single
-Decode 2 A-form (Inst: 000000000000003b): Floating Subtract Single
-Decode 2 A-form (Inst: 000000000000003b): Floating Add Single
-Decode 2 A-form (Inst: 000000000000003b): Floating Square Root Single
-Decode 2 A-form (Inst: 000000000000003b): Floating Reciprocal Estimate Single
-Decode 2 A-form (Inst: 000000000000003b): Floating Multiply Single
-Decode 2 A-form (Inst: 000000000000003b): Floating Reciprocal Square Root Estimate Single
-Decode 2 A-form (Inst: 000000000000003b): Floating Multiply-Subtract Single
-Decode 2 A-form (Inst: 000000000000003b): Floating Multiply-Add Single
-Decode 2 A-form (Inst: 000000000000003b): Floating Negative Multiply-Subtract Single
-Decode 2 A-form (Inst: 000000000000003b): Floating Negative Multiply-Add Single
-Decode 2 A-form (Inst: 000000000000003f): Floating divide
-Decode 2 A-form (Inst: 000000000000003f): Floating Subtract
-Decode 2 A-form (Inst: 000000000000003f): Floating Add
-Decode 2 A-form (Inst: 000000000000003f): Floating square root
-Decode 2 A-form (Inst: 000000000000003f): Floating Select
-Decode 2 A-form (Inst: 000000000000003f): Floating Reciprocal Estimate
-Decode 2 A-form (Inst: 000000000000003f): Floating multiply
-Decode 2 A-form (Inst: 000000000000003f): Floating reciprocal Square Root Estimate
-Decode 2 A-form (Inst: 000000000000003f): Floating Multiply-Subtract
-Decode 2 A-form (Inst: 000000000000003f): Floating Multiply-Add
-Decode 2 A-form (Inst: 000000000000003f): Floating Negative Multiply-Subtract
-Decode 2 A-form (Inst: 000000000000003f): Floating Negative Multiply-Add
+Decode 2 A-form Inst:                   31. Opcode: 011111 (31), Xopcode: 01111 (15). Integer Select instruction
+Decode 2 A-form Inst:                   59. Opcode: 111011 (59), Xopcode: 10010 (18). Floating Divide Single
+Decode 2 A-form Inst:                   59. Opcode: 111011 (59), Xopcode: 10100 (20). Floating Subtract Single
+Decode 2 A-form Inst:                   59. Opcode: 111011 (59), Xopcode: 10101 (21). Floating Add Single
+Decode 2 A-form Inst:                   59. Opcode: 111011 (59), Xopcode: 10110 (22). Floating Square Root Single
+Decode 2 A-form Inst:                   59. Opcode: 111011 (59), Xopcode: 11000 (24). Floating Reciprocal Estimate Single
+Decode 2 A-form Inst:                   59. Opcode: 111011 (59), Xopcode: 11001 (25). Floating Multiply Single
+Decode 2 A-form Inst:                   59. Opcode: 111011 (59), Xopcode: 11010 (26). Floating Reciprocal Square Root Estimate Single
+Decode 2 A-form Inst:                   59. Opcode: 111011 (59), Xopcode: 11100 (28). Floating Multiply-Subtract Single
+Decode 2 A-form Inst:                   59. Opcode: 111011 (59), Xopcode: 11101 (29). Floating Multiply-Add Single
+Decode 2 A-form Inst:                   59. Opcode: 111011 (59), Xopcode: 11110 (30). Floating Negative Multiply-Subtract Single
+Decode 2 A-form Inst:                   59. Opcode: 111011 (59), Xopcode: 11111 (31). Floating Negative Multiply-Add Single
+Decode 2 A-form Inst:                   63. Opcode: 111111 (63), Xopcode: 10010 (18). Floating divide
+Decode 2 A-form Inst:                   63. Opcode: 111111 (63), Xopcode: 10100 (20). Floating Subtract
+Decode 2 A-form Inst:                   63. Opcode: 111111 (63), Xopcode: 10101 (21). Floating Add
+Decode 2 A-form Inst:                   63. Opcode: 111111 (63), Xopcode: 10110 (22). Floating square root
+Decode 2 A-form Inst:                   63. Opcode: 111111 (63), Xopcode: 10111 (23). Floating Select
+Decode 2 A-form Inst:                   63. Opcode: 111111 (63), Xopcode: 11000 (24). Floating Reciprocal Estimate
+Decode 2 A-form Inst:                   63. Opcode: 111111 (63), Xopcode: 11001 (25). Floating multiply
+Decode 2 A-form Inst:                   63. Opcode: 111111 (63), Xopcode: 11010 (26). Floating reciprocal Square Root Estimate
+Decode 2 A-form Inst:                   63. Opcode: 111111 (63), Xopcode: 11100 (28). Floating Multiply-Subtract
+Decode 2 A-form Inst:                   63. Opcode: 111111 (63), Xopcode: 11101 (29). Floating Multiply-Add
+Decode 2 A-form Inst:                   63. Opcode: 111111 (63), Xopcode: 11110 (30). Floating Negative Multiply-Subtract
+Decode 2 A-form Inst:                   63. Opcode: 111111 (63), Xopcode: 11111 (31). Floating Negative Multiply-Add

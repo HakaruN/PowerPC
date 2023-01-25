@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
-//`define DEBUG
-//`define DEBUG_PRINT
+`define DEBUG
+`define DEBUG_PRINT
 
 /*/////////Format decode/////////////
 Writen by Josh "Hakaru" Cantwell - 04.01.2023
@@ -51,7 +51,7 @@ module DecodeMux
     input wire [0:addressWidth-1] AAddress_i,
     input wire [0:funcUnitCodeSize-1] AUnitType_i,
     input wire [0:instructionCounterWidth] AMajId_i,
-    input wire [0:instMinIdWidth-1] AMinId_i,
+    input wire [0:instMinIdWidth-1] AMinId_i, AnumMicroOps_i,
     input wire Ais64Bit_i,
     input wire [0:PidSize-1] APid_i,
     input wire [0:TidSize-1] ATid_i,
@@ -65,7 +65,7 @@ module DecodeMux
     input wire [0:addressWidth-1] BAddress_i,
     input wire [0:funcUnitCodeSize-1] BUnitType_i,
     input wire [0:instructionCounterWidth] BMajId_i,
-    input wire [0:instMinIdWidth-1] BMinId_i,
+    input wire [0:instMinIdWidth-1] BMinId_i, BnumMicroOps_i,
     input wire Bis64Bit_i,
     input wire [0:PidSize-1] BPid_i,
     input wire [0:TidSize-1] BTid_i,
@@ -77,7 +77,7 @@ module DecodeMux
     input wire [0:addressWidth-1] DAddress_i,
     input wire [0:funcUnitCodeSize-1] DUnitType_i,
     input wire [0:instructionCounterWidth] DMajId_i,
-    input wire [0:instMinIdWidth-1] DMinId_i,
+    input wire [0:instMinIdWidth-1] DMinId_i, DnumMicroOps_i,
     input wire Dis64Bit_i,
     input wire [0:PidSize-1] DPid_i,
     input wire [0:TidSize-1] DTid_i,
@@ -93,7 +93,7 @@ module DecodeMux
     output reg [0:addressWidth-1] address_o,
     output reg [0:funcUnitCodeSize-1] funcUnitType_o,
     output reg [0:instructionCounterWidth-1] majID_o,
-    output reg [0:instMinIdWidth-1] minID_o,
+    output reg [0:instMinIdWidth-1] minID_o, numMicroOps_o,
     output reg is64Bit_o,
     output reg [0:PidSize-1] pid_o,
     output reg [0:TidSize-1] tid_o,
@@ -147,7 +147,7 @@ begin
         opcode_o <= AOpcode_i;
         address_o <= AAddress_i;
         funcUnitType_o <= A;
-        majID_o <= AMajId_i; minID_o <= AMinId_i;//inst IDs
+        majID_o <= AMajId_i; minID_o <= AMinId_i; numMicroOps_o <= AnumMicroOps_i;//inst IDs
         is64Bit_o <= Ais64Bit_i;//32/64b mode
         pid_o <= APid_i; tid_o <= ATid_i;//Process and Thread ID
         //Operand reg flags
@@ -165,7 +165,7 @@ begin
         opcode_o <= BOpcode_i;
         address_o <= BAddress_i;
         funcUnitType_o <= B;
-        majID_o <= BMajId_i; minID_o <= BMinId_i;//inst IDs
+        majID_o <= BMajId_i; minID_o <= BMinId_i; numMicroOps_o <= BnumMicroOps_i;//inst IDs
         is64Bit_o <= Bis64Bit_i;//32/64b mode
         pid_o <= BPid_i; tid_o <= BTid_i;//Process and Thread ID
         //Operand reg flags - none used
@@ -182,7 +182,7 @@ begin
         opcode_o <= DOpcode_i;
         address_o <= DAddress_i;
         funcUnitType_o <= D;
-        majID_o <= DMajId_i; minID_o <= DMinId_i;//inst IDs
+        majID_o <= DMajId_i; minID_o <= DMinId_i; numMicroOps_o <= DnumMicroOps_i;//inst IDs
         is64Bit_o <= Dis64Bit_i;//32/64b mode
         pid_o <= DPid_i; tid_o <= DTid_i;//Process and Thread ID
         //Operand reg flags - none used
@@ -191,14 +191,13 @@ begin
 
         //Copy the registers across to buffer
         body_o[0+:10] <= DBody_i[0+:10];//copy regs
-        /TODO: Imeplement shiftedBy_i
         //If the immediate is to be shifted, perform the shift here then sign extend to 64 bits and copy to buffer
         //$display("%b", DBody_i[10+:16]);
         if(immIsShifted_i)
         begin
             case(shiftedBy_i)
                 1: begin 
-                    body_o[10+:32] <= {8'h00, DBody_i[10+:16], 8'h00,};//copy and extend the imm
+                    body_o[10+:32] <= {8'h00, DBody_i[10+:16], 8'h00};//copy and extend the imm
                 end
                 2: begin 
                     body_o[10+:32] <= {DBody_i[10+:16], 16'b0000};//copy and extend the imm

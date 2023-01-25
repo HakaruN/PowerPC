@@ -93,7 +93,7 @@ module DecodeUnit
     output wire [0:addressWidth-1] addressOut,
     output wire [0:funcUnitCodeSize-1] funcUnitTypeOut,
     output wire [0:instructionCounterWidth-1] majIDOut,
-    output wire [0:instMinIdWidth-1] minIDOut,
+    output wire [0:instMinIdWidth-1] minIDOut, numMicroOpsOut,
     output wire is64BitOut,
     output wire [0:PidSize-1] pidOut,
     output wire [0:TidSize-1] tidOut,
@@ -160,7 +160,7 @@ formatScanner
     wire [0:addressWidth-1] AAddressIn;
     wire [0:funcUnitCodeSize-1] AUnitTypeIn;
     wire [0:instructionCounterWidth] AMajIdIn;
-    wire [0:instMinIdWidth-1] AMinIdIn;
+    wire [0:instMinIdWidth-1] AMinIdIn, AnumMicroOpsIn;
     wire Ais64BitIn;
     wire [0:PidSize-1] APidIn;
     wire [0:TidSize-1] ATidIn;
@@ -188,7 +188,7 @@ formatScanner
         .instructionAddress_o(AAddressIn),
         .functionalUnitType_o(AUnitTypeIn),
         .instMajId_o(AMajIdIn),
-        .instMinId_o(AMinIdIn),
+        .instMinId_o(AMinIdIn), .numMicroOps_o(AnumMicroOpsIn),
         .is64Bit_o(Ais64BitIn),
         .instPid_o(APidIn),
         .instTid_o(ATidIn),
@@ -203,7 +203,7 @@ formatScanner
     wire [0:addressWidth-1] BAddressIn;
     wire [0:funcUnitCodeSize-1] BUnitTypeIn;
     wire [0:instructionCounterWidth] BMajIdIn;
-    wire [0:instMinIdWidth-1] BMinIdIn;
+    wire [0:instMinIdWidth-1] BMinIdIn, BnumMicroOpsIn;
     wire Bis64BitIn;
     wire [0:PidSize-1] BPidIn;
     wire [0:TidSize-1] BTidIn;
@@ -229,7 +229,7 @@ formatScanner
         .instructionAddress_o(BAddressIn),
         .functionalUnitType_o(BUnitTypeIn),
         .instMajId_o(BMajIdIn),
-        .instMinId_o(BMinIdIn),
+        .instMinId_o(BMinIdIn), .numMicroOps_o(BnumMicroOpsIn),
         .is64Bit_o(Bis64BitIn),
         .instPid_o(BPidIn),
         .instTid_o(BTidIn),
@@ -242,7 +242,7 @@ formatScanner
     wire [0:addressWidth-1] DAddressIn;
     wire [0:funcUnitCodeSize-1] DUnitTypeIn;
     wire [0:instructionCounterWidth] DMajIdIn;
-    wire [0:instMinIdWidth-1] DMinIdIn;
+    wire [0:instMinIdWidth-1] DMinIdIn, DnumMicroOpsIn;
     wire Dis64BitIn;
     wire [0:PidSize-1] DPidIn;
     wire [0:TidSize-1] DTidIn;
@@ -271,7 +271,7 @@ formatScanner
         .instructionAddress_o(DAddressIn),
         .functionalUnitType_o(DUnitTypeIn),
         .instMajId_o(DMajIdIn),
-        .instMinId_o(DMinIdIn),
+        .instMinId_o(DMinIdIn), .numMicroOps_o(DnumMicroOpsIn),
         .is64Bit_o(Dis64BitIn),
         .instPid_o(DPidIn),
         .instTid_o(DTidIn),
@@ -342,6 +342,7 @@ formatScanner
         .funcUnitType_o(funcUnitTypeOut),
         .majID_o(majIDOut),
         .minID_o(minIDOut),
+        .numMicroOps_o(numMicroOpsOut),
         .is64Bit_o(is64BitOut),
         .pid_o(pidOut),
         .tid_o(tidOut),

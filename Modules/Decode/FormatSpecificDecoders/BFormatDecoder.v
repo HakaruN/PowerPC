@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
-//`define DEBUG
-//`define DEBUG_PRINT
+`define DEBUG
+`define DEBUG_PRINT
 `define QUIET_INVALID
 /*/////////Format decode/////////////
 Writen by Josh "Hakaru" Cantwell - 02.12.2022
@@ -78,7 +78,7 @@ module BFormatDecoder
     output reg [0:addressWidth-1] instructionAddress_o,//address of the instruction
     output reg [0:funcUnitCodeSize-1] functionalUnitType_o,//tells the backend what type of func unit to use
     output reg [0:instructionCounterWidth] instMajId_o,//major ID - the IDs are used to determine instruction order for reordering after execution
-    output reg [0:instMinIdWidth-1] instMinId_o,//minor ID - minor ID's are generated in decode if an instruction generated micro ops, these are differentiated by the minor ID, they will have the same major ID
+    output reg [0:instMinIdWidth-1] instMinId_o, numMicroOps_o,//minor ID - minor ID's are generated in decode. If an instruction generates multiple micro ops they are uniquely identified by the instMinId val. numMicroOps tells the OoO hardware how many uops were generated for the instruction so it can allocate space in the reorder buffer ahead of time
     output reg is64Bit_o,
     output reg [0:PidSize-1] instPid_o,//process ID
     output reg [0:TidSize-1] instTid_o,//Thread ID
@@ -145,7 +145,7 @@ begin
             opcode_o <= 25;//set the decocde opcode
             //Special Regs: CTR if BO[2] == 0, LR if LK  == 1
             enable_o <= 1;
-            functionalUnitType_o <= BranchUnitID; instMinId_o <= 0;
+            functionalUnitType_o <= BranchUnitID; instMinId_o <= 0; numMicroOps_o <= 0;
 
             end
             default: begin
