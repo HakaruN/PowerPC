@@ -27,12 +27,24 @@ This signal groups is responsible for recieving the new cacheline from the core/
 This groups of signals includes an control signals, address, and the missing cacheline etc.
 
 //////Operation
-The fetch unit operates in 3 stages with 4 blocks of hardware. It can fetch up to 2 instructions per cycle, when the address to fetch is not aligned to an even instruction
-address, it will fetch just 1 instruction that cycle and then continue on 2 per cycle after that. The reason is because if it's on an odd instruction there will be a time at
-the end of the cacheline when the first instruction in the pair is on one cacheline and the second instruction is on the next cacheline which i cba handling.
+The I-Cache operates in 3 stages with 4 blocks of hardware. It can fetch up to 4 instructions per cycle, instructions are grouped into bundles of 4 instructions. These groups are
+4-byte aligned in memory which is how their position and size is located. The Cache can fetch a single group/bundle per cycle. If a branch is made which causes fetching to begin at
+an address part way though a group, the rest of the group is fetched causing less than the maximum possible number of instructions to be fetched for this cycle, this however means that
+the PC is then advanced to the boundary of the next group meaning for following cycles the maximum number of instructions per cycle will be fetched.
+
+The operation of the hardware in the cache are described below:
+
 ///Reset
 During startup or re-initialisation/cache clear the fetch unit has a reser behaviour/hardware block.
 This hardware initialises the cache's valid bits for each cacheline to zero, resets the instruction ID counter to zero and dissables the outputs.
+
+
+///Natural writes
+Natural writes are writes to the I-Cache that can happen at any time, this is used for prefetching operations as it does not effect the output of the 
+fetch unit (unline cache miss writes).
+
+///PC value update (Cycle 1)
+As the PC is located in the pevious stage (Fetch stage 1) and not in the I-Cache, it must be told how much to advance by. This is determined by how many instructions are being fetched this cycle.
 
 ///Fetch in (cylce 1)
 During normal operation when the core is running and instructions are being fetched, this hardware is recieving fetch requests from the core.

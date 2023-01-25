@@ -19,6 +19,7 @@ module instructionInterchange
     input wire [0:funcUnitCodeSize-1] funcUnitType1_i, funcUnitType2_i, funcUnitType3_i, funcUnitType4_i, 
     input wire [0:instructionCounterWidth-1] majID1_i, majID2_i, majID3_i, majID4_i, 
     input wire [0:instMinIdWidth-1] minID1_i, minID2_i, minID3_i, minID4_i, 
+    input wire [0:instMinIdWidth-1] numMicroOps1_i, numMicroOps2_i, numMicroOps3_i, numMicroOps4_i, 
     input wire is64Bit1_i, is64Bit2_i, is64Bit3_i, is64Bit4_i, 
     input wire [0:PidSize-1] pid1_i, pid2_i, pid3_i, pid4_i, 
     input wire [0:TidSize-1] tid1_i, tid2_i, tid3_i, tid4_i, 
