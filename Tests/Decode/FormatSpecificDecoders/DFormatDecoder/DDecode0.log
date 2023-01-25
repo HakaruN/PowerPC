@@ -1,40 +1,40 @@
-Decode 2 D-form (Inst: 0000000000000002): D-form: Trap doubleword immediate
-Decode 2 D-form (Inst: 0000000000000003): D-form: Trap word immediate
-Decode 2 D-form (Inst: 0000000000000007): D-form: Multiply low immediate
-Decode 2 D-form (Inst: 0000000000000008): D-form: Subtract from immediate carrying
-Decode 2 D-form (Inst: 000000000000000a): D-form: Compare logical immediate
-Decode 2 D-form (Inst: 000000000000000b): D-form: Compare immediate
-Decode 2 D-form (Inst: 000000000000000c): D-form: Add immediate carrying
-Decode 2 D-form (Inst: 000000000000000d): D-form: Add immediate carrying and record
-Decode 2 D-form (Inst: 000000000000000e): D-form: Add immediate
-Decode 2 D-form (Inst: 000000000000000f): D-form: Add immediate shifted
-Decode 2 D-form (Inst: 0000000000000018): D-form: OR immediate
-Decode 2 D-form (Inst: 0000000000000019): D-form: OR immediate shifted
-Decode 2 D-form (Inst: 000000000000001a): XD-form: OR immediate
-Decode 2 D-form (Inst: 000000000000001b): D-form: XOR immediate shifted
-Decode 2 D-form (Inst: 000000000000001c): D-form: AND immediate
-Decode 2 D-form (Inst: 000000000000001d): D-form: AND immediate shifted
-Decode 2 D-form (Inst: 0000000000000020): D-form: Load word and zero
-Decode 2 D-form (Inst: 0000000000000021): D-form: Load word and zero with update
-Decode 2 D-form (Inst: 0000000000000022): Load Byte and Zero
-Decode 2 D-form (Inst: 0000000000000023): Load Byte and Zero with update
-Decode 2 D-form (Inst: 0000000000000024): D-form: Store word
-Decode 2 D-form (Inst: 0000000000000025): D-form: Store word with update
-Decode 2 D-form (Inst: 0000000000000026): D-form: Store byte
-Decode 2 D-form (Inst: 0000000000000027): D-form: Store byte with update
-Decode 2 D-form (Inst: 0000000000000028): Load Half word and Zero
-Decode 2 D-form (Inst: 0000000000000029): Load Half word and Zero with update
-Decode 2 D-form (Inst: 000000000000002a): Load Half word algebraic
-Decode 2 D-form (Inst: 000000000000002b): Load Half word algebraic with update
-Decode 2 D-form (Inst: 000000000000002c): D-form: Store halfword
-Decode 2 D-form (Inst: 000000000000002d): D-form: store halfword with update
-Decode 2 D-form (Inst: 000000000000002e): D-form: Load multiple word
-Decode 2 D-form (Inst: 000000000000002f): D-form: Store multiple word
-Decode 2 D-form (Inst: 0000000000000030): D-form: Load floating point single
-Decode 2 D-form (Inst: 0000000000000031): D-form: Load floating point single with update
-Decode 2 D-form (Inst: 0000000000000032): D-form: Load floating point double
-Decode 2 D-form (Inst: 0000000000000033): D-form: Load floating point double with update
-Decode 2 D-form (Inst: 0000000000000034): D-form: LStore floating point single
-Decode 2 D-form (Inst: 0000000000000035): D-form: Store floating point single with update
-Decode 2 D-form (Inst: 0000000000000036): D-form: LStore floating point double
-Decode 2 D-form (Inst: 0000000000000037): D-form: Store floating point double with update
+Decode 2 D-form Inst:                    2. Opcode: 000010 ( 2).                    2. Opcode: 000010 ( 2). D-form Inst: Trap doubleword immediate
+Decode 2 D-form Inst:                    3. Opcode: 000011 ( 3).                    3. Opcode: 000011 ( 3). D-form Inst: Trap word immediate
+Decode 2 D-form Inst:                    7. Opcode: 000111 ( 7).                    7. Opcode: 000111 ( 7). D-form Inst: Multiply low immediate
+Decode 2 D-form Inst:                    8. Opcode: 001000 ( 8).                    8. Opcode: 001000 ( 8). D-form Inst: Subtract from immediate carrying
+Decode 2 D-form Inst:                   10. Opcode: 001010 (10).                   10. Opcode: 001010 (10). D-form Inst: Compare logical immediate
+Decode 2 D-form Inst:                   11. Opcode: 001011 (11).                   11. Opcode: 001011 (11). D-form Inst: Compare immediate
+Decode 2 D-form Inst:                   12. Opcode: 001100 (12).                   12. Opcode: 001100 (12). D-form Inst: Add immediate carrying
+Decode 2 D-form Inst:                   13. Opcode: 001101 (13).                   13. Opcode: 001101 (13). D-form Inst: Add immediate carrying and record
+Decode 2 D-form Inst:                   14. Opcode: 001110 (14).                   14. Opcode: 001110 (14). D-form Inst: Add immediate
+Decode 2 D-form Inst:                   15. Opcode: 001111 (15).                   15. Opcode: 001111 (15). D-form Inst: Add immediate shifted
+Decode 2 D-form Inst:                   24. Opcode: 011000 (24).                   24. Opcode: 011000 (24). D-form Inst: OR immediate
+Decode 2 D-form Inst:                   25. Opcode: 011001 (25).                   25. Opcode: 011001 (25). D-form Inst: OR immediate shifted
+Decode 2 D-form Inst:                   26. Opcode: 011010 (26).                   26. Opcode: 011010 (26). XD-form Inst: OR immediate
+Decode 2 D-form Inst:                   27. Opcode: 011011 (27).                   27. Opcode: 011011 (27). D-form Inst: XOR immediate shifted
+Decode 2 D-form Inst:                   28. Opcode: 011100 (28).                   28. Opcode: 011100 (28). D-form Inst: AND immediate
+Decode 2 D-form Inst:                   29. Opcode: 011101 (29).                   29. Opcode: 011101 (29). D-form Inst: AND immediate shifted
+Decode 2 D-form Inst:                   32. Opcode: 100000 (32).                   32. Opcode: 100000 (32). D-form Inst: Load word and zero
+Decode 2 D-form Inst:                   33. Opcode: 100001 (33).                   33. Opcode: 100001 (33). D-form Inst: Load word and zero with update
+Decode 2 D-form Inst:                   34. Opcode: 100010 (34).                   34. Opcode: 100010 (34). Load Byte and Zero
+Decode 2 D-form Inst:                   35. Opcode: 100011 (35).                   35. Opcode: 100011 (35). Load Byte and Zero with update
+Decode 2 D-form Inst:                   36. Opcode: 100100 (36).                   36. Opcode: 100100 (36). D-form Inst: Store word
+Decode 2 D-form Inst:                   37. Opcode: 100101 (37).                   37. Opcode: 100101 (37). D-form Inst: Store word with update
+Decode 2 D-form Inst:                   38. Opcode: 100110 (38).                   38. Opcode: 100110 (38). D-form Inst: Store byte
+Decode 2 D-form Inst:                   39. Opcode: 100111 (39).                   39. Opcode: 100111 (39). D-form Inst: Store byte with update
+Decode 2 D-form Inst:                   40. Opcode: 101000 (40).                   40. Opcode: 101000 (40). Load Half word and Zero
+Decode 2 D-form Inst:                   41. Opcode: 101001 (41).                   41. Opcode: 101001 (41). Load Half word and Zero with update
+Decode 2 D-form Inst:                   42. Opcode: 101010 (42).                   42. Opcode: 101010 (42). Load Half word algebraic
+Decode 2 D-form Inst:                   43. Opcode: 101011 (43).                   43. Opcode: 101011 (43). Load Half word algebraic with update
+Decode 2 D-form Inst:                   44. Opcode: 101100 (44).                   44. Opcode: 101100 (44). D-form Inst: Store halfword
+Decode 2 D-form Inst:                   45. Opcode: 101101 (45).                   45. Opcode: 101101 (45). D-form Inst: store halfword with update
+Decode 2 D-form Inst:                   46. Opcode: 101110 (46).                   46. Opcode: 101110 (46). D-form Inst: Load multiple word
+Decode 2 D-form Inst:                   47. Opcode: 101111 (47).                   47. Opcode: 101111 (47). D-form Inst: Store multiple word
+Decode 2 D-form Inst:                   48. Opcode: 110000 (48).                   48. Opcode: 110000 (48). D-form Inst: Load floating point single
+Decode 2 D-form Inst:                   49. Opcode: 110001 (49).                   49. Opcode: 110001 (49). D-form Inst: Load floating point single with update
+Decode 2 D-form Inst:                   50. Opcode: 110010 (50).                   50. Opcode: 110010 (50). D-form Inst: Load floating point double
+Decode 2 D-form Inst:                   51. Opcode: 110011 (51).                   51. Opcode: 110011 (51). D-form Inst: Load floating point double with update
+Decode 2 D-form Inst:                   52. Opcode: 110100 (52).                   52. Opcode: 110100 (52). D-form Inst: LStore floating point single
+Decode 2 D-form Inst:                   53. Opcode: 110101 (53).                   53. Opcode: 110101 (53). D-form Inst: Store floating point single with update
+Decode 2 D-form Inst:                   54. Opcode: 110110 (54).                   54. Opcode: 110110 (54). D-form Inst: LStore floating point double
+Decode 2 D-form Inst:                   55. Opcode: 110111 (55).                   55. Opcode: 110111 (55). D-form Inst: Store floating point double with update
