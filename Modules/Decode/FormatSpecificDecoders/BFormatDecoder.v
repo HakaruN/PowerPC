@@ -147,7 +147,7 @@ begin
             //Special Regs: CTR if BO[2] == 0, LR if LK  == 1
             enable_o <= 1;
             functionalUnitType_o <= BranchUnitID; instMinId_o <= 0; numMicroOps_o <= 0;
-
+            modifiesCR_o <= 0;
             end
             default: begin
                 `ifndef QUIET_INVALID

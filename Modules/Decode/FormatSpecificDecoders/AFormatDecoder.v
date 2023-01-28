@@ -191,6 +191,7 @@ begin
                 
                 op3IsReg_o <= 1; op3rw_o <= regRead;
                 op4IsReg_o <= 0; op4rw_o <= regRead;
+                modifiesCR_o <= 0;
                 //set the functional unit to handle the instruction
                 enable_o <= 1;
             end
@@ -217,7 +218,8 @@ begin
                 op2IsReg_o <= 1; op2rw_o <= regRead;
                 op3IsReg_o <= 1; op3rw_o <= regRead;
                 op4IsReg_o <= 0; op4rw_o <= 2'b00;//Not used
-                functionalUnitType_o <= FPUnitId;     
+                functionalUnitType_o <= FPUnitId;    
+                modifiesCR_o <= 1; 
                 enable_o <= 1;      
             end
             20: begin//Floating Subtract
@@ -232,6 +234,7 @@ begin
                 op4IsReg_o <= 0; op4rw_o <= 2'b00;//Not used
 
                 functionalUnitType_o <= FPUnitId;   
+                modifiesCR_o <= 1;
                 enable_o <= 1;        
             end
             25: begin//Floating Multiply
@@ -247,6 +250,7 @@ begin
                 op4IsReg_o <= 1; op4rw_o <= regRead;
 
                 functionalUnitType_o <= FPUnitId;   
+                modifiesCR_o <= 1;
                 enable_o <= 1;        
             end
             18: begin//Floating Divide
@@ -261,6 +265,7 @@ begin
                 op4IsReg_o <= 0; op4rw_o <= 2'b00;//Not used
                 
                 functionalUnitType_o <= FPUnitId;   
+                modifiesCR_o <= 1;
                 enable_o <= 1;        
             end
             22: begin//Floating Square Root
@@ -275,6 +280,7 @@ begin
                 op4IsReg_o <= 0; op4rw_o <= 2'b00;//Not used
                 
                 functionalUnitType_o <= FPUnitId;
+                modifiesCR_o <= 1;
                 enable_o <= 1;           
             end
             24: begin//Floating Reciprocal Estimate
@@ -288,6 +294,7 @@ begin
                 op3IsReg_o <= 1; op3rw_o <= regRead;
                 op4IsReg_o <= 0; op4rw_o <= 2'b00;//Not used
                 functionalUnitType_o <= FPUnitId;  
+                modifiesCR_o <= 1;
                 enable_o <= 1;         
             end
             26: begin//Floating Reciprocal Square Root Estimate
@@ -301,6 +308,7 @@ begin
                 op3IsReg_o <= 1; op3rw_o <= regRead;
                 op4IsReg_o <= 0; op4rw_o <= 2'b00;//Not used
                 functionalUnitType_o <= FPUnitId; 
+                modifiesCR_o <= 1;
                 enable_o <= 1;          
             end
             29: begin//Floating Multiply-Add
@@ -313,7 +321,8 @@ begin
                 op2IsReg_o <= 1; op2rw_o <= regRead;
                 op3IsReg_o <= 1; op3rw_o <= regRead;
                 op4IsReg_o <= 1; op4rw_o <= regRead;
-                functionalUnitType_o <= FPUnitId;     
+                functionalUnitType_o <= FPUnitId;   
+                modifiesCR_o <= 1; 
                 enable_o <= 1;      
             end
             28: begin//Floating Multiply-Subtract
@@ -327,6 +336,7 @@ begin
                 op3IsReg_o <= 1; op3rw_o <= regRead;
                 op4IsReg_o <= 1; op4rw_o <= regRead;
                 functionalUnitType_o <= FPUnitId;     
+                modifiesCR_o <= 1;
                 enable_o <= 1;      
             end
             31: begin//Floating Negative Multiply-Add
@@ -340,6 +350,7 @@ begin
                 op3IsReg_o <= 1; op3rw_o <= regRead;
                 op4IsReg_o <= 1; op4rw_o <= regRead;
                 functionalUnitType_o <= FPUnitId;       
+                modifiesCR_o <= 1;
                 enable_o <= 1;    
             end
             30: begin//Floating Negative Multiply-Subtract
@@ -354,6 +365,7 @@ begin
                 op3IsReg_o <= 1; op3rw_o <= regRead;
                 op4IsReg_o <= 1; op4rw_o <= regRead;
                 functionalUnitType_o <= FPUnitId;      
+                modifiesCR_o <= 1;
                 enable_o <= 1;     
             end
             23: begin//Floating Select
@@ -366,7 +378,8 @@ begin
                 op2IsReg_o <= 1; op2rw_o <= regRead;
                 op3IsReg_o <= 1; op3rw_o <= regRead;
                 op4IsReg_o <= 1; op4rw_o <= regRead;
-                functionalUnitType_o <= FPUnitId;      
+                functionalUnitType_o <= FPUnitId;     
+                modifiesCR_o <= 1; 
                 enable_o <= 1;     
             end
             default: begin
@@ -392,6 +405,7 @@ begin
                 op3IsReg_o <= 1; op3rw_o <= regRead;
                 op4IsReg_o <= 0; op4rw_o <= 2'b00;//Not used
                 functionalUnitType_o <= FPUnitId; 
+                modifiesCR_o <= 1;
                 enable_o <= 1;          
             end
             20: begin//Floating Subtract Single
@@ -404,7 +418,8 @@ begin
                 op2IsReg_o <= 1; op2rw_o <= regRead;
                 op3IsReg_o <= 1; op3rw_o <= regRead;
                 op4IsReg_o <= 0; op4rw_o <= 2'b00;//Not used
-                functionalUnitType_o <= FPUnitId;          
+                functionalUnitType_o <= FPUnitId; 
+                modifiesCR_o <= 1;         
                 enable_o <= 1; 
             end
             25: begin//Floating Multiply Single
@@ -417,7 +432,8 @@ begin
                 op2IsReg_o <= 1; op2rw_o <= regRead;
                 op3IsReg_o <= 0; op3rw_o <= 2'b00;//Not used
                 op4IsReg_o <= 1; op4rw_o <= regRead;
-                functionalUnitType_o <= FPUnitId;     
+                functionalUnitType_o <= FPUnitId;   
+                modifiesCR_o <= 1;  
                 enable_o <= 1;      
             end
             18: begin//Floating Divide Single
@@ -430,7 +446,8 @@ begin
                 op2IsReg_o <= 1; op2rw_o <= regRead;
                 op3IsReg_o <= 1; op3rw_o <= regRead;
                 op4IsReg_o <= 0; op4rw_o <= 2'b00;//Not used
-                functionalUnitType_o <= FPUnitId;     
+                functionalUnitType_o <= FPUnitId;
+                modifiesCR_o <= 1;     
                 enable_o <= 1;      
             end
             22: begin//Floating Square Root Single
@@ -443,7 +460,8 @@ begin
                 op2IsReg_o <= 0; op2rw_o <= 2'b00;//Not used
                 op3IsReg_o <= 1; op3rw_o <= regRead;
                 op4IsReg_o <= 0; op4rw_o <= 2'b00;//Not used
-                functionalUnitType_o <= FPUnitId;    
+                functionalUnitType_o <= FPUnitId; 
+                modifiesCR_o <= 1;   
                 enable_o <= 1;       
             end
             24: begin//Floating Reciprocal Estimate Single
@@ -457,6 +475,7 @@ begin
                 op3IsReg_o <= 1; op3rw_o <= regRead;
                 op4IsReg_o <= 0; op4rw_o <= 2'b00;//Not used
                 functionalUnitType_o <= FPUnitId;    
+                modifiesCR_o <= 1;
                 enable_o <= 1;       
             end
             26: begin//Floating Reciprocal Square Root Estimate Single
@@ -469,7 +488,8 @@ begin
                 op2IsReg_o <= 0; op2rw_o <= 2'b00;//Not used
                 op3IsReg_o <= 1; op3rw_o <= regRead;
                 op4IsReg_o <= 0; op4rw_o <= 2'b00;//Not used
-                functionalUnitType_o <= FPUnitId;         
+                functionalUnitType_o <= FPUnitId;     
+                modifiesCR_o <= 1;    
                 enable_o <= 1;  
             end
             29: begin//Floating Multiply-Add Single
@@ -482,7 +502,8 @@ begin
                 op2IsReg_o <= 1; op2rw_o <= regRead;
                 op3IsReg_o <= 1; op3rw_o <= regRead;
                 op4IsReg_o <= 1; op4rw_o <= regRead;
-                functionalUnitType_o <= FPUnitId;        
+                functionalUnitType_o <= FPUnitId;   
+                modifiesCR_o <= 1;     
                 enable_o <= 1;   
             end
             28: begin//Floating Multiply-Subtract Single
@@ -495,7 +516,8 @@ begin
                 op2IsReg_o <= 1; op2rw_o <= regRead;
                 op3IsReg_o <= 1; op3rw_o <= regRead;
                 op4IsReg_o <= 1; op4rw_o <= regRead;
-                functionalUnitType_o <= FPUnitId;           
+                functionalUnitType_o <= FPUnitId;        
+                modifiesCR_o <= 1;  
                 enable_o <= 1;
             end
             31: begin//Floating Negative Multiply-Add Single - not Hit
@@ -509,6 +531,7 @@ begin
                 op3IsReg_o <= 1; op3rw_o <= regRead;
                 op4IsReg_o <= 1; op4rw_o <= regRead;
                 functionalUnitType_o <= FPUnitId;      
+                modifiesCR_o <= 1;
                 enable_o <= 1;     
             end
             30: begin//Floating Negative Multiply-Subtract Single
@@ -521,7 +544,8 @@ begin
                 op2IsReg_o <= 1; op2rw_o <= regRead;
                 op3IsReg_o <= 1; op3rw_o <= regRead;
                 op4IsReg_o <= 1; op4rw_o <= regRead;
-                functionalUnitType_o <= FPUnitId;         
+                functionalUnitType_o <= FPUnitId;   
+                modifiesCR_o <= 1;     
                 enable_o <= 1;  
             end
             default: begin
