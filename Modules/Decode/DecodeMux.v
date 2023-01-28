@@ -55,8 +55,9 @@ module DecodeMux
     input wire Ais64Bit_i,
     input wire [0:PidSize-1] APid_i,
     input wire [0:TidSize-1] ATid_i,
-    input wire [0:regAccessPatternSize-1] Aop1rw_o, Aop2rw_o, Aop3rw_o, Aop4rw_o,
-    input wire Aop1IsReg_o, Aop2IsReg_o, Aop3IsReg_o, Aop4IsReg_o,
+    input wire [0:regAccessPatternSize-1] Aop1rw_i, Aop2rw_i, Aop3rw_i, Aop4rw_i,
+    input wire Aop1IsReg_i, Aop2IsReg_i, Aop3IsReg_i, Aop4IsReg_i,
+    input wire AmodifiesCR_i,
     input wire [0:4 * regSize] ABody_i,
 
     ///B format
@@ -69,6 +70,7 @@ module DecodeMux
     input wire Bis64Bit_i,
     input wire [0:PidSize-1] BPid_i,
     input wire [0:TidSize-1] BTid_i,
+    input wire BmodifiesCR_i,
     input wire [0:(2 * regSize) + BimmediateSize + 3] BBody_i,
 
     ///D format
@@ -83,7 +85,8 @@ module DecodeMux
     input wire [0:TidSize-1] DTid_i,
     input wire [0:regAccessPatternSize-1] Dop1rw_i, Dop2rw_i,
     input wire Dop1isReg_i, Dop2isReg_i, immIsExtended_i, immIsShifted_i,
-    input wire [0:2] shiftedBy_i,
+    input wire [0:2] DisShiftedBy_i,
+    input wire DmodifiesCR_i,
     input wire [0:(2 * regSize) + DimmediateSize - 1] DBody_i,
 
     ///output
@@ -99,6 +102,7 @@ module DecodeMux
     output reg [0:TidSize-1] tid_o,
     output reg [0:regAccessPatternSize-1] op1rw_o, op2rw_o, op3rw_o, op4rw_o,
     output reg op1IsReg_o, op2IsReg_o, op3IsReg_o, op4IsReg_o,
+    output reg modifiesCR_o,
     output reg [0:64-1] body_o//contains all operands. Large enough for 4 reg operands and a 32bit imm assuming the unified reg space has reg addresses of 8 bits
 );
 
@@ -151,8 +155,9 @@ begin
         is64Bit_o <= Ais64Bit_i;//32/64b mode
         pid_o <= APid_i; tid_o <= ATid_i;//Process and Thread ID
         //Operand reg flags
-        op1rw_o <= Aop1rw_o;        op2rw_o <= Aop2rw_o;        op3rw_o <= Aop3rw_o;        op4rw_o <= Aop4rw_o;
-        op1IsReg_o <= Aop1IsReg_o;  op2IsReg_o <= Aop2IsReg_o;  op3IsReg_o <= Aop3IsReg_o;  op4IsReg_o <= Aop4IsReg_o;
+        op1rw_o <= Aop1rw_i;        op2rw_o <= Aop2rw_i;        op3rw_o <= Aop3rw_i;        op4rw_o <= Aop4rw_i;
+        op1IsReg_o <= Aop1IsReg_i;  op2IsReg_o <= Aop2IsReg_i;  op3IsReg_o <= Aop3IsReg_i;  op4IsReg_o <= Aop4IsReg_i;
+        modifiesCR_o <= AmodifiesCR_i;
         //operand data
         body_o[0:20] <= ABody_i;
         body_o[21:64-1] <= 0;//zero out top of buffer
@@ -171,6 +176,7 @@ begin
         //Operand reg flags - none used
         op1rw_o <= 0;       op2rw_o <= 0;       op3rw_o <= 0;   op4rw_o <= 0;
         op1IsReg_o <= 0;    op2IsReg_o <= 0;    op3IsReg_o <= 0;    op4IsReg_o <= 0;
+        modifiesCR_o <= BmodifiesCR_i;
         body_o[0:27] <= BBody_i;
         body_o[28:64-1] <= 0;//zero out top of buffer
     end
@@ -188,14 +194,14 @@ begin
         //Operand reg flags - none used
         op1rw_o <= Dop1rw_i;        op2rw_o <= Dop2rw_i;        op3rw_o <= 0;       op4rw_o <= 0;
         op1IsReg_o <= Dop1isReg_i;  op2IsReg_o <= Dop2isReg_i;  op3IsReg_o <= 0;    op4IsReg_o <= 0;
-
+        modifiesCR_o <= DmodifiesCR_i;
         //Copy the registers across to buffer
         body_o[0+:10] <= DBody_i[0+:10];//copy regs
         //If the immediate is to be shifted, perform the shift here then sign extend to 64 bits and copy to buffer
         //$display("%b", DBody_i[10+:16]);
         if(immIsShifted_i)
         begin
-            case(shiftedBy_i)
+            case(DisShiftedBy_i)
                 1: begin 
                     body_o[10+:32] <= {8'h00, DBody_i[10+:16], 8'h00};//copy and extend the imm
                 end

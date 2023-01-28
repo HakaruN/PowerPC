@@ -137,6 +137,7 @@ module DFormatDecoder
     output reg [0:regAccessPatternSize-1] op1rw_o, op2rw_o,//how are the operands accessed, are they writen to and/or read from [0] read flag, [1] write flag.
     output reg op1isReg_o, op2isReg_o, immIsExtended_o, immIsShifted_o,//if imm is shifted, its shifted up 2 bytes
     output reg [0:shiftedBySize-1] shiftedBy_o,//How many bytes the imm is shifted up by
+    output reg modifiesCR_o,//tells the backend if this instruction is going to need a copy of the CR to modify and writeback
     //Instruction body - data contents are 26 bits wide. There are also flags to include
     output reg [0:(2 * regSize) + immediateSize - 1] instructionBody_o
 );

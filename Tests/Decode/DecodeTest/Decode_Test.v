@@ -62,6 +62,7 @@ module DecodeTest #(
     wire [0:TidSize-1] tidOut;
     wire [0:regAccessPatternSize-1] op1rwOut, op2rwOut, op3rwOut, op4rwOut;
     wire op1IsRegOut, op2IsRegOut, op3IsRegOut, op4IsRegOut;
+    wire modifiesCROut;
     wire [0:64-1] bodyOut;//contains all operands. Large enough for 4 reg operands and a 64bit imm
 
     DecodeUnit
@@ -80,19 +81,20 @@ module DecodeTest #(
     .instructionTid_i(TidIn),
     .instructionMajId_i(instMajIdIn),
     //output
-    .enableOut(enableOut),
+    .enable_o(enableOut),
     .instFormat_o(instFormatOut),
-    .opcodeOut(opcodeOut),
-    .addressOut(addressOut),
-    .funcUnitTypeOut(funcUnitTypeOut),
-    .majIDOut(majIDOut),
-    .minIDOut(minIDOut), .numMicroOpsOut(numMicroOpsOut),
-    .is64BitOut(is64BitOut),
-    .pidOut(pidOut),
-    .tidOut(tidOut),
-    .op1rwOut(op1rwOut), .op2rwOut(op2rwOut), .op3rwOut(op3rwOut), .op4rwOut(op4rwOut),
-    .op1IsRegOut(op1IsRegOut), .op2IsRegOut(op2IsRegOut), .op3IsRegOut(op3IsRegOut), .op4IsRegOut(op4IsRegOut),
-    .bodyOut(bodyOut)
+    .opcode_o(opcodeOut),
+    .address_o(addressOut),
+    .funcUnitType_o(funcUnitTypeOut),
+    .majID_o(majIDOut),
+    .minID_o(minIDOut), .numMicroOps_o(numMicroOpsOut),
+    .is64Bit_o(is64BitOut),
+    .pid_o(pidOut),
+    .tid_o(tidOut),
+    .op1rw_o(op1rwOut), .op2rw_o(op2rwOut), .op3rw_o(op3rwOut), .op4rw_o(op4rwOut),
+    .op1IsReg_o(op1IsRegOut), .op2IsReg_o(op2IsRegOut), .op3IsReg_o(op3IsRegOut), .op4IsReg_o(op4IsRegOut),
+    .modifiesCR_o(modifiesCROut),
+    .body_o(bodyOut)
     );
 
 integer instCtr;

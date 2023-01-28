@@ -91,6 +91,7 @@ module DecodeMuxTest #(
     wire [0:TidSize-1] tidOut;
     wire [0:regAccessPatternSize-1] op1rwOut, op2rwOut, op3rwOut, op4rwOut;
     wire op1IsRegOut, op2IsRegOut, op3IsRegOut, op4IsRegOut;
+    wire modifiesCROut;
     wire [0:64-1] bodyOut;//contains all operands. Large enough for 4 reg operands and a 64bit imm
 
 
@@ -114,8 +115,8 @@ decodeMux
     .Ais64Bit_i(Ais64BitIn),
     .APid_i(APidIn),
     .ATid_i(ATidIn),
-    .Aop1rw_o(Aop1rwOut), .Aop2rw_o(Aop2rwOut), .Aop3rw_o(Aop3rwOut), .Aop4rw_o(Aop4rwOut),
-    .Aop1IsReg_o(Aop1IsRegOut), .Aop2IsReg_o(Aop2IsRegOut), .Aop3IsReg_o(Aop3IsRegOut), .Aop4IsReg_o(Aop4IsRegOut),
+    .Aop1rw_i(Aop1rwOut), .Aop2rw_i(Aop2rwOut), .Aop3rw_i(Aop3rwOut), .Aop4rw_i(Aop4rwOut),
+    .Aop1IsReg_i(Aop1IsRegOut), .Aop2IsReg_i(Aop2IsRegOut), .Aop3IsReg_i(Aop3IsRegOut), .Aop4IsReg_i(Aop4IsRegOut),
     .ABody_i(ABodyIn),
 
     ///B format
@@ -142,7 +143,7 @@ decodeMux
     .DTid_i(DTidIn),
     .Dop1rw_i(Dop1rwIn), .Dop2rw_i(Dop2rwIn),
     .Dop1isReg_i(Dop1isRegIn), .Dop2isReg_i(Dop2isRegIn), .immIsExtended_i(immIsExtendedIn), .immIsShifted_i(immIsShiftedIn),
-    .shiftedBy_i(shiftedByIn),
+    .DisShiftedBy_i(shiftedByIn),
     .DBody_i(DBodyIn),
 
     ///output
@@ -157,6 +158,7 @@ decodeMux
     .tid_o(tidOut),
     .op1rw_o(op1rwOut), .op2rw_o(op2rwOut), .op3rw_o(op3rwOut), .op4rw_o(op4rwOut),
     .op1IsReg_o(op1IsRegOut), .op2IsReg_o(op2IsRegOut), .op3IsReg_o(op3IsRegOut), .op4IsReg_o(op4IsRegOut),
+    .modifiesCR_o(modifiesCROut),
     .body_o(bodyOut)
 );
 

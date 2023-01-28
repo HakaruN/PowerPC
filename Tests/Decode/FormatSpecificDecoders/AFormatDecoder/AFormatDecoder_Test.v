@@ -46,6 +46,7 @@ module AFormatDecoderTest #(
     wire [0:TidSize-1] instTidOut;//Thread ID
     wire [0:regAccessPatternSize-1] op1rwOut, op2rwOut, op3rwOut, op4rwOut;
     wire op1IsRegOut, op2IsRegOut, op3IsRegOut, op4IsRegOut;
+    wire modifiesCROut;
     wire [0:4 * regSize] instructionBodyOut;
 
 
@@ -75,6 +76,7 @@ aFormatDecoder
     .instTid_o(instTidOut),
     .op1rw_o(op1rwOut), .op2rw_o(op2rwOut), .op3rw_o(op3rwOut), .op4rw_o(op4rwOut),//reg operand are read/write flags
     .op1IsReg_o(op1IsRegOut), .op2IsReg_o(op2IsRegOut), .op3IsReg_o(op3IsRegOut), .op4IsReg_o(op4IsRegOut),//Reg operands isReg flags
+    .modifiesCR_o(modifiesCROut),
     .instructionBody_o(instructionBodyOut)
 );
 

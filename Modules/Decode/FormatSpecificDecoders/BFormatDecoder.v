@@ -82,6 +82,7 @@ module BFormatDecoder
     output reg is64Bit_o,
     output reg [0:PidSize-1] instPid_o,//process ID
     output reg [0:TidSize-1] instTid_o,//Thread ID
+    output reg modifiesCR_o,//tells the backend if this instruction is going to need a copy of the CR to modify and writeback
     //Instruction body - data contents are 26 bits wide. There are also flags to include
     output reg [0:(2 * regSize) + immediateSize + 3] instructionBody_o//the +3 is because there are an aditional 2 bits in the inst for the flags and then an aditional 2 bits for the imm.
 );

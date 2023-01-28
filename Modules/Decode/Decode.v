@@ -86,20 +86,21 @@ module DecodeUnit
     input wire [0:instructionCounterWidth-1] instructionMajId_i,
 
     //output
-    output wire enableOut,
+    output wire enable_o,
     ///Total output size is 302 bits (37.75B)
     output wire [0:25-1] instFormat_o,
-    output wire [0:opcodeSize-1] opcodeOut,
-    output wire [0:addressWidth-1] addressOut,
-    output wire [0:funcUnitCodeSize-1] funcUnitTypeOut,
-    output wire [0:instructionCounterWidth-1] majIDOut,
-    output wire [0:instMinIdWidth-1] minIDOut, numMicroOpsOut,
-    output wire is64BitOut,
-    output wire [0:PidSize-1] pidOut,
-    output wire [0:TidSize-1] tidOut,
-    output wire [0:regAccessPatternSize-1] op1rwOut, op2rwOut, op3rwOut, op4rwOut,
-    output wire op1IsRegOut, op2IsRegOut, op3IsRegOut, op4IsRegOut,
-    output wire [0:84-1] bodyOut//contains all operands. Large enough for 4 reg operands and a 64bit imm
+    output wire [0:opcodeSize-1] opcode_o,
+    output wire [0:addressWidth-1] address_o,
+    output wire [0:funcUnitCodeSize-1] funcUnitType_o,
+    output wire [0:instructionCounterWidth-1] majID_o,
+    output wire [0:instMinIdWidth-1] minID_o, numMicroOps_o,
+    output wire is64Bit_o,
+    output wire [0:PidSize-1] pid_o,
+    output wire [0:TidSize-1] tid_o,
+    output wire [0:regAccessPatternSize-1] op1rw_o, op2rw_o, op3rw_o, op4rw_o,
+    output wire op1IsReg_o, op2IsReg_o, op3IsReg_o, op4IsReg_o,
+    output wire modifiesCR_o,
+    output wire [0:64-1] body_o//contains all operands. Large enough for 4 reg operands and a 64bit imm
 );
 
 
@@ -164,8 +165,9 @@ formatScanner
     wire Ais64BitIn;
     wire [0:PidSize-1] APidIn;
     wire [0:TidSize-1] ATidIn;
-    wire [0:regAccessPatternSize-1] Aop1rwOut, Aop2rwOut, Aop3rwOut, Aop4rwOut;
-    wire Aop1IsRegOut, Aop2IsRegOut, Aop3IsRegOut, Aop4IsRegOut;
+    wire [0:regAccessPatternSize-1] Aop1rwIn, Aop2rwIn, Aop3rwIn, Aop4rwIn;
+    wire Aop1IsRegIn, Aop2IsRegIn, Aop3IsRegIn, Aop4IsRegIn;
+    wire AmodifiesCRIn;
     wire [0:4 * regSize] ABodyIn;
 
     AFormatDecoder #()
@@ -192,8 +194,9 @@ formatScanner
         .is64Bit_o(Ais64BitIn),
         .instPid_o(APidIn),
         .instTid_o(ATidIn),
-        .op1rw_o(Aop1rwOut), .op2rw_o(Aop2rwOut), .op3rw_o(Aop3rwOut), .op4rw_o(Aop4rwOut),//reg operand are read/write flags
-        .op1IsReg_o(Aop1IsRegOut), .op2IsReg_o(Aop2IsRegOut), .op3IsReg_o(Aop3IsRegOut), .op4IsReg_o(Aop4IsRegOut),//Reg operands isReg flags
+        .op1rw_o(Aop1rwIn), .op2rw_o(Aop2rwIn), .op3rw_o(Aop3rwIn), .op4rw_o(Aop4rwIn),//reg operand are read/write flags
+        .op1IsReg_o(Aop1IsRegIn), .op2IsReg_o(Aop2IsRegIn), .op3IsReg_o(Aop3IsRegIn), .op4IsReg_o(Aop4IsRegIn),//Reg operands isReg flags
+        .modifiesCR_o(AmodifiesCRIn),
         .instructionBody_o(ABodyIn)
     );
 
@@ -207,6 +210,7 @@ formatScanner
     wire Bis64BitIn;
     wire [0:PidSize-1] BPidIn;
     wire [0:TidSize-1] BTidIn;
+    wire BmodifiesCRIn;
     wire [0:(2 * regSize) + BimmediateSize + 3] BBodyIn;
 
     BFormatDecoder #()
@@ -233,6 +237,7 @@ formatScanner
         .is64Bit_o(Bis64BitIn),
         .instPid_o(BPidIn),
         .instTid_o(BTidIn),
+        .modifiesCR_o(BmodifiesCRIn),
         .instructionBody_o(BBodyIn)
 );
 
@@ -248,9 +253,9 @@ formatScanner
     wire [0:TidSize-1] DTidIn;
     wire [0:regAccessPatternSize-1] Dop1rwIn, Dop2rwIn;
     wire Dop1isRegIn, Dop2isRegIn, immIsExtendedIn, immIsShiftedIn;
-    wire [0:2] shiftedByIn;
+    wire [0:2] DisShiftedByIn;
+    wire DmodifiesCRIn;
     wire [0:(2 * regSize) + DimmediateSize - 1] DBodyIn;
-
     DFormatDecoder #()
     dFormatDecoder
     (
@@ -277,7 +282,8 @@ formatScanner
         .instTid_o(DTidIn),
         .op1rw_o(Dop1rwIn), .op2rw_o(Dop2rwIn),
         .op1isReg_o(Dop1isRegIn), .op2isReg_o(Dop2isRegIn), .immIsExtended_o(immIsExtendedIn), .immIsShifted_o(immIsShiftedIn),
-        .shiftedBy_o(shiftedByIn),
+        .shiftedBy_o(DisShiftedByIn),
+        .modifiesCR_o(DmodifiesCRIn),
         .instructionBody_o(DBodyIn)
     );
 
@@ -303,8 +309,9 @@ formatScanner
         .Ais64Bit_i(Ais64BitIn),
         .APid_i(APidIn),
         .ATid_i(ATidIn),
-        .Aop1rw_o(Aop1rwOut), .Aop2rw_o(Aop2rwOut), .Aop3rw_o(Aop3rwOut), .Aop4rw_o(Aop4rwOut),
-        .Aop1IsReg_o(Aop1IsRegOut), .Aop2IsReg_o(Aop2IsRegOut), .Aop3IsReg_o(Aop3IsRegOut), .Aop4IsReg_o(Aop4IsRegOut),
+        .Aop1rw_i(Aop1rwIn), .Aop2rw_i(Aop2rwIn), .Aop3rw_i(Aop3rwIn), .Aop4rw_i(Aop4rwIn),
+        .Aop1IsReg_i(Aop1IsRegIn), .Aop2IsReg_i(Aop2IsRegIn), .Aop3IsReg_i(Aop3IsRegIn), .Aop4IsReg_i(Aop4IsRegIn),
+        .AmodifiesCR_i(AmodifiesCRIn),
         .ABody_i(ABodyIn),
 
         ///B format
@@ -317,6 +324,7 @@ formatScanner
         .Bis64Bit_i(Bis64BitIn),
         .BPid_i(BPidIn),
         .BTid_i(BTidIn),
+        .BmodifiesCR_i(BmodifiesCRIn),
         .BBody_i(BBodyIn),
 
         ///D format
@@ -331,24 +339,26 @@ formatScanner
         .DTid_i(DTidIn),
         .Dop1rw_i(Dop1rwIn), .Dop2rw_i(Dop2rwIn),
         .Dop1isReg_i(Dop1isRegIn), .Dop2isReg_i(Dop2isRegIn), .immIsExtended_i(immIsExtendedIn), .immIsShifted_i(immIsShiftedIn),
-        .shiftedBy_i(shiftedByIn),
+        .DisShiftedBy_i(DisShiftedByIn),
+        .DmodifiesCR_i(DmodifiesCRIn),
         .DBody_i(DBodyIn),
 
         ///output
-        .enable_o(enableOut),
+        .enable_o(enable_o),
         .instFormat_o(instFormat_o),
-        .opcode_o(opcodeOut),
-        .address_o(addressOut),
-        .funcUnitType_o(funcUnitTypeOut),
-        .majID_o(majIDOut),
-        .minID_o(minIDOut),
-        .numMicroOps_o(numMicroOpsOut),
-        .is64Bit_o(is64BitOut),
-        .pid_o(pidOut),
-        .tid_o(tidOut),
-        .op1rw_o(op1rwOut), .op2rw_o(op2rwOut), .op3rw_o(op3rwOut), .op4rw_o(op4rwOut),
-        .op1IsReg_o(op1IsRegOut), .op2IsReg_o(op2IsRegOut), .op3IsReg_o(op3IsRegOut), .op4IsReg_o(op4IsRegOut),
-        .body_o(bodyOut)
+        .opcode_o(opcode_o),
+        .address_o(address_o),
+        .funcUnitType_o(funcUnitType_o),
+        .majID_o(majID_o),
+        .minID_o(minID_o),
+        .numMicroOps_o(numMicroOps_o),
+        .is64Bit_o(is64Bit_o),
+        .pid_o(pid_o),
+        .tid_o(tid_o),
+        .op1rw_o(op1rw_o), .op2rw_o(op2rw_o), .op3rw_o(op3rw_o), .op4rw_o(op4rw_o),
+        .op1IsReg_o(op1IsReg_o), .op2IsReg_o(op2IsReg_o), .op3IsReg_o(op3IsReg_o), .op4IsReg_o(op4IsReg_o),
+        .modifiesCR_o(modifiesCR_o),
+        .body_o(body_o)
     );
 
     always @(posedge clock_i)

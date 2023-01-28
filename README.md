@@ -5,7 +5,7 @@ A full Super scalar, pipeline, out of order processor implementing the Power ISA
 I don't think i'm very good at this, i've never taken any courses in computer architecture I just kind of figured it out myself with help from online resources. It's been working so far.
 
 current features:
- - Direct mapped, pipelined L1-I cache with a 16K capacity (256 - 64Byte cache lines) with a 3 cycle latency.
+ - Direct mapped, pipelined L1-I cache with a 16K capacity (256 - 64Byte cache lines) with a 4 cycle latency.
  - Decode unit capable of detecting instruction formats. Decoding for instruction formats are implemented as follows:
     - A format,
     - B format,

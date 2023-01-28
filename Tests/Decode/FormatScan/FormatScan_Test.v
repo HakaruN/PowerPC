@@ -29,7 +29,7 @@ reg [0:TidSize-1] instructionTidIn;
 reg [0:instructionCounterWidth-1] instructionMajIdIn;
 ///output
 wire stage1EnableOut;
-wire [0:25] stage1instFormatOut;
+wire [0:25-1] stage1instFormatOut;
 wire [0:opcodeSize-1] stage1OpcodeOut;
 wire [0:instructionWidth-1] stage1instructionOut;
 wire [0:addressWidth-1] stage1instructionAddressOut;
@@ -43,7 +43,7 @@ FormatScanner #(
     .instructionWidth(instructionWidth),
     .PidSize(PidSize), .TidSize(TidSize),
     .instructionCounterWidth(instructionCounterWidth),
-    .opcodeSize(opcodeSize),
+    .primOpcodeSize(opcodeSize),
     //Formats
     .I(I), .B(B), .XL(XL), .DX(DX), .SC(SC),
     .D(D), .X(X), .XO(XO), .Z23(Z23), .A(A),

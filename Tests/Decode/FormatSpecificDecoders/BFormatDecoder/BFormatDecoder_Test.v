@@ -46,6 +46,7 @@ module BFormatDecoderTest #(
     wire is64BitOut;
     wire [0:PidSize-1] instPidOut;//process ID
     wire [0:TidSize-1] instTidOut;//Thread ID
+    wire modifiesCROut;
     wire [0:(2 * regSize) + immediateSize + 3] instructionBodyOut;
 
 
@@ -74,6 +75,7 @@ bFormatDecoder
     .is64Bit_o(is64BitOut),
     .instPid_o(instPidOut),
     .instTid_o(instTidOut),
+    .modifiesCR_o(modifiesCROut),
     .instructionBody_o(instructionBodyOut)
 );
 
