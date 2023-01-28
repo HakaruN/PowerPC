@@ -50,6 +50,7 @@ module DFormatDecoderTest #(
     wire [0:TidSize-1] instTidOut;//Thread ID
     wire [0:regAccessPatternSize-1] op1rwOut, op2rwOut;//how are the operands accessed, are they writen to and/or read from [0] write flag, [1] write flag.
     wire op1isRegOut, op2isRegOut, immIsExtendedOut, immIsShiftedOut;//if imm is shifted, its shifted up 2 bytes
+    wire modifiesCROut;
     //Instruction body - data contents are 26 bits wide. There are also flags to include
     wire [0:(2 * regSize) + immediateSize - 1] instructionBodyOut;
 
@@ -81,7 +82,7 @@ dFormatDecoder
     .instTid_o(instTidOut),
     .op1rw_o(op1rwOut), .op2rw_o(op2rwOut),
     .op1isReg_o(op1isRegOut), .op2isReg_o(op2isRegOut), .immIsExtended_o(immIsExtendedOut), .immIsShifted_o(immIsShiftedOut),
-
+    .modifiesCR_o(modifiesCROut),
     .instructionBody_o(instructionBodyOut)
 );
 
