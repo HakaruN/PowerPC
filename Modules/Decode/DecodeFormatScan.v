@@ -14,7 +14,7 @@ module FormatScanner
 #(
     parameter addressWidth = 64, //addresses are 64 bits wide
     parameter instructionWidth = 4 * 8, // POWER instructions are 4 byte fixed sized
-    parameter PidSize = 20, parameter TidSize = 16, //1048K processes uniquly identifiable and 64K threads per process.
+    parameter PidSize = 32, parameter TidSize = 64,
     parameter instructionCounterWidth = 64,// 64 bit counter to uniquly identify instructions, this is known as the major ID as instructions may be broken into micro instructions which will have the same major ID yet unique minor IDs
     parameter primOpcodeSize = 6,
     parameter formatScannerInstance = 0,

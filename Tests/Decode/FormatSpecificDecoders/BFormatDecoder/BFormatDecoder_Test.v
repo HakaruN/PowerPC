@@ -6,7 +6,7 @@ module BFormatDecoderTest #(
     parameter instructionWidth = 4 * 8, // POWER instructions are 4 byte fixed sized
     parameter PidSize = 20, parameter TidSize = 16, //1048K processes uniquly identifiable and 64K threads per process.
     parameter instructionCounterWidth = 64,// 64 bit counter to uniquly identify instructions, this is known as the major ID as instructions may be broken into micro instructions which will have the same major ID yet unique minor IDs
-    parameter instMinIdWidth = 7,
+    parameter instMinIdWidth = 5,
     parameter opcodeSize = 12,
     parameter PrimOpcodeSize = 6, parameter regSize = 5,
     parameter regAccessPatternSize = 2,//2 bit field, [0] == is read, [1] == is writen. Both can be true EG: (A = A + B)

@@ -112,7 +112,7 @@ module L1I_Cache
     parameter tagWidth = addressWidth - (indexWidth - offsetWidth), //the tag is composed of the remaining parts of the address
     parameter bundleSize = 4 * instructionWidth, //A bundle is the collection of instructions fetched per cycle.
     //Processes ID and thread ID size
-    parameter PidSize = 20, parameter TidSize = 16, //1048K processes uniquly identifiable and 64K threads per process.
+    parameter PidSize = 32, parameter TidSize = 64,
     parameter instructionCounterWidth = 64,// 64 bit counter to uniquly identify instructions, this is known as the major ID as instructions may be broken into micro instructions which will have the same major ID yet unique minor IDs
     parameter ICacheInstance = 0
 )

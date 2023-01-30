@@ -16,7 +16,7 @@ module DecodeTest #(
     parameter instructionWidth = 4 * 8, // POWER instructions are 4 byte fixed sized
     parameter PidSize = 20, parameter TidSize = 16, //1048K processes uniquly identifiable and 64K threads per process.
     parameter instructionCounterWidth = 64,// 64 bit counter to uniquly identify instructions, this is known as the major ID as instructions may be broken into micro instructions which will have the same major ID yet unique minor IDs
-    parameter instMinIdWidth = 7,//width of inst minor ID
+    parameter instMinIdWidth = 5,//width of inst minor ID
     parameter primOpcodeSize = 6,
     parameter opcodeSize = 12,
     parameter regSize = 5,

@@ -89,9 +89,9 @@ module DFormatDecoder
 #(
     parameter addressWidth = 64, //addresses are 64 bits wide
     parameter instructionWidth = 4 * 8, // POWER instructions are 4 byte fixed sized
-    parameter PidSize = 20, parameter TidSize = 16, //1048K processes uniquly identifiable and 64K threads per process.
+    parameter PidSize = 32, parameter TidSize = 64,
     parameter instructionCounterWidth = 64,// 64 bit counter to uniquly identify instructions, this is known as the major ID as instructions may be broken into micro instructions which will have the same major ID yet unique minor IDs
-    parameter instMinIdWidth = 7,
+    parameter instMinIdWidth = 5,
     parameter PrimOpcodeSize = 6,
     parameter opcodeSize = 12,
     parameter regSize = 5,
@@ -570,7 +570,7 @@ begin
             `ifdef DEBUG $display("Decode 2 D-form Inst: %d. Opcode: %b (%d). %d. Opcode: %b (%d). D-form Inst: Compare immediate", instructionMajId_i, instructionOpcode_i, instructionOpcode_i, instructionMajId_i, instructionOpcode_i, instructionOpcode_i); `endif
             `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 D-form Inst: %d. Opcode: %b (%d). %d. Opcode: %b (%d). D-form Inst: Compare immediate", instructionMajId_i, instructionOpcode_i, instructionOpcode_i, instructionMajId_i, instructionOpcode_i, instructionOpcode_i); `endif
             opcode_o <= 48;
-            //Special Regs: CR, BF
+            //Special Regs: CR
             enable_o <= 1;
             immIsExtended_o <= 0; immIsShifted_o <= 0;
             functionalUnitType_o <= CRUnitId; instMinId_o <= 0; numMicroOps_o <= 0;
@@ -585,7 +585,7 @@ begin
             `ifdef DEBUG $display("Decode 2 D-form Inst: %d. Opcode: %b (%d). %d. Opcode: %b (%d). D-form Inst: Compare logical immediate", instructionMajId_i, instructionOpcode_i, instructionOpcode_i, instructionMajId_i, instructionOpcode_i, instructionOpcode_i); `endif
             `ifdef DEBUG_PRINT $fdisplay(debugFID, "Decode 2 D-form Inst: %d. Opcode: %b (%d). %d. Opcode: %b (%d). D-form Inst: Compare logical immediate", instructionMajId_i, instructionOpcode_i, instructionOpcode_i, instructionMajId_i, instructionOpcode_i, instructionOpcode_i); `endif
             opcode_o <= 49;
-            //Special Regs: CR, BF
+            //Special Regs: CR
             enable_o <= 1;
             immIsExtended_o <= 0; immIsShifted_o <= 0;
             functionalUnitType_o <= CRUnitId; instMinId_o <= 0; numMicroOps_o <= 0;

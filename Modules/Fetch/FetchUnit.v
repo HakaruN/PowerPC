@@ -21,7 +21,7 @@ module FetchUnit
     parameter tagWidth = addressWidth - (indexWidth - offsetWidth), //the tag is composed of the remaining parts of the address
     parameter bundleSize = 4 * instructionWidth, //A bundle is the collection of instructions fetched per cycle.
     //Processes ID and thread ID size
-    parameter PidSize = 20, parameter TidSize = 16, //1048K processes uniquly identifiable and 64K threads per process.
+    parameter PidSize = 32, parameter TidSize = 64,
     parameter instructionCounterWidth = 64,// 64 bit counter to uniquly identify instructions, this is known as the major ID as instructions may be broken into micro instructions which will have the same major ID yet unique minor IDs
     parameter fetchUnitInstance = 0,
     parameter resetVector = 0
@@ -81,7 +81,7 @@ module FetchUnit
 );
 
 reg [0:addressWidth-1] PC;//Program counter
-reg [0:PidSize-1] PID; reg [0:TidSize-1] TID;//The pid and tid of the program
+reg [32+:PidSize] PID; reg [0:TidSize-1] TIR;//The pid and tid of the program
 wire icachePCIncEnableOut;
 wire [0:2] iCachePCIncValOut;
 
@@ -98,7 +98,7 @@ l1ICache
     .clock_i(clock_i),
     //Fetch in 
     .fetchEnable_i(fetchEnable_i), .cacheReset_i(cacheReset_i), .fetchStall_i(fetchStall_i), 
-    .Pid_i(PID), .Tid_i(TID), .fetchAddress_i(PC), 
+    .Pid_i(PID), .Tid_i(TIR), .fetchAddress_i(PC), 
     //Update in
     .cacheUpdate_i(cacheUpdate_i), .cacheUpdateAddress_i(cacheUpdateAddress_i), 
     .cacheUpdatePid_i(cacheUpdatePid_i), .cacheUpdateTid_i(cacheUpdateTid_i),
