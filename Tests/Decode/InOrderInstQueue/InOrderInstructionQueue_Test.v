@@ -173,6 +173,14 @@ initial begin
     #1;
     clockIn = 0;
     #1;
+    if(tailOut == 4)
+    begin
+        $display("Test Pass");
+    end
+    else
+    begin
+        $display("Test Fail");
+    end
     $display("-----------------");
 
     //Dont do anything, check that it's not full but still empty
@@ -190,6 +198,14 @@ initial begin
     #1;
     clockIn = 0;
     #1;
+    if(tailOut == 5)
+    begin
+        $display("Test Pass");
+    end
+    else
+    begin
+        $display("Test Fail");
+    end
     $display("-----------------");
 
     //Read some instructions
@@ -199,6 +215,31 @@ initial begin
     #1;
     clockIn = 0;
     #1;
+    if(numInstructionsOutOut == 2'b11)
+    begin
+        $display("Test Pass");
+    end
+    else
+    begin
+        $display("Test Fail");
+    end
+    $display("-----------------");
+
+    //Do it again - we should see only 1 instruction comes out
+    instr1EnIn = 0; instr2EnIn = 0; instr3EnIn = 0; instr4EnIn = 0; 
+    readEnableIn = 1;
+    clockIn = 1;
+    #1;
+    clockIn = 0;
+    #1;
+    if(numInstructionsOutOut == 2'b00)
+    begin
+        $display("Test Pass");
+    end
+    else
+    begin
+        $display("Test Fail");
+    end
     $display("-----------------");
 end
 
