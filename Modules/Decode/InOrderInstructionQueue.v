@@ -21,6 +21,43 @@ The way the queue is able to find previously allocated space
 TODO: Add buffering before this stage so we can fetch closer to the limmit of the queue. The max number of space required per cycle is
 4 times the max size of an instruction, this is 128 entries therefore if there is space <= 128 entries remaining, it is treated as full.
 
+This queue operates as a sequential read and sequential write queue as well as a random write queue. This and other reasons make it a
+very complex piece of hardware. Possibly making this the uglies and most disgusting code (so far) in the project.
+
+The queue has 4 inputs for instructions coming in from the 4 decode units. Each cycle a new uop can be issued to the queue.
+On issue the hardware looks at the MajID (macro inst iD) and MinID (uopID within the macro inst).
+On the first uop of the macro inst the queue reads how many uops the instruction will generate (instNumMicroOps) and reserve that number of
+entries in the queue (contiguously) for each instruction. 
+This happens in program order (ie instuction 1 is allocated contiguous space just ahead of instruction 2).
+This means that each instruction will end up in program order with each uop also ending up in program order.
+
+...So why is this ugly?...
+Well...
+
+Because instructions can take multiple cycles to decode (ie a complete instruction that generates 5 uops will supply each uop in 5 sequential cycles)
+uops can end up coming into the queue for writing after later (cronologicaly) instructions have already gone into the queue therefore pushing forwards the queue.
+
+The solution is akin to you being shopping with friends, your friends are stood in the middle of a long queue to the tills and you have only just finnished your shopping. 
+You (perhaps rudely) push past those at the back of the queue to go stand with your friends closer to the front.
+
+The was this is implemented is as follows:
+When the first uop in the inst is issued (MinID == 0) into the queue, a second queue which directly corresponds/maps to the instruction queue called the majIDMap has written
+into the entry at the tail idx has written to it the MajID. As majIDMap[i] corresponds to instQ[i], by searching majIDMap for a majID, we can find an entry in the instQ that corresponds
+to the begining of the reserved entries for the instruction holding that majID. This allows late coming uops to find their reserved entries in the instQ.
+Now the late coming uop must find which entry in the reserved region has been reseved for it. This is fairly simple as we know that the first uop has the minID == 0 and each uop gets exactly 1 entry
+we can use the first uop in the queue (the one pointed to from the MajIDMap) as a base/reference. We canthen add out MinID to that entry in the queue and we will find our space in the queue.
+
+...This however is not enough for the system to work. We must have another queue that with entries corresponding to inst Q entries which indicates if the entry in the queue
+is a valid entry, this is called mapEntryIsValid.
+
+...Again this is not quite enought as there is another queue called isDone. This marks that a uop has been writen to that queue entry. This is required to be set so that the
+entry can be read as we then know that the entry contains a valid instructino (when mapEntryIsValid for that entry is also set)
+
+For reading, the queue, the hardware scans forwards up to 4 entries and checks that (in program order) they have their isDone set bits set. Instructions can only read once the 
+isDone bit is set. Up to 4 (including zero) instructions can be read per cycle, less than that may be read if the next 4 instructions are not done.
+
+
+
 
 *//////////////////////////////////////////////////////////////
 
