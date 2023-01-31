@@ -24,6 +24,7 @@ module BundleParserTest #(
     reg [0:bundleSize-1] bundleIn;
     reg [0:addressWidth-1] bundleAddressIn;
     reg [0:1] bundleLenIn;
+    reg is64BitIn;
     reg [0:PidSize-1] bundlePidIn;
     reg [0:TidSize-1] bundleTidIn;
     reg [0:instructionCounterWidth-1] bundleStartMajIdIn;
@@ -56,6 +57,7 @@ module BundleParserTest #(
     .bundle_i(bundleIn),
     .bundleAddress_i(bundleAddressIn),
     .bundleLen_i(bundleLenIn),
+    .is64Bit_i(is64BitIn),
     .bundlePid_i(bundlePidIn),
     .bundleTid_i(bundleTidIn),
     .bundleStartMajId_i(bundleStartMajIdIn),
@@ -73,6 +75,7 @@ module BundleParserTest #(
         $dumpfile("bundleTest.vcd");
         $dumpvars(0,bundleParser);
         //Init vars
+        is64BitIn = 1;
         clockIn = 0; resetIn = 0; enableIn = 0;
         bundleIn = 0; bundleAddressIn = 0; bundleLenIn = 0;
         bundlePidIn = 0; bundleTidIn = 0; bundleStartMajIdIn = 0;

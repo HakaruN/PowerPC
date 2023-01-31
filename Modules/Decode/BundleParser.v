@@ -10,8 +10,6 @@ are in the bundle, it then assigns/cracks the instructions out into one of the d
 
 A bundle can be uo to 4 instructions (16) bytes wide which is then parsed off to one of the 4 decoders
 
-TODO: Implement the is64 bit functionality. This requires the is64bit state being passed from the fetch unit. 
-TODO: Investigate is the PIDs and TIDS need to be handled indivilualy.
 *///////////////////////////////////////////////
 
 module BundleParser
@@ -35,12 +33,15 @@ module BundleParser
     input wire [0:bundleSize-1] bundle_i,
     input wire [0:addressWidth-1] bundleAddress_i,
     input wire [0:1] bundleLen_i,
+    input wire is64Bit_i,
     input wire [0:PidSize-1] bundlePid_i,
     input wire [0:TidSize-1] bundleTid_i,
     input wire [0:instructionCounterWidth-1] bundleStartMajId_i,
+
     ///outputs - one for each decoder
     //command
-    output reg enable1_o, enable2_o, enable3_o, enable4_o,
+    output reg enable1_o, enable2_o, enable3_o, enable4_o,//Tells the decoder to take the instruction
+    input wire enable1_i, enable2_i, enable3_i, enable4_i,//Decoder tells the parser it's ok to take an instruction next cycle
     //data/instruction
     output reg [0:instructionWidth-1] instr1_o, instr2_o, instr3_o, instr4_o,
     output reg [0:addressWidth-1] addr1_o, addr2_o, addr3_o, addr4_o,
@@ -91,7 +92,7 @@ begin
             enable1_o <= 1; enable2_o <= 0; enable3_o <= 0; enable4_o <= 0;
             instr1_o <= bundle_i[(0*instructionWidth)+:instructionWidth];
             addr1_o <= bundleAddress_i + 0;
-            is64b1_o <= 1;
+            is64b1_o <= is64Bit_i;
             pid1_o <= bundlePid_i;
             tid1_o <= bundleTid_i;
             majID1_o <= bundleStartMajId_i + 0;
@@ -101,7 +102,7 @@ begin
             instr1_o <= bundle_i[(0*instructionWidth)+:instructionWidth];
             instr2_o <= bundle_i[(1*instructionWidth)+:instructionWidth];
             addr1_o <= bundleAddress_i + 0; addr2_o <= bundleAddress_i + 4;
-            is64b1_o <= 1; is64b2_o <= 1;
+            is64b1_o <= is64Bit_i; is64b2_o <= is64Bit_i;
             pid1_o <= bundlePid_i; pid2_o <= bundlePid_i;
             tid1_o <= bundleTid_i; tid2_o <= bundleTid_i;
             majID1_o <= bundleStartMajId_i + 0; majID2_o <= bundleStartMajId_i + 1;
@@ -112,7 +113,7 @@ begin
             instr2_o <= bundle_i[(1*instructionWidth)+:instructionWidth];
             instr3_o <= bundle_i[(2*instructionWidth)+:instructionWidth];
             addr1_o <= bundleAddress_i + 0; addr2_o <= bundleAddress_i + 4; addr3_o <= bundleAddress_i + 8;
-            is64b1_o <= 1; is64b2_o <= 1; is64b3_o <= 1;
+            is64b1_o <= is64Bit_i; is64b2_o <= is64Bit_i; is64b3_o <= is64Bit_i;
             pid1_o <= bundlePid_i; pid2_o <= bundlePid_i; pid3_o <= bundlePid_i;
             tid1_o <= bundleTid_i; tid2_o <= bundleTid_i; tid3_o <= bundleTid_i;
             majID1_o <= bundleStartMajId_i + 0; majID2_o <= bundleStartMajId_i + 1; majID3_o <= bundleStartMajId_i + 2;
@@ -125,7 +126,7 @@ begin
             instr4_o <= bundle_i[(3*instructionWidth)+:instructionWidth];
             addr1_o <= bundleAddress_i + 0; addr2_o <= bundleAddress_i + 4;
             addr3_o <= bundleAddress_i + 8; addr4_o <= bundleAddress_i + 12;
-            is64b1_o <= 1; is64b2_o <= 1; is64b3_o <= 1; is64b4_o <= 1;
+            is64b1_o <= is64Bit_i; is64b2_o <= is64Bit_i; is64b3_o <= is64Bit_i; is64b4_o <= is64Bit_i;
             pid1_o <= bundlePid_i; pid2_o <= bundlePid_i; pid3_o <= bundlePid_i; pid4_o <= bundlePid_i;
             tid1_o <= bundleTid_i; tid2_o <= bundleTid_i; tid3_o <= bundleTid_i; tid4_o <= bundleTid_i;
             majID1_o <= bundleStartMajId_i + 0; majID2_o <= bundleStartMajId_i + 1; majID3_o <= bundleStartMajId_i + 2; majID4_o <= bundleStartMajId_i + 3;

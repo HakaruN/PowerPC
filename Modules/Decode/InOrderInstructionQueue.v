@@ -3,21 +3,6 @@
 `define DEBUG_PRINT
 
 /*///////////////In order instruction queue////////////////////
-This queue takes instructions from the decoders and seriealises them all into a correct, program order instruction sequence.
-This is needed because an instruction may end up generating multiple uops over a couple of cycles, whilst this is happening the
-other decoders can be generating instructions that should be after the complex instruction has completed yet it would appear part way through.
-
-When instructions come in, the hardware looks at the instructions and allocates space in the queue for the full instruction. This works by
-checking if the instruction is the first instruction in the possible sequence of uops coming from a single macroop.
-
-So if instNMinID == 0 then we know we need to allocate instNNumMicroOps worth of space in the queue.
-If instNMinID > 0, we have already allocated the space and need to write the uop to the already allocated space.
-
-
-On output up to 4 instructions per cycle (for now) can be read from the queue for dispatch to the OoO units. Because of the
-above algoritm, this means that the OoO units will only see instructions coming in program order.
-The way the queue is able to find previously allocated space 
-
 TODO: Add buffering before this stage so we can fetch closer to the limmit of the queue. The max number of space required per cycle is
 4 times the max size of an instruction, this is 128 entries therefore if there is space <= 128 entries remaining, it is treated as full.
 
@@ -55,8 +40,6 @@ entry can be read as we then know that the entry contains a valid instructino (w
 
 For reading, the queue, the hardware scans forwards up to 4 entries and checks that (in program order) they have their isDone set bits set. Instructions can only read once the 
 isDone bit is set. Up to 4 (including zero) instructions can be read per cycle, less than that may be read if the next 4 instructions are not done.
-
-
 
 
 *//////////////////////////////////////////////////////////////

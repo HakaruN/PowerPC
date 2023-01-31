@@ -8,7 +8,7 @@ This is the first stage in the fetch unit, it holds the program counter, the pro
 This stage recieves the inputs from branches if they are supplied and modifies the program counter to begin fetching at the new address
 It also is responsible for updating the program counter during normal operation.
 
-TODO: Add the is64bit reg
+TODO: Add the is64bit reg, or more likely add is and the pid and tid regs to a control unit.
 *//////////////////////////////////////////////////////
 
 module FetchUnit
@@ -134,11 +134,10 @@ integer debugFID;
 
 always @(posedge clock_i)
 begin
-
     if(reset_i)//Reset
     begin
         `ifdef DEBUG_PRINT
-        case(fetchUnitInstance)//If we have multiple decoders, they each get different files. The second number indicates the decoder# log file.
+        case(fetchUnitInstance)//If we have multiple fetch units, they each get different files. The second number indicates the decoder# log file.
         0: begin 
             debugFID = $fopen("FetchUnit0.log", "w");
         end
@@ -171,12 +170,11 @@ begin
         //Reset the PC and ids
         PC <= resetVector;
         PID <= 0; TID <= 0;
-
     end
     else//Not resetting
     begin        
         if(icachePCIncEnableOut)
-        begin//When the I cache can't do a full bundle/group it will tell us how many to increment by
+        begin//When the I cache can't fetch a full bundle/group it will tell us how many to increment the PC by.
             PC <= PC + iCachePCIncValOut;
         end
         else
@@ -184,7 +182,7 @@ begin
             PC <= PC + bundleSize;
         end
 
-        //Allow the pid and tid to be updates
+        //Allow the pid and tid to be updated
         if(pidWriteEn_i)
         begin
             `ifdef DEBUG $display(); `endif
@@ -196,8 +194,5 @@ begin
             TID <= tid_i;
         end
     end
-
 end
-
-
 endmodule
