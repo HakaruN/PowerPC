@@ -66,6 +66,29 @@ module InOrderInstQueue
     input wire [0:64-1] inst1Body_i, inst2Body_i, inst3Body_i, inst4Body_i, 
 
     //Outputs to the OoO backend
+    input wire readEnable_i,
+    output reg outputEnable_o,
+    output reg [0:1] numInstructionsOut_o,
+    output reg [0:25-1] inst1Format_o, inst2Format_o, inst3Format_o, inst4Format_o,
+    output reg [0:opcodeSize-1] inst1Opcode_o, inst2Opcode_o, inst3Opcode_o, inst4Opcode_o,
+    output reg [0:addressWidth-1] inst1Address_o, inst2Address_o, inst3Address_o, inst4Address_o,
+    output reg [0:funcUnitCodeSize-1] inst1FuncUnit_o, inst2FuncUnit_o, inst3FuncUnit_o, inst4FuncUnit_o, 
+    output reg [0:instructionCounterWidth-1] inst1MajId_o, inst2MajId_o, inst3MajId_o, inst4MajId_o, 
+    output reg [0:instMinIdWidth-1] inst1MinID_o, inst2MinID_o, inst3MinID_o, inst4MinID_o, 
+    output reg [0:instMinIdWidth-1] inst1NumUOps_o, inst2NumUOps_o, inst3NumUOps_o, inst4NumUOps_o, 
+    output reg inst1Is64Bit_o, inst2Is64Bit_o, inst3Is64Bit_o, inst4Is64Bit_o, 
+    output reg [0:PidSize-1] inst1Pid_o, inst2Pid_o, inst3Pid_o, inst4Pid_o, 
+    output reg [0:TidSize-1] inst1Tid_o, inst2Tid_o, inst3Tid_o, inst4Tid_o, 
+    output reg [0:regAccessPatternSize-1] inst1op1rw_o, inst1op2rw_o, inst1op3rw_o, inst1op4rw_o,
+    output reg [0:regAccessPatternSize-1] inst2op1rw_o, inst2op2rw_o, inst2op3rw_o, inst2op4rw_o,
+    output reg [0:regAccessPatternSize-1] inst3op1rw_o, inst3op2rw_o, inst3op3rw_o, inst3op4rw_o,
+    output reg [0:regAccessPatternSize-1] inst4op1rw_o, inst4op2rw_o, inst4op3rw_o, inst4op4rw_o,
+    output reg inst1op1IsReg_o, inst1op2IsReg_o, inst1op3IsReg_o, inst1op4IsReg_o,
+    output reg inst2op1IsReg_o, inst2op2IsReg_o, inst2op3IsReg_o, inst2op4IsReg_o,
+    output reg inst3op1IsReg_o, inst3op2IsReg_o, inst3op3IsReg_o, inst3op4IsReg_o,
+    output reg inst4op1IsReg_o, inst4op2IsReg_o, inst4op3IsReg_o, inst4op4IsReg_o,
+    output reg inst1ModifiesCR_o, inst2ModifiesCR_o, inst3ModifiesCR_o, inst4ModifiesCR_o, 
+    output reg [0:64-1] inst1Body_o, inst2Body_o, inst3Body_o, inst4Body_o,
 
     //generic state outputs
 	output reg [0:queueIndexWidth-1] head_o, tail_o,//dequeue from head, enqueue to tail
@@ -73,6 +96,7 @@ module InOrderInstQueue
 )
 
 
+    reg isDone [0:numQueueEntries-1];
     //This tracks how many uops remain to write to the instruction. When it is zero, all uops in the instruction have been queued so can be issued.
     //numUopsRemaining[i] maps to instruction based at majIDMap[i] and *queue[i].
     reg [0:inst1MinID_i-1] numUopsRemaining [0:numQueueEntries-1];
@@ -103,7 +127,7 @@ module InOrderInstQueue
     reg op2IsRegQueue [0:numQueueEntries-1];
     reg op3IsRegQueue [0:numQueueEntries-1];
     reg op4IsRegQueue [0:numQueueEntries-1];
-    reg modifiedCRQueue [0:numQueueEntries-1];
+    reg modifiesCRQueue [0:numQueueEntries-1];
     reg [0:64-1] bodyQueue [0:numQueueEntries-1];
 
     integer i;//loop ctr
@@ -113,13 +137,48 @@ module InOrderInstQueue
 integer debugFID;
 `endif
 
-
     always @(posedge clock_i)
     begin
         if(reset_i)
         begin
+            `ifdef DEBUG_PRINT
+            case(IOQInstance)//If we have multiple decoders, they each get different files. The second number indicates the decoder# log file.
+            0: begin 
+                debugFID = $fopen("IOInstQ0.log", "w");
+            end
+            1: begin 
+                debugFID = $fopen("IOInstQ1.log", "w");
+            end
+            2: begin 
+                debugFID = $fopen("IOInstQ2.log", "w");
+            end
+            3: begin 
+                debugFID = $fopen("IOInstQ3.log", "w");
+            end
+            4: begin 
+                debugFID = $fopen("IOInstQ4.log", "w");
+            end
+            5: begin 
+                debugFID = $fopen("IOInstQ5.log", "w");
+            end
+            6: begin 
+                debugFID = $fopen("IOInstQ6.log", "w");
+            end
+            7: begin 
+                debugFID = $fopen("IOInstQ7.log", "w");
+            end
+            endcase
+            `endif
             head_o <= 0; tail_o <= 0;
 			isFull_o <= 0; isEmpty_o <= 1;
+
+            for(i = 0; i < numQueueEntries; i = i + 1)
+            begin//Reset the queue state
+                isDone[i] <= 0;
+                mapEntryIsValid[i] <= 0;
+            end
+            `ifdef DEBUG $display("IOQ %d Reseting.", IOQInstance); `endif
+            `ifdef DEBUG_PRINT $fdisplay(debugFID, "IOQ %d Reseting", IOQInstance); `endif
         end
         else
         begin
@@ -149,11 +208,13 @@ integer debugFID;
                         op3wrQueue[tail_o] <= inst1op3rw_i; op4wrQueue[tail_o] <= inst1op4rw_i;
                         op1IsRegQueue[tail_o] <= inst1op1IsReg_i; op2IsRegQueue[tail_o] <= inst1op2IsReg_i;
                         op3IsRegQueue[tail_o] <= inst1op3IsReg_i; op4IsRegQueue[tail_o] <= inst1op4IsReg_i;
-                        modifiedCRQueue[tail_o] <= inst1ModifiesCR_i; bodyQueue[tail_o] <= inst1Body_i;
+                        modifiesCRQueue[tail_o] <= inst1ModifiesCR_i; bodyQueue[tail_o] <= inst1Body_i;
                         //Record the Macro op (majID) ID base-uop (minID == 0) in the map to find when we come to write the later uops
                         majIDMap[tail_o] <= inst1MajID_i;
                         //Set the isValid bit for the entry
                         mapEntryIsValid[tail_o] <= 1;
+                        //set is done
+                        isDone[tail_o] <= 1;
                         //set the number of instructions remaining
                         numUopsRemaining[tail_o] <= inst1NumMicroOps_i-1;
                     end
@@ -172,7 +233,9 @@ integer debugFID;
                                 op3wrQueue[i] <= inst1op3rw_i; op4wrQueue[i] <= inst1op4rw_i;
                                 op1IsRegQueue[i] <= inst1op1IsReg_i; op2IsRegQueue[i] <= inst1op2IsReg_i;
                                 op3IsRegQueue[i] <= inst1op3IsReg_i; op4IsRegQueue[i] <= inst1op4IsReg_i;
-                                modifiedCRQueue[i] <= inst1ModifiesCR_i; bodyQueue[i] <= inst1Body_i;
+                                modifiesCRQueue[i] <= inst1ModifiesCR_i; bodyQueue[i] <= inst1Body_i;
+                                //set is done
+                                isDone[i] <= 1;
                                 //subtract a remaining uop from the counter
                                 numUopsRemaining[i] <= numUopsRemaining[i] - 1;
                             end
@@ -207,11 +270,13 @@ integer debugFID;
                         op3wrQueue[tail_o]          <= inst1op3rw_i;        op4wrQueue[tail_o]          <= inst1op4rw_i;                     
                         op1IsRegQueue[tail_o]       <= inst1op1IsReg_i;     op2IsRegQueue[tail_o]       <= inst1op2IsReg_i;         
                         op3IsRegQueue[tail_o]       <= inst1op3IsReg_i;     op4IsRegQueue[tail_o]       <= inst1op4IsReg_i;         
-                        modifiedCRQueue[tail_o]     <= inst1ModifiesCR_i;   bodyQueue[tail_o]           <= inst1Body_i;                                        
+                        modifiesCRQueue[tail_o]     <= inst1ModifiesCR_i;   bodyQueue[tail_o]           <= inst1Body_i;                                        
                         //Record the Macro op (majID) ID base-uop (minID == 0) in the map to find when we come to write the later uops
                         majIDMap[tail_o] <= inst1MajID_i;
                         //Set the isValid bit for the entry
                         mapEntryIsValid[tail_o] <= 1;
+                        //set is done
+                        isDone[tail_o] <= 1
                         //set the number of instructions remaining
                         numUopsRemaining[tail_o] <= inst1NumMicroOps_i-1;
                     end
@@ -230,7 +295,9 @@ integer debugFID;
                                 op3wrQueue[i] <=        inst1op3rw_i;       op4wrQueue[i] <=        inst1op4rw_i;                 
                                 op1IsRegQueue[i] <=     inst1op1IsReg_i;    op2IsRegQueue[i] <=     inst1op2IsReg_i;     
                                 op3IsRegQueue[i] <=     inst1op3IsReg_i;    op4IsRegQueue[i] <=     inst1op4IsReg_i;     
-                                modifiedCRQueue[i] <=   inst1ModifiesCR_i;  bodyQueue[i] <=         inst1Body_i;         
+                                modifiesCRQueue[i] <=   inst1ModifiesCR_i;  bodyQueue[i] <=         inst1Body_i;         
+                                //set is done
+                                isDone[i] <= 1;
                                 //subtract a remaining uop from the counter
                                 numUopsRemaining[i] <= numUopsRemaining[i] - 1;
                             end
@@ -249,11 +316,13 @@ integer debugFID;
                         op3wrQueue[tail_o + inst1NumMicroOps_i]             <= inst2op3rw_i;        op4wrQueue[tail_o + inst1NumMicroOps_i] <=          inst2op4rw_i;                     
                         op1IsRegQueue[tail_o + inst1NumMicroOps_i]          <= inst2op1IsReg_i;     op2IsRegQueue[tail_o + inst1NumMicroOps_i] <=       inst2op2IsReg_i;         
                         op3IsRegQueue[tail_o + inst1NumMicroOps_i]          <= inst2op3IsReg_i;     op4IsRegQueue[tail_o + inst1NumMicroOps_i] <=       inst2op4IsReg_i;         
-                        modifiedCRQueue[tail_o + inst1NumMicroOps_i]        <= inst2ModifiesCR_i;   bodyQueue[tail_o + inst1NumMicroOps_i] <=           inst2Body_i;                                        
+                        modifiesCRQueue[tail_o + inst1NumMicroOps_i]        <= inst2ModifiesCR_i;   bodyQueue[tail_o + inst1NumMicroOps_i] <=           inst2Body_i;                                        
                         //Record the Macro op (majID) ID base-uop (minID == 0) in the map to find when we come to write the later uops
                         majIDMap[tail_o + inst1NumMicroOps_i] <= inst2MajID_i;
                         //Set the isValid bit for the entry
                         mapEntryIsValid[tail_o + inst1NumMicroOps_i] <= 1;
+                        //set is done
+                        isDone[tail_o + inst1NumMicroOps_i] <= 1;
                         //set the number of instructions remaining
                         numUopsRemaining[tail_o + inst1NumMicroOps_i] <= inst2NumMicroOps_i-1;
                     end
@@ -272,8 +341,11 @@ integer debugFID;
                                 op3wrQueue[i] <=        inst2op3rw_i;       op4wrQueue[i] <=        inst2op4rw_i;                 
                                 op1IsRegQueue[i] <=     inst2op1IsReg_i;    op2IsRegQueue[i] <=     inst2op2IsReg_i;     
                                 op3IsRegQueue[i] <=     inst2op3IsReg_i;    op4IsRegQueue[i] <=     inst2op4IsReg_i;     
-                                modifiedCRQueue[i] <=   inst2ModifiesCR_i;  bodyQueue[i] <=         inst2Body_i;         
+                                modifiesCRQueue[i] <=   inst2ModifiesCR_i;  bodyQueue[i] <=         inst2Body_i;         
                                 numUopsRemaining[i] <=  numUopsRemaining[i] - 1;
+                                //set is done
+                                isDone[i] <= 1;
+                                //subtract a remaining uop from the counter
                             end
                         end
                     end
@@ -306,11 +378,13 @@ integer debugFID;
                         op3wrQueue[tail_o]          <= inst1op3rw_i;        op4wrQueue[tail_o]          <= inst1op4rw_i;                     
                         op1IsRegQueue[tail_o]       <= inst1op1IsReg_i;     op2IsRegQueue[tail_o]       <= inst1op2IsReg_i;         
                         op3IsRegQueue[tail_o]       <= inst1op3IsReg_i;     op4IsRegQueue[tail_o]       <= inst1op4IsReg_i;         
-                        modifiedCRQueue[tail_o]     <= inst1ModifiesCR_i;   bodyQueue[tail_o]           <= inst1Body_i;                                      
+                        modifiesCRQueue[tail_o]     <= inst1ModifiesCR_i;   bodyQueue[tail_o]           <= inst1Body_i;                                      
                         //Record the Macro op (majID) ID base-uop (minID == 0) in the map to find when we come to write the later uops
                         majIDMap[tail_o] <= inst1MajID_i;
                         //Set the isValid bit for the entry
                         mapEntryIsValid[tail_o] <= 1;
+                        //set is done
+                        isDone[tail_o] <= 1;
                         //set the number of instructions remaining
                         numUopsRemaining[tail_o] <= inst1NumMicroOps_i-1;
                     end
@@ -329,7 +403,9 @@ integer debugFID;
                                 op3wrQueue[i] <=        inst1op3rw_i;       op4wrQueue[i] <=        inst1op4rw_i;                 
                                 op1IsRegQueue[i] <=     inst1op1IsReg_i;    op2IsRegQueue[i] <=     inst1op2IsReg_i;     
                                 op3IsRegQueue[i] <=     inst1op3IsReg_i;    op4IsRegQueue[i] <=     inst1op4IsReg_i;     
-                                modifiedCRQueue[i] <=   inst1ModifiesCR_i;  bodyQueue[i] <=         inst1Body_i;         
+                                modifiesCRQueue[i] <=   inst1ModifiesCR_i;  bodyQueue[i] <=         inst1Body_i;         
+                                //set is done
+                                isDone[i] <= 1;
                                 //subtract a remaining uop from the counter
                                 numUopsRemaining[i] <= numUopsRemaining[i] - 1;
                             end
@@ -348,11 +424,13 @@ integer debugFID;
                         op3wrQueue[tail_o + inst1NumMicroOps_i]             <= inst2op3rw_i;        op4wrQueue[tail_o + inst1NumMicroOps_i] <=          inst2op4rw_i;                     
                         op1IsRegQueue[tail_o + inst1NumMicroOps_i]          <= inst2op1IsReg_i;     op2IsRegQueue[tail_o + inst1NumMicroOps_i] <=       inst2op2IsReg_i;         
                         op3IsRegQueue[tail_o + inst1NumMicroOps_i]          <= inst2op3IsReg_i;     op4IsRegQueue[tail_o + inst1NumMicroOps_i] <=       inst2op4IsReg_i;         
-                        modifiedCRQueue[tail_o + inst1NumMicroOps_i]        <= inst2ModifiesCR_i;   bodyQueue[tail_o + inst1NumMicroOps_i] <=           inst2Body_i;                                       
+                        modifiesCRQueue[tail_o + inst1NumMicroOps_i]        <= inst2ModifiesCR_i;   bodyQueue[tail_o + inst1NumMicroOps_i] <=           inst2Body_i;                                       
                         //Record the Macro op (majID) ID base-uop (minID == 0) in the map to find when we come to write the later uops
                         majIDMap[tail_o + inst1NumMicroOps_i] <= inst2MajID_i;
                         //Set the isValid bit for the entry
                         mapEntryIsValid[tail_o + inst1NumMicroOps_i] <= 1;
+                        //set is done
+                        isDone[tail_o + inst1NumMicroOps_i] <= 1;
                         //set the number of instructions remaining
                         numUopsRemaining[tail_o + inst1NumMicroOps_i] <= inst2NumMicroOps_i-1;
                     end
@@ -371,8 +449,11 @@ integer debugFID;
                                 op3wrQueue[i] <=        inst2op3rw_i;       op4wrQueue[i] <=        inst2op4rw_i;                 
                                 op1IsRegQueue[i] <=     inst2op1IsReg_i;    op2IsRegQueue[i] <=     inst2op2IsReg_i;     
                                 op3IsRegQueue[i] <=     inst2op3IsReg_i;    op4IsRegQueue[i] <=     inst2op4IsReg_i;     
-                                modifiedCRQueue[i] <=   inst2ModifiesCR_i;  bodyQueue[i] <=         inst2Body_i;         
-                                numUopsRemaining[i] <=  numUopsRemaining[i] - 1;
+                                modifiesCRQueue[i] <=   inst2ModifiesCR_i;  bodyQueue[i] <=         inst2Body_i;         
+                                //set is done
+                                isDone[i] <= 1;
+                                //subtract a remaining uop from the counter
+                                numUopsRemaining[i] <= numUopsRemaining[i] - 1;
                             end
                         end
                     end
@@ -389,12 +470,14 @@ integer debugFID;
                         op3wrQueue[tail_o + inst1NumMicroOps_i + inst2NumMicroOps_i]             <= inst3op3rw_i;        op4wrQueue[tail_o + inst1NumMicroOps_i + inst2NumMicroOps_i] <=          inst3op4rw_i;                     
                         op1IsRegQueue[tail_o + inst1NumMicroOps_i + inst2NumMicroOps_i]          <= inst3op1IsReg_i;     op2IsRegQueue[tail_o + inst1NumMicroOps_i + inst2NumMicroOps_i] <=       inst3op2IsReg_i;         
                         op3IsRegQueue[tail_o + inst1NumMicroOps_i + inst2NumMicroOps_i]          <= inst3op3IsReg_i;     op4IsRegQueue[tail_o + inst1NumMicroOps_i + inst2NumMicroOps_i] <=       inst3op4IsReg_i;         
-                        modifiedCRQueue[tail_o + inst1NumMicroOps_i + inst2NumMicroOps_i]        <= inst3ModifiesCR_i;   bodyQueue[tail_o + inst1NumMicroOps_i + inst2NumMicroOps_i] <=           inst3Body_i;             
+                        modifiesCRQueue[tail_o + inst1NumMicroOps_i + inst2NumMicroOps_i]        <= inst3ModifiesCR_i;   bodyQueue[tail_o + inst1NumMicroOps_i + inst2NumMicroOps_i] <=           inst3Body_i;             
                            
                         //Record the Macro op (majID) ID base-uop (minID == 0) in the map to find when we come to write the later uops
                         majIDMap[tail_o + inst1NumMicroOps_i + inst2NumMicroOps_i] <= inst3MajID_i;
                         //Set the isValid bit for the entry
                         mapEntryIsValid[tail_o + inst1NumMicroOps_i + inst2NumMicroOps_i] <= 1;
+                        //set is done
+                        isDone[tail_o + inst1NumMicroOps_i + inst2NumMicroOps_i] <= 1;
                         //set the number of instructions remaining
                         numUopsRemaining[tail_o + inst1NumMicroOps_i + inst2NumMicroOps_i] <= inst3NumMicroOps_i-1;
                     end
@@ -413,7 +496,9 @@ integer debugFID;
                                 op3wrQueue[i] <=        inst3op3rw_i;       op4wrQueue[i] <=        inst3op4rw_i;                 
                                 op1IsRegQueue[i] <=     inst3op1IsReg_i;    op2IsRegQueue[i] <=     inst3op2IsReg_i;     
                                 op3IsRegQueue[i] <=     inst3op3IsReg_i;    op4IsRegQueue[i] <=     inst3op4IsReg_i;     
-                                modifiedCRQueue[i] <=   inst3ModifiesCR_i;  bodyQueue[i] <=         inst3Body_i;         
+                                modifiesCRQueue[i] <=   inst3ModifiesCR_i;  bodyQueue[i] <=         inst3Body_i;         
+                                //set is done
+                                isDone[i] <= 1;
                                 numUopsRemaining[i] <=  numUopsRemaining[i] - 1;
                             end
                         end
@@ -447,11 +532,13 @@ integer debugFID;
                         op3wrQueue[tail_o]          <= inst1op3rw_i;        op4wrQueue[tail_o]          <= inst1op4rw_i;                     
                         op1IsRegQueue[tail_o]       <= inst1op1IsReg_i;     op2IsRegQueue[tail_o]       <= inst1op2IsReg_i;         
                         op3IsRegQueue[tail_o]       <= inst1op3IsReg_i;     op4IsRegQueue[tail_o]       <= inst1op4IsReg_i;         
-                        modifiedCRQueue[tail_o]     <= inst1ModifiesCR_i;   bodyQueue[tail_o]           <= inst1Body_i;                                      
+                        modifiesCRQueue[tail_o]     <= inst1ModifiesCR_i;   bodyQueue[tail_o]           <= inst1Body_i;                                      
                         //Record the Macro op (majID) ID base-uop (minID == 0) in the map to find when we come to write the later uops
                         majIDMap[tail_o] <= inst1MajID_i;
                         //Set the isValid bit for the entry
                         mapEntryIsValid[tail_o] <= 1;
+                        //set is done
+                        isDone[tail_o] <= 1;
                         //set the number of instructions remaining
                         numUopsRemaining[tail_o] <= inst1NumMicroOps_i-1;
                     end
@@ -470,7 +557,9 @@ integer debugFID;
                                 op3wrQueue[i] <=        inst1op3rw_i;       op4wrQueue[i] <=        inst1op4rw_i;                 
                                 op1IsRegQueue[i] <=     inst1op1IsReg_i;    op2IsRegQueue[i] <=     inst1op2IsReg_i;     
                                 op3IsRegQueue[i] <=     inst1op3IsReg_i;    op4IsRegQueue[i] <=     inst1op4IsReg_i;     
-                                modifiedCRQueue[i] <=   inst1ModifiesCR_i;  bodyQueue[i] <=         inst1Body_i;         
+                                modifiesCRQueue[i] <=   inst1ModifiesCR_i;  bodyQueue[i] <=         inst1Body_i;         
+                                //set is done
+                                isDone[i] <= 1;
                                 //subtract a remaining uop from the counter
                                 numUopsRemaining[i] <= numUopsRemaining[i] - 1;
                             end
@@ -489,11 +578,13 @@ integer debugFID;
                         op3wrQueue[tail_o + inst1NumMicroOps_i]             <= inst2op3rw_i;        op4wrQueue[tail_o + inst1NumMicroOps_i] <=          inst2op4rw_i;                     
                         op1IsRegQueue[tail_o + inst1NumMicroOps_i]          <= inst2op1IsReg_i;     op2IsRegQueue[tail_o + inst1NumMicroOps_i] <=       inst2op2IsReg_i;         
                         op3IsRegQueue[tail_o + inst1NumMicroOps_i]          <= inst2op3IsReg_i;     op4IsRegQueue[tail_o + inst1NumMicroOps_i] <=       inst2op4IsReg_i;         
-                        modifiedCRQueue[tail_o + inst1NumMicroOps_i]        <= inst2ModifiesCR_i;   bodyQueue[tail_o + inst1NumMicroOps_i] <=           inst2Body_i;                                        
+                        modifiesCRQueue[tail_o + inst1NumMicroOps_i]        <= inst2ModifiesCR_i;   bodyQueue[tail_o + inst1NumMicroOps_i] <=           inst2Body_i;                                        
                         //Record the Macro op (majID) ID base-uop (minID == 0) in the map to find when we come to write the later uops
                         majIDMap[tail_o + inst1NumMicroOps_i] <= inst2MajID_i;
                         //Set the isValid bit for the entry
                         mapEntryIsValid[tail_o + inst1NumMicroOps_i] <= 1;
+                        //set is done
+                        isDone[tail_o + inst1NumMicroOps_i] <= 1;
                         //set the number of instructions remaining
                         numUopsRemaining[tail_o + inst1NumMicroOps_i] <= inst2NumMicroOps_i-1;
                     end
@@ -512,7 +603,9 @@ integer debugFID;
                                 op3wrQueue[i] <=        inst2op3rw_i;       op4wrQueue[i] <=        inst2op4rw_i;                 
                                 op1IsRegQueue[i] <=     inst2op1IsReg_i;    op2IsRegQueue[i] <=     inst2op2IsReg_i;     
                                 op3IsRegQueue[i] <=     inst2op3IsReg_i;    op4IsRegQueue[i] <=     inst2op4IsReg_i;     
-                                modifiedCRQueue[i] <=   inst2ModifiesCR_i;  bodyQueue[i] <=         inst2Body_i;         
+                                modifiesCRQueue[i] <=   inst2ModifiesCR_i;  bodyQueue[i] <=         inst2Body_i;         
+                                //set is done
+                                isDone[i] <= 1;
                                 numUopsRemaining[i] <=  numUopsRemaining[i] - 1;
                             end
                         end
@@ -530,11 +623,13 @@ integer debugFID;
                         op3wrQueue[tail_o + inst1NumMicroOps_i + inst2NumMicroOps_i]             <= inst3op3rw_i;        op4wrQueue[tail_o + inst1NumMicroOps_i + inst2NumMicroOps_i] <=          inst3op4rw_i;                     
                         op1IsRegQueue[tail_o + inst1NumMicroOps_i + inst2NumMicroOps_i]          <= inst3op1IsReg_i;     op2IsRegQueue[tail_o + inst1NumMicroOps_i + inst2NumMicroOps_i] <=       inst3op2IsReg_i;         
                         op3IsRegQueue[tail_o + inst1NumMicroOps_i + inst2NumMicroOps_i]          <= inst3op3IsReg_i;     op4IsRegQueue[tail_o + inst1NumMicroOps_i + inst2NumMicroOps_i] <=       inst3op4IsReg_i;         
-                        modifiedCRQueue[tail_o + inst1NumMicroOps_i + inst2NumMicroOps_i]        <= inst3ModifiesCR_i;   bodyQueue[tail_o + inst1NumMicroOps_i + inst2NumMicroOps_i] <=           inst3Body_i;                                       
+                        modifiesCRQueue[tail_o + inst1NumMicroOps_i + inst2NumMicroOps_i]        <= inst3ModifiesCR_i;   bodyQueue[tail_o + inst1NumMicroOps_i + inst2NumMicroOps_i] <=           inst3Body_i;                                       
                         //Record the Macro op (majID) ID base-uop (minID == 0) in the map to find when we come to write the later uops
                         majIDMap[tail_o + inst1NumMicroOps_i + inst2NumMicroOps_i] <= inst3MajID_i;
                         //Set the isValid bit for the entry
                         mapEntryIsValid[tail_o + inst1NumMicroOps_i + inst2NumMicroOps_i] <= 1;
+                        //set is done
+                        isDone[tail_o + inst1NumMicroOps_i + inst2NumMicroOps_i] <= 1;
                         //set the number of instructions remaining
                         numUopsRemaining[tail_o + inst1NumMicroOps_i + inst2NumMicroOps_i] <= inst3NumMicroOps_i-1;
                     end
@@ -553,7 +648,9 @@ integer debugFID;
                                 op3wrQueue[i] <=        inst3op3rw_i;       op4wrQueue[i] <=        inst3op4rw_i;                 
                                 op1IsRegQueue[i] <=     inst3op1IsReg_i;    op2IsRegQueue[i] <=     inst3op2IsReg_i;     
                                 op3IsRegQueue[i] <=     inst3op3IsReg_i;    op4IsRegQueue[i] <=     inst3op4IsReg_i;     
-                                modifiedCRQueue[i] <=   inst3ModifiesCR_i;  bodyQueue[i] <=         inst3Body_i;         
+                                modifiesCRQueue[i] <=   inst3ModifiesCR_i;  bodyQueue[i] <=         inst3Body_i;         
+                                //set is done
+                                isDone[i] <= 1;
                                 numUopsRemaining[i] <=  numUopsRemaining[i] - 1;
                             end
                         end
@@ -571,11 +668,13 @@ integer debugFID;
                         op3wrQueue[tail_o + inst1NumMicroOps_i + inst2NumMicroOps_i + inst3NumMicroOps_i]             <= inst4op3rw_i;        op4wrQueue[tail_o + inst1NumMicroOps_i + inst2NumMicroOps_i + inst3NumMicroOps_i] <=          inst4op4rw_i;                     
                         op1IsRegQueue[tail_o + inst1NumMicroOps_i + inst2NumMicroOps_i + inst3NumMicroOps_i]          <= inst4op1IsReg_i;     op2IsRegQueue[tail_o + inst1NumMicroOps_i + inst2NumMicroOps_i + inst3NumMicroOps_i] <=       inst4op2IsReg_i;         
                         op3IsRegQueue[tail_o + inst1NumMicroOps_i + inst2NumMicroOps_i + inst3NumMicroOps_i]          <= inst4op3IsReg_i;     op4IsRegQueue[tail_o + inst1NumMicroOps_i + inst2NumMicroOps_i + inst3NumMicroOps_i] <=       inst4op4IsReg_i;         
-                        modifiedCRQueue[tail_o + inst1NumMicroOps_i + inst2NumMicroOps_i + inst3NumMicroOps_i]        <= inst4ModifiesCR_i;   bodyQueue[tail_o + inst1NumMicroOps_i + inst2NumMicroOps_i + inst3NumMicroOps_i] <=           inst4Body_i;                                         
+                        modifiesCRQueue[tail_o + inst1NumMicroOps_i + inst2NumMicroOps_i + inst3NumMicroOps_i]        <= inst4ModifiesCR_i;   bodyQueue[tail_o + inst1NumMicroOps_i + inst2NumMicroOps_i + inst3NumMicroOps_i] <=           inst4Body_i;                                         
                         //Record the Macro op (majID) ID base-uop (minID == 0) in the map to find when we come to write the later uops
                         majIDMap[tail_o + inst1NumMicroOps_i + inst2NumMicroOps_i + inst3NumMicroOps_i] <= inst4MajID_i;
                         //Set the isValid bit for the entry
                         mapEntryIsValid[tail_o + inst1NumMicroOps_i + inst2NumMicroOps_i + inst3NumMicroOps_i] <= 1;
+                        //set is done
+                        isDone[tail_o + inst1NumMicroOps_i + inst2NumMicroOps_i + inst3NumMicroOps_i] <= 1
                         //set the number of instructions remaining
                         numUopsRemaining[tail_o + inst1NumMicroOps_i + inst2NumMicroOps_i + inst3NumMicroOps_i] <= inst4NumMicroOps_i-1;
                     end
@@ -594,7 +693,9 @@ integer debugFID;
                                 op3wrQueue[i] <=        inst4op3rw_i;       op4wrQueue[i] <=        inst4op4rw_i;                 
                                 op1IsRegQueue[i] <=     inst4op1IsReg_i;    op2IsRegQueue[i] <=     inst4op2IsReg_i;     
                                 op3IsRegQueue[i] <=     inst4op3IsReg_i;    op4IsRegQueue[i] <=     inst4op4IsReg_i;     
-                                modifiedCRQueue[i] <=   inst4ModifiesCR_i;  bodyQueue[i] <=         inst4Body_i;         
+                                modifiesCRQueue[i] <=   inst4ModifiesCR_i;  bodyQueue[i] <=         inst4Body_i;         
+                                //set is done
+                                isDone[i] <= 1;
                                 numUopsRemaining[i] <=  numUopsRemaining[i] - 1;
                             end
                         end
@@ -621,7 +722,113 @@ integer debugFID;
             end
             else
             begin//Not empty, dequeue
-                
+                if(readEnable_i)
+                begin
+                    if(isDone[head_o+0] == 1 && isDone[head_o+1] == 1 && isDone[head_o+2] == 1 && isDone[head_o+3] == 1)
+                    begin//4 instructions can be read
+                        outputEnable_o <= 1; numInstructionsOut_o <= 2'b11; 
+                        inst1Format_o <= formatQueue[head_o+0]; inst2Format_o <= formatQueue[head_o+1]; inst3Format_o <= formatQueue[head_o+2]; inst4Format_o <= formatQueue[head_o+3];
+                        inst1Opcode_o <= opcodeQueue[head_o+0]; inst2Opcode_o <= opcodeQueue[head_o+1]; inst3Opcode_o <= opcodeQueue[head_o+2]; inst4Opcode_o <= opcodeQueue[head_o+3];
+                        inst1Address_o <= addressQueue[head_o+0]; inst2Address_o <= addressQueue[head_o+1]; inst3Address_o <= addressQueue[head_o+2]; inst4Address_o <= addressQueue[head_o+3];
+                        inst1FuncUnit_o <= funUnitCodeQueue[head_o+0]; inst2FuncUnit_o <= funUnitCodeQueue[head_o+1]; inst3FuncUnit_o <= funUnitCodeQueue[head_o+2]; inst4FuncUnit_o <= funUnitCodeQueue[head_o+3];
+                        inst1MajId_o <= majIDQueue[head_o+0]; inst2MajId_o <= majIDQueue[head_o+1]; inst3MajId_o <= majIDQueue[head_o+2]; inst4MajId_o <= majIDQueue[head_o+3]; 
+                        inst1MinID_o <= minIDQueue[head_o+0]; inst2MinID_o <= minIDQueue[head_o+1]; inst3MinID_o <= minIDQueue[head_o+2]; inst4MinID_o <= minIDQueue[head_o+3]; 
+                        inst1NumUOps_o <= numMicroOpsQueue[head_o+0]; inst2NumUOps_o <= numMicroOpsQueue[head_o+1]; inst3NumUOps_o <= numMicroOpsQueue[head_o+3]; inst4NumUOps_o <= numMicroOpsQueue[head_o+4];
+                        inst1Is64Bit_o <= is64BitsQueue[head_o+0]; inst2Is64Bit_o <= is64BitsQueue[head_o+1]; inst3Is64Bit_o <= is64BitsQueue[head_o+2]; inst4Is64Bit_o <= is64BitsQueue[head_o+3]; 
+                        inst1Pid_o <= pidQueue[head_o+0]; inst2Pid_o <= pidQueue[head_o+1]; inst3Pid_o <= pidQueue[head_o+2]; inst4Pid_o <= pidQueue[head_o+3]; 
+                        inst1Tid_o <= tidQueue[head_o+0]; inst2Tid_o <= tidQueue[head_o+1]; inst3Tid_o <= tidQueue[head_o+2]; inst4Tid_o <= tidQueue[head_o+3]; 
+                        inst1op1rw_o <= op1wrQueue[head_o+0]; inst2op1rw_o <= op1wrQueue[head_o+1]; inst3op1rw_o <= op1wrQueue[head_o+2]; inst4op1rw_o <= op1wrQueue[head_o+3]; 
+                        inst1op2rw_o <= op2wrQueue[head_o+0]; inst2op2rw_o <= op2wrQueue[head_o+1]; inst3op2rw_o <= op2wrQueue[head_o+2]; inst4op2rw_o <= op2wrQueue[head_o+3]; 
+                        inst1op3rw_o <= op3wrQueue[head_o+0]; inst2op3rw_o <= op3wrQueue[head_o+1]; inst3op3rw_o <= op3wrQueue[head_o+2]; inst4op3rw_o <= op3wrQueue[head_o+3]; 
+                        inst1op4rw_o <= op4wrQueue[head_o+0]; inst2op4rw_o <= op4wrQueue[head_o+1]; inst3op4rw_o <= op4wrQueue[head_o+2]; inst4op4rw_o <= op4wrQueue[head_o+3]; 
+                        inst1op1IsReg_o <= op1IsRegQueue[head_o+0]; inst2op1IsReg_o <= op1IsRegQueue[head_o+1]; inst3op1IsReg_o <= op1IsRegQueue[head_o+2]; inst4op1IsReg_o <= op1IsRegQueue[head_o+3]; 
+                        inst1op2IsReg_o <= op2IsRegQueue[head_o+0]; inst2op2IsReg_o <= op2IsRegQueue[head_o+1]; inst3op2IsReg_o <= op2IsRegQueue[head_o+2]; inst4op2IsReg_o <= op2IsRegQueue[head_o+3]; 
+                        inst1op3IsReg_o <= op3IsRegQueue[head_o+0]; inst2op3IsReg_o <= op3IsRegQueue[head_o+1]; inst3op3IsReg_o <= op3IsRegQueue[head_o+2]; inst4op3IsReg_o <= op3IsRegQueue[head_o+3]; 
+                        inst1op4IsReg_o <= op4IsRegQueue[head_o+0]; inst2op4IsReg_o <= op4IsRegQueue[head_o+1]; inst3op4IsReg_o <= op4IsRegQueue[head_o+2]; inst4op4IsReg_o <= op4IsRegQueue[head_o+3]; 
+                        inst1ModifiesCR_o <= modifiesCRQueue[head_o+0]; inst2ModifiesCR_o <= modifiesCRQueue[head_o+1]; inst3ModifiesCR_o <= modifiesCRQueue[head_o+2]; inst4ModifiesCR_o <= modifiesCRQueue[head_o+3];
+                        inst1Body_o <= bodyQueue[head_o+0]; inst2Body_o <= bodyQueue[head_o+1]; inst3Body_o <= bodyQueue[head_o+2]; inst4Body_o <= bodyQueue[head_o+3]; 
+                        head_o <= head_o + 4;
+                    end
+                    else if(isDone[head_o+0] == 1 && isDone[head_o+1] == 1 && isDone[head_o+2] == 1 && isDone[head_o+3] == 0)
+                    begin//3 instructions can be read
+                        outputEnable_o <= 1; numInstructionsOut_o <= 2'b10; 
+                        inst1Format_o <= formatQueue[head_o+0]; inst2Format_o <= formatQueue[head_o+1]; inst3Format_o <= formatQueue[head_o+2];
+                        inst1Opcode_o <= opcodeQueue[head_o+0]; inst2Opcode_o <= opcodeQueue[head_o+1]; inst3Opcode_o <= opcodeQueue[head_o+2];
+                        inst1Address_o <= addressQueue[head_o+0]; inst2Address_o <= addressQueue[head_o+1]; inst3Address_o <= addressQueue[head_o+2];
+                        inst1FuncUnit_o <= funUnitCodeQueue[head_o+0]; inst2FuncUnit_o <= funUnitCodeQueue[head_o+1]; inst3FuncUnit_o <= funUnitCodeQueue[head_o+2];
+                        inst1MajId_o <= majIDQueue[head_o+0]; inst2MajId_o <= majIDQueue[head_o+1]; inst3MajId_o <= majIDQueue[head_o+2];
+                        inst1MinID_o <= minIDQueue[head_o+0]; inst2MinID_o <= minIDQueue[head_o+1]; inst3MinID_o <= minIDQueue[head_o+2];
+                        inst1NumUOps_o <= numMicroOpsQueue[head_o+0]; inst2NumUOps_o <= numMicroOpsQueue[head_o+1]; inst3NumUOps_o <= numMicroOpsQueue[head_o+3];
+                        inst1Is64Bit_o <= is64BitsQueue[head_o+0]; inst2Is64Bit_o <= is64BitsQueue[head_o+1]; inst3Is64Bit_o <= is64BitsQueue[head_o+2];
+                        inst1Pid_o <= pidQueue[head_o+0]; inst2Pid_o <= pidQueue[head_o+1]; inst3Pid_o <= pidQueue[head_o+2];
+                        inst1Tid_o <= tidQueue[head_o+0]; inst2Tid_o <= tidQueue[head_o+1]; inst3Tid_o <= tidQueue[head_o+2];
+                        inst1op1rw_o <= op1wrQueue[head_o+0]; inst2op1rw_o <= op1wrQueue[head_o+1]; inst3op1rw_o <= op1wrQueue[head_o+2];
+                        inst1op2rw_o <= op2wrQueue[head_o+0]; inst2op2rw_o <= op2wrQueue[head_o+1]; inst3op2rw_o <= op2wrQueue[head_o+2];
+                        inst1op3rw_o <= op3wrQueue[head_o+0]; inst2op3rw_o <= op3wrQueue[head_o+1]; inst3op3rw_o <= op3wrQueue[head_o+2];
+                        inst1op4rw_o <= op4wrQueue[head_o+0]; inst2op4rw_o <= op4wrQueue[head_o+1]; inst3op4rw_o <= op4wrQueue[head_o+2];
+                        inst1op1IsReg_o <= op1IsRegQueue[head_o+0]; inst2op1IsReg_o <= op1IsRegQueue[head_o+1]; inst3op1IsReg_o <= op1IsRegQueue[head_o+2];
+                        inst1op2IsReg_o <= op2IsRegQueue[head_o+0]; inst2op2IsReg_o <= op2IsRegQueue[head_o+1]; inst3op2IsReg_o <= op2IsRegQueue[head_o+2];
+                        inst1op3IsReg_o <= op3IsRegQueue[head_o+0]; inst2op3IsReg_o <= op3IsRegQueue[head_o+1]; inst3op3IsReg_o <= op3IsRegQueue[head_o+2];
+                        inst1op4IsReg_o <= op4IsRegQueue[head_o+0]; inst2op4IsReg_o <= op4IsRegQueue[head_o+1]; inst3op4IsReg_o <= op4IsRegQueue[head_o+2];
+                        inst1ModifiesCR_o <= modifiesCRQueue[head_o+0]; inst2ModifiesCR_o <= modifiesCRQueue[head_o+1]; inst3ModifiesCR_o <= modifiesCRQueue[head_o+2];
+                        inst1Body_o <= bodyQueue[head_o+0]; inst2Body_o <= bodyQueue[head_o+1]; inst3Body_o <= bodyQueue[head_o+2];
+                        head_o <= head_o + 3;
+                    end
+                    else if(isDone[head_o+0] == 1 && isDone[head_o+1] == 1 && isDone[head_o+2] == 0 && isDone[head_o+3] == 0)
+                    begin//2 instructions can be read
+                        outputEnable_o <= 1; numInstructionsOut_o <= 2'b01; 
+                        inst1Format_o <= formatQueue[head_o+0]; inst2Format_o <= formatQueue[head_o+1];
+                        inst1Opcode_o <= opcodeQueue[head_o+0]; inst2Opcode_o <= opcodeQueue[head_o+1];
+                        inst1Address_o <= addressQueue[head_o+0]; inst2Address_o <= addressQueue[head_o+1];
+                        inst1FuncUnit_o <= funUnitCodeQueue[head_o+0]; inst2FuncUnit_o <= funUnitCodeQueue[head_o+1];
+                        inst1MajId_o <= majIDQueue[head_o+0]; inst2MajId_o <= majIDQueue[head_o+1];
+                        inst1MinID_o <= minIDQueue[head_o+0]; inst2MinID_o <= minIDQueue[head_o+1];
+                        inst1NumUOps_o <= numMicroOpsQueue[head_o+0]; inst2NumUOps_o <= numMicroOpsQueue[head_o+1];
+                        inst1Is64Bit_o <= is64BitsQueue[head_o+0]; inst2Is64Bit_o <= is64BitsQueue[head_o+1];
+                        inst1Pid_o <= pidQueue[head_o+0]; inst2Pid_o <= pidQueue[head_o+1];
+                        inst1Tid_o <= tidQueue[head_o+0]; inst2Tid_o <= tidQueue[head_o+1];
+                        inst1op1rw_o <= op1wrQueue[head_o+0]; inst2op1rw_o <= op1wrQueue[head_o+1];
+                        inst1op2rw_o <= op2wrQueue[head_o+0]; inst2op2rw_o <= op2wrQueue[head_o+1];
+                        inst1op3rw_o <= op3wrQueue[head_o+0]; inst2op3rw_o <= op3wrQueue[head_o+1];
+                        inst1op4rw_o <= op4wrQueue[head_o+0]; inst2op4rw_o <= op4wrQueue[head_o+1];
+                        inst1op1IsReg_o <= op1IsRegQueue[head_o+0]; inst2op1IsReg_o <= op1IsRegQueue[head_o+1];
+                        inst1op2IsReg_o <= op2IsRegQueue[head_o+0]; inst2op2IsReg_o <= op2IsRegQueue[head_o+1];
+                        inst1op3IsReg_o <= op3IsRegQueue[head_o+0]; inst2op3IsReg_o <= op3IsRegQueue[head_o+1];
+                        inst1op4IsReg_o <= op4IsRegQueue[head_o+0]; inst2op4IsReg_o <= op4IsRegQueue[head_o+1];
+                        inst1ModifiesCR_o <= modifiesCRQueue[head_o+0]; inst2ModifiesCR_o <= modifiesCRQueue[head_o+1];
+                        inst1Body_o <= bodyQueue[head_o+0]; inst2Body_o <= bodyQueue[head_o+1];
+                        head_o <= head_o + 2;
+                    end
+                    else if(isDone[head_o+0] == 1 && isDone[head_o+1] == 0 && isDone[head_o+2] == 0 && isDone[head_o+3] == 0)
+                    begin//1 instruction can be read
+                        outputEnable_o <= 1; numInstructionsOut_o <= 2'b00; 
+                        inst1Format_o <= formatQueue[head_o+0];
+                        inst1Opcode_o <= opcodeQueue[head_o+0];
+                        inst1Address_o <= addressQueue[head_o+0];
+                        inst1FuncUnit_o <= funUnitCodeQueue[head_o+0];
+                        inst1MajId_o <= majIDQueue[head_o+0];
+                        inst1MinID_o <= minIDQueue[head_o+0];
+                        inst1NumUOps_o <= numMicroOpsQueue[head_o+0];
+                        inst1Is64Bit_o <= is64BitsQueue[head_o+0];
+                        inst1Pid_o <= pidQueue[head_o+0];
+                        inst1Tid_o <= tidQueue[head_o+0];
+                        inst1op1rw_o <= op1wrQueue[head_o+0];
+                        inst1op2rw_o <= op2wrQueue[head_o+0];
+                        inst1op3rw_o <= op3wrQueue[head_o+0];
+                        inst1op4rw_o <= op4wrQueue[head_o+0];
+                        inst1op1IsReg_o <= op1IsRegQueue[head_o+0];
+                        inst1op2IsReg_o <= op2IsRegQueue[head_o+0];
+                        inst1op3IsReg_o <= op3IsRegQueue[head_o+0];
+                        inst1op4IsReg_o <= op4IsRegQueue[head_o+0];
+                        inst1ModifiesCR_o <= modifiesCRQueue[head_o+0];
+                        inst1Body_o <= bodyQueue[head_o+0];
+                        head_o <= head_o + 1;
+                    end
+                    else
+                    begin//No instructions can be read. This should actually automatically handle is_empty situations
+                        outputEnable_o <= 0;
+                    end
+                end
             end
         end
     end
