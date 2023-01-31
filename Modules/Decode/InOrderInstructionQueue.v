@@ -18,7 +18,8 @@ On output up to 4 instructions per cycle (for now) can be read from the queue fo
 above algoritm, this means that the OoO units will only see instructions coming in program order.
 The way the queue is able to find previously allocated space 
 
-TODO: Add buffering before this stage so we can fetch closer tothe limmit of the queue
+TODO: Add buffering before this stage so we can fetch closer to the limmit of the queue. The max number of space required per cycle is
+4 times the max size of an instruction, this is 128 entries therefore if there is space <= 128 entries remaining, it is treated as full.
 
 
 *//////////////////////////////////////////////////////////////
@@ -93,13 +94,13 @@ module InOrderInstQueue
     //generic state outputs
 	output reg [0:queueIndexWidth-1] head_o, tail_o,//dequeue from head, enqueue to tail
 	output reg isEmpty_o, isFull_o
-)
+);
 
-
+    reg headResetToZero;
     reg isDone [0:numQueueEntries-1];
     //This tracks how many uops remain to write to the instruction. When it is zero, all uops in the instruction have been queued so can be issued.
     //numUopsRemaining[i] maps to instruction based at majIDMap[i] and *queue[i].
-    reg [0:inst1MinID_i-1] numUopsRemaining [0:numQueueEntries-1];
+    reg [0:instMinIdWidth-1] numUopsRemaining [0:numQueueEntries-1];
 
     //Index I in this queue is high when index I in the queue contains the first uop (minId == 0). Otherwise index I is zero.
     //This allows us to find the begining of an instruction in the queue
@@ -171,7 +172,7 @@ integer debugFID;
             `endif
             head_o <= 0; tail_o <= 0;
 			isFull_o <= 0; isEmpty_o <= 1;
-
+            headResetToZero <= 1;
             for(i = 0; i < numQueueEntries; i = i + 1)
             begin//Reset the queue state
                 isDone[i] <= 0;
@@ -243,12 +244,14 @@ integer debugFID;
                     end
                     //Reserve space for the entire instruction (inc tail by numMicoOps)
                     tail_o <= (tail_o + inst1NumMicroOps_i) % (2**queueIndexWidth);
+                    `ifdef DEBUG $display("IOQ %d Next tail position: %d", IOQInstance, (tail_o + (inst1NumMicroOps_i) + (4*(2**instMinIdWidth))) % (2**queueIndexWidth)); `endif
+                    `ifdef DEBUG_PRINT $fdisplay(debugFID,"IOQ %d Next tail position: %d", IOQInstance, (tail_o + (inst1NumMicroOps_i) + (4*(2**instMinIdWidth))) % (2**queueIndexWidth)); `endif
                     //Check if we will then be full after 4 more max sized instructions are allocating next cycle (worst case)
-                    if((tail_o + (inst1NumMicroOps_i) + (4*(2**instMinIdWidth))) % (2**queueIndexWidth) >= head_o)
+                    if((tail_o + (inst1NumMicroOps_i) + (4*(2**instMinIdWidth))) % (2**queueIndexWidth) >= head_o && headResetToZero == 0)
                     begin
                         //Were full
-                        `ifdef DEBUG $display("IOQ %d is full", IOQInstanc); `endif
-                        `ifdef DEBUG_PRINT $fdisplay(debugFID, "IOQ %d is full", IOQInstanc); `endif
+                        `ifdef DEBUG $display("IOQ %d is full", IOQInstance); `endif
+                        `ifdef DEBUG_PRINT $fdisplay(debugFID, "IOQ %d is full", IOQInstance); `endif
                         isFull_o <= 1;
                     end
                     isEmpty_o <= 0;
@@ -276,7 +279,7 @@ integer debugFID;
                         //Set the isValid bit for the entry
                         mapEntryIsValid[tail_o] <= 1;
                         //set is done
-                        isDone[tail_o] <= 1
+                        isDone[tail_o] <= 1;
                         //set the number of instructions remaining
                         numUopsRemaining[tail_o] <= inst1NumMicroOps_i-1;
                     end
@@ -352,11 +355,13 @@ integer debugFID;
                     //Reserve space for the entire instruction (inc tail by numMicoOps)                        
                     tail_o <= (tail_o + inst1NumMicroOps_i + inst2NumMicroOps_i) % (2**queueIndexWidth); 
                     //Check if we will then be full after 4 more max sized instructions are allocating next cycle (worst case)
-                    if((tail_o + (inst1NumMicroOps_i + inst2NumMicroOps_i) + (4*(2**instMinIdWidth))) % (2**queueIndexWidth) >= head_o)
+                    `ifdef DEBUG $display("IOQ %d Next tail position: %d", IOQInstance, (tail_o + (inst1NumMicroOps_i + inst2NumMicroOps_i) + (4*(2**instMinIdWidth))) % (2**queueIndexWidth)); `endif
+                    `ifdef DEBUG_PRINT $fdisplay(debugFID,"IOQ %d Next tail position: %d", IOQInstance, (tail_o + (inst1NumMicroOps_i + inst2NumMicroOps_i) + (4*(2**instMinIdWidth))) % (2**queueIndexWidth)); `endif
+                    if((tail_o + (inst1NumMicroOps_i + inst2NumMicroOps_i) + (4*(2**instMinIdWidth))) % (2**queueIndexWidth) >= head_o && headResetToZero == 0)
                     begin
                         //Were full
-                        `ifdef DEBUG $display("IOQ %d is full", IOQInstanc); `endif
-                        `ifdef DEBUG_PRINT $fdisplay(debugFID, "IOQ %d is full", IOQInstanc); `endif
+                        `ifdef DEBUG $display("IOQ %d is full", IOQInstance); `endif
+                        `ifdef DEBUG_PRINT $fdisplay(debugFID, "IOQ %d is full", IOQInstance); `endif
                         isFull_o <= 1;
                     end 
                     isEmpty_o <= 0;
@@ -505,12 +510,14 @@ integer debugFID;
                     end
                     //Reserve space for the entire instruction (inc tail by numMicoOps)                        
                     tail_o <= (tail_o + inst1NumMicroOps_i + inst2NumMicroOps_i + inst3NumMicroOps_i) % (2**queueIndexWidth);  
+                    `ifdef DEBUG $display("IOQ %d Next tail position: %d", IOQInstance, (tail_o + (inst1NumMicroOps_i + inst2NumMicroOps_i + inst3NumMicroOps_i) + (4*(2**instMinIdWidth))) % (2**queueIndexWidth)); `endif
+                    `ifdef DEBUG_PRINT $fdisplay(debugFID,"IOQ %d Next tail position: %d", IOQInstance, (tail_o + (inst1NumMicroOps_i + inst2NumMicroOps_i + inst3NumMicroOps_i) + (4*(2**instMinIdWidth))) % (2**queueIndexWidth)); `endif
                     //Check if we will then be full after 4 more max sized instructions are allocating next cycle (worst case)
-                    if((tail_o + (inst1NumMicroOps_i + inst2NumMicroOps_i + inst3NumMicroOps_i) + (4*(2**instMinIdWidth))) % (2**queueIndexWidth) >= head_o)
+                    if((tail_o + (inst1NumMicroOps_i + inst2NumMicroOps_i + inst3NumMicroOps_i) + (4*(2**instMinIdWidth))) % (2**queueIndexWidth) >= head_o && headResetToZero == 0)
                     begin
                         //Were full
-                        `ifdef DEBUG $display("IOQ %d is full", IOQInstanc); `endif
-                        `ifdef DEBUG_PRINT $fdisplay(debugFID, "IOQ %d is full", IOQInstanc); `endif
+                        `ifdef DEBUG $display("IOQ %d is full", IOQInstance); `endif
+                        `ifdef DEBUG_PRINT $fdisplay(debugFID, "IOQ %d is full", IOQInstance); `endif
                         isFull_o <= 1;
                     end
                     isEmpty_o <= 0;
@@ -674,7 +681,7 @@ integer debugFID;
                         //Set the isValid bit for the entry
                         mapEntryIsValid[tail_o + inst1NumMicroOps_i + inst2NumMicroOps_i + inst3NumMicroOps_i] <= 1;
                         //set is done
-                        isDone[tail_o + inst1NumMicroOps_i + inst2NumMicroOps_i + inst3NumMicroOps_i] <= 1
+                        isDone[tail_o + inst1NumMicroOps_i + inst2NumMicroOps_i + inst3NumMicroOps_i] <= 1;
                         //set the number of instructions remaining
                         numUopsRemaining[tail_o + inst1NumMicroOps_i + inst2NumMicroOps_i + inst3NumMicroOps_i] <= inst4NumMicroOps_i-1;
                     end
@@ -702,12 +709,14 @@ integer debugFID;
                     end     
                     //Reserve space for the entire instruction (inc tail by numMicoOps)                        
                     tail_o <= (tail_o + inst1NumMicroOps_i + inst2NumMicroOps_i + inst3NumMicroOps_i + inst4NumMicroOps_i) % (2**queueIndexWidth);                
+                    `ifdef DEBUG $display("IOQ %d Next tail position: %d", IOQInstance, (tail_o + (inst1NumMicroOps_i + inst2NumMicroOps_i + inst3NumMicroOps_i + inst4NumMicroOps_i) + (4*(2**instMinIdWidth))) % (2**queueIndexWidth)); `endif
+                    `ifdef DEBUG_PRINT $fdisplay(debugFID,"IOQ %d Next tail position: %d", IOQInstance, (tail_o + (inst1NumMicroOps_i + inst2NumMicroOps_i + inst3NumMicroOps_i + inst4NumMicroOps_i) + (4*(2**instMinIdWidth))) % (2**queueIndexWidth)); `endif
                     //Check if we will then be full after 4 more max sized instructions are allocating next cycle (worst case)
-                    if((tail_o + (inst1NumMicroOps_i + inst2NumMicroOps_i + inst3NumMicroOps_i + inst4NumMicroOps_i) + (4*(2**instMinIdWidth))) % (2**queueIndexWidth) >= head_o)
+                    if((tail_o + (inst1NumMicroOps_i + inst2NumMicroOps_i + inst3NumMicroOps_i + inst4NumMicroOps_i) + (4*(2**instMinIdWidth))) % (2**queueIndexWidth) >= head_o && headResetToZero == 0)
                     begin
                         //Were full
-                        `ifdef DEBUG $display("IOQ %d is full", IOQInstanc); `endif
-                        `ifdef DEBUG_PRINT $fdisplay(debugFID, "IOQ %d is full", IOQInstanc); `endif                   
+                        `ifdef DEBUG $display("IOQ %d is full", IOQInstance); `endif
+                        `ifdef DEBUG_PRINT $fdisplay(debugFID, "IOQ %d is full", IOQInstance); `endif                   
                     end
                     isEmpty_o <= 0;
                     `ifdef DEBUG $display("IOQ %d Enqueing 4 instructions. Reservice space for a %d instructions.", IOQInstance, inst1NumMicroOps_i+inst2NumMicroOps_i+inst3NumMicroOps_i+inst4NumMicroOps_i); `endif
@@ -718,7 +727,7 @@ integer debugFID;
             if(isEmpty_o)//Queue is empty
             begin
 				`ifdef DEBUG $display("In-order queue %d empty", IOQInstance); `endif
-                `ifdef DEBUG_PRINT $fdisplay(debugFID, "In-order queue %d empty", IOQInstance); `endi
+                `ifdef DEBUG_PRINT $fdisplay(debugFID, "In-order queue %d empty", IOQInstance); `endif
             end
             else
             begin//Not empty, dequeue
@@ -748,6 +757,7 @@ integer debugFID;
                         inst1ModifiesCR_o <= modifiesCRQueue[head_o+0]; inst2ModifiesCR_o <= modifiesCRQueue[head_o+1]; inst3ModifiesCR_o <= modifiesCRQueue[head_o+2]; inst4ModifiesCR_o <= modifiesCRQueue[head_o+3];
                         inst1Body_o <= bodyQueue[head_o+0]; inst2Body_o <= bodyQueue[head_o+1]; inst3Body_o <= bodyQueue[head_o+2]; inst4Body_o <= bodyQueue[head_o+3]; 
                         head_o <= head_o + 4;
+                        headResetToZero <= 0;
                     end
                     else if(isDone[head_o+0] == 1 && isDone[head_o+1] == 1 && isDone[head_o+2] == 1 && isDone[head_o+3] == 0)
                     begin//3 instructions can be read
@@ -773,6 +783,7 @@ integer debugFID;
                         inst1ModifiesCR_o <= modifiesCRQueue[head_o+0]; inst2ModifiesCR_o <= modifiesCRQueue[head_o+1]; inst3ModifiesCR_o <= modifiesCRQueue[head_o+2];
                         inst1Body_o <= bodyQueue[head_o+0]; inst2Body_o <= bodyQueue[head_o+1]; inst3Body_o <= bodyQueue[head_o+2];
                         head_o <= head_o + 3;
+                        headResetToZero <= 0;
                     end
                     else if(isDone[head_o+0] == 1 && isDone[head_o+1] == 1 && isDone[head_o+2] == 0 && isDone[head_o+3] == 0)
                     begin//2 instructions can be read
@@ -798,6 +809,7 @@ integer debugFID;
                         inst1ModifiesCR_o <= modifiesCRQueue[head_o+0]; inst2ModifiesCR_o <= modifiesCRQueue[head_o+1];
                         inst1Body_o <= bodyQueue[head_o+0]; inst2Body_o <= bodyQueue[head_o+1];
                         head_o <= head_o + 2;
+                        headResetToZero <= 0;
                     end
                     else if(isDone[head_o+0] == 1 && isDone[head_o+1] == 0 && isDone[head_o+2] == 0 && isDone[head_o+3] == 0)
                     begin//1 instruction can be read
@@ -823,6 +835,7 @@ integer debugFID;
                         inst1ModifiesCR_o <= modifiesCRQueue[head_o+0];
                         inst1Body_o <= bodyQueue[head_o+0];
                         head_o <= head_o + 1;
+                        headResetToZero <= 0;
                     end
                     else
                     begin//No instructions can be read. This should actually automatically handle is_empty situations
