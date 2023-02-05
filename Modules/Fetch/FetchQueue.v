@@ -38,10 +38,11 @@ integer debugFID;
 `endif
 
     reg [0:instructionWidth-1] instructionQueue [0:queueLenth-1];
-    reg isReset;
 
     always @(posedge clock_i)
     begin
+        `ifdef DEBUG $display("--------------------------------"); `endif
+        `ifdef DEBUG_PRINT $fdisplay(debugFID ,"--------------------------------"); `endif
         if(reset_i)
         begin
             `ifdef DEBUG_PRINT
@@ -60,7 +61,6 @@ integer debugFID;
             `ifdef DEBUG_PRINT $fdisplay(debugFID, "ICache: %d: Resetting", fetchQueueInstance); `endif  
             head_o <= 0; tail_o <= 0;
             isFull_o <= 0; isEmpty_o <= 1;
-            isReset <= 1;
             decoder1En_o <= 0; decoder2En_o <= 0;
             decoder3En_o <= 0; decoder4En_o <= 0;
         end
@@ -76,29 +76,38 @@ integer debugFID;
                 `ifdef DEBUG_PRINT $fdisplay(debugFID ,"Fetch Queue: %d. Full, not enquing bundle", fetchQueueInstance); `endif
             end
             else begin//we have enough space for a whole bundle
-                instructionQueue[tail_o + 0] <= bundle_i[0 * instructionWidth+: instructionWidth];
-                instructionQueue[tail_o + 1] <= bundle_i[1 * instructionWidth+: instructionWidth];
-                instructionQueue[tail_o + 2] <= bundle_i[2 * instructionWidth+: instructionWidth];
-                instructionQueue[tail_o + 3] <= bundle_i[3 * instructionWidth+: instructionWidth];
-                tail_o <= (tail_o + 4) % (2**queueIndexBits);//Move the head up by 4 instructions
-                isEmpty_o <= 0;
 
-                if(((tail_o + 8) % (2**queueIndexBits) >= head_o) && isReset == 0)//check if full after this bundle
-                begin
-                    isFull_o <= 1;
-                    `ifdef DEBUG $display("Fetch Queue: %d. Full.", fetchQueueInstance); `endif
-                    `ifdef DEBUG_PRINT $fdisplay(debugFID ,"Fetch Queue: %d. Full.", fetchQueueInstance); `endif
+                if (bundleWrite_i)begin
+                    instructionQueue[tail_o + 0] <= bundle_i[0 * instructionWidth+: instructionWidth];
+                    instructionQueue[tail_o + 1] <= bundle_i[1 * instructionWidth+: instructionWidth];
+                    instructionQueue[tail_o + 2] <= bundle_i[2 * instructionWidth+: instructionWidth];
+                    instructionQueue[tail_o + 3] <= bundle_i[3 * instructionWidth+: instructionWidth];
+                    tail_o <= (tail_o + 4) % (2**queueIndexBits);//Move the head up by 4 instructions
+                    `ifdef DEBUG $display("Fetch Queue: %d. Enqueing bundle.", fetchQueueInstance); `endif
+                    `ifdef DEBUG_PRINT $fdisplay(debugFID ,"Fetch Queue: %d. Enqueing bundle.", fetchQueueInstance); `endif
+                    isEmpty_o <= 0;
+
+                    if(((tail_o + 8) % (2**queueIndexBits) > head_o))//were not full
+                    begin
+                        isFull_o <= 0;
+                        `ifdef DEBUG $display("Fetch Queue: %d. Not full.", fetchQueueInstance); `endif
+                        `ifdef DEBUG_PRINT $fdisplay(debugFID ,"Fetch Queue: %d. Not full.", fetchQueueInstance); `endif
+                    end
+                    else
+                    begin
+                        isFull_o <= 1;
+                        `ifdef DEBUG $display("Fetch Queue: %d. Full.", fetchQueueInstance); `endif
+                        `ifdef DEBUG_PRINT $fdisplay(debugFID ,"Fetch Queue: %d. Full.", fetchQueueInstance); `endif
+                    end
                 end
                 else
                 begin
-                    isFull_o <= 0;
-                    `ifdef DEBUG $display("Fetch Queue: %d. Not full.", fetchQueueInstance); `endif
-                    `ifdef DEBUG_PRINT $fdisplay(debugFID ,"Fetch Queue: %d. Not full.", fetchQueueInstance); `endif
+                    `ifdef DEBUG $display("Fetch Queue: %d. Not full but write enable is low. Not enqueing.", fetchQueueInstance); `endif
+                    `ifdef DEBUG_PRINT $fdisplay(debugFID ,"Fetch Queue: %d. Not full but write enable is low. Not enqueing.", fetchQueueInstance); `endif
                 end
             end
 
             //Dispatch instructions to decode (read from queue)
-            //decode1Busy_i, decode2Busy_i, decode3Busy_i, decode4Busy_i
             if(isEmpty_o)
             begin
                 decoder1En_o <= 0; decoder2En_o <= 0; decoder3En_o <= 0; decoder4En_o <= 0;
@@ -310,6 +319,7 @@ integer debugFID;
                             isEmpty_o <= 1;
                         decdoer1Ins_o <= instructionQueue[head_o]; decdoer2Ins_o <= instructionQueue[head_o + 1]; decdoer4Ins_o <= instructionQueue[head_o + 2];
                         decoder1En_o <= 1; decoder2En_o <= 1; decoder3En_o <= 0; decoder4En_o <= 1;
+                        //$display("asdfa");
                     end
                     else if(tail_o - head_o >= 2)//enough instructions for 2 decoders
                     begin
@@ -318,6 +328,7 @@ integer debugFID;
                             isEmpty_o <= 1;
                         decdoer1Ins_o <= instructionQueue[head_o]; decdoer2Ins_o <= instructionQueue[head_o + 1];
                         decoder1En_o <= 1; decoder2En_o <= 1; decoder3En_o <= 0; decoder4En_o <= 0;
+                        $display("asdfa");
                     end
                     else if(tail_o - head_o == 1)//enough instructions for 1 decoder
                     begin
@@ -326,6 +337,7 @@ integer debugFID;
                             isEmpty_o <= 1;
                         decdoer1Ins_o <= instructionQueue[head_o];
                         decoder1En_o <= 1; decoder2En_o <= 0; decoder3En_o <= 0; decoder4En_o <= 0;
+                        //$display("asdfa");
                     end
                 end
                 4'b1110: begin
@@ -392,8 +404,7 @@ integer debugFID;
 
             end
         end
-        `ifdef DEBUG $display("--------------------------------"); `endif
-        `ifdef DEBUG_PRINT $fdisplay(debugFID ,"--------------------------------"); `endif
+
     end
 
 endmodule

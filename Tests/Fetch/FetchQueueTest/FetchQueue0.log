@@ -1,8 +1,34 @@
 ICache:           0: Resetting
 --------------------------------
+Fetch Queue:           0. Enqueing bundle.
 Fetch Queue:           0. Not full.
 Fetch Queue:           0. Queue Empty, not issuing instruction to decoders.
 --------------------------------
-Fetch Queue:           0. Not full.
+Fetch Queue:           0. Not full but write enable is low. Not enqueing.
 Fetch Queue:           0. Decoder state 1111. Num Instructions in Queue:   4.
 --------------------------------
+Fetch Queue:           0. Not full but write enable is low. Not enqueing.
+Fetch Queue:           0. Queue Empty, not issuing instruction to decoders.
+--------------------------------
+Fetch Queue:           0. Enqueing bundle.
+Fetch Queue:           0. Not full.
+Fetch Queue:           0. Queue Empty, not issuing instruction to decoders.
+--------------------------------
+Fetch Queue:           0. Enqueing bundle.
+Fetch Queue:           0. Not full.
+Fetch Queue:           0. Decoder state 0000. Num Instructions in Queue:   4.
+--------------------------------
+Fetch Queue:           0. Not full but write enable is low. Not enqueing.
+Fetch Queue:           0. Decoder state 0001. Num Instructions in Queue:   8.
+--------------------------------
+Fetch Queue:           0. Not full but write enable is low. Not enqueing.
+Fetch Queue:           0. Decoder state 0101. Num Instructions in Queue:   7.
+--------------------------------
+Fetch Queue:           0. Not full but write enable is low. Not enqueing.
+Fetch Queue:           0. Decoder state 1101. Num Instructions in Queue:   5.
+--------------------------------
+Fetch Queue:           0. Not full but write enable is low. Not enqueing.
+Fetch Queue:           0. Decoder state 1101. Num Instructions in Queue:   2.
+--------------------------------
+Fetch Queue:           0. Not full but write enable is low. Not enqueing.
+Fetch Queue:           0. Queue Empty, not issuing instruction to decoders.
