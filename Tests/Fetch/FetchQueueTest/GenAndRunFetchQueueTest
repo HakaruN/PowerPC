@@ -1,0 +1,4 @@
+#!/bin/bash
+iverilog -o FetchQueueTest.bin FetchQueue_Test.v
+./FetchQueueTest.bin
+rm FetchQueueTest.bin

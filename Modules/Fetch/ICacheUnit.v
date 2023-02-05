@@ -211,7 +211,7 @@ begin
     if(cacheReset_i)//Reset
     begin
         `ifdef DEBUG_PRINT
-        case(ICacheInstance)//If we have multiple decoders, they each get different files. The second number indicates the decoder# log file.
+        case(ICacheInstance)//If we have multiple fetch units, they each get different files.
         0: begin 
             debugFID = $fopen("ICache0.log", "w");
         end
