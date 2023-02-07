@@ -176,6 +176,13 @@ integer debugFID;
                         end
                         endcase
                     end
+                    else
+                    begin
+                        //not empty so must be full
+                        decoder3Ins_o <= instructionQueue[front_o]; decoder4Ins_o <= instructionQueue[front_o + 1];
+                        decoder1En_o <= 0; decoder2En_o <= 0; decoder3En_o <= 1; decoder4En_o <= 1;
+                        front_o <= front_o + 3; frontInReset <= 0;
+                    end
                 end
 
                 4'b0100: begin
@@ -216,6 +223,13 @@ integer debugFID;
                         end
                         endcase
                     end
+                    else
+                    begin
+                        //not empty so must be full
+                        decoder2Ins_o <= instructionQueue[front_o]; decoder4Ins_o <= instructionQueue[front_o + 1];
+                        decoder1En_o <= 0; decoder2En_o <= 1; decoder3En_o <= 0; decoder4En_o <= 1;
+                        front_o <= front_o + 2; frontInReset <= 0;
+                    end
                 end
 
                 4'b0110: begin
@@ -250,6 +264,13 @@ integer debugFID;
                             front_o <= front_o + 2; frontInReset <= 0;
                         end
                         endcase
+                    end
+                    else
+                    begin
+                        //not empty so must be full
+                        decoder2Ins_o <= instructionQueue[front_o]; decoder3Ins_o <= instructionQueue[front_o + 1];
+                        decoder1En_o <= 0; decoder2En_o <= 1; decoder3En_o <= 1; decoder4En_o <= 0;
+                        front_o <= front_o + 2; frontInReset <= 0;
                     end
                 end
                 4'b0111: begin
@@ -295,6 +316,13 @@ integer debugFID;
                         end
                         endcase
                     end
+                    else
+                    begin
+                        //not empty so must be full
+                        decoder2Ins_o <= instructionQueue[front_o]; decoder3Ins_o <= instructionQueue[front_o + 1]; decoder4Ins_o <= instructionQueue[front_o + 2];
+                        decoder1En_o <= 0; decoder2En_o <= 1; decoder3En_o <= 1; decoder4En_o <= 1;
+                        front_o <= front_o + 3; frontInReset <= 0;
+                    end
                 end
                 4'b1000: begin
                     decoder1Ins_o <= instructionQueue[front_o];
@@ -333,6 +361,13 @@ integer debugFID;
                         end
                         endcase
                     end
+                    else
+                    begin
+                        //not empty so must be full
+                        decoder1Ins_o <= instructionQueue[front_o]; decoder4Ins_o <= instructionQueue[front_o + 1];
+                        decoder1En_o <= 1; decoder2En_o <= 0; decoder3En_o <= 0; decoder4En_o <= 1;
+                        front_o <= front_o + 2; frontInReset <= 0;
+                    end
                 end
                 4'b1010: begin
                     if((back_o + (bundleWrite_i ? (bundleLen_i+1) : 0)) > front_o)
@@ -366,6 +401,13 @@ integer debugFID;
                             front_o <= front_o + 2; frontInReset <= 0;
                         end
                         endcase
+                    end
+                    else
+                    begin
+                        //not empty so must be full
+                        decoder1Ins_o <= instructionQueue[front_o]; decoder3Ins_o <= instructionQueue[front_o + 1];
+                        decoder1En_o <= 1; decoder2En_o <= 0; decoder3En_o <= 1; decoder4En_o <= 0;
+                        front_o <= front_o + 2; frontInReset <= 0;
                     end
                 end
                 4'b1011: begin
@@ -411,6 +453,13 @@ integer debugFID;
                         end
                         endcase
                     end
+                    else
+                    begin
+                        //not empty so must be full
+                        decoder1Ins_o <= instructionQueue[front_o]; decoder3Ins_o <= instructionQueue[front_o + 1]; decoder4Ins_o <= instructionQueue[front_o + 2];
+                        decoder1En_o <= 1; decoder2En_o <= 0; decoder3En_o <= 1; decoder4En_o <= 1;
+                        front_o <= front_o + 3; frontInReset <= 0;
+                    end
                 end
                 4'b1100: begin
                     if((back_o + (bundleWrite_i ? (bundleLen_i+1) : 0)) > front_o)
@@ -444,6 +493,13 @@ integer debugFID;
                             front_o <= front_o + 2; frontInReset <= 0;
                         end
                         endcase
+                    end
+                    else
+                    begin
+                        //not empty so must be full
+                        decoder1Ins_o <= instructionQueue[front_o]; decoder2Ins_o <= instructionQueue[front_o + 1];
+                        decoder1En_o <= 1; decoder2En_o <= 1; decoder3En_o <= 0; decoder4En_o <= 0;
+                        front_o <= front_o + 2; frontInReset <= 0;
                     end
                 end
                 4'b1101: begin
@@ -489,6 +545,13 @@ integer debugFID;
                         end
                         endcase
                     end
+                    else
+                    begin
+                        //not empty so must be full
+                        decoder1Ins_o <= instructionQueue[front_o]; decoder2Ins_o <= instructionQueue[front_o + 1]; decoder4Ins_o <= instructionQueue[front_o + 2];
+                        decoder1En_o <= 1; decoder2En_o <= 1; decoder3En_o <= 0; decoder4En_o <= 1;
+                        front_o <= front_o + 3; frontInReset <= 0;
+                    end
                 end
                 4'b1110: begin
                     if((back_o + (bundleWrite_i ? (bundleLen_i+1) : 0)) > front_o)
@@ -533,6 +596,14 @@ integer debugFID;
                         end
                         endcase
                     end
+                    else
+                    begin
+                        //not empty so must be full
+                        decoder1Ins_o <= instructionQueue[front_o]; decoder2Ins_o <= instructionQueue[front_o + 1]; decoder3Ins_o <= instructionQueue[front_o + 2];
+                        decoder1En_o <= 1; decoder2En_o <= 1; decoder3En_o <= 1; decoder4En_o <= 0;
+                        front_o <= front_o + 3; frontInReset <= 0;
+                    end
+                    
                 end
                 4'b1111: begin
                     if((back_o + (bundleWrite_i ? (bundleLen_i+1) : 0)) > front_o)
@@ -586,6 +657,13 @@ integer debugFID;
                             front_o <= front_o + 4; frontInReset <= 0;
                         end
                         endcase
+                    end
+                    else
+                    begin
+                        //not empty so must be full
+                        decoder1Ins_o <= instructionQueue[front_o]; decoder2Ins_o <= instructionQueue[front_o + 1]; decoder3Ins_o <= instructionQueue[front_o + 2]; decoder4Ins_o <= instructionQueue[front_o + 3];
+                        decoder1En_o <= 1; decoder2En_o <= 1; decoder3En_o <= 1; decoder4En_o <= 1;
+                        front_o <= front_o + 4; frontInReset <= 0;
                     end
                 end
                 endcase
@@ -660,29 +738,61 @@ integer debugFID;
             begin
                 $display("A");
                 //used = (back_o + bundleLen_i) - (front_o + (decode1Available_i + decode2Available_i + decode3Available_i + decode4Available_i));
-                if((back_o + (bundleWrite_i ? (bundleLen_i+1) : 0)) - (front_o + (decode1Available_i + decode2Available_i + decode3Available_i + decode4Available_i)) > 0)
+                if(back_o - front_o < (decode1Available_i + decode2Available_i + decode3Available_i + decode4Available_i))//if there are less than the number of decoders available. 
                 begin
-                    isEmpty_o <= 0;
-                    $display("1");
+                    if((back_o + (bundleWrite_i ? (bundleLen_i+1) : 0)) - (front_o + (back_o - front_o)) > 0)
+                    begin
+                        isEmpty_o <= 0;
+                        $display("1");
+                    end
+                    else
+                    begin
+                        isEmpty_o <= 1;
+                        $display("2");
+                    end
                 end
                 else
-                begin
-                    isEmpty_o <= 1;
-                    $display("2");
+                    begin
+                    if((back_o + (bundleWrite_i ? (bundleLen_i+1) : 0)) - (front_o + (decode1Available_i + decode2Available_i + decode3Available_i + decode4Available_i)) > 0)
+                    begin
+                        isEmpty_o <= 0;
+                        $display("3");
+                    end
+                    else
+                    begin
+                        isEmpty_o <= 1;
+                        $display("4");
+                    end
                 end
             end
             else if(front_o  > back_o)
             begin
                 $display("B");
-                if(queueLenth - ((front_o + (decode1Available_i + decode2Available_i + decode3Available_i + decode4Available_i)) - (back_o + (bundleWrite_i ? (bundleLen_i+1) : 0))) > 0)
+                if(queueLenth - (front_o - back_o) < (decode1Available_i + decode2Available_i + decode3Available_i + decode4Available_i))//if there are less than the number of decoders available. 
                 begin
-                    isEmpty_o <= 0;
-                    $display("1");
+                    if(queueLenth - ((front_o + (queueLenth - (front_o - back_o))) - (back_o + (bundleWrite_i ? (bundleLen_i+1) : 0))) > 0)
+                    begin
+                        isEmpty_o <= 0;
+                        $display("1");
+                    end
+                    else
+                    begin
+                        isEmpty_o <= 1;
+                        $display("2");
+                    end
                 end
                 else
                 begin
-                    isEmpty_o <= 1;
-                    $display("2");
+                    if(queueLenth - ((front_o + (decode1Available_i + decode2Available_i + decode3Available_i + decode4Available_i)) - (back_o + (bundleWrite_i ? (bundleLen_i+1) : 0))) > 0)
+                    begin
+                        isEmpty_o <= 0;
+                        $display("3");
+                    end
+                    else
+                    begin
+                        isEmpty_o <= 1;
+                        $display("4");
+                    end
                 end
             end
 

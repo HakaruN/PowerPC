@@ -11,7 +11,7 @@ module FetchQueueTest
     parameter PidSize = 32, parameter TidSize = 64,
     parameter instructionCounterWidth = 64,
     parameter instructionsPerBundle = 4,
-    parameter queueIndexBits = 7,
+    parameter queueIndexBits = 4,
     parameter queueLenth = 2**queueIndexBits,
     parameter fetchQueueInstance = 0
 )
@@ -214,10 +214,10 @@ initial begin
     else begin
         $display("Fail: Fith dequeue"); failCount = failCount + 1; end
 
-    /*
+    
     //Continue to try to dequeue
     bundleWriteIn = 0;
-    decode1AvailableIn = 0; decode2AvailableIn = 0; decode3AvailableIn = 0; decode4AvailableIn = 0;
+    decode1AvailableIn = 1; decode2AvailableIn = 0; decode3AvailableIn = 0; decode4AvailableIn = 0;
     clockIn = 1;
     #1;
     clockIn = 0;
@@ -228,32 +228,58 @@ initial begin
     else begin
         $display("Fail: Sixth dequeue"); failCount = failCount + 1; end
 
-
+    
     //Fill the queue to the top - test for now withought the queue issuing to decoders
     bundleWriteIn = 1;
     bundleIn = {32'hCCCCCCCC, 32'hDDDDDDDD, 32'hEEEEEEEE, 32'hFFFFFFFF};
-    decode1AvailableIn = 1; decode2AvailableIn = 1; decode3AvailableIn = 1; decode4AvailableIn = 1;
-    for(i = 0; i < (queueLenth / instructionsPerBundle); i = i + 1)
-    begin
-        bundleWriteIn = ~isFullOut;
-        clockIn = 1;
-        #1;
-        clockIn = 0;
-        #1;
-    end
-    ///Result: The queue cannot be entirely used. 4 entries cannot be used
-
-    //Dequeue the instructions
-    bundleWriteIn = 0;
     decode1AvailableIn = 0; decode2AvailableIn = 0; decode3AvailableIn = 0; decode4AvailableIn = 0;
     for(i = 0; i < (queueLenth / instructionsPerBundle); i = i + 1)
     begin
+        //bundleWriteIn = ~isFullOut;
         clockIn = 1;
         #1;
         clockIn = 0;
         #1;
     end
-    */
+
+    
+    //Dequeue the instructions
+    bundleWriteIn = 0;
+    decode1AvailableIn = 1; decode2AvailableIn = 1; decode3AvailableIn = 1; decode4AvailableIn = 1;
+    for(i = 0; i < (queueLenth / instructionsPerBundle); i = i + 1)
+    begin
+        clockIn = 1;
+        #1;
+        clockIn = 0;
+        #1;
+    end
+
+    //do it again but different
+//Fill the queue to the top - test for now withought the queue issuing to decoders
+    bundleWriteIn = 1;
+    bundleIn = {32'hCCCCCCCC, 32'hDDDDDDDD, 32'hEEEEEEEE, 32'hFFFFFFFF};
+    decode1AvailableIn = 0; decode2AvailableIn = 0; decode3AvailableIn = 0; decode4AvailableIn = 0;
+    for(i = 0; i < (queueLenth / instructionsPerBundle); i = i + 1)
+    begin
+        //bundleWriteIn = ~isFullOut;
+        clockIn = 1;
+        #1;
+        clockIn = 0;
+        #1;
+    end
+
+    //Dequeue the instructions
+    bundleWriteIn = 0;
+    decode1AvailableIn = 0; decode2AvailableIn = 1; decode3AvailableIn = 0; decode4AvailableIn = 0;
+    for(i = 0; i < queueLenth ; i = i + 1)
+    begin
+        clockIn = 1;
+        #1;
+        clockIn = 0;
+        #1;
+    end
+
+    
 
     $display("\n########TEST RESULTS########");
     $display("%d tests passed", passCount);
