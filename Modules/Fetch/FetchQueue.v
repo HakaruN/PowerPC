@@ -3,15 +3,24 @@
 `define DEBUG_PRINT
 
 /*///////////////Fetch queue////////////////////
+Written by Josh "Hakaru" Cantwell - 3.02.2023
+This pipeline stage acts as a queue sitting between the output of fetch and the input of decode. It allows instructions to be issued to any available decode unit(s)
+It will issue up to 4 instructions per cycle to each of the decoders as long as there are 4 decoders available. If there are less than 4 decoders available then it will
+issue as many instructions as there are available decoders.
 
-
+The back points to the next entry to be written to (say next cycle)
+The fron points to the next entry to br read from (say next cycle)
 
 *///////////////////////////////////////////////
 
 module FetchQueue
 #(
+    parameter addressWidth = 64,
     parameter instructionWidth = 4 * 8, // POWER instructions are 4 byte fixed sized
-    parameter bundleSize = 4 * instructionWidth, //A bundle is the collection of instructions fetched per cycle.
+    parameter maxBundleSize = 4 * instructionWidth, //A bundle is the collection of instructions fetched per cycle.
+    parameter PidSize = 32, parameter TidSize = 64,
+    parameter instructionCounterWidth = 64,
+    parameter instructionsPerBundle = 4,
     parameter queueIndexBits = 7,
     parameter queueLenth = 2**queueIndexBits,
     parameter fetchQueueInstance = 0
@@ -20,15 +29,20 @@ module FetchQueue
     input wire clock_i, reset_i,
     //Fetch in
     input wire bundleWrite_i,
-    input wire [0:bundleSize-1] bundle_i,//bundle coming from fetch unit
+    input wire [0:addressWidth-1] bundleAddress_i,
+    input wire [0:1] bundleLen_i,
+    input wire [0:PidSize-1] bundlePid_i,
+    input wire [0:TidSize-1] bundleTid_i,
+    input wire [0:instructionCounterWidth-1] bundleStartMajId_i,
+    input wire [0:maxBundleSize-1] bundle_i,//bundle coming from fetch unit
 
-    input wire decode1Busy_i, decode2Busy_i, decode3Busy_i, decode4Busy_i, //Tells the queue if the decoders are busy or not. If busy dont sent an instruction to them
+    input wire decode1Available_i, decode2Available_i, decode3Available_i, decode4Available_i, //Tells the queue if the decoders are busy or not. If busy dont sent an instruction to them
 
     //output to decoders
     output reg decoder1En_o, decoder2En_o, decoder3En_o, decoder4En_o, 
-    output reg [0:instructionWidth-1] decdoer1Ins_o, decdoer2Ins_o, decdoer3Ins_o, decdoer4Ins_o, 
+    output reg [0:instructionWidth-1] decoder1Ins_o, decoder2Ins_o, decoder3Ins_o, decoder4Ins_o, 
     //queue state output
-    output reg [0:queueIndexBits-1] head_o, tail_o,
+    output reg [0:queueIndexBits-1] front_o, back_o,
     output reg isFull_o, isEmpty_o
 );
 
@@ -38,6 +52,7 @@ integer debugFID;
 `endif
 
     reg [0:instructionWidth-1] instructionQueue [0:queueLenth-1];
+    reg frontInReset;
 
     always @(posedge clock_i)
     begin
@@ -59,352 +74,619 @@ integer debugFID;
             `endif
             `ifdef DEBUG $display("ICache: %d: Resetting", fetchQueueInstance); `endif  
             `ifdef DEBUG_PRINT $fdisplay(debugFID, "ICache: %d: Resetting", fetchQueueInstance); `endif  
-            head_o <= 0; tail_o <= 0;
+            front_o <= 0; back_o <= 0;
             isFull_o <= 0; isEmpty_o <= 1;
             decoder1En_o <= 0; decoder2En_o <= 0;
             decoder3En_o <= 0; decoder4En_o <= 0;
+            frontInReset <= 1;
         end
-        else
+        else//not in reset
         begin
-            decoder1En_o <= ~decode1Busy_i; decoder2En_o <= ~decode2Busy_i;
-            decoder3En_o <= ~decode3Busy_i; decoder4En_o <= ~decode4Busy_i;
-
-            //Add a bundle to the queue and check for fullness
-            if(isFull_o)
-            begin                    
-                `ifdef DEBUG $display("Fetch Queue: %d. Full, not enquing bundle", fetchQueueInstance); `endif
-                `ifdef DEBUG_PRINT $fdisplay(debugFID ,"Fetch Queue: %d. Full, not enquing bundle", fetchQueueInstance); `endif
-            end
-            else begin//we have enough space for a whole bundle
-
-                if (bundleWrite_i)begin
-                    instructionQueue[tail_o + 0] <= bundle_i[0 * instructionWidth+: instructionWidth];
-                    instructionQueue[tail_o + 1] <= bundle_i[1 * instructionWidth+: instructionWidth];
-                    instructionQueue[tail_o + 2] <= bundle_i[2 * instructionWidth+: instructionWidth];
-                    instructionQueue[tail_o + 3] <= bundle_i[3 * instructionWidth+: instructionWidth];
-                    tail_o <= (tail_o + 4) % (2**queueIndexBits);//Move the head up by 4 instructions
-                    `ifdef DEBUG $display("Fetch Queue: %d. Enqueing bundle.", fetchQueueInstance); `endif
-                    `ifdef DEBUG_PRINT $fdisplay(debugFID ,"Fetch Queue: %d. Enqueing bundle.", fetchQueueInstance); `endif
-                    isEmpty_o <= 0;
-
-                    if(((tail_o + 8) % (2**queueIndexBits) > head_o))//were not full
-                    begin
-                        isFull_o <= 0;
-                        `ifdef DEBUG $display("Fetch Queue: %d. Not full.", fetchQueueInstance); `endif
-                        `ifdef DEBUG_PRINT $fdisplay(debugFID ,"Fetch Queue: %d. Not full.", fetchQueueInstance); `endif
-                    end
-                    else
-                    begin
-                        isFull_o <= 1;
-                        `ifdef DEBUG $display("Fetch Queue: %d. Full.", fetchQueueInstance); `endif
-                        `ifdef DEBUG_PRINT $fdisplay(debugFID ,"Fetch Queue: %d. Full.", fetchQueueInstance); `endif
-                    end
+            ///perform queue accesses
+            //enqueue
+            if(bundleWrite_i && ~isFull_o)
+            begin
+                case(bundleLen_i)
+                    2'b00: begin//1 inst in bundle
+                    instructionQueue[back_o + 0] <= bundle_i[0 * instructionWidth+: instructionWidth];
+                    if(isEmpty_o)
+                        isEmpty_o <= 0;
                 end
-                else
-                begin
-                    `ifdef DEBUG $display("Fetch Queue: %d. Not full but write enable is low. Not enqueing.", fetchQueueInstance); `endif
-                    `ifdef DEBUG_PRINT $fdisplay(debugFID ,"Fetch Queue: %d. Not full but write enable is low. Not enqueing.", fetchQueueInstance); `endif
+                2'b01: begin//2 insts in bundle
+                    instructionQueue[back_o + 0] <= bundle_i[0 * instructionWidth+: instructionWidth];
+                    instructionQueue[back_o + 1] <= bundle_i[1 * instructionWidth+: instructionWidth];
+                    if(isEmpty_o)
+                        isEmpty_o <= 0;
                 end
+                2'b10: begin//3 insts in bundle
+                    instructionQueue[back_o + 0] <= bundle_i[0 * instructionWidth+: instructionWidth];
+                    instructionQueue[back_o + 1] <= bundle_i[1 * instructionWidth+: instructionWidth];
+                    instructionQueue[back_o + 2] <= bundle_i[2 * instructionWidth+: instructionWidth];
+                    if(isEmpty_o)
+                        isEmpty_o <= 0;
+                end
+                2'b11: begin//4 insts in bundle
+                    instructionQueue[back_o + 0] <= bundle_i[0 * instructionWidth+: instructionWidth];
+                    instructionQueue[back_o + 1] <= bundle_i[1 * instructionWidth+: instructionWidth];
+                    instructionQueue[back_o + 2] <= bundle_i[2 * instructionWidth+: instructionWidth];
+                    instructionQueue[back_o + 3] <= bundle_i[3 * instructionWidth+: instructionWidth];
+                    if(isEmpty_o)
+                        isEmpty_o <= 0;
+                end
+                endcase
+                `ifdef DEBUG $display("Fetch Queue: %d. Enqueing %d instruction(s).", fetchQueueInstance, bundleLen_i+1); `endif
+                `ifdef DEBUG_PRINT $fdisplay(debugFID ,"Fetch Queue: %d. Enqueing %d instruction(s).", fetchQueueInstance, bundleLen_i+1); `endif
             end
-
-            //Dispatch instructions to decode (read from queue)
+            //dequeue
             if(isEmpty_o)
             begin
                 decoder1En_o <= 0; decoder2En_o <= 0; decoder3En_o <= 0; decoder4En_o <= 0;
                 `ifdef DEBUG $display("Fetch Queue: %d. Queue Empty, not issuing instruction to decoders.", fetchQueueInstance); `endif
                 `ifdef DEBUG_PRINT $fdisplay(debugFID, "Fetch Queue: %d. Queue Empty, not issuing instruction to decoders.", fetchQueueInstance); `endif
             end
-            else begin
-                `ifdef DEBUG $display("Fetch Queue: %d. Decoder state %b. Num Instructions in Queue: %d.", fetchQueueInstance, {~decode1Busy_i, ~decode2Busy_i, ~decode3Busy_i, ~decode4Busy_i}, tail_o - head_o); `endif
-                `ifdef DEBUG_PRINT $fdisplay(debugFID, "Fetch Queue: %d. Decoder state %b. Num Instructions in Queue: %d.", fetchQueueInstance, {~decode1Busy_i, ~decode2Busy_i, ~decode3Busy_i, ~decode4Busy_i}, tail_o - head_o); `endif
-                case({~decode1Busy_i, ~decode2Busy_i, ~decode3Busy_i, ~decode4Busy_i})
+            else
+            begin
+                `ifdef DEBUG $display("Fetch Queue: %d. Decoder state %b.", fetchQueueInstance, {decode1Available_i, decode2Available_i, decode3Available_i, decode4Available_i}); `endif
+                `ifdef DEBUG_PRINT $fdisplay(debugFID, "Fetch Queue: %d. Decoder state %b.", fetchQueueInstance, {decode1Available_i, decode2Available_i, decode3Available_i, decode4Available_i}); `endif
+                case({decode1Available_i, decode2Available_i, decode3Available_i, decode4Available_i})
                 4'b0000: begin
                     //Do nothing, all decoders are busy
                 end
                 4'b0001: begin
-                    head_o <= (head_o + 1) % (2**queueIndexBits);//increment the head
-                    isFull_o <= 0;                    
-                    if((head_o + 1) % (2**queueIndexBits) >= tail_o)//check if we're now empty
-                        isEmpty_o <= 1;
-                    decdoer4Ins_o <= instructionQueue[head_o];
+                    decoder4Ins_o <= instructionQueue[front_o];
                     decoder1En_o <= 0; decoder2En_o <= 0; decoder3En_o <= 0; decoder4En_o <= 1;
+                    front_o <= front_o + 1; frontInReset <= 0;
                 end
                 4'b0010: begin
-                    head_o <= (head_o + 1) % (2**queueIndexBits); isFull_o <= 0;                    
-                    if((head_o + 1) % (2**queueIndexBits) >= tail_o)//check if we're now empty
-                        isEmpty_o <= 1;
-                    decdoer4Ins_o <= instructionQueue[head_o];
-                    decoder1En_o <= 0; decoder2En_o <= 0; decoder3En_o <= 0; decoder4En_o <= 1;
+                    decoder3Ins_o <= instructionQueue[front_o];
+                    decoder1En_o <= 0; decoder2En_o <= 0; decoder3En_o <= 1; decoder4En_o <= 0;
+                    front_o <= front_o + 1; frontInReset <= 0;
                 end
+
                 4'b0011: begin
-                    if(tail_o - head_o >= 2)//enough instructions to fullfill demand
-                    begin
-                        head_o <= (head_o + 2) % (2**queueIndexBits); isFull_o <= 0; 
-                        if((head_o + 2) % (2**queueIndexBits) >= tail_o)//check if we're now empty
-                            isEmpty_o <= 1;
-                        decdoer3Ins_o <= instructionQueue[head_o]; decdoer4Ins_o <= instructionQueue[head_o + 1];
-                        decoder1En_o <= 0; decoder2En_o <= 0; decoder3En_o <= 1; decoder4En_o <= 1;
+                    if((back_o + (bundleWrite_i ? (bundleLen_i+1) : 0)) > front_o )
+                    begin //used entries = back - front
+                        case(back_o - front_o)
+                        0: begin decoder1En_o <= 0; decoder2En_o <= 0; decoder3En_o <= 0; decoder4En_o <= 0; end//0 available
+                        1: begin 
+                            decoder3Ins_o <= instructionQueue[front_o];
+                            decoder1En_o <= 0; decoder2En_o <= 0; decoder3En_o <= 1; decoder4En_o <= 0;
+                            front_o <= front_o + 1; frontInReset <= 0;
+                        end
+                        default: begin//2 or more available
+                            decoder3Ins_o <= instructionQueue[front_o]; decoder4Ins_o <= instructionQueue[front_o + 1];
+                            decoder1En_o <= 0; decoder2En_o <= 0; decoder3En_o <= 1; decoder4En_o <= 1;
+                            front_o <= front_o + 2; frontInReset <= 0;
+                        end
+                        endcase
                     end
-                    else if(tail_o - head_o == 1)//enough instructions for 1 decoder
-                    begin
-                        head_o <= (head_o + 1) % (2**queueIndexBits); isFull_o <= 0; 
-                        if((head_o + 1) % (2**queueIndexBits) >= tail_o)//check if we're now empty
-                            isEmpty_o <= 1;
-                        decdoer3Ins_o <= instructionQueue[head_o];
-                        decoder1En_o <= 0; decoder2En_o <= 0; decoder3En_o <= 1; decoder4En_o <= 0;
+                    else if(front_o > (back_o + (bundleWrite_i ? (bundleLen_i+1) : 0)))
+                    begin //used entries = size - (front - back)
+                        case(queueLenth - (front_o - back_o))
+                        0: begin decoder1En_o <= 0; decoder2En_o <= 0; decoder3En_o <= 0; decoder4En_o <= 0; end//0 available
+                        1: begin 
+                            decoder3Ins_o <= instructionQueue[front_o];
+                            decoder1En_o <= 0; decoder2En_o <= 0; decoder3En_o <= 1; decoder4En_o <= 0;
+                            front_o <= front_o + 1; frontInReset <= 0;
+                        end
+                        default: begin//2 or more available
+                            decoder3Ins_o <= instructionQueue[front_o]; decoder4Ins_o <= instructionQueue[front_o + 1];
+                            decoder1En_o <= 0; decoder2En_o <= 0; decoder3En_o <= 1; decoder4En_o <= 1;
+                            front_o <= front_o + 2; frontInReset <= 0;
+                        end
+                        endcase
                     end
                 end
+
                 4'b0100: begin
-                    head_o <= (head_o + 1) % (2**queueIndexBits); isFull_o <= 0;                    
-                    if((head_o + 1) % (2**queueIndexBits) >= tail_o)//check if we're now empty
-                        isEmpty_o <= 1;
-                    decdoer2Ins_o <= instructionQueue[head_o];
+                    decoder2Ins_o <= instructionQueue[front_o];
                     decoder1En_o <= 0; decoder2En_o <= 1; decoder3En_o <= 0; decoder4En_o <= 0;
+                    front_o <= front_o + 1; frontInReset <= 0;
                 end
                 4'b0101: begin
-                    if(tail_o - head_o >= 2)//enough instructions to fullfill demand
-                    begin
-                        head_o <= (head_o + 2) % (2**queueIndexBits); isFull_o <= 0; 
-                        if((head_o + 2) % (2**queueIndexBits) >= tail_o)//check if we're now empty
-                            isEmpty_o <= 1;
-                        decdoer2Ins_o <= instructionQueue[head_o]; decdoer4Ins_o <= instructionQueue[head_o + 1];
-                        decoder1En_o <= 0; decoder2En_o <= 1; decoder3En_o <= 0; decoder4En_o <= 1;
+                    if((back_o + (bundleWrite_i ? (bundleLen_i+1) : 0)) > front_o )
+                    begin //used entries = back - front
+                        case(back_o - front_o)
+                        0: begin decoder1En_o <= 0; decoder2En_o <= 0; decoder3En_o <= 0; decoder4En_o <= 0; end//0 available
+                        1: begin 
+                            decoder2Ins_o <= instructionQueue[front_o];
+                            decoder1En_o <= 0; decoder2En_o <= 1; decoder3En_o <= 0; decoder4En_o <= 0;
+                            front_o <= front_o + 1; frontInReset <= 0;
+                        end
+                        default: begin//2 or more available
+                            decoder2Ins_o <= instructionQueue[front_o]; decoder4Ins_o <= instructionQueue[front_o + 1];
+                            decoder1En_o <= 0; decoder2En_o <= 1; decoder3En_o <= 0; decoder4En_o <= 1;
+                            front_o <= front_o + 2; frontInReset <= 0;
+                        end
+                        endcase
                     end
-                    else if(tail_o - head_o == 1)//enough instructions for 1 decoder
-                    begin
-                        head_o <= (head_o + 1) % (2**queueIndexBits); isFull_o <= 0; 
-                        if((head_o + 1) % (2**queueIndexBits) >= tail_o)//check if we're now empty
-                            isEmpty_o <= 1;
-                        decdoer2Ins_o <= instructionQueue[head_o];
-                        decoder1En_o <= 0; decoder2En_o <= 1; decoder3En_o <= 0; decoder4En_o <= 0;
+                    else if(front_o > (back_o + (bundleWrite_i ? (bundleLen_i+1) : 0)))
+                    begin //used entries = size - (front - back)
+                        case(queueLenth - (front_o - back_o))
+                        0: begin decoder1En_o <= 0; decoder2En_o <= 0; decoder3En_o <= 0; decoder4En_o <= 0; end//0 available
+                        1: begin 
+                            decoder2Ins_o <= instructionQueue[front_o];
+                            decoder1En_o <= 0; decoder2En_o <= 1; decoder3En_o <= 0; decoder4En_o <= 0;
+                            front_o <= front_o + 1; frontInReset <= 0;
+                        end
+                        default: begin//2 or more available
+                            decoder2Ins_o <= instructionQueue[front_o]; decoder4Ins_o <= instructionQueue[front_o + 1];
+                            decoder1En_o <= 0; decoder2En_o <= 1; decoder3En_o <= 0; decoder4En_o <= 1;
+                            front_o <= front_o + 2; frontInReset <= 0;
+                        end
+                        endcase
                     end
                 end
+
                 4'b0110: begin
-                    if(tail_o - head_o >= 2)//enough instructions to fullfill demand
-                    begin
-                        head_o <= (head_o + 2) % (2**queueIndexBits); isFull_o <= 0; 
-                        if((head_o + 2) % (2**queueIndexBits) >= tail_o)//check if we're now empty
-                            isEmpty_o <= 1;
-                        decdoer2Ins_o <= instructionQueue[head_o]; decdoer3Ins_o <= instructionQueue[head_o + 1];
-                        decoder1En_o <= 0; decoder2En_o <= 1; decoder3En_o <= 1; decoder4En_o <= 0;
+                    if((back_o + (bundleWrite_i ? (bundleLen_i+1) : 0)) > front_o )
+                    begin //used entries = back - front
+                        case(back_o - front_o)
+                        0: begin decoder1En_o <= 0; decoder2En_o <= 0; decoder3En_o <= 0; decoder4En_o <= 0; end//0 available
+                        1: begin 
+                            decoder2Ins_o <= instructionQueue[front_o];
+                            decoder1En_o <= 0; decoder2En_o <= 1; decoder3En_o <= 0; decoder4En_o <= 0;
+                            front_o <= front_o + 1; frontInReset <= 0;
+                        end
+                        default: begin//2 or more available
+                            decoder2Ins_o <= instructionQueue[front_o]; decoder3Ins_o <= instructionQueue[front_o + 1];
+                            decoder1En_o <= 0; decoder2En_o <= 1; decoder3En_o <= 1; decoder4En_o <= 0;
+                            front_o <= front_o + 2; frontInReset <= 0;
+                        end
+                        endcase
                     end
-                    else if(tail_o - head_o == 1)//enough instructions for 1 decoder
-                    begin
-                        head_o <= (head_o + 1) % (2**queueIndexBits); isFull_o <= 0; 
-                        if((head_o + 1) % (2**queueIndexBits) >= tail_o)//check if we're now empty
-                            isEmpty_o <= 1;
-                        decdoer2Ins_o <= instructionQueue[head_o];
-                        decoder1En_o <= 0; decoder2En_o <= 1; decoder3En_o <= 0; decoder4En_o <= 0;
+                    else if(front_o > (back_o + (bundleWrite_i ? (bundleLen_i+1) : 0)))
+                    begin //used entries = size - (front - back)
+                        case(queueLenth - (front_o - back_o))
+                        0: begin decoder1En_o <= 0; decoder2En_o <= 0; decoder3En_o <= 0; decoder4En_o <= 0; end//0 available
+                        1: begin 
+                            decoder2Ins_o <= instructionQueue[front_o];
+                            decoder1En_o <= 0; decoder2En_o <= 1; decoder3En_o <= 0; decoder4En_o <= 0;
+                            front_o <= front_o + 1; frontInReset <= 0;
+                        end
+                        default: begin//2 or more available
+                            decoder2Ins_o <= instructionQueue[front_o]; decoder3Ins_o <= instructionQueue[front_o + 1];
+                            decoder1En_o <= 0; decoder2En_o <= 1; decoder3En_o <= 1; decoder4En_o <= 0;
+                            front_o <= front_o + 2; frontInReset <= 0;
+                        end
+                        endcase
                     end
                 end
                 4'b0111: begin
-                    if(tail_o - head_o >= 3)//enough instructions to fullfill demand
-                    begin
-                        head_o <= (head_o + 3) % (2**queueIndexBits); isFull_o <= 0; 
-                        if((head_o + 3) % (2**queueIndexBits) >= tail_o)//check if we're now empty
-                            isEmpty_o <= 1;
-                        decdoer2Ins_o <= instructionQueue[head_o]; decdoer3Ins_o <= instructionQueue[head_o + 1]; decdoer4Ins_o <= instructionQueue[head_o + 2];
-                        decoder1En_o <= 0; decoder2En_o <= 1; decoder3En_o <= 1; decoder4En_o <= 1;
+                    if((back_o + (bundleWrite_i ? (bundleLen_i+1) : 0)) > front_o)
+                    begin //used entries = back - front
+                        case(back_o - front_o)
+                        0: begin decoder1En_o <= 0; decoder2En_o <= 0; decoder3En_o <= 0; decoder4En_o <= 0; end//0 available
+                        1: begin 
+                            decoder2Ins_o <= instructionQueue[front_o];
+                            decoder1En_o <= 0; decoder2En_o <= 1; decoder3En_o <= 0; decoder4En_o <= 0;
+                            front_o <= front_o + 1; frontInReset <= 0;
+                        end
+                        2:  begin//2 or more available
+                            decoder2Ins_o <= instructionQueue[front_o]; decoder3Ins_o <= instructionQueue[front_o + 1];
+                            decoder1En_o <= 0; decoder2En_o <= 1; decoder3En_o <= 1; decoder4En_o <= 0;
+                            front_o <= front_o + 2; frontInReset <= 0;
+                        end
+                        default: begin//3 or more available
+                            decoder2Ins_o <= instructionQueue[front_o]; decoder3Ins_o <= instructionQueue[front_o + 1]; decoder4Ins_o <= instructionQueue[front_o + 2];
+                            decoder1En_o <= 0; decoder2En_o <= 1; decoder3En_o <= 1; decoder4En_o <= 1;
+                            front_o <= front_o + 3; frontInReset <= 0;
+                        end
+                        endcase
                     end
-                    else if(tail_o - head_o >= 2)//enough instructions for 2 decoders
-                    begin
-                        head_o <= (head_o + 2) % (2**queueIndexBits); isFull_o <= 0; 
-                        if((head_o + 2) % (2**queueIndexBits) >= tail_o)//check if we're now empty
-                            isEmpty_o <= 1;
-                        decdoer2Ins_o <= instructionQueue[head_o]; decdoer3Ins_o <= instructionQueue[head_o + 1];
-                        decoder1En_o <= 0; decoder2En_o <= 1; decoder3En_o <= 1; decoder4En_o <= 0;
-                    end
-                    else if(tail_o - head_o == 1)//enough instructions for 1 decoder
-                    begin
-                        head_o <= (head_o + 1) % (2**queueIndexBits); isFull_o <= 0; 
-                        if((head_o + 1) % (2**queueIndexBits) >= tail_o)//check if we're now empty
-                            isEmpty_o <= 1;
-                        decdoer2Ins_o <= instructionQueue[head_o];
-                        decoder1En_o <= 0; decoder2En_o <= 1; decoder3En_o <= 0; decoder4En_o <= 0;
+                    else if(front_o > (back_o + (bundleWrite_i ? (bundleLen_i+1) : 0)))
+                    begin //used entries = size - (front - back)
+                        case(queueLenth - (front_o - back_o))
+                        0: begin decoder1En_o <= 0; decoder2En_o <= 0; decoder3En_o <= 0; decoder4En_o <= 0; end//0 available
+                        1: begin 
+                            decoder2Ins_o <= instructionQueue[front_o];
+                            decoder1En_o <= 0; decoder2En_o <= 1; decoder3En_o <= 0; decoder4En_o <= 0;
+                            front_o <= front_o + 1; frontInReset <= 0;
+                        end
+                        2:  begin//2 or more available
+                            decoder2Ins_o <= instructionQueue[front_o]; decoder3Ins_o <= instructionQueue[front_o + 1];
+                            decoder1En_o <= 0; decoder2En_o <= 1; decoder3En_o <= 1; decoder4En_o <= 0;
+                            front_o <= front_o + 2; frontInReset <= 0;
+                        end
+                        default: begin//3 or more available
+                            decoder2Ins_o <= instructionQueue[front_o]; decoder3Ins_o <= instructionQueue[front_o + 1]; decoder4Ins_o <= instructionQueue[front_o + 2];
+                            decoder1En_o <= 0; decoder2En_o <= 1; decoder3En_o <= 1; decoder4En_o <= 1;
+                            front_o <= front_o + 3; frontInReset <= 0;
+                        end
+                        endcase
                     end
                 end
                 4'b1000: begin
-                    head_o <= (head_o + 1) % (2**queueIndexBits);//increment the head
-                    isFull_o <= 0;                    
-                    if((head_o + 1) % (2**queueIndexBits) >= tail_o)//check if we're now empty
-                        isEmpty_o <= 1;
-                    decdoer1Ins_o <= instructionQueue[head_o];
+                    decoder1Ins_o <= instructionQueue[front_o];
                     decoder1En_o <= 1; decoder2En_o <= 0; decoder3En_o <= 0; decoder4En_o <= 0;
                 end
                 4'b1001: begin
-                    if(tail_o - head_o >= 2)//enough instructions to fullfill demand
-                    begin
-                        head_o <= (head_o + 2) % (2**queueIndexBits); isFull_o <= 0; 
-                        if((head_o + 2) % (2**queueIndexBits) >= tail_o)//check if we're now empty
-                            isEmpty_o <= 1;
-                        decdoer1Ins_o <= instructionQueue[head_o]; decdoer4Ins_o <= instructionQueue[head_o + 1];
-                        decoder1En_o <= 1; decoder2En_o <= 0; decoder3En_o <= 0; decoder4En_o <= 1;
+                    if((back_o + (bundleWrite_i ? (bundleLen_i+1) : 0)) > front_o)
+                    begin //used entries = back - front
+                        case(back_o - front_o)
+                        0: begin decoder1En_o <= 0; decoder2En_o <= 0; decoder3En_o <= 0; decoder4En_o <= 0; end//0 available
+                        1: begin 
+                            decoder1Ins_o <= instructionQueue[front_o];
+                            decoder1En_o <= 1; decoder2En_o <= 0; decoder3En_o <= 0; decoder4En_o <= 0;
+                            front_o <= front_o + 1; frontInReset <= 0;
+                        end
+                        default:  begin//2 or more available
+                            decoder1Ins_o <= instructionQueue[front_o]; decoder4Ins_o <= instructionQueue[front_o + 1];
+                            decoder1En_o <= 1; decoder2En_o <= 0; decoder3En_o <= 0; decoder4En_o <= 1;
+                            front_o <= front_o + 2; frontInReset <= 0;
+                        end
+                        endcase
                     end
-                    else if(tail_o - head_o == 1)//enough instructions for 1 decoder
-                    begin
-                        head_o <= (head_o + 1) % (2**queueIndexBits); isFull_o <= 0; 
-                        if((head_o + 1) % (2**queueIndexBits) >= tail_o)//check if we're now empty
-                            isEmpty_o <= 1;
-                        decdoer1Ins_o <= instructionQueue[head_o];
-                        decoder1En_o <= 1; decoder2En_o <= 0; decoder3En_o <= 0; decoder4En_o <= 0;
+                    else if(front_o > (back_o + (bundleWrite_i ? (bundleLen_i+1) : 0)))
+                    begin //used entries = size - (front - back)
+                        case(queueLenth - (front_o - back_o))
+                        0: begin decoder1En_o <= 0; decoder2En_o <= 0; decoder3En_o <= 0; decoder4En_o <= 0; end//0 available
+                        1: begin 
+                            decoder1Ins_o <= instructionQueue[front_o];
+                            decoder1En_o <= 1; decoder2En_o <= 0; decoder3En_o <= 0; decoder4En_o <= 0;
+                            front_o <= front_o + 1; frontInReset <= 0;
+                        end
+                        default:  begin//2 or more available
+                            decoder1Ins_o <= instructionQueue[front_o]; decoder4Ins_o <= instructionQueue[front_o + 1];
+                            decoder1En_o <= 1; decoder2En_o <= 0; decoder3En_o <= 0; decoder4En_o <= 1;
+                            front_o <= front_o + 2; frontInReset <= 0;
+                        end
+                        endcase
                     end
                 end
                 4'b1010: begin
-                    if(tail_o - head_o >= 2)//enough instructions to fullfill demand
-                    begin
-                        head_o <= (head_o + 2) % (2**queueIndexBits); isFull_o <= 0; 
-                        if((head_o + 2) % (2**queueIndexBits) >= tail_o)//check if we're now empty
-                            isEmpty_o <= 1;
-                        decdoer1Ins_o <= instructionQueue[head_o]; decdoer3Ins_o <= instructionQueue[head_o + 1];
-                        decoder1En_o <= 1; decoder2En_o <= 0; decoder3En_o <= 1; decoder4En_o <= 0;
+                    if((back_o + (bundleWrite_i ? (bundleLen_i+1) : 0)) > front_o)
+                    begin //used entries = back - front
+                        case(back_o - front_o)
+                        0: begin decoder1En_o <= 0; decoder2En_o <= 0; decoder3En_o <= 0; decoder4En_o <= 0; end//0 available
+                        1: begin 
+                            decoder1Ins_o <= instructionQueue[front_o];
+                            decoder1En_o <= 1; decoder2En_o <= 0; decoder3En_o <= 0; decoder4En_o <= 0;
+                            front_o <= front_o + 1; frontInReset <= 0;
+                        end
+                        default:  begin//2 or more available
+                            decoder1Ins_o <= instructionQueue[front_o]; decoder3Ins_o <= instructionQueue[front_o + 1];
+                            decoder1En_o <= 1; decoder2En_o <= 0; decoder3En_o <= 1; decoder4En_o <= 0;
+                            front_o <= front_o + 2; frontInReset <= 0;
+                        end
+                        endcase
                     end
-                    else if(tail_o - head_o == 1)//enough instructions for 1 decoder
-                    begin
-                        head_o <= (head_o + 1) % (2**queueIndexBits); isFull_o <= 0; 
-                        if((head_o + 1) % (2**queueIndexBits) >= tail_o)//check if we're now empty
-                            isEmpty_o <= 1;
-                        decdoer1Ins_o <= instructionQueue[head_o];
-                        decoder1En_o <= 1; decoder2En_o <= 0; decoder3En_o <= 0; decoder4En_o <= 0;
+                    else if(front_o > (back_o + (bundleWrite_i ? (bundleLen_i+1) : 0)))
+                    begin //used entries = size - (front - back)
+                        case(queueLenth - (front_o - back_o))
+                        0: begin decoder1En_o <= 0; decoder2En_o <= 0; decoder3En_o <= 0; decoder4En_o <= 0; end//0 available
+                        1: begin 
+                            decoder1Ins_o <= instructionQueue[front_o];
+                            decoder1En_o <= 1; decoder2En_o <= 0; decoder3En_o <= 0; decoder4En_o <= 0;
+                            front_o <= front_o + 1; frontInReset <= 0;
+                        end
+                        default:  begin//2 or more available
+                            decoder1Ins_o <= instructionQueue[front_o]; decoder3Ins_o <= instructionQueue[front_o + 1];
+                            decoder1En_o <= 1; decoder2En_o <= 0; decoder3En_o <= 1; decoder4En_o <= 0;
+                            front_o <= front_o + 2; frontInReset <= 0;
+                        end
+                        endcase
                     end
                 end
                 4'b1011: begin
-                    if(tail_o - head_o >= 3)//enough instructions to fullfill demand
-                    begin
-                        head_o <= (head_o + 3) % (2**queueIndexBits); isFull_o <= 0; 
-                        if((head_o + 3) % (2**queueIndexBits) >= tail_o)//check if we're now empty
-                            isEmpty_o <= 1;
-                        decdoer1Ins_o <= instructionQueue[head_o]; decdoer3Ins_o <= instructionQueue[head_o + 1]; decdoer4Ins_o <= instructionQueue[head_o + 2];
-                        decoder1En_o <= 1; decoder2En_o <= 0; decoder3En_o <= 1; decoder4En_o <= 1;
+                    if((back_o + (bundleWrite_i ? (bundleLen_i+1) : 0)) > front_o)
+                    begin //used entries = back - front
+                        case(queueLenth - (front_o - back_o))
+                        0: begin decoder1En_o <= 0; decoder2En_o <= 0; decoder3En_o <= 0; decoder4En_o <= 0; end//0 available
+                        1: begin 
+                            decoder1Ins_o <= instructionQueue[front_o];
+                            decoder1En_o <= 1; decoder2En_o <= 0; decoder3En_o <= 0; decoder4En_o <= 0;
+                            front_o <= front_o + 1; frontInReset <= 0;
+                        end
+                        2:  begin//2 or more available
+                            decoder1Ins_o <= instructionQueue[front_o]; decoder3Ins_o <= instructionQueue[front_o + 1];
+                            decoder1En_o <= 1; decoder2En_o <= 0; decoder3En_o <= 1; decoder4En_o <= 0;
+                            front_o <= front_o + 2; frontInReset <= 0;
+                        end
+                        default: begin//3 or more available
+                            decoder1Ins_o <= instructionQueue[front_o]; decoder3Ins_o <= instructionQueue[front_o + 1]; decoder4Ins_o <= instructionQueue[front_o + 2];
+                            decoder1En_o <= 1; decoder2En_o <= 0; decoder3En_o <= 1; decoder4En_o <= 1;
+                            front_o <= front_o + 3; frontInReset <= 0;
+                        end
+                        endcase
                     end
-                    else if(tail_o - head_o >= 2)//enough instructions for 2 decoders
-                    begin
-                        head_o <= (head_o + 2) % (2**queueIndexBits); isFull_o <= 0; 
-                        if((head_o + 2) % (2**queueIndexBits) >= tail_o)//check if we're now empty
-                            isEmpty_o <= 1;
-                        decdoer1Ins_o <= instructionQueue[head_o]; decdoer3Ins_o <= instructionQueue[head_o + 1];
-                        decoder1En_o <= 1; decoder2En_o <= 0; decoder3En_o <= 1; decoder4En_o <= 0;
-                    end
-                    else if(tail_o - head_o == 1)//enough instructions for 1 decoder
-                    begin
-                        head_o <= (head_o + 1) % (2**queueIndexBits); isFull_o <= 0; 
-                        if((head_o + 1) % (2**queueIndexBits) >= tail_o)//check if we're now empty
-                            isEmpty_o <= 1;
-                        decdoer1Ins_o <= instructionQueue[head_o];
-                        decoder1En_o <= 1; decoder2En_o <= 0; decoder3En_o <= 0; decoder4En_o <= 0;
+                    else if(front_o > (back_o + (bundleWrite_i ? (bundleLen_i+1) : 0)))
+                    begin //used entries = size - (front - back)
+                        case(queueLenth - (front_o - back_o))
+                        0: begin decoder1En_o <= 0; decoder2En_o <= 0; decoder3En_o <= 0; decoder4En_o <= 0; end//0 available
+                        1: begin 
+                            decoder1Ins_o <= instructionQueue[front_o];
+                            decoder1En_o <= 1; decoder2En_o <= 0; decoder3En_o <= 0; decoder4En_o <= 0;
+                            front_o <= front_o + 1; frontInReset <= 0;
+                        end
+                        2:  begin//2 or more available
+                            decoder1Ins_o <= instructionQueue[front_o]; decoder3Ins_o <= instructionQueue[front_o + 1];
+                            decoder1En_o <= 1; decoder2En_o <= 0; decoder3En_o <= 1; decoder4En_o <= 0;
+                            front_o <= front_o + 2; frontInReset <= 0;
+                        end
+                        default: begin//3 or more available
+                            decoder1Ins_o <= instructionQueue[front_o]; decoder3Ins_o <= instructionQueue[front_o + 1]; decoder4Ins_o <= instructionQueue[front_o + 2];
+                            decoder1En_o <= 1; decoder2En_o <= 0; decoder3En_o <= 1; decoder4En_o <= 1;
+                            front_o <= front_o + 3; frontInReset <= 0;
+                        end
+                        endcase
                     end
                 end
                 4'b1100: begin
-                    if(tail_o - head_o >= 2)//enough instructions to fullfill demand
-                    begin
-                        head_o <= (head_o + 2) % (2**queueIndexBits); isFull_o <= 0; 
-                        if((head_o + 2) % (2**queueIndexBits) >= tail_o)//check if we're now empty
-                            isEmpty_o <= 1;
-                        decdoer1Ins_o <= instructionQueue[head_o]; decdoer2Ins_o <= instructionQueue[head_o + 1];
-                        decoder1En_o <= 1; decoder2En_o <= 1; decoder3En_o <= 0; decoder4En_o <= 0;
+                    if((back_o + (bundleWrite_i ? (bundleLen_i+1) : 0)) > front_o)
+                    begin //used entries = back - front
+                        case(back_o - front_o)
+                        0: begin decoder1En_o <= 0; decoder2En_o <= 0; decoder3En_o <= 0; decoder4En_o <= 0; end//0 available
+                        1: begin 
+                            decoder1Ins_o <= instructionQueue[front_o];
+                            decoder1En_o <= 1; decoder2En_o <= 0; decoder3En_o <= 0; decoder4En_o <= 0;
+                            front_o <= front_o + 1; frontInReset <= 0;
+                        end
+                        default:  begin//2 or more available
+                            decoder1Ins_o <= instructionQueue[front_o]; decoder2Ins_o <= instructionQueue[front_o + 1];
+                            decoder1En_o <= 1; decoder2En_o <= 1; decoder3En_o <= 0; decoder4En_o <= 0;
+                            front_o <= front_o + 2; frontInReset <= 0;
+                        end
+                        endcase
                     end
-                    else if(tail_o - head_o == 1)//enough instructions for 1 decoder
-                    begin
-                        head_o <= (head_o + 1) % (2**queueIndexBits); isFull_o <= 0; 
-                        if((head_o + 1) % (2**queueIndexBits) >= tail_o)//check if we're now empty
-                            isEmpty_o <= 1;
-                        decdoer1Ins_o <= instructionQueue[head_o];
-                        decoder1En_o <= 1; decoder2En_o <= 0; decoder3En_o <= 0; decoder4En_o <= 0;
+                    else if(front_o > (back_o + (bundleWrite_i ? (bundleLen_i+1) : 0)))
+                    begin //used entries = size - (front - back)
+                        case(queueLenth - (front_o - back_o))
+                        0: begin decoder1En_o <= 0; decoder2En_o <= 0; decoder3En_o <= 0; decoder4En_o <= 0; end//0 available
+                        1: begin 
+                            decoder1Ins_o <= instructionQueue[front_o];
+                            decoder1En_o <= 1; decoder2En_o <= 0; decoder3En_o <= 0; decoder4En_o <= 0;
+                            front_o <= front_o + 1; frontInReset <= 0;
+                        end
+                        default:  begin//2 or more available
+                            decoder1Ins_o <= instructionQueue[front_o]; decoder2Ins_o <= instructionQueue[front_o + 1];
+                            decoder1En_o <= 1; decoder2En_o <= 1; decoder3En_o <= 0; decoder4En_o <= 0;
+                            front_o <= front_o + 2; frontInReset <= 0;
+                        end
+                        endcase
                     end
                 end
                 4'b1101: begin
-                    if(tail_o - head_o >= 3)//enough instructions to fullfill demand
-                    begin
-                        head_o <= (head_o + 3) % (2**queueIndexBits); isFull_o <= 0; 
-                        if((head_o + 3) % (2**queueIndexBits) >= tail_o)//check if we're now empty
-                            isEmpty_o <= 1;
-                        decdoer1Ins_o <= instructionQueue[head_o]; decdoer2Ins_o <= instructionQueue[head_o + 1]; decdoer4Ins_o <= instructionQueue[head_o + 2];
-                        decoder1En_o <= 1; decoder2En_o <= 1; decoder3En_o <= 0; decoder4En_o <= 1;
-                        //$display("asdfa");
+                    if((back_o + (bundleWrite_i ? (bundleLen_i+1) : 0)) > front_o)
+                    begin //used entries = back - front
+                        case(back_o - front_o)
+                        0: begin decoder1En_o <= 0; decoder2En_o <= 0; decoder3En_o <= 0; decoder4En_o <= 0; end//0 available
+                        1: begin 
+                            decoder1Ins_o <= instructionQueue[front_o];
+                            decoder1En_o <= 1; decoder2En_o <= 0; decoder3En_o <= 0; decoder4En_o <= 0;
+                            front_o <= front_o + 1; frontInReset <= 0;
+                        end
+                        2:  begin//2 or more available
+                            decoder1Ins_o <= instructionQueue[front_o]; decoder2Ins_o <= instructionQueue[front_o + 1];
+                            decoder1En_o <= 1; decoder2En_o <= 1; decoder3En_o <= 0; decoder4En_o <= 0;
+                            front_o <= front_o + 2; frontInReset <= 0;
+                        end
+                        default: begin//3 or more available
+                            decoder1Ins_o <= instructionQueue[front_o]; decoder2Ins_o <= instructionQueue[front_o + 1]; decoder4Ins_o <= instructionQueue[front_o + 2];
+                            decoder1En_o <= 1; decoder2En_o <= 1; decoder3En_o <= 0; decoder4En_o <= 1;
+                            front_o <= front_o + 3; frontInReset <= 0;
+                        end
+                        endcase
                     end
-                    else if(tail_o - head_o >= 2)//enough instructions for 2 decoders
-                    begin
-                        head_o <= (head_o + 2) % (2**queueIndexBits); isFull_o <= 0; 
-                        if((head_o + 2) % (2**queueIndexBits) >= tail_o)//check if we're now empty
-                            isEmpty_o <= 1;
-                        decdoer1Ins_o <= instructionQueue[head_o]; decdoer2Ins_o <= instructionQueue[head_o + 1];
-                        decoder1En_o <= 1; decoder2En_o <= 1; decoder3En_o <= 0; decoder4En_o <= 0;
-                        $display("asdfa");
-                    end
-                    else if(tail_o - head_o == 1)//enough instructions for 1 decoder
-                    begin
-                        head_o <= (head_o + 1) % (2**queueIndexBits); isFull_o <= 0; 
-                        if((head_o + 1) % (2**queueIndexBits) >= tail_o)//check if we're now empty
-                            isEmpty_o <= 1;
-                        decdoer1Ins_o <= instructionQueue[head_o];
-                        decoder1En_o <= 1; decoder2En_o <= 0; decoder3En_o <= 0; decoder4En_o <= 0;
-                        //$display("asdfa");
+                    else if(front_o > (back_o + (bundleWrite_i ? (bundleLen_i+1) : 0)))
+                    begin //used entries = size - (front - back)
+                        case(queueLenth - (front_o - back_o))
+                        0: begin decoder1En_o <= 0; decoder2En_o <= 0; decoder3En_o <= 0; decoder4En_o <= 0; end//0 available
+                        1: begin 
+                            decoder1Ins_o <= instructionQueue[front_o];
+                            decoder1En_o <= 1; decoder2En_o <= 0; decoder3En_o <= 0; decoder4En_o <= 0;
+                            front_o <= front_o + 1; frontInReset <= 0;
+                        end
+                        2:  begin//2 or more available
+                            decoder1Ins_o <= instructionQueue[front_o]; decoder2Ins_o <= instructionQueue[front_o + 1];
+                            decoder1En_o <= 1; decoder2En_o <= 1; decoder3En_o <= 0; decoder4En_o <= 0;
+                            front_o <= front_o + 2; frontInReset <= 0;
+                        end
+                        default: begin//3 or more available
+                            decoder1Ins_o <= instructionQueue[front_o]; decoder2Ins_o <= instructionQueue[front_o + 1]; decoder4Ins_o <= instructionQueue[front_o + 2];
+                            decoder1En_o <= 1; decoder2En_o <= 1; decoder3En_o <= 0; decoder4En_o <= 1;
+                            front_o <= front_o + 3; frontInReset <= 0;
+                        end
+                        endcase
                     end
                 end
                 4'b1110: begin
-                    if(tail_o - head_o >= 3)//enough instructions to fullfill demand
-                    begin
-                        head_o <= (head_o + 3) % (2**queueIndexBits); isFull_o <= 0; 
-                        if((head_o + 3) % (2**queueIndexBits) >= tail_o)//check if we're now empty
-                            isEmpty_o <= 1;
-                        decdoer1Ins_o <= instructionQueue[head_o]; decdoer2Ins_o <= instructionQueue[head_o + 1]; decdoer3Ins_o <= instructionQueue[head_o + 2];
-                        decoder1En_o <= 1; decoder2En_o <= 1; decoder3En_o <= 1; decoder4En_o <= 0;
+                    if((back_o + (bundleWrite_i ? (bundleLen_i+1) : 0)) > front_o)
+                    begin //used entries = back - front
+                        case(back_o - front_o)
+                        0: begin decoder1En_o <= 0; decoder2En_o <= 0; decoder3En_o <= 0; decoder4En_o <= 0; end//0 available
+                        1: begin 
+                            decoder1Ins_o <= instructionQueue[front_o];
+                            decoder1En_o <= 1; decoder2En_o <= 0; decoder3En_o <= 0; decoder4En_o <= 0;
+                            front_o <= front_o + 1; frontInReset <= 0;
+                        end
+                        2:  begin//2 or more available
+                            decoder1Ins_o <= instructionQueue[front_o]; decoder2Ins_o <= instructionQueue[front_o + 1];
+                            decoder1En_o <= 1; decoder2En_o <= 1; decoder3En_o <= 0; decoder4En_o <= 0;
+                            front_o <= front_o + 2; frontInReset <= 0;
+                        end
+                        default: begin//3 or more available
+                            decoder1Ins_o <= instructionQueue[front_o]; decoder2Ins_o <= instructionQueue[front_o + 1]; decoder3Ins_o <= instructionQueue[front_o + 2];
+                            decoder1En_o <= 1; decoder2En_o <= 1; decoder3En_o <= 1; decoder4En_o <= 0;
+                            front_o <= front_o + 3; frontInReset <= 0;
+                        end
+                        endcase
                     end
-                    else if(tail_o - head_o >= 2)//enough instructions for 2 decoders
-                    begin
-                        head_o <= (head_o + 2) % (2**queueIndexBits); isFull_o <= 0; 
-                        if((head_o + 2) % (2**queueIndexBits) >= tail_o)//check if we're now empty
-                            isEmpty_o <= 1;
-                        decdoer1Ins_o <= instructionQueue[head_o]; decdoer2Ins_o <= instructionQueue[head_o + 1];
-                        decoder1En_o <= 1; decoder2En_o <= 1; decoder3En_o <= 0; decoder4En_o <= 0;
-                    end
-                    else if(tail_o - head_o == 1)//enough instructions for 1 decoder
-                    begin
-                        head_o <= (head_o + 1) % (2**queueIndexBits); isFull_o <= 0; 
-                        if((head_o + 1) % (2**queueIndexBits) >= tail_o)//check if we're now empty
-                            isEmpty_o <= 1;
-                        decdoer1Ins_o <= instructionQueue[head_o];
-                        decoder1En_o <= 1; decoder2En_o <= 0; decoder3En_o <= 0; decoder4En_o <= 0;
+                    else if(front_o > (back_o + (bundleWrite_i ? (bundleLen_i+1) : 0)))
+                    begin //used entries = size - (front - back)
+                        case(queueLenth - (front_o - back_o))
+                        0: begin decoder1En_o <= 0; decoder2En_o <= 0; decoder3En_o <= 0; decoder4En_o <= 0; end//0 available
+                        1: begin 
+                            decoder1Ins_o <= instructionQueue[front_o];
+                            decoder1En_o <= 1; decoder2En_o <= 0; decoder3En_o <= 0; decoder4En_o <= 0;
+                            front_o <= front_o + 1; frontInReset <= 0;
+                        end
+                        2:  begin//2 or more available
+                            decoder1Ins_o <= instructionQueue[front_o]; decoder2Ins_o <= instructionQueue[front_o + 1];
+                            decoder1En_o <= 1; decoder2En_o <= 1; decoder3En_o <= 0; decoder4En_o <= 0;
+                            front_o <= front_o + 2; frontInReset <= 0;
+                        end
+                        default: begin//3 or more available
+                            decoder1Ins_o <= instructionQueue[front_o]; decoder2Ins_o <= instructionQueue[front_o + 1]; decoder3Ins_o <= instructionQueue[front_o + 2];
+                            decoder1En_o <= 1; decoder2En_o <= 1; decoder3En_o <= 1; decoder4En_o <= 0;
+                            front_o <= front_o + 3; frontInReset <= 0;
+                        end
+                        endcase
                     end
                 end
                 4'b1111: begin
-                    if(tail_o - head_o >= 4)//enough instructions to fullfill demand
-                    begin
-                        head_o <= (head_o + 4) % (2**queueIndexBits); isFull_o <= 0; 
-                        if((head_o + 4) % (2**queueIndexBits) >= tail_o)//check if we're now empty
-                            isEmpty_o <= 1;
-                        decdoer1Ins_o <= instructionQueue[head_o]; decdoer2Ins_o <= instructionQueue[head_o + 1]; decdoer3Ins_o <= instructionQueue[head_o + 2]; decdoer4Ins_o <= instructionQueue[head_o + 3];
-                        decoder1En_o <= 1; decoder2En_o <= 1; decoder3En_o <= 1; decoder4En_o <= 1;
+                    if((back_o + (bundleWrite_i ? (bundleLen_i+1) : 0)) > front_o)
+                    begin //used entries = back - front
+                        case(back_o - front_o)
+                        0: begin decoder1En_o <= 0; decoder2En_o <= 0; decoder3En_o <= 0; decoder4En_o <= 0; end//0 available
+                        1: begin 
+                            decoder1Ins_o <= instructionQueue[front_o];
+                            decoder1En_o <= 1; decoder2En_o <= 0; decoder3En_o <= 0; decoder4En_o <= 0;
+                            front_o <= front_o + 1; frontInReset <= 0;
+                        end
+                        2:  begin//2 or more available
+                            decoder1Ins_o <= instructionQueue[front_o]; decoder2Ins_o <= instructionQueue[front_o + 1];
+                            decoder1En_o <= 1; decoder2En_o <= 1; decoder3En_o <= 0; decoder4En_o <= 0;
+                            front_o <= front_o + 2; frontInReset <= 0;
+                        end
+                        3: begin//3 or more available
+                            decoder1Ins_o <= instructionQueue[front_o]; decoder2Ins_o <= instructionQueue[front_o + 1]; decoder3Ins_o <= instructionQueue[front_o + 2];
+                            decoder1En_o <= 1; decoder2En_o <= 1; decoder3En_o <= 1; decoder4En_o <= 0;
+                            front_o <= front_o + 3; frontInReset <= 0;
+                        end
+                        default: begin//4 or more available
+                            decoder1Ins_o <= instructionQueue[front_o]; decoder2Ins_o <= instructionQueue[front_o + 1]; decoder3Ins_o <= instructionQueue[front_o + 2]; decoder4Ins_o <= instructionQueue[front_o + 3];
+                            decoder1En_o <= 1; decoder2En_o <= 1; decoder3En_o <= 1; decoder4En_o <= 1;
+                            front_o <= front_o + 4; frontInReset <= 0;
+                        end
+                        endcase
                     end
-                    else if(tail_o - head_o >= 3)//enough instructions for 3 decoders
-                    begin
-                        head_o <= (head_o + 3) % (2**queueIndexBits); isFull_o <= 0; 
-                        if((head_o + 3) % (2**queueIndexBits) >= tail_o)//check if we're now empty
-                            isEmpty_o <= 1;
-                        decdoer1Ins_o <= instructionQueue[head_o]; decdoer2Ins_o <= instructionQueue[head_o + 1]; decdoer3Ins_o <= instructionQueue[head_o + 2];
-                        decoder1En_o <= 1; decoder2En_o <= 1; decoder3En_o <= 1; decoder4En_o <= 0;
-                    end
-                    else if(tail_o - head_o == 2)//enough instructions for 2 decoders
-                    begin
-                        head_o <= (head_o + 2) % (2**queueIndexBits); isFull_o <= 0; 
-                        if((head_o + 2) % (2**queueIndexBits) >= tail_o)//check if we're now empty
-                            isEmpty_o <= 1;
-                        decdoer1Ins_o <= instructionQueue[head_o]; decdoer2Ins_o <= instructionQueue[head_o + 1];
-                        decoder1En_o <= 1; decoder2En_o <= 1; decoder3En_o <= 0; decoder4En_o <= 0;
-                    end
-                    else if(tail_o - head_o == 1)//enough instructions for 1 decoder
-                    begin
-                        head_o <= (head_o + 1) % (2**queueIndexBits); isFull_o <= 0; 
-                        if((head_o + 1) % (2**queueIndexBits) >= tail_o)//check if we're now empty
-                            isEmpty_o <= 1;
-                        decdoer1Ins_o <= instructionQueue[head_o];
-                        decoder1En_o <= 1; decoder2En_o <= 0; decoder3En_o <= 0; decoder4En_o <= 0;
+                    else if(front_o > (back_o + (bundleWrite_i ? (bundleLen_i+1) : 0)))
+                    begin //used entries = size - (front - back)
+                        case(queueLenth - (front_o - back_o))
+                        0: begin decoder1En_o <= 0; decoder2En_o <= 0; decoder3En_o <= 0; decoder4En_o <= 0; end//0 available
+                        1: begin 
+                            decoder1Ins_o <= instructionQueue[front_o];
+                            decoder1En_o <= 1; decoder2En_o <= 0; decoder3En_o <= 0; decoder4En_o <= 0;
+                            front_o <= front_o + 1; frontInReset <= 0;
+                        end
+                        2:  begin//2 or more available
+                            decoder1Ins_o <= instructionQueue[front_o]; decoder2Ins_o <= instructionQueue[front_o + 1];
+                            decoder1En_o <= 1; decoder2En_o <= 1; decoder3En_o <= 0; decoder4En_o <= 0;
+                            front_o <= front_o + 2; frontInReset <= 0;
+                        end
+                        3: begin//3 or more available
+                            decoder1Ins_o <= instructionQueue[front_o]; decoder2Ins_o <= instructionQueue[front_o + 1]; decoder3Ins_o <= instructionQueue[front_o + 2];
+                            decoder1En_o <= 1; decoder2En_o <= 1; decoder3En_o <= 1; decoder4En_o <= 0;
+                            front_o <= front_o + 3; frontInReset <= 0;
+                        end
+                        default: begin//4 or more available
+                            decoder1Ins_o <= instructionQueue[front_o]; decoder2Ins_o <= instructionQueue[front_o + 1]; decoder3Ins_o <= instructionQueue[front_o + 2]; decoder4Ins_o <= instructionQueue[front_o + 3];
+                            decoder1En_o <= 1; decoder2En_o <= 1; decoder3En_o <= 1; decoder4En_o <= 1;
+                            front_o <= front_o + 4; frontInReset <= 0;
+                        end
+                        endcase
                     end
                 end
                 endcase
-
             end
+
+            ///perform front and back ptr adjustments
+            //Enqueue - increments the back
+            if(bundleWrite_i)
+            begin
+                back_o <= back_o + bundleLen_i + 1;
+            end
+            /*
+            //Dequeue - increments the front
+            case({decode1Available_i, decode2Available_i, decode3Available_i, decode4Available_i})
+                4'b0001: begin front_o <= front_o + 1;  frontInReset <= 0; $display("DQ: 1"); end
+                4'b0010: begin front_o <= front_o + 1;  frontInReset <= 0; $display("DQ: 1"); end
+                4'b0011: begin front_o <= front_o + 2;  frontInReset <= 0; $display("DQ: 2"); end
+                4'b0100: begin front_o <= front_o + 1;  frontInReset <= 0; $display("DQ: 1"); end
+                4'b0101: begin front_o <= front_o + 2;  frontInReset <= 0; $display("DQ: 2"); end
+                4'b0110: begin front_o <= front_o + 2;  frontInReset <= 0; $display("DQ: 2"); end
+                4'b0111: begin front_o <= front_o + 3;  frontInReset <= 0; $display("DQ: 3"); end
+                4'b1000: begin front_o <= front_o + 1;  frontInReset <= 0; $display("DQ: 1"); end
+                4'b1001: begin front_o <= front_o + 2;  frontInReset <= 0; $display("DQ: 2"); end
+                4'b1010: begin front_o <= front_o + 2;  frontInReset <= 0; $display("DQ: 2"); end
+                4'b1011: begin front_o <= front_o + 3;  frontInReset <= 0; $display("DQ: 3"); end
+                4'b1100: begin front_o <= front_o + 2;  frontInReset <= 0; $display("DQ: 2"); end
+                4'b1101: begin front_o <= front_o + 3;  frontInReset <= 0; $display("DQ: 3"); end
+                4'b1110: begin front_o <= front_o + 3;  frontInReset <= 0; $display("DQ: 3"); end
+                4'b1111: begin front_o <= front_o + 4;  frontInReset <= 0; $display("DQ: 4"); end
+            endcase
+            */
+
+            ///Calculate fullness and emptyness
+            //fullness
+            if(back_o > front_o)
+            begin
+                //available = queueLenth - ((back_o + (bundleWrite_i ? (bundleLen_i+1) : 0)) - (front_o + (decode1Available_i + decode2Available_i + decode3Available_i + decode4Available_i)));
+                if(queueLenth - ((back_o + (bundleWrite_i ? (bundleLen_i+1) : 0)) - (front_o + (decode1Available_i + decode2Available_i + decode3Available_i + decode4Available_i))) < 4)
+                begin
+                    isFull_o <= 1;
+                end
+                else
+                begin
+                    isFull_o <= 0;
+                end
+            end
+            else if(front_o > back_o)
+            begin
+                if((front_o + (decode1Available_i + decode2Available_i + decode3Available_i + decode4Available_i)) - (back_o + (bundleWrite_i ? (bundleLen_i+1) : 0)) < 4)
+                begin
+                    isFull_o <= 1;
+                end
+                else
+                begin
+                    isFull_o <= 0;
+                end
+            end
+            else
+            begin
+                if(frontInReset == 1)
+                begin
+                    isFull_o <= 0;
+                end
+                else
+                begin
+                    isFull_o <= 0;
+                end
+            end
+
+            //emptieness
+            if(back_o  > front_o )
+            begin
+                $display("A");
+                //used = (back_o + bundleLen_i) - (front_o + (decode1Available_i + decode2Available_i + decode3Available_i + decode4Available_i));
+                if((back_o + (bundleWrite_i ? (bundleLen_i+1) : 0)) - (front_o + (decode1Available_i + decode2Available_i + decode3Available_i + decode4Available_i)) > 0)
+                begin
+                    isEmpty_o <= 0;
+                    $display("1");
+                end
+                else
+                begin
+                    isEmpty_o <= 1;
+                    $display("2");
+                end
+            end
+            else if(front_o  > back_o)
+            begin
+                $display("B");
+                if(queueLenth - ((front_o + (decode1Available_i + decode2Available_i + decode3Available_i + decode4Available_i)) - (back_o + (bundleWrite_i ? (bundleLen_i+1) : 0))) > 0)
+                begin
+                    isEmpty_o <= 0;
+                    $display("1");
+                end
+                else
+                begin
+                    isEmpty_o <= 1;
+                    $display("2");
+                end
+            end
+
         end
-
     end
-
+            
 endmodule
