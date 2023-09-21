@@ -1,13 +1,13 @@
 `timescale 1ns / 1ps
-`include "../../Modules/Fetch/ICacheUnit.v"
+`include "../../../Modules/Fetch/ICacheUnit.v"
 
 module L1ICacheTest #(
-    parameter fetchingAddressWidth = 64, //addresses are 64 bits wide
+    parameter addressWidth = 64, //addresses are 64 bits wide
     parameter cacheLineWith = 64 * 8, //cachelines are 64 bytes wide
     parameter instructionWidth = 4 * 8, // POWER instructions are 4 byte fixed sized
     parameter offsetWidth = 6, //allows all 16 instructions in the cache to be addresses (for a 64 byte wide cache)
     parameter indexWidth = 8, //256 cachelines
-    parameter tagWidth = fetchingAddressWidth - indexWidth - offsetWidth, //the tag is composed of the remaining parts of the address
+    parameter tagWidth = addressWidth - indexWidth - offsetWidth, //the tag is composed of the remaining parts of the address
     parameter bundleSize = 4 * instructionWidth, //A bundle is the collection of instructions fetched per cycle.
     parameter bundlesPerLine = 4,//64 byte lines, 4 insts per bundle, 4 bytes per inst .... bundle = 16 bytes, 4 bundles per line
     //Processes ID and thread ID size
@@ -20,17 +20,17 @@ module L1ICacheTest #(
 //Fetch in
 reg clockIn, fetchEnableIn, resetIn, fetchStallIn;
 reg [0:PidSize-1] PidIn; reg [0:TidSize-1] TidIn;
-reg [0:fetchingAddressWidth-1] fetchAddressIn;
+reg [0:addressWidth-1] fetchAddressIn;
 //Update in
 reg cacheUpdateIn;
-reg [0:fetchingAddressWidth-1] updateAddressIn;
+reg [0:addressWidth-1] updateAddressIn;
 reg [0:PidSize-1] cacheUpdatePidIn;
 reg [0:TidSize-1] cacheUpdateTidIn;
-reg [0:instructionCounterWidth-1] missedInstMajorIdIn,
+reg [0:instructionCounterWidth-1] missedInstMajorIdIn;
 reg [0:cacheLineWith-1] cacheUpdateLineIn;
 //Natural writes in - used to write data to the cache during non cache-miss situations
 reg naturalWriteEnIn;
-reg [0:fetchingAddressWidth-1] naturalWriteAddressIn;
+reg [0:addressWidth-1] naturalWriteAddressIn;
 reg [0:cacheLineWith-1] naturalWriteLineIn;
 reg [0:PidSize-1] naturalPidIn;
 reg [0:TidSize-1] naturalTidIn;
@@ -38,20 +38,20 @@ reg [0:TidSize-1] naturalTidIn;
 wire outputEnableOut;
 //Bundle output
 wire [0:bundleSize-1] outputBundleOut;
-wire [0:fetchingAddressWidth-1] bundleAddressOut;
+wire [0:addressWidth-1] bundleAddressOut;
 wire [0:1] bundleLenOut;
 wire [0:PidSize-1] bundlePidOut;
 wire [0:TidSize-1] bundleTidOut;
 wire [0:instructionCounterWidth-1] bundleStartMajIdOut;
 //Update out
 wire cacheMissOut;
-wire [0:fetchingAddressWidth-1] missedAddressOut;
+wire [0:addressWidth-1] missedAddressOut;
 wire [0:instructionCounterWidth-1] missedInstMajorIdOut;
 wire [0:PidSize-1] missedPidOut;
 wire [0:TidSize-1] missedTidOut;
 
 L1I_Cache #(
-    .fetchingAddressWidth(fetchingAddressWidth), .cacheLineWith(cacheLineWith), 
+    .addressWidth(addressWidth), .cacheLineWith(cacheLineWith), 
     .instructionWidth(instructionWidth), .offsetWidth(offsetWidth), 
     .indexWidth(indexWidth), .tagWidth(tagWidth), 
     .PidSize(PidSize), .TidSize(TidSize), 

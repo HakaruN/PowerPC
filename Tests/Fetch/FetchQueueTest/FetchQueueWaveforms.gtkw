@@ -1,18 +1,18 @@
 [*]
 [*] GTKWave Analyzer v3.3.106 (w)1999-2020 BSI
-[*] Mon Feb  6 17:33:37 2023
+[*] Wed Feb  8 13:56:31 2023
 [*]
 [dumpfile] "/home/hakaru/Projects/Verilog/PowerPC/Tests/Fetch/FetchQueueTest/FetchQueue.vcd"
-[dumpfile_mtime] "Mon Feb  6 17:33:12 2023"
-[dumpfile_size] 1543
+[dumpfile_mtime] "Wed Feb  8 13:56:12 2023"
+[dumpfile_size] 1350
 [savefile] "/home/hakaru/Projects/Verilog/PowerPC/Tests/Fetch/FetchQueueTest/FetchQueueWaveforms.gtkw"
 [timestart] 0
 [size] 1670 1008
 [pos] -1 -1
-*-11.000000 1490 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+*-11.000000 4000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 [treeopen] FetchQueueTest.
 [sst_width] 243
-[signals_width] 250
+[signals_width] 264
 [sst_expanded] 1
 [sst_vpaned_height] 243
 @28
@@ -23,20 +23,30 @@ FetchQueueTest.fetchQueue.bundle_i[0:127]
 @28
 FetchQueueTest.fetchQueue.bundleWrite_i
 FetchQueueTest.fetchQueue.isEmpty_o
-FetchQueueTest.fetchQueue.almostEmpty_o
 FetchQueueTest.fetchQueue.isFull_o
-FetchQueueTest.fetchQueue.almostFull_o
-@25
-FetchQueueTest.fetchQueue.front_o[0:6]
-FetchQueueTest.fetchQueue.back_o[0:6]
-@28
+@29
 FetchQueueTest.fetchQueue.decoder1En_o
+@22
+FetchQueueTest.fetchQueue.decoder1Ins_o[0:31]
+@28
+FetchQueueTest.fetchQueue.decode1Available_i
+@29
 FetchQueueTest.fetchQueue.decoder2En_o
+@22
+FetchQueueTest.fetchQueue.decoder2Ins_o[0:31]
+@28
+FetchQueueTest.fetchQueue.decode2Available_i
+@29
 FetchQueueTest.fetchQueue.decoder3En_o
+@22
+FetchQueueTest.fetchQueue.decoder3Ins_o[0:31]
+@28
+FetchQueueTest.fetchQueue.decode3Available_i
+@29
 FetchQueueTest.fetchQueue.decoder4En_o
-FetchQueueTest.fetchQueue.decode1Busy_i
-FetchQueueTest.fetchQueue.decode2Busy_i
-FetchQueueTest.fetchQueue.decode3Busy_i
-FetchQueueTest.fetchQueue.decode4Busy_i
+@22
+FetchQueueTest.fetchQueue.decoder4Ins_o[0:31]
+@28
+FetchQueueTest.fetchQueue.decode4Available_i
 [pattern_trace] 1
 [pattern_trace] 0

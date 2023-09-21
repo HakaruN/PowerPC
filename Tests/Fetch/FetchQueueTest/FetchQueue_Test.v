@@ -1,6 +1,8 @@
 `timescale 1ns / 1ps
 `define DEBUG
 `define DEBUG_PRINT
+//`define GENERAL_TEST
+`define DEQUEUE_ON_RESET_TEST
 `include "../../../Modules/Fetch/FetchQueue.v"
 
 module FetchQueueTest
@@ -36,6 +38,8 @@ module FetchQueueTest
     //queue state output
     wire [0:queueIndexBits-1] frontOut, backOut;
     wire isFullOut, isEmptyOut;//(is full can be used as to tell the fetch unit to stop fetching)
+
+    reg [0:maxBundleSize-1] bundles [0:5];
 
     FetchQueue #(
         .addressWidth(addressWidth),
@@ -76,7 +80,14 @@ initial begin
     bundleStartMajIdIn = 0;
     bundleIn = 0;
     decode1AvailableIn = 0; decode2AvailableIn = 0; decode3AvailableIn = 0; decode4AvailableIn = 0;
+    bundles[0] = {32'hAAAAAAAA, 32'hBBBBBBBB, 32'hCCCCCCCC, 32'hDDDDDDDD};
+    bundles[1] = {32'hBBBBBBBB, 32'hCCCCCCCC, 32'hDDDDDDDD, 32'hEEEEEEEE};
+    bundles[2] = {32'hCCCCCCCC, 32'hDDDDDDDD, 32'hEEEEEEEE, 32'hFFFFFFFF};
+    bundles[3] = {32'hDDDDDDDD, 32'hEEEEEEEE, 32'hFFFFFFFF, 32'hAAAAAAAA};
+    bundles[4] = {32'hEEEEEEEE, 32'hFFFFFFFF, 32'hAAAAAAAA, 32'hBBBBBBBB};
+    bundles[5] = {32'hFFFFFFFF, 32'hAAAAAAAA, 32'hBBBBBBBB, 32'hCCCCCCCC};
 
+`ifdef GENERAL_TEST
     //Reset queue
     resetIn = 1; clockIn = 1;
     #1;
@@ -92,7 +103,7 @@ initial begin
     ///Write a bundle
     bundleWriteIn = 1;
     decode1AvailableIn = 0; decode2AvailableIn = 0; decode3AvailableIn = 0; decode4AvailableIn = 0;
-    bundleIn = {32'hAAAAAAAA, 32'hBBBBBBBB, 32'hCCCCCCCC, 32'hDDDDDDDD};
+    bundleIn = bundles[0];
     clockIn = 1;
     #1;
     clockIn = 0;
@@ -136,7 +147,7 @@ initial begin
     //Write another 2 bundles
     decode1AvailableIn = 0; decode2AvailableIn = 0; decode3AvailableIn = 0; decode4AvailableIn = 0;
     bundleWriteIn = 1;
-    bundleIn = {32'hEEEEEEEE, 32'hFFFFFFFF, 32'hAAAAAAAA, 32'hBBBBBBBB};
+    bundleIn = bundles[1];
     clockIn = 1;
     #1;
     clockIn = 0;
@@ -148,7 +159,7 @@ initial begin
         $display("Fail: Second enqueue - 1"); failCount = failCount + 1; end
 
     
-    bundleIn = {32'hCCCCCCCC, 32'hDDDDDDDD, 32'hEEEEEEEE, 32'hFFFFFFFF};
+    bundleIn = bundles[2];
     clockIn = 1;
     #1;
     clockIn = 0;
@@ -228,7 +239,37 @@ initial begin
     else begin
         $display("Fail: Sixth dequeue"); failCount = failCount + 1; end
 
+`endif
+
+`ifdef DEQUEUE_ON_RESET_TEST
+    //Reset queue
+    resetIn = 1; clockIn = 1;
+    #1;
+    resetIn = 0; clockIn = 0;
+    #1;
+    if(isEmptyOut == 1 && isFullOut == 0 && frontOut == 0 && backOut == 0
+    && {decoder1EnOut, decoder2EnOut, decoder3EnOut, decoder4EnOut} == 4'b0000) begin
+        $display("Pass: Reset");  passCount = passCount + 1; end
+    else begin
+        $display("Fail: Reset"); failCount = failCount + 1; end
+
+    ///Read a budle. We shouldn't be able to
+    bundleWriteIn = 0;
+    decode1AvailableIn = 1; decode2AvailableIn = 0; decode3AvailableIn = 0; decode4AvailableIn = 0;
+    clockIn = 1;
+    #1;
+    clockIn = 0;
+    #1;
+    //We should be empty
+    if(isEmptyOut == 1 && isFullOut == 0 && frontOut == 0 && backOut == 0 &&
+    {decoder1EnOut, decoder2EnOut, decoder3EnOut, decoder4EnOut} == 4'b0000) begin
+        $display("Pass: Initial dequeue"); passCount = passCount + 1; end
+    else begin
+        $display("Fail: Initial dequeue"); failCount = failCount + 1; end
+
+`endif
     
+    /*
     //Fill the queue to the top - test for now withought the queue issuing to decoders
     bundleWriteIn = 1;
     bundleIn = {32'hCCCCCCCC, 32'hDDDDDDDD, 32'hEEEEEEEE, 32'hFFFFFFFF};
@@ -253,9 +294,23 @@ initial begin
         clockIn = 0;
         #1;
     end
+    
+    bundleWriteIn = 1;
+    bundleIn = {32'hCCCCCCCC, 32'hDDDDDDDD, 32'hEEEEEEEE, 32'hFFFFFFFF};
+    decode1AvailableIn = 0; decode2AvailableIn = 0; decode3AvailableIn = 0; decode4AvailableIn = 0;
+    for(i = 0; i < (queueLenth / instructionsPerBundle); i = i + 1)
+    begin
+        //bundleWriteIn = ~isFullOut;
+        clockIn = 1;
+        #1;
+        clockIn = 0;
+        #1;
+    end
+    */
 
+    /*
     //do it again but different
-//Fill the queue to the top - test for now withought the queue issuing to decoders
+    //Fill the queue to the top - test for now withought the queue issuing to decoders
     bundleWriteIn = 1;
     bundleIn = {32'hCCCCCCCC, 32'hDDDDDDDD, 32'hEEEEEEEE, 32'hFFFFFFFF};
     decode1AvailableIn = 0; decode2AvailableIn = 0; decode3AvailableIn = 0; decode4AvailableIn = 0;
@@ -278,6 +333,9 @@ initial begin
         clockIn = 0;
         #1;
     end
+    */
+
+
 
     
 
