@@ -1,0 +1,95 @@
+Fx Regfile:           0: Resetting
+--------------------------------
+Fx Regfile:           0: Port 1: Read Cycle 1: Address  0
+Fx Regfile:           0: Port 2: Read Cycle 1: Address  1
+Fx Regfile:           0: Port 3: Read Cycle 1: Address  2
+Fx Regfile:           0: Port 4: Read Cycle 1: Address  3
+--------------------------------
+Fx Regfile:           0: Port 1: Read Cycle 2: Address  0: Value                    x
+Fx Regfile:           0: Port 2: Read Cycle 2: Address  1: Value                    x
+Fx Regfile:           0: Port 3: Read Cycle 2: Address  2: Value                    x
+Fx Regfile:           0: Port 4: Read Cycle 2: Address  3: Value                    x
+--------------------------------
+Fx Regfile:           0: Port 1: Write Cycle 1: Address  0, Value                   10
+Fx Regfile:           0: Port 2: Write Cycle 1: Address  1, Value                   11
+Fx Regfile:           0: Port 3: Write Cycle 1: Address  2, Value                   12
+Fx Regfile:           0: Port 4: Write Cycle 1: Address  3, Value                   13
+--------------------------------
+Fx Regfile:           0: Port 1: Write Cycle 2: writing reg  0, Value                   10
+Fx Regfile:           0: Port 2: Write Cycle 2: writing reg  1, Value                   11
+Fx Regfile:           0: Port 3: Write Cycle 2: writing reg  2, Value                   12
+Fx Regfile:           0: Port 4: Write Cycle 2: writing reg  3, Value                   13
+--------------------------------
+Fx Regfile:           0: Port 1: Read Cycle 1: Address  0
+Fx Regfile:           0: Port 2: Read Cycle 1: Address  1
+Fx Regfile:           0: Port 3: Read Cycle 1: Address  2
+Fx Regfile:           0: Port 4: Read Cycle 1: Address  3
+--------------------------------
+Fx Regfile:           0: Port 1: Read Cycle 2: Address  0: Value                   10
+Fx Regfile:           0: Port 2: Read Cycle 2: Address  1: Value                   11
+Fx Regfile:           0: Port 3: Read Cycle 2: Address  2: Value                   12
+Fx Regfile:           0: Port 4: Read Cycle 2: Address  3: Value                   13
+--------------------------------
+Fx Regfile:           0: XER Reg. Write Cycle 1: Writing value 1010010111111111000000001100001111000011000000001111111110100101
+--------------------------------
+Fx Regfile:           0: XER Reg. Write Cycle 2: Writing value 1010010111111111000000001100001111000011000000001111111110100101
+--------------------------------
+Fx Regfile:           0: Port 1: Read Cycle 1: Address  0
+Fx Regfile:           0: Port 2: Read Cycle 1: Address  1
+Fx Regfile:           0: Port 3: Read Cycle 1: Address  2
+Fx Regfile:           0: Port 4: Read Cycle 1: Address  3
+Fx Regfile:           0: Port 1: Write Cycle 1: Address  0, Value                   20
+Fx Regfile:           0: Port 2: Write Cycle 1: Address  1, Value                   21
+Fx Regfile:           0: Port 3: Write Cycle 1: Address  2, Value                   22
+Fx Regfile:           0: Port 4: Write Cycle 1: Address  3, Value                   23
+--------------------------------
+Fx Regfile:           0: Port 1: Read Cycle 1: Address  0
+Fx Regfile:           0: Port 2: Read Cycle 1: Address  1
+Fx Regfile:           0: Port 3: Read Cycle 1: Address  2
+Fx Regfile:           0: Port 4: Read Cycle 1: Address  3
+Fx Regfile:           0: Port 1: Read Cycle 2: Address  0: Value                   10
+Fx Regfile:           0: Port 2: Read Cycle 2: Address  1: Value                   11
+Fx Regfile:           0: Port 3: Read Cycle 2: Address  2: Value                   12
+Fx Regfile:           0: Port 4: Read Cycle 2: Address  3: Value                   13
+Fx Regfile:           0: Port 1: Write Cycle 1: Address  0, Value                   30
+Fx Regfile:           0: Port 2: Write Cycle 1: Address  1, Value                   31
+Fx Regfile:           0: Port 3: Write Cycle 1: Address  2, Value                   32
+Fx Regfile:           0: Port 4: Write Cycle 1: Address  3, Value                   33
+Fx Regfile:           0: Port 1: Write Cycle 2: writing reg  0, Value                   20
+Fx Regfile:           0: Port 2: Write Cycle 2: writing reg  1, Value                   21
+Fx Regfile:           0: Port 3: Write Cycle 2: writing reg  2, Value                   22
+Fx Regfile:           0: Port 4: Write Cycle 2: writing reg  3, Value                   23
+--------------------------------
+Fx Regfile:           0: Port 1: Read Cycle 1: Address  0
+Fx Regfile:           0: Port 2: Read Cycle 1: Address  1
+Fx Regfile:           0: Port 3: Read Cycle 1: Address  2
+Fx Regfile:           0: Port 4: Read Cycle 1: Address  3
+Fx Regfile:           0: Port 1: Read Cycle 2: Address  0: Value                   20
+Fx Regfile:           0: Port 2: Read Cycle 2: Address  1: Value                   21
+Fx Regfile:           0: Port 3: Read Cycle 2: Address  2: Value                   22
+Fx Regfile:           0: Port 4: Read Cycle 2: Address  3: Value                   23
+Fx Regfile:           0: Port 1: Write Cycle 1: Address  0, Value                   30
+Fx Regfile:           0: Port 2: Write Cycle 1: Address  1, Value                   31
+Fx Regfile:           0: Port 3: Write Cycle 1: Address  2, Value                   32
+Fx Regfile:           0: Port 4: Write Cycle 1: Address  3, Value                   33
+Fx Regfile:           0: Port 1: Write Cycle 2: writing reg  0, Value                   30
+Fx Regfile:           0: Port 2: Write Cycle 2: writing reg  1, Value                   31
+Fx Regfile:           0: Port 3: Write Cycle 2: writing reg  2, Value                   32
+Fx Regfile:           0: Port 4: Write Cycle 2: writing reg  3, Value                   33
+--------------------------------
+Fx Regfile:           0: Port 1: Read Cycle 1: Address  0
+Fx Regfile:           0: Port 2: Read Cycle 1: Address  1
+Fx Regfile:           0: Port 3: Read Cycle 1: Address  2
+Fx Regfile:           0: Port 4: Read Cycle 1: Address  3
+Fx Regfile:           0: Port 1: Read Cycle 2: Address  0: Value                   30
+Fx Regfile:           0: Port 2: Read Cycle 2: Address  1: Value                   31
+Fx Regfile:           0: Port 3: Read Cycle 2: Address  2: Value                   32
+Fx Regfile:           0: Port 4: Read Cycle 2: Address  3: Value                   33
+Fx Regfile:           0: Port 1: Write Cycle 1: Address  0, Value                   30
+Fx Regfile:           0: Port 2: Write Cycle 1: Address  1, Value                   31
+Fx Regfile:           0: Port 3: Write Cycle 1: Address  2, Value                   32
+Fx Regfile:           0: Port 4: Write Cycle 1: Address  3, Value                   33
+Fx Regfile:           0: Port 1: Write Cycle 2: writing reg  0, Value                   30
+Fx Regfile:           0: Port 2: Write Cycle 2: writing reg  1, Value                   31
+Fx Regfile:           0: Port 3: Write Cycle 2: writing reg  2, Value                   32
+Fx Regfile:           0: Port 4: Write Cycle 2: writing reg  3, Value                   33

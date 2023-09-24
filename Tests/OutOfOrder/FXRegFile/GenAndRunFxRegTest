@@ -1,0 +1,4 @@
+#!/bin/bash
+iverilog -o FxRegTest.bin FxRegFile_Test.v
+./FxRegTest.bin
+rm FxRegTest.bin

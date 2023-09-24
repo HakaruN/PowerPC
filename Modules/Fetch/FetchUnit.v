@@ -81,7 +81,7 @@ module FetchUnit
 );
 
 reg [0:addressWidth-1] PC;//Program counter
-reg [32+:PidSize] PID; reg [0:TidSize-1] TIR;//The pid and tid of the program
+reg [32+:PidSize] PID; reg [0:TidSize-1] TID;//The pid and tid of the program
 wire icachePCIncEnableOut;
 wire [0:2] iCachePCIncValOut;
 
@@ -98,7 +98,7 @@ l1ICache
     .clock_i(clock_i),
     //Fetch in 
     .fetchEnable_i(fetchEnable_i), .cacheReset_i(cacheReset_i), .fetchStall_i(fetchStall_i), 
-    .Pid_i(PID), .Tid_i(TIR), .fetchAddress_i(PC), 
+    .Pid_i(PID), .Tid_i(TID), .fetchAddress_i(PC), 
     //Update in
     .cacheUpdate_i(cacheUpdate_i), .cacheUpdateAddress_i(cacheUpdateAddress_i), 
     .cacheUpdatePid_i(cacheUpdatePid_i), .cacheUpdateTid_i(cacheUpdateTid_i),

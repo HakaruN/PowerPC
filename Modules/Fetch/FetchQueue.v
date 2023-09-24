@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
-`define DEBUG
-`define DEBUG_PRINT
+//`define DEBUG
+//`define DEBUG_PRINT
 
 /*///////////////Fetch queue////////////////////
 Written by Josh "Hakaru" Cantwell - 3.02.2023

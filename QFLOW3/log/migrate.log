@@ -1,0 +1,62 @@
+Qflow migration logfile created on Sun 24 Sep 01:53:27 BST 2023
+magic -dnull -noconsole  migrate_BundleParser.tcl
+
+Magic 8.3 revision 105 - Compiled on Mon, 06 Dec 2021 22:32:27 +0200.
+Starting magic under Tcl interpreter
+Using the terminal as the console.
+Using NULL graphics device.
+Processing system .magicrc file
+Input style lambda=0.10(p): scaleFactor=10, multiplier=1
+Contact size value ignored (using GDS generation rules).
+Contact size value ignored (using GDS generation rules).
+Contact size value ignored (using GDS generation rules).
+Contact size value ignored (using GDS generation rules).
+Contact size value ignored (using GDS generation rules).
+Contact size value ignored (using GDS generation rules).
+Loading "migrate_BundleParser.tcl" from command line.
+Root cell box:
+           width x height  (   llx,  lly  ), (   urx,  ury  )
+
+microns:    0.00 x 0.00    (  0.00,  0.00 ), (  0.00,  0.00 )
+lambda:        0 x 0       (     0,  0    ), (     0,  0    )
+Reading LEF data from file /usr/share/qflow/tech/osu018/osu018_stdcells.lef.
+This action cannot be undone.
+LEF read, Line 16 (Message): Unknown keyword "OBS" in LEF file; ignoring.
+LEF read, Line 17 (Message): Unknown keyword "PIN" in LEF file; ignoring.
+LEF read: Processed 2941 lines.
+Reading DEF data from file BundleParser.def.
+This action cannot be undone.
+  Processed 5 vias total.
+  Processed 24430 subcell instances total.
+  Processed 1395 pins total.
+  Processed 6551 nets total.
+DEF read, Line 110806 (Warning): Number of nets read (1239) does not match the number declared (1241).
+DEF read: Processed 110807 lines.
+DEF Read: encountered 1 warning total.
+Generating LEF output BundleParser.lef for cell BundleParser:
+Diagnostic:  Write LEF header for cell BundleParser
+Diagnostic:  Writing LEF output for cell BundleParser
+Diagnostic:  Scale value is 0.100000
+Extracting NOR3X1 into NOR3X1.ext:
+Extracting OAI22X1 into OAI22X1.ext:
+Extracting MUX2X1 into MUX2X1.ext:
+Extracting AND2X2 into AND2X2.ext:
+Extracting NAND3X1 into NAND3X1.ext:
+Extracting AOI21X1 into AOI21X1.ext:
+Extracting INVX8 into INVX8.ext:
+Extracting OR2X2 into OR2X2.ext:
+Extracting NOR2X1 into NOR2X1.ext:
+Extracting INVX4 into INVX4.ext:
+Extracting CLKBUF1 into CLKBUF1.ext:
+Extracting XNOR2X1 into XNOR2X1.ext:
+Extracting BUFX4 into BUFX4.ext:
+Extracting INVX2 into INVX2.ext:
+Extracting DFFPOSX1 into DFFPOSX1.ext:
+Extracting OAI21X1 into OAI21X1.ext:
+Extracting NAND2X1 into NAND2X1.ext:
+Extracting BUFX2 into BUFX2.ext:
+Extracting INVX1 into INVX1.ext:
+Extracting FILL into FILL.ext:
+Extracting BundleParser into BundleParser.ext:
+exttospice finished.
+Migration script ended on Sun 24 Sep 01:54:35 BST 2023

@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
-`define DEBUG
-`define DEBUG_PRINT
+//`define DEBUG
+//`define DEBUG_PRINT
 
 /*///////////////In order instruction queue////////////////////
 TODO: Add buffering before this stage so we can fetch closer to the limmit of the queue. The max number of space required per cycle is
@@ -10,9 +10,9 @@ This queue operates as a sequential read and sequential write queue as well as a
 very complex piece of hardware. Possibly making this the uglies and most disgusting code (so far) in the project.
 
 The queue has 4 inputs for instructions coming in from the 4 decode units. Each cycle a new uop can be issued to the queue.
-On issue the hardware looks at the MajID (macro inst iD) and MinID (uopID within the macro inst).
+On issue the hardware looks at the MajID (macro instr iD) and MinID (uop# within the macro instr).
 On the first uop of the macro inst the queue reads how many uops the instruction will generate (instNumMicroOps) and reserve that number of
-entries in the queue (contiguously) for each instruction. 
+uop entries in the queue (contiguously) for each macro instruction. 
 This happens in program order (ie instuction 1 is allocated contiguous space just ahead of instruction 2).
 This means that each instruction will end up in program order with each uop also ending up in program order.
 
@@ -25,8 +25,8 @@ uops can end up coming into the queue for writing after later (cronologicaly) in
 The solution is akin to you being shopping with friends, your friends are stood in the middle of a long queue to the tills and you have only just finnished your shopping. 
 You (perhaps rudely) push past those at the back of the queue to go stand with your friends closer to the front.
 
-The was this is implemented is as follows:
-When the first uop in the inst is issued (MinID == 0) into the queue, a second queue which directly corresponds/maps to the instruction queue called the majIDMap has written
+The way this is implemented is as follows:
+When the first uop in the instr is issued (MinID == 0) into the queue, a second queue which directly corresponds/maps to the instruction queue called the majIDMap has written
 into the entry at the tail idx has written to it the MajID. As majIDMap[i] corresponds to instQ[i], by searching majIDMap for a majID, we can find an entry in the instQ that corresponds
 to the begining of the reserved entries for the instruction holding that majID. This allows late coming uops to find their reserved entries in the instQ.
 Now the late coming uop must find which entry in the reserved region has been reseved for it. This is fairly simple as we know that the first uop has the minID == 0 and each uop gets exactly 1 entry

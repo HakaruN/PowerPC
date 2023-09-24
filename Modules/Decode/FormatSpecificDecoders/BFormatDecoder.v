@@ -1,7 +1,7 @@
 `timescale 1ns / 1ps
-`define DEBUG
-`define DEBUG_PRINT
-`define QUIET_INVALID
+//`define DEBUG
+//`define DEBUG_PRINT
+//`define QUIET_INVALID
 /*/////////Format decode/////////////
 Writen by Josh "Hakaru" Cantwell - 02.12.2022
 
