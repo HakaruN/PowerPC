@@ -1,0 +1,4 @@
+#!/bin/bash
+iverilog -o FxRATTest.bin FXRAT_Test.v
+./FxRATTest.bin
+rm FxRATTest.bin
