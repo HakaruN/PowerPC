@@ -13,6 +13,8 @@
 32-b Processor Identification Register PIR
 
 
+TODO: Add register un-naming
+
 *//////////////////////////////////////////////////////////////
 
 
@@ -58,7 +60,10 @@ module FXRAT #(
     input wire [0:instMinIdWidth-1] inst1MinId_i, inst2MinId_i, inst3MinId_i, inst4MinId_i, 
     input wire [0:PidSize-1] inst1Pid_i, inst2Pid_i, inst3Pid_i, inst4Pid_i, 
     input wire [0:TidSize-1] inst1Tid_i, inst2Tid_i, inst3Tid_i, inst4Tid_i, 
-    input wire [0:opcodeSize-1] inst1OpCode_i, inst2OpCode_i, inst3OpCode_i, inst4OpCode_i, 
+    input wire [0:opcodeSize-1] inst1OpCode_i, inst2OpCode_i, inst3OpCode_i, inst4OpCode_i,
+    //RAT Clear names
+    input wire clearName1_i, clearName2_i, clearName3_i, clearName4_i, 
+    input wire [0:ROBEntryWidth-1] ROBName1_i, ROBName2_i, ROBName3_i, ROBName4_i, 
 
     ///outputs
     //Instr 1
@@ -125,6 +130,10 @@ module FXRAT #(
     reg inst4Param1En, inst4Param2En, inst4Param3En, inst4Param4En;
     reg inst4Param1IsReg, inst4Param2IsReg, inst4Param3IsReg, inst4Param4IsReg;
     reg [0:1] inst4Param1RW, inst4Param2RW, inst4Param3RW, inst4Param4RW;
+
+    //RAT clear bypass
+    reg clearName1, clearName2, clearName3, clearName4;
+    reg [0:ROBEntryWidth-1] ROBName1, ROBName2, ROBName3, ROBName4;
 
     //File handle to the debug output
     `ifdef DEBUG_PRINT
@@ -209,6 +218,21 @@ module FXRAT #(
                 end                  
             end
 
+
+            //RAT name clears stage 1
+            clearName1 <= clearName1_i; clearName2 <= clearName2_i;
+            clearName3 <= clearName3_i; clearName4 <= clearName4_i;
+
+            if(clearName1_i)
+                ROBName1 <= ROBName1_i;
+            if(clearName2_i)
+                ROBName2 <= ROBName2_i;
+            if(clearName3_i)
+                ROBName3 <= ROBName3_i;
+            if(clearName4_i)
+                ROBName4 <= ROBName4_i;
+
+
             ///Stage 2
             if(enabled)
             begin
@@ -230,6 +254,7 @@ module FXRAT #(
                             //rename the reg
                             inst1Param1_o <= FXRAT[inst1Param1];//output the current name
                             FXRAT[inst1Param1] <= inst1Param1;//rename reg name
+                            isEntryFree[inst1Param1] <= 0;
                         end
                         if(inst1Param1RW == 2'b01)//Read
                         begin
@@ -240,6 +265,7 @@ module FXRAT #(
                         begin
                             inst1Param1_o <= FXRAT[inst1Param1];//output the current name
                             FXRAT[inst1Param1] <= inst1Param1;//rename reg name
+                            isEntryFree[inst1Param1] <= 0;
                         end
                     end
                     else
@@ -258,6 +284,7 @@ module FXRAT #(
                             //rename the reg
                             inst1Param2_o <= FXRAT[inst1Param2];//output the current name
                             FXRAT[inst1Param2] <= inst1Param2;//rename reg name
+                            isEntryFree[inst1Param1] <= 0;
                         end
                         if(inst1Param2RW == 2'b01)//Read
                         begin
@@ -268,6 +295,7 @@ module FXRAT #(
                         begin
                             inst1Param2_o <= FXRAT[inst1Param2];//output the current name
                             FXRAT[inst1Param2] <= inst1Param2;//rename reg name
+                            isEntryFree[inst1Param1] <= 0;
                         end
                     end
                     else
@@ -286,6 +314,7 @@ module FXRAT #(
                             //rename the reg
                             inst1Param3_o <= FXRAT[inst1Param3];//output the current name
                             FXRAT[inst1Param3] <= inst1Param3;//rename reg name
+                            isEntryFree[inst1Param1] <= 0;
                         end
                         if(inst1Param3RW == 2'b01)//Read
                         begin
@@ -296,6 +325,7 @@ module FXRAT #(
                         begin
                             inst1Param3_o <= FXRAT[inst1Param3];//output the current name
                             FXRAT[inst1Param3] <= inst1Param3;//rename reg name
+                            isEntryFree[inst1Param1] <= 0;
                         end
                     end
                     else
@@ -314,6 +344,7 @@ module FXRAT #(
                             //rename the reg
                             inst1Param4_o <= FXRAT[inst1Param4];//output the current name
                             FXRAT[inst1Param4] <= inst1Param4;//rename reg name
+                            isEntryFree[inst1Param1] <= 0;
                         end
                         if(inst1Param4RW == 2'b01)//Read
                         begin
@@ -324,6 +355,7 @@ module FXRAT #(
                         begin
                             inst1Param4_o <= FXRAT[inst1Param4];//output the current name
                             FXRAT[inst1Param4] <= inst1Param4;//rename reg name
+                            isEntryFree[inst1Param1] <= 0;
                         end
                     end
                     else
@@ -344,6 +376,7 @@ module FXRAT #(
                             //rename the reg
                             inst2Param1_o <= FXRAT[inst2Param1];//output the current name
                             FXRAT[inst2Param1] <= inst2Param1;//rename reg name
+                            isEntryFree[inst1Param1] <= 0;
                         end
                         if(inst2Param1RW == 2'b01)//Read
                         begin
@@ -354,6 +387,7 @@ module FXRAT #(
                         begin
                             inst2Param1_o <= FXRAT[inst2Param1];//output the current name
                             FXRAT[inst2Param1] <= inst2Param1;//rename reg name
+                            isEntryFree[inst1Param1] <= 0;
                         end
                     end
                     else
@@ -372,6 +406,7 @@ module FXRAT #(
                             //rename the reg
                             inst2Param2_o <= FXRAT[inst2Param2];//output the current name
                             FXRAT[inst2Param2] <= inst2Param2;//rename reg name
+                            isEntryFree[inst1Param1] <= 0;
                         end
                         if(inst2Param2RW == 2'b01)//Read
                         begin
@@ -382,6 +417,7 @@ module FXRAT #(
                         begin
                             inst2Param2_o <= FXRAT[inst2Param2];//output the current name
                             FXRAT[inst2Param2] <= inst2Param2;//rename reg name
+                            isEntryFree[inst1Param1] <= 0;
                         end
                     end
                     else
@@ -400,6 +436,7 @@ module FXRAT #(
                             //rename the reg
                             inst2Param3_o <= FXRAT[inst2Param3];//output the current name
                             FXRAT[inst2Param3] <= inst2Param3;//rename reg name
+                            isEntryFree[inst1Param1] <= 0;
                         end
                         if(inst2Param3RW == 2'b01)//Read
                         begin
@@ -410,6 +447,7 @@ module FXRAT #(
                         begin
                             inst2Param3_o <= FXRAT[inst2Param3];//output the current name
                             FXRAT[inst2Param3] <= inst2Param3;//rename reg name
+                            isEntryFree[inst1Param1] <= 0;
                         end
                     end
                     else
@@ -428,6 +466,7 @@ module FXRAT #(
                             //rename the reg
                             inst2Param4_o <= FXRAT[inst2Param4];//output the current name
                             FXRAT[inst2Param4] <= inst2Param4;//rename reg name
+                            isEntryFree[inst1Param1] <= 0;
                         end
                         if(inst2Param4RW == 2'b01)//Read
                         begin
@@ -438,6 +477,7 @@ module FXRAT #(
                         begin
                             inst2Param4_o <= FXRAT[inst2Param4];//output the current name
                             FXRAT[inst2Param4] <= inst2Param4;//rename reg name
+                            isEntryFree[inst1Param1] <= 0;
                         end
                     end
                     else
@@ -458,6 +498,7 @@ module FXRAT #(
                             //rename the reg
                             inst3Param1_o <= FXRAT[inst3Param1];//output the current name
                             FXRAT[inst3Param1] <= inst3Param1;//rename reg name
+                            isEntryFree[inst1Param1] <= 0;
                         end
                         if(inst3Param1RW == 2'b01)//Read
                         begin
@@ -468,6 +509,7 @@ module FXRAT #(
                         begin
                             inst3Param1_o <= FXRAT[inst3Param1];//output the current name
                             FXRAT[inst3Param1] <= inst3Param1;//rename reg name
+                            isEntryFree[inst1Param1] <= 0;
                         end
                     end
                     else
@@ -486,6 +528,7 @@ module FXRAT #(
                             //rename the reg
                             inst3Param2_o <= FXRAT[inst3Param2];//output the current name
                             FXRAT[inst3Param2] <= inst3Param2;//rename reg name
+                            isEntryFree[inst1Param1] <= 0;
                         end
                         if(inst3Param2RW == 2'b01)//Read
                         begin
@@ -496,6 +539,7 @@ module FXRAT #(
                         begin
                             inst3Param2_o <= FXRAT[inst3Param2];//output the current name
                             FXRAT[inst3Param2] <= inst3Param2;//rename reg name
+                            isEntryFree[inst1Param1] <= 0;
                         end
                     end
                     else
@@ -514,6 +558,7 @@ module FXRAT #(
                             //rename the reg
                             inst3Param3_o <= FXRAT[inst3Param3];//output the current name
                             FXRAT[inst3Param3] <= inst3Param3;//rename reg name
+                            isEntryFree[inst1Param1] <= 0;
                         end
                         if(inst3Param3RW == 2'b01)//Read
                         begin
@@ -524,6 +569,7 @@ module FXRAT #(
                         begin
                             inst3Param3_o <= FXRAT[inst3Param3];//output the current name
                             FXRAT[inst3Param3] <= inst3Param3;//rename reg name
+                            isEntryFree[inst1Param1] <= 0;
                         end
                     end
                     else
@@ -542,6 +588,7 @@ module FXRAT #(
                             //rename the reg
                             inst3Param4_o <= FXRAT[inst3Param4];//output the current name
                             FXRAT[inst3Param4] <= inst3Param4;//rename reg name
+                            isEntryFree[inst1Param1] <= 0;
                         end
                         if(inst3Param4RW == 2'b01)//Read
                         begin
@@ -552,6 +599,7 @@ module FXRAT #(
                         begin
                             inst3Param4_o <= FXRAT[inst3Param4];//output the current name
                             FXRAT[inst3Param4] <= inst3Param4;//rename reg name
+                            isEntryFree[inst1Param1] <= 0;
                         end
                     end
                     else
@@ -572,6 +620,7 @@ module FXRAT #(
                             //rename the reg
                             inst4Param1_o <= FXRAT[inst4Param1];//output the current name
                             FXRAT[inst4Param1] <= inst4Param1;//rename reg name
+                            isEntryFree[inst1Param1] <= 0;
                         end
                         if(inst4Param1RW == 2'b01)//Read
                         begin
@@ -582,6 +631,7 @@ module FXRAT #(
                         begin
                             inst4Param1_o <= FXRAT[inst4Param1];//output the current name
                             FXRAT[inst4Param1] <= inst4Param1;//rename reg name
+                            isEntryFree[inst1Param1] <= 0;
                         end
                     end
                     else
@@ -600,6 +650,7 @@ module FXRAT #(
                             //rename the reg
                             inst4Param2_o <= FXRAT[inst4Param2];//output the current name
                             FXRAT[inst4Param2] <= inst4Param2;//rename reg name
+                            isEntryFree[inst1Param1] <= 0;
                         end
                         if(inst4Param2RW == 2'b01)//Read
                         begin
@@ -610,6 +661,7 @@ module FXRAT #(
                         begin
                             inst4Param2_o <= FXRAT[inst4Param2];//output the current name
                             FXRAT[inst4Param2] <= inst4Param2;//rename reg name
+                            isEntryFree[inst1Param1] <= 0;
                         end
                     end
                     else
@@ -628,6 +680,7 @@ module FXRAT #(
                             //rename the reg
                             inst4Param3_o <= FXRAT[inst4Param3];//output the current name
                             FXRAT[inst4Param3] <= inst4Param3;//rename reg name
+                            isEntryFree[inst1Param1] <= 0;
                         end
                         if(inst4Param3RW == 2'b01)//Read
                         begin
@@ -638,6 +691,7 @@ module FXRAT #(
                         begin
                             inst4Param3_o <= FXRAT[inst4Param3];//output the current name
                             FXRAT[inst4Param3] <= inst4Param3;//rename reg name
+                            isEntryFree[inst1Param1] <= 0;
                         end
                     end
                     else
@@ -656,6 +710,7 @@ module FXRAT #(
                             //rename the reg
                             inst4Param4_o <= FXRAT[inst4Param4];//output the current name
                             FXRAT[inst4Param4] <= inst4Param4;//rename reg name
+                            isEntryFree[inst1Param1] <= 0;
                         end
                         if(inst4Param4RW == 2'b01)//Read
                         begin
@@ -666,6 +721,7 @@ module FXRAT #(
                         begin
                             inst4Param4_o <= FXRAT[inst4Param4];//output the current name
                             FXRAT[inst4Param4] <= inst4Param4;//rename reg name
+                            isEntryFree[inst1Param1] <= 0;
                         end
                     end
                     else
@@ -674,6 +730,20 @@ module FXRAT #(
                     end
                 end
             end
+
+            //Clear reg names stage 2
+            if(clearName1)
+                isEntryFree[ROBName1] <= 0;
+
+            if(clearName2)
+                isEntryFree[ROBName2] <= 0;
+
+            if(clearName3)
+                isEntryFree[ROBName3] <= 0;
+
+            if(clearName4)
+                isEntryFree[ROBName4] <= 0;
+
         end
 
     end

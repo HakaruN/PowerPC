@@ -54,6 +54,8 @@ module FXRAT_Test
     reg [0:PidSize-1] inst1PidIn, inst2PidIn, inst3PidIn, inst4PidIn;
     reg [0:TidSize-1] inst1TidIn, inst2TidIn, inst3TidIn, inst4TidIn;
     reg [0:opcodeSize-1] inst1OpCodeIn, inst2OpCodeIn, inst3OpCodeIn, inst4OpCodeIn;
+    reg clearName1In, clearName2In, clearName3In, clearName4In;
+    reg [0:ROBEntryWidth-1] ROBName1In, ROBName2In, ROBName3In, ROBName4In;
 
     ///outputs
     //Instr 1
@@ -127,6 +129,9 @@ module FXRAT_Test
     .inst1Pid_i(inst1PidIn), .inst2Pid_i(inst2PidIn), .inst3Pid_i(inst3PidIn), .inst4Pid_i(inst4PidIn),
     .inst1Tid_i(inst1TidIn), .inst2Tid_i(inst2TidIn), .inst3Tid_i(inst3TidIn), .inst4Tid_i(inst4TidIn),
     .inst1OpCode_i(inst1OpCodeIn), .inst2OpCode_i(inst2OpCodeIn), .inst3OpCode_i(inst3OpCodeIn), .inst4OpCode_i(inst4OpCodeIn),
+    //RAT Clear names
+    .clearName1_i(clearName1In), .clearName2_i(clearName2In), .clearName3_i(clearName3In), .clearName4_i(clearName4In), 
+    .ROBName1_i(ROBName1In), .ROBName2_i(ROBName2In), .ROBName3_i(ROBName3In), .ROBName4_i(ROBName4In), 
 
     ///outputs
     //Instr 1
@@ -163,6 +168,8 @@ module FXRAT_Test
     initial begin
     $dumpfile("FxRATTest.vcd");
     $dumpvars(0,FXRAT_Test);
+
+    clearName1In = 0; clearName2In = 0; clearName3In = 0; clearName4In = 0;
 
     #5;
     clockIn = 1;
